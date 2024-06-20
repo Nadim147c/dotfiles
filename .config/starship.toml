@@ -1,0 +1,67 @@
+# ~/.config/starship.toml
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+format = """\
+$os$shell\
+$directory\
+$git_branch\
+$git_status\
+$git_metrics\
+$character\
+"""
+
+[character]
+success_symbol = "[ 󰁔](green bold)"
+error_symbol = "[ 󰁔](red bold)"
+
+[os]
+format = '$symbol'
+disabled = false
+
+[os.symbols]
+Windows = "[ ](#00C6FF)"
+Ubuntu = "[󰕈 ](#FF7800)"
+Arch = "[󰣇 ](#00C6FF)"
+
+[shell]
+format = "$indicator"
+fish_indicator = '󰈺 '
+powershell_indicator = '󰨊 '
+bash_indicator = " "
+cmd_indicator = " "
+zsh_indicator = "z"
+unknown_indicator = '$'
+style = 'fg:black bg:red'
+disabled = false
+
+[directory]
+format = " [$path]($style)[$read_only]($read_only_style)"
+read_only_style = "red"
+style = "cyan bold"
+read_only = "  "
+home_symbol = " ~"
+truncation_length = 3
+truncate_to_repo = false
+truncation_symbol = "…/"
+
+[git_branch]
+format = '[$symbol\($branch(:$remote_branch)\) ]($style)'
+symbol = " 󰊢 "
+style = "red"
+
+[git_status]
+format = '[$all_status]($style)'
+style = "red"
+
+[git_metrics]
+format = "([+$added]($added_style))[]($added_style)"
+added_style = "red"
+deleted_style = "red"
+disabled = false
+
+[hg_branch]
+format = "[ $symbol$branch ]($style)"
+symbol = " "
