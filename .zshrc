@@ -67,6 +67,8 @@ bindkey "^[[H" beginning-of-line # Key Home
 bindkey "^[[F" end-of-line       # Key End
 bindkey '^[[3;5~' kill-word
 bindkey '^H' backward-kill-word
+bindkey "^K" forward-word
+bindkey "^J" backward-word
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
 
