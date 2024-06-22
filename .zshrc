@@ -13,7 +13,9 @@ export FZF_DEFAULT_OPTS='
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#94e2d5,hl+:#a6e3a1
 --info inline-right --layout reverse --border
 '
-export PATH="$PATH:$HOME/.local/bin:/usr/local/go/bin:$HOME/.local/share/pnpm/:$HOME/.spicetify/"
+command -v sccache &>/dev/null && export RUST_WRAPPER=sccache
+
+export PATH="$PATH:$HOME/.local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$HOME/.local/share/pnpm/:$HOME/.spicetify/"
 
 source "$HOME/git/zxutils/path"
 
@@ -61,6 +63,7 @@ zstyle ':completion:*' menu no zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza 
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color=always $realpath'
 
 # Custom binding
+bindkey -v
 bindkey "^p" history-search-backward
 bindkey "^n" history-search-forward
 bindkey "^[[H" beginning-of-line # Key Home
