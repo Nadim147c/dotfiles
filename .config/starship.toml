@@ -80,10 +80,17 @@ symbol = " "
 
 # Right prompt 
 
+
+[username]
+format = " [ $user]($style)"
+
+[hostname]
+format = " [$ssh_symbol$hostname]($style)"
+ssh_symbol = "󰢩 "
+
 [cmd_duration]
 format = '   [$duration](bold yellow)'
 min_time = 500
-
 
 [package]
 format = " [$symbol$version]($style) "
