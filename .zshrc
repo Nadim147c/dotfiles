@@ -17,6 +17,9 @@ command -v sccache &>/dev/null && export RUST_WRAPPER=sccache
 
 export PATH="$PATH:$HOME/.local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$HOME/.local/share/pnpm/:$HOME/.spicetify/"
 
+export EDITOR="nvim"
+export VISUAL="nvim"
+
 source "$HOME/git/zxutils/path"
 
 # Add in zsh plugins

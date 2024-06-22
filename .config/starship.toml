@@ -10,12 +10,21 @@ $directory\
 $git_branch\
 $git_status\
 $git_metrics\
+$sudo\
 $character\
+"""
+
+continuation_prompt = '[  =>](green bold)'
+
+right_format = """\
+$cmd_duration\
+$nodejs$all
 """
 
 [character]
 success_symbol = "[ 󰁔](green bold)"
 error_symbol = "[ 󰁔](red bold)"
+vimcmd_symbol = "[ ](blue bold)"
 
 [os]
 format = '$symbol'
@@ -47,6 +56,12 @@ truncation_length = 3
 truncate_to_repo = false
 truncation_symbol = "…/"
 
+[sudo]
+format = "[$symbol]($style)"
+style = "bold yellow"
+symbol = " 󱐋"
+disabled = false
+
 [git_branch]
 format = '[$symbol\($branch(:$remote_branch)\) ]($style)'
 symbol = " 󰊢 "
@@ -65,3 +80,25 @@ disabled = false
 [hg_branch]
 format = "[ $symbol$branch ]($style)"
 symbol = " "
+
+# Right prompt 
+
+[cmd_duration]
+format = '   [$duration](bold yellow)'
+min_time = 500
+
+
+[package]
+format = " [$symbol$version]($style) "
+
+[nodejs]
+format = " [$symbol($version )]($style)"
+style = "bold green"
+
+[python]
+format = " [${symbol}${pyenv_prefix}(${version} )(\\($virtualenv\\) )]($style)"
+symbol = "󰌠 "
+
+[rust]
+format = " [$symbol($version )]($style)"
+symbol = "󱘗 "
