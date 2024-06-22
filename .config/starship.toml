@@ -14,12 +14,9 @@ $sudo\
 $character\
 """
 
-continuation_prompt = '[  =>](green bold)'
+continuation_prompt = '[  => ](green bold)'
 
-right_format = """\
-$cmd_duration\
-$nodejs$all
-"""
+right_format = "$all"
 
 [character]
 success_symbol = "[ 󰁔](green bold)"
@@ -63,8 +60,8 @@ symbol = " 󱐋"
 disabled = false
 
 [git_branch]
-format = '[$symbol\($branch(:$remote_branch)\) ]($style)'
-symbol = " 󰊢 "
+format = ' [$symbol\($branch(:$remote_branch)\)]($style)'
+symbol = "󰊢 "
 style = "red"
 
 [git_status]
