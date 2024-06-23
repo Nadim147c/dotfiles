@@ -13,9 +13,10 @@ export FZF_DEFAULT_OPTS='
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#94e2d5,hl+:#a6e3a1
 --info inline-right --layout reverse --border
 '
-command -v sccache &>/dev/null && export RUST_WRAPPER=sccache
+command -v sccache &>/dev/null && export RUSTC_WRAPPER=sccache
 
 export PATH="$PATH:$HOME/.local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$HOME/.local/share/pnpm/:$HOME/.spicetify/"
+export PNPM_HOME="$HOME/.local/share/pnpm/"
 
 export EDITOR="nvim"
 export VISUAL="nvim"
@@ -95,6 +96,7 @@ alias tree='eza --color=always --icons -ia --tree --git-ignore'
 alias cp='cp -i'
 alias mv='mv -i'
 alias du='du -h'
+alias mkdir='mkdir -p'
 
 # Zellij
 alias za='zellij a $(zellij ls -n | fzf | cut -d" " -f1)'
