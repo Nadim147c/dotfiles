@@ -29,9 +29,9 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 zinit light djui/alias-tips
-zinit light ianthehenry/zsh-autoquoter
 zinit light Freed-Wu/zsh-help
 zinit light mattmc3/zsh-safe-rm
+zinit light MichaelAquilina/zsh-autoswitch-virtualenv
 
 # Add in snippets zinit snippet OMZP::sudo
 zinit snippet OMZP::nvm
@@ -67,7 +67,6 @@ zstyle ':completion:*' menu no zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza 
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color=always $realpath'
 
 # Custom binding
-bindkey -v
 bindkey "^p" history-search-backward
 bindkey "^n" history-search-forward
 bindkey "^[[H" beginning-of-line # Key Home
@@ -95,6 +94,7 @@ alias tree='eza --color=always --icons -ia --tree --git-ignore'
 # GNU coreutils
 alias cp='cp -i'
 alias mv='mv -i'
+alias xrm='xrags rm'
 alias du='du -h'
 alias mkdir='mkdir -p'
 
@@ -119,12 +119,7 @@ alias yt=yt-dlp
 command -v kitty &>/dev/null && alias ssh="kitty +kitten ssh"
 alias stow='stow -d ~/git/dotfiles/ -t ~/'
 
-# Start user apps
-zinit ice as"command" from"gh-r" \
-	atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
-	atpull"%atclone" src"init.zsh"
-zinit light starship/starship
-
+eval "$(starship init zsh)"
 eval "$(thefuck --alias f)"
 eval "$(zoxide init zsh --cmd cd)"
 eval "$(fzf --zsh)"
