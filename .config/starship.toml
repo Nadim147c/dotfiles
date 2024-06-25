@@ -106,3 +106,7 @@ symbol = "󰌠 "
 [rust]
 format = " [$symbol($version )]($style)"
 symbol = "󱘗 "
+
+[lua]
+format = " [$symbol($version )]($style)"
+symbol = "󰢱 "
