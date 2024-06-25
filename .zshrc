@@ -17,6 +17,8 @@ command -v sccache &>/dev/null && export RUSTC_WRAPPER=sccache
 
 export PATH="$PATH:$HOME/.local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$HOME/.local/share/pnpm/:$HOME/.spicetify/"
 export PNPM_HOME="$HOME/.local/share/pnpm/"
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 export EDITOR="nvim"
 export VISUAL="nvim"
@@ -38,10 +40,9 @@ zinit snippet OMZP::nvm
 zinit snippet OMZP::git
 zinit snippet OMZP::thefuck
 zinit snippet OMZP::git-auto-fetch
-zinit snippet OMZP::colored-man-pages
 zinit snippet OMZP::command-not-found
 
-zstyle ':omz:plugins:nvm' lazy yes
+zstyle ':omz:plugins:nvm' silent-autoload yes
 
 # Load completions
 autoload -Uz compinit && compinit
@@ -50,7 +51,7 @@ zinit cdreplay -q
 
 # History
 export HISTSIZE=5000
-export HISTFILE=~/.zsh_history
+export HISTFILE="~/.local/share/zsh_history"
 export SAVEHIST=$HISTSIZE
 export HISTDUP=erase
 setopt appendhistory
@@ -92,9 +93,14 @@ alias la='eza --color=always --icons -ia'
 alias tree='eza --color=always --icons -ia --tree --git-ignore'
 
 # GNU coreutils
+command -v batdiff &>/dev/null && alias diff=batdiff
+command -v batman &>/dev/null && alias man=batman
+command -v bat &>/dev/null && alias cat=bat
+command -v xdg-open &>/dev/null && alias s.="xdg-open ."
+command -v xdg-open &>/dev/null && alias start="xdg-open"
 alias cp='cp -i'
 alias mv='mv -i'
-alias xrm='xrags rm'
+alias xrm='xargs rm'
 alias du='du -h'
 alias mkdir='mkdir -p'
 
@@ -123,3 +129,7 @@ eval "$(starship init zsh)"
 eval "$(thefuck --alias f)"
 eval "$(zoxide init zsh --cmd cd)"
 eval "$(fzf --zsh)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
