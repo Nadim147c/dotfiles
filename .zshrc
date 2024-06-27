@@ -31,13 +31,14 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 zinit light djui/alias-tips
-zinit light Freed-Wu/zsh-help
+zinit light Nadim147c/zsh-help
 zinit light mattmc3/zsh-safe-rm
 zinit light MichaelAquilina/zsh-autoswitch-virtualenv
 
-# Add in snippets zinit snippet OMZP::sudo
+# Add in snippets
 zinit snippet OMZP::nvm
 zinit snippet OMZP::git
+zinit snippet OMZP::sudo
 zinit snippet OMZP::thefuck
 zinit snippet OMZP::git-auto-fetch
 zinit snippet OMZP::command-not-found
@@ -51,7 +52,7 @@ zinit cdreplay -q
 
 # History
 export HISTSIZE=5000
-export HISTFILE="~/.local/share/zsh_history"
+export HISTFILE="$HOME/.local/share/zsh_history"
 export SAVEHIST=$HISTSIZE
 export HISTDUP=erase
 setopt appendhistory
@@ -64,8 +65,16 @@ setopt hist_find_no_dups
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' menu no zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color=always $realpath'
+zstyle ':completion:*' menu no
+# cd completion
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color=always $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color=always $realpath'
+# Kill process completion
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
+# Systemd
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 
 # Custom binding
 bindkey "^p" history-search-backward
@@ -85,19 +94,23 @@ alias config='nvim ~/.zshrc'
 alias stdn='sudo shutdown now'
 alias svim='sudo -Es nvim'
 
-#cargo install eza
+# cargo install eza
 # LS alias
-alias ls='eza --color=always --icons'
-alias l='eza --color=always --icons -ial'
-alias la='eza --color=always --icons -ia'
-alias tree='eza --color=always --icons -ia --tree --git-ignore'
+if command -v eza &>/dev/null; then
+	alias ls='eza --color=always --icons'
+	alias l='eza --color=always --icons -ial'
+	alias la='eza --color=always --icons -ia'
+	alias tree='eza --color=always --icons -ia --tree --git-ignore'
+fi
+
+# Bat and Bat extra
+command -v bat &>/dev/null && alias cat=bat
+command -v batman &>/dev/null && alias man=batman
+command -v batdiff &>/dev/null && alias diff=batdiff
 
 # GNU coreutils
-command -v batdiff &>/dev/null && alias diff=batdiff
-command -v batman &>/dev/null && alias man=batman
-command -v bat &>/dev/null && alias cat=bat
-command -v xdg-open &>/dev/null && alias s.="xdg-open ."
-command -v xdg-open &>/dev/null && alias start="xdg-open"
+alias s.="xdg-open ."
+alias start="xdg-open"
 alias cp='cp -i'
 alias mv='mv -i'
 alias xrm='xargs rm'
@@ -108,28 +121,21 @@ alias mkdir='mkdir -p'
 alias za='zellij a $(zellij ls -n | fzf | cut -d" " -f1)'
 alias zr='zellij delete-session $(zellij ls | fzf | cut -d" " -f1)'
 alias zda='zellij delete-all-sessions'
-zn() {
-	if [ -n "$1" ]; then
-		zellij -s "$1"
-	else
-		echo 'Please pass session name as an argument'
-	fi
-}
+alias zn='zellij -s'
 
 alias vim=nvim
 alias n=pnpm
 alias pm=pm2
 alias yt=yt-dlp
+alias ffmpeg='ffmpeg -hide_banner'
 
 # Fix ssh weirdness with kitty
 command -v kitty &>/dev/null && alias ssh="kitty +kitten ssh"
-alias stow='stow -d ~/git/dotfiles/ -t ~/'
+
+# Sync dotfiles using GNU stow
+alias dotsync='stow -d ~/git/dotfiles/ -t ~/'
 
 eval "$(starship init zsh)"
 eval "$(thefuck --alias f)"
 eval "$(zoxide init zsh --cmd cd)"
 eval "$(fzf --zsh)"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
