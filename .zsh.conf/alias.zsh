@@ -41,12 +41,6 @@ alias xrm='xargs rm'
 alias du='du -h'
 alias mkdir='mkdir -p'
 
-# Zellij
-alias za='zellij a $(zellij ls -n | fzf | cut -d" " -f1)'
-alias zr='zellij delete-session $(zellij ls | fzf | cut -d" " -f1)'
-alias zda='zellij delete-all-sessions'
-alias zn='zellij -s'
-
 # Fix ssh weirdness with kitty
 command -v kitty &>/dev/null && alias ssh="kitty +kitten ssh"
 
@@ -55,10 +49,10 @@ alias dotsync='stow -d ~/git/dotfiles/ -t ~/ .'
 
 # Git
 alias ga='git add'
-alias gp='git pull'
+alias gpl='git pull'
+alias gph='git push'
 alias gr='git reset'
 alias gcm='git commit'
-alias gp='git push'
 alias gaa='git add .'
 alias gt='git status'
 alias gd='batdiff || git diff'

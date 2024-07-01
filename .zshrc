@@ -13,6 +13,7 @@ source "$HOME/.zsh.conf/bindings.zsh"
 source "$HOME/.zsh.conf/alias.zsh"
 source "$HOME/.zsh.conf/plugins.zsh"
 source "$HOME/.zsh.conf/completion.zsh"
+source "$HOME/.zsh.conf/commansds.zsh"
 
 [[ -z $ZELLIJ ]] && [[ -z $TMUX ]] && command -v fastfetch &>/dev/null && fastfetch
 
