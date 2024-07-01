@@ -41,12 +41,6 @@ alias xrm='xargs rm'
 alias du='du -h'
 alias mkdir='mkdir -p'
 
-# Zellij
-alias za='zellij a $(zellij ls -n | fzf | cut -d" " -f1)'
-alias zr='zellij delete-session $(zellij ls | fzf | cut -d" " -f1)'
-alias zda='zellij delete-all-sessions'
-alias zn='zellij -s'
-
 # Fix ssh weirdness with kitty
 command -v kitty &>/dev/null && alias ssh="kitty +kitten ssh"
 

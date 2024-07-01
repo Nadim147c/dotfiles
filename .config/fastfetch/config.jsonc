@@ -1,138 +1,51 @@
-/*
-Author: Eldritch
-Source: https://github.com/eldritch-theme/fastfetch
-License:
-    MIT License
-
-    Copyright (c) 2024 Eldritch
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
-*/
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-    "logo": {
-        "type": "kitty-direct",
-        "source": "~/.config/fastfetch/archlinux-logo.png",
-        "width": 35,
-        "padding": {
-            "left": 5,
-            "top": 3
-        }
-    },
+    "logo": "~/.config/fastfetch/arch",
     "general": {
-        "multithreading": true
+        "multithreading": true,
     },
     "display": {
-        "separator": "➜   "
+        "separator": " :  ",
     },
     "modules": [
         "break",
         {
             "type": "title",
-            "format": "                                {6}{7}{8}"
+            "key": "   ",
+            "format": "{2}",
+            "keyColor": "31",
+        },
+        {
+            "type": "os",
+            "key": "   ",
+            "keyColor": "31",
+        },
+        {
+            "type": "kernel",
+            "key": "   ",
+            "keyColor": "32",
+        },
+        {
+            "type": "packages",
+            "format": "{} (pacman)",
+            "key": "   ",
+            "keyColor": "33",
+        },
+        {
+            "type": "shell",
+            "key": "   ",
+            "keyColor": "34",
+        },
+        {
+            "type": "terminal",
+            "key": "   ",
+            "keyColor": "35",
+        },
+        {
+            "type": "uptime",
+            "key": "󰅐   ",
+            "keyColor": "36"
         },
         "break",
-        {
-            "type": "custom",
-            "outputColor": "blue",
-            "format": "╭──────────────────────────────────────────────────────────────────────────────╮"
-        },
-        "break",
-        {
-            "key": "     OS           ",
-            "keyColor": "green",
-            "type": "os"
-        },
-        {
-            "key": "    󰌢 Machine      ",
-            "keyColor": "cyan",
-            "type": "host"
-        },
-        {
-            "key": "     Kernel       ",
-            "keyColor": "blue",
-            "type": "kernel"
-        },
-        {
-            "key": "    󰅐 Uptime       ",
-            "keyColor": "green",
-            "type": "uptime"
-        },
-        {
-            "key": "     Packages     ",
-            "keyColor": "cyan",
-            "type": "packages"
-        },
-        {
-            "key": "     WM           ",
-            "keyColor": "blue",
-            "type": "wm"
-        },
-        {
-            "key": "     Shell        ",
-            "keyColor": "green",
-            "type": "shell"
-        },
-        {
-            "key": "     Terminal     ",
-            "keyColor": "cyan",
-            "type": "terminal"
-        },
-        {
-            "key": "     Font         ",
-            "keyColor": "blue",
-            "type": "terminalfont"
-        },
-        {
-            "key": "    󰻠 CPU          ",
-            "keyColor": "green",
-            "type": "cpu"
-        },
-        {
-            "key": "    󰍛 GPU          ",
-            "keyColor": "cyan",
-            "type": "gpu"
-        },
-        {
-            "key": "    󰑭 Memory       ",
-            "keyColor": "blue",
-            "type": "memory"
-        },
-        {
-            "key": "     Wifi         ",
-            "keyColor": "green",
-            "type": "wifi"
-        },
-        "break",
-        {
-            "type": "custom",
-            "outputColor": "blue",
-            "format": "╰──────────────────────────────────────────────────────────────────────────────╯"
-        },
-        "break",
-        {
-            "type": "colors",
-            "paddingLeft": 34,
-            "symbol": "circle",
-            "block": {
-                "width": 10
-            }
-        }
     ]
 }
