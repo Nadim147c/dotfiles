@@ -7,6 +7,7 @@ zinit light djui/alias-tips
 zinit light Nadim147c/zsh-help
 zinit light mattmc3/zsh-safe-rm
 zinit light MichaelAquilina/zsh-autoswitch-virtualenv
+zinit light zshzoo/cd-ls
 
 # Add in snippets
 zinit snippet OMZP::sudo
