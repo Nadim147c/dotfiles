@@ -4,6 +4,7 @@ alias pm=pm2
 alias yt=yt-dlp
 
 alias ffmpeg='ffmpeg -hide_banner'
+alias pyvenv='python3 -m venv .venv'
 alias reload='clear && source ~/.zshrc'
 alias config='nvim ~/.zshrc'
 alias stdn='sudo shutdown now'
