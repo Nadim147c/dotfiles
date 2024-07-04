@@ -1,3 +1,7 @@
+autoload -U url-quote-magic
+zle -N self-insert url-quote-magic
+unsetopt nomatch
+
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
