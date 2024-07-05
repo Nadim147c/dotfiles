@@ -36,11 +36,11 @@ command -v batman &>/dev/null && alias man=batman || echo "batman command is mis
 command -v batdiff &>/dev/null && alias diff=batdiff || echo "batdiff command is missing"
 
 # GNU coreutils
-alias cp='cp -i'
-alias mv='mv -i'
+alias cp='cp -iv'
+alias mv='mv -iv'
 alias xrm='xargs rm'
 alias du='du -h'
-alias mkdir='mkdir -p'
+alias mkdir='mkdir -pv'
 
 # Fix ssh weirdness with kitty
 command -v kitty &>/dev/null && alias ssh="kitty +kitten ssh"
