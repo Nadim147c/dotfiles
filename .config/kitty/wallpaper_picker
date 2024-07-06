@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if command -v kdialog &>/dev/null; then
+    selected_file=$(kdialog --getopenfilename . "*.png | PNG Files")
+elif command -v zenity &>/dev/null; then
+    selected_file=$(zenity --file-selection --title="Select a file" --file-filter="*.png")
+else
+    echo "Failed detarmine os specific file picker"
+fi
+
+if [[ -n "$selected_file" ]]; then
+    cp -f "$selected_file" "$HOME/.config/kitty/wallpaper.png"
+else
+    echo "No file selected."
+fi
