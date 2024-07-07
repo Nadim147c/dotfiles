@@ -15,7 +15,7 @@ alias s.="xdg-open ."
 # LS alias (cargo install eza)
 alias cls='command ls'
 if command -v eza &>/dev/null; then
-	alias ls='eza --color=always --icons'
+	alias ls='eza --icons'
 	alias l='eza --color=always --icons -ial'
 	alias la='eza --color=always --icons -ia'
 	alias tree='eza --color=always --icons -ia --tree --git-ignore'
