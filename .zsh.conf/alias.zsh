@@ -18,7 +18,7 @@ if command -v eza &>/dev/null; then
 	alias ls='eza --icons'
 	alias l='eza --color=always --icons -ial'
 	alias la='eza --color=always --icons -ia'
-	alias tree='eza --color=always --icons -ia --tree --git-ignore'
+	alias tree='eza --color=always --icons=always -ia --tree --git-ignore | less -r -F'
 else
 	echo "eza command is missing"
 fi
@@ -37,6 +37,7 @@ command -v batdiff &>/dev/null && alias diff=batdiff || echo "batdiff command is
 
 # GNU coreutils
 alias cp='cp -iv'
+alias less='less -r -F'
 alias mv='mv -iv'
 alias xrm='xargs rm'
 alias du='du -h'

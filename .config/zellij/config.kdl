@@ -3,8 +3,8 @@ keybinds {
     normal {
         unbind "Ctrl n" "Ctrl h" "Ctrl s" "Ctrl p"
         bind "Ctrl u" { SwitchToMode "Pane"; }
-        bind "Ctrl f" { SwitchToMode "scroll"; }
-        bind "Ctrl r" { SwitchToMode "Resize"; }
+        bind "Ctrl y" { SwitchToMode "scroll"; }
+        bind "Ctrl e" { SwitchToMode "Resize"; }
     }
     locked {
         bind "Ctrl g" { SwitchToMode "Normal"; }
@@ -77,7 +77,7 @@ keybinds {
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
-        bind "Ctrl f" "PageDown" "Right" "l" { PageScrollDown; }
+        bind "Ctrl y" "PageDown" "Right" "l" { PageScrollDown; }
         bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
         bind "d" { HalfPageScrollDown; }
         bind "u" { HalfPageScrollUp; }
@@ -89,7 +89,7 @@ keybinds {
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
-        bind "Ctrl f" "PageDown" "Right" "l" { PageScrollDown; }
+        bind "Ctrl y" "PageDown" "Right" "l" { PageScrollDown; }
         bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
         bind "d" { HalfPageScrollDown; }
         bind "u" { HalfPageScrollUp; }
@@ -168,7 +168,7 @@ keybinds {
         bind "Ctrl u" { SwitchToMode "Pane"; }
     }
     shared_except "resize" "locked" {
-        bind "Ctrl r" { SwitchToMode "Resize"; }
+        bind "Ctrl e" { SwitchToMode "Resize"; }
     }
     shared_except "session" "locked" {
         bind "Ctrl o" { SwitchToMode "Session"; }
@@ -177,7 +177,7 @@ keybinds {
         bind "Ctrl t" { SwitchToMode "Tab"; }
     }
     shared_except "move" "locked" {
-        bind "Ctrl x" { SwitchToMode "Move"; }
+        bind "Ctrl w" { SwitchToMode "Move"; }
     }
     shared_except "tmux" "locked" {
         bind "Ctrl b" { SwitchToMode "Tmux"; }
