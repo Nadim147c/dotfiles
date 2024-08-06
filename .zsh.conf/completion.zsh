@@ -2,6 +2,8 @@ autoload -Uz compinit && compinit
 
 zinit cdreplay -q
 
+command -v pnpm &>/dev/null && source <(pnpm completion zsh)
+
 # History
 export HISTSIZE=5000
 export HISTFILE="$HOME/.local/share/zsh_history"

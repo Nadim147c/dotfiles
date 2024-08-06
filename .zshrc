@@ -15,8 +15,6 @@ source "$HOME/.zsh.conf/plugins.zsh"
 source "$HOME/.zsh.conf/completion.zsh"
 source "$HOME/.zsh.conf/commansds.zsh"
 
-[[ -z $ZELLIJ ]] && [[ -z $TMUX ]] && command -v fastfetch &>/dev/null && fastfetch
-
 eval "$(starship init zsh)"
 eval "$(thefuck --alias f)"
 eval "$(zoxide init zsh --cmd cd)"

@@ -9,7 +9,6 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 zinit light djui/alias-tips
 zinit light Nadim147c/zsh-help
-zinit light mattmc3/zsh-safe-rm
 zinit light MichaelAquilina/zsh-autoswitch-virtualenv
 zinit light zshzoo/cd-ls
 
