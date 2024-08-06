@@ -1,11 +1,11 @@
 # ~/.config/starship.toml
 
-"$schema" = 'https://starship.rs/config-schema.json'
+'$schema' = 'https://starship.rs/config-schema.json'
 
 add_newline = false
 
 format = """\
-$os$shell\
+$os$hostname$shell\
 $directory\
 $git_branch\
 $git_status\
@@ -16,101 +16,101 @@ $character\
 
 continuation_prompt = '[  => ](green bold)'
 
-right_format = "$all"
+right_format = '$all'
 
 [character]
-success_symbol = "[ 󰁔](green bold)"
-error_symbol = "[ 󰁔](red bold)"
-vimcmd_symbol = "[ ](blue bold)"
+success_symbol = '[ 󰁔](green bold)'
+error_symbol = '[ 󰁔](red bold)'
+vimcmd_symbol = '[ ](blue bold)'
 
 [os]
 format = '$symbol'
 disabled = false
 
 [os.symbols]
-Windows = "[ ](#00C6FF)"
-Ubuntu = "[󰕈 ](#FF7800)"
-Arch = "[󰣇 ](#00C6FF)"
+Windows = '[ ](#00C6FF)'
+Ubuntu = '[󰕈 ](#FF7800)'
+Arch = '[󰣇 ](#00C6FF)'
+
+[hostname]
+format = '[\($hostname\)]($style) '
+style = 'yellow'
 
 [shell]
-format = "$indicator"
+format = '$indicator'
 fish_indicator = '󰈺 '
 powershell_indicator = '󰨊 '
-bash_indicator = " "
-cmd_indicator = " "
-zsh_indicator = "z"
+bash_indicator = ' '
+cmd_indicator = ' '
+zsh_indicator = 'z'
 unknown_indicator = '$'
 style = 'fg:black bg:red'
 disabled = false
 
 [directory]
-format = " [$path]($style)[$read_only]($read_only_style)"
-read_only_style = "red"
-style = "cyan bold"
-read_only = "  "
-home_symbol = " ~"
+format = ' [$path]($style)[$read_only]($read_only_style)'
+read_only_style = 'red'
+style = 'cyan bold'
+read_only = '  '
+home_symbol = ' ~'
 truncation_length = 3
 truncate_to_repo = false
-truncation_symbol = "…/"
+truncation_symbol = '…/'
 
 [sudo]
-format = "[$symbol]($style)"
-style = "bold yellow"
-symbol = " 󱐋"
+format = '[$symbol]($style)'
+style = 'bold yellow'
+symbol = ' 󱐋'
 disabled = false
 
 [git_branch]
 format = ' [$symbol\($branch(:$remote_branch)\)]($style)'
-symbol = "󰊢 "
-style = "red"
+symbol = '󰊢 '
+style = 'red'
 
 [git_status]
 format = '[$all_status]($style)'
-style = "red"
+style = 'red'
 
 [git_metrics]
-format = "([+$added]($added_style))[]($added_style)"
-added_style = "red"
-deleted_style = "red"
+format = '([+$added]($added_style))[]($added_style)'
+added_style = 'red'
+deleted_style = 'red'
 disabled = false
 
 [hg_branch]
-format = "[ $symbol$branch ]($style)"
-symbol = " "
+format = '[ $symbol$branch ]($style)'
+symbol = ' '
 
 # Right prompt 
 
 
 [username]
-format = " [ $user]($style)"
-
-[hostname]
-format = " [$ssh_symbol$hostname]($style)"
-ssh_symbol = "󰢩 "
+format = ' [ $user]($style)'
 
 [cmd_duration]
 format = '   [$duration](bold yellow)'
 min_time = 500
 
 [package]
-format = " [$symbol$version]($style) "
+format = ' [$symbol$version]($style) '
 
 [nodejs]
-format = " [$symbol($version )]($style)"
-style = "bold green"
+format = ' [$symbol($version )]($style)'
+style = 'bold green'
 
 [python]
-format = " [${symbol}${pyenv_prefix}(${version} )(\\($virtualenv\\) )]($style)"
-symbol = "󰌠 "
+format = ' [${symbol}${pyenv_prefix}(${version} )(\\($virtualenv\\) )]($style)'
+symbol = '󰌠 '
 
 [rust]
-format = " [$symbol($version )]($style)"
-symbol = "󱘗 "
+format = ' [$symbol($version )]($style)'
+symbol = '󱘗 '
 
 [lua]
-format = " [$symbol($version )]($style)"
-symbol = "󰢱 "
+format = ' [$symbol($version )]($style)'
+symbol = '󰢱 '
 
 [golang]
-format = " [$symbol($version )]($style)"
-symbol = "󰟓 "
+format = ' [$symbol($version )]($style)'
+symbol = '󰟓 '
