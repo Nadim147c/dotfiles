@@ -3,6 +3,7 @@ autoload -Uz compinit && compinit
 zinit cdreplay -q
 
 command -v pnpm &>/dev/null && source <(pnpm completion zsh)
+command -v pipx &>/dev/null && source <(register-python-argcomplete pipx)
 
 # History
 export HISTSIZE=5000
