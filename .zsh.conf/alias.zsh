@@ -16,15 +16,11 @@ alias stdn='sudo shutdown now'
 alias start="xdg-open"
 alias s.="xdg-open ."
 
-# LS alias (cargo install eza)
-if command -v eza &>/dev/null; then
-	alias ls='eza --icons'
-	alias l='eza --color=always --icons -ial'
-	alias la='eza --color=always --icons -ia'
-	alias tree='eza --color=always --icons=always -ia --tree --git-ignore | less -r -F'
-else
-	echo "eza command is missing"
-fi
+# LS alias
+alias ls='eza --icons'
+alias l='eza --color=always --icons -ial'
+alias la='eza --color=always --icons -ia'
+alias tree='eza --color=always --icons=always -ia --tree --git-ignore | less -r -F'
 
 # CD
 alias rd='cd -' # Return to previous directory
@@ -34,9 +30,9 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # Bat and Bat-extra
-cat() { bat $@ || command cat $@ }
-man() { batman $@ || command man $@ }
-diff() { batdiff $@ || command diff $@ }
+[[ $commands[bat] ]] && alias cat=bat
+[[ $commands[batman] ]] && alias man=batman
+[[ $commands[diff] ]] && alias diff=batdiff
 
 # GNU coreutils
 alias cp='cp -iv'

@@ -1,9 +1,8 @@
 autoload -Uz compinit && compinit
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
 zinit cdreplay -q
-
-command -v pnpm &>/dev/null && source <(pnpm completion zsh)
-command -v pipx &>/dev/null && source <(register-python-argcomplete --shell zsh pipx)
 
 # History
 export HISTSIZE=5000
