@@ -30,9 +30,9 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # Bat and Bat-extra
-[[ $commands[bat] ]] && alias cat=bat
-[[ $commands[batman] ]] && alias man=batman
-[[ $commands[diff] ]] && alias diff=batdiff
+alias cat=bat
+alias man=batman
+alias diff=batdiff
 
 # GNU coreutils
 alias cp='cp -iv'
