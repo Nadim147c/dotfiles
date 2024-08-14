@@ -1,4 +1,3 @@
-autoload -Uz compinit && compinit
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
@@ -18,9 +17,27 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 # Completion styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':fzf-tab:*' fzf-flags '--ansi'
+zstyle ':fzf-tab:*' fzf-min-height 20
+zstyle ':fzf-tab:*' fzf-bindings 'tab:accept' 
 zstyle ':completion:*' menu no
+zstyle ':completion:*' auto-descitiption 'specify: %d'
+zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+zstyle ':completion::complete:*:*:files' ignored-patterns '.DS_Store' 'Icon?' '.Trash'
+zstyle ':completion::complete:*:*:globbed-files' ignored-patterns '.DS_Store' 'Icon?' '.Trash'
+zstyle ':completion::complete:rm:*:globbed-files' ignored-patterns
+
+# Git Completions 
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
+  'git diff --no-ext-diff \$word | delta --paging=never --no-gitconfig --line-numbers --file-style=omit --hunk-header-style=omit --theme=base16'
+zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
+  'git --no-pager log --color=always --format=oneline --abbrev-commit --follow \$word'
+
+# Man Completions
+zstyle ':fzf-tab:complete:man:*' fzf-preview \
+  'man -P \"col -bx\" \$word | $FZF_PREVIEW_FILE_COMMAND --language=man'
 
 # CD completion
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color=always --icons $realpath'
