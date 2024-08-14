@@ -1,6 +1,6 @@
 function _zinit_wait_for() { echo -n 'zinit plugins '"$1"' | tail +2 |  sed '\''s/\x1b\[[0-9;]*[a-zA-Z]//g'\'' | grep -q '"$1"; }
 
-zinit lucid light-mode depth1 wait for \
+zinit light-mode depth1 for \
     id-as"bin-gem" zdharma-continuum/zinit-annex-bin-gem-node \
     id-as"patch-dl" zdharma-continuum/zinit-annex-patch-dl
 
@@ -57,18 +57,18 @@ zinit lucid light-mode wait for as"program" from"gh-r" bpick"*.tar.gz" extract"!
 
 zinit lucid light-mode depth1 wait"$(_zinit_wait_for jdx/mise)" for \
     id-as"eza" atclone"mise use -g jq;mise install -y eza" atpull"%atclone" atload"mise use -g eza $QUIET" eza-community/eza \
-    id-as"bat" atclone"mise install -y bat" atpull"%atclone" atload"mise use -g bat bat-extras $QUIET" @sharkdp/bat
+    id-as"bat" atclone"mise install -y bat" atpull"%atclone" atload"mise use -g bat bat-extras $QUIET" cloneopts @sharkdp/bat
 
 unset QUIET
 
 # delta
 zinit lucid light-mode wait for \
     id-as"delta" from"gh-r" as"command" mv"delta-* -> delta" pick"delta/delta" \
-    dl"https://raw.githubusercontent.com/dandavison/delta/main/etc/completion/completion.zsh -> _delta" \
+    dl"https://raw.githubusercontent.com/dandavison/delta/main/etc/completion/completion.zsh -> _delta;" \
     dandavison/delta
 
 # fzf
-zinit pack"bgn-binary+keys" wait"$(_zinit_wait_for bin-gem) && $(_zinit_wait_for patch-dl)" for fzf
+zinit pack"bgn-binary+keys" for fzf
 
 # zoxide
 local zoxide_atclone="./zoxide init zsh --cmd cd > init.zsh"
