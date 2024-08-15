@@ -20,20 +20,43 @@ setopt hist_find_no_dups
 zstyle ':fzf-tab:*' fzf-flags '--ansi'
 zstyle ':fzf-tab:*' fzf-min-height 20
 zstyle ':fzf-tab:*' fzf-bindings 'tab:accept' 
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':fzf-tab:*' prefix ''
+zstyle ':fzf-tab:*' popup-min-size 50 8
 zstyle ':completion:*' menu no
 zstyle ':completion:*' auto-descitiption 'specify: %d'
-zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*:descriptions' format '[%d]'
 
 zstyle ':completion::complete:*:*:files' ignored-patterns '.DS_Store' 'Icon?' '.Trash'
 zstyle ':completion::complete:*:*:globbed-files' ignored-patterns '.DS_Store' 'Icon?' '.Trash'
 zstyle ':completion::complete:rm:*:globbed-files' ignored-patterns
 
+# print env
+zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
+	fzf-preview 'echo ${(P)word}'
+
+local default_delta='delta --line-numbers --file-style=omit --hunk-header-style=omit'
 # Git Completions 
 zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
-  'git diff --no-ext-diff \$word | delta --paging=never --no-gitconfig --line-numbers --file-style=omit --hunk-header-style=omit --theme=base16'
+  "git diff --no-ext-diff \$word | $default_delta"
 zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
-  'git --no-pager log --color=always --format=oneline --abbrev-commit --follow \$word'
+  "git --no-pager log --color=always --format=oneline --abbrev-commit --follow \$realpath 2>/dev/null || git show --color=always \$word | $default_delta"
+zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
+	'git help $word | bat -plman --color=always'
+zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
+	"case \"\$group\" in
+    'commit tag') git show --color=always \$word | $default_delta;;
+    *) git show --color=always \$word | $default_delta ;;
+	esac"
+zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
+	"case \"\$group\" in
+    'modified file') git diff \$word | delta ;;
+    'recent commit object name') git show --color=always \$word | delta ;;
+    *) git log --color=always \$word ;;
+	esac"
 
 # Man Completions
 zstyle ':fzf-tab:complete:man:*' fzf-preview \
