@@ -5,7 +5,9 @@ zinit light-mode depth1 for \
     id-as"patch-dl" zdharma-continuum/zinit-annex-patch-dl
 
 # The big 3
+export GENCOMPL_FPATH=$ZINIT[COMPLETIONS_DIR]
 zinit lucid light-mode depth1 atload"zicompinit; zicdreplay" for \
+    zdharma-continuum/zsh-completion-generator \
     blockf zsh-users/zsh-completions \
     blockf zchee/zsh-completions
 
@@ -57,15 +59,10 @@ zinit lucid light-mode wait for as"program" from"gh-r" bpick"*.tar.gz" extract"!
 
 zinit lucid light-mode depth1 wait"$(_zinit_wait_for jdx/mise)" for \
     id-as"eza" atclone"mise use -g jq;mise install -y eza" atpull"%atclone" atload"mise use -g eza $QUIET" eza-community/eza \
-    id-as"bat" atclone"mise install -y bat" atpull"%atclone" atload"mise use -g bat bat-extras $QUIET" cloneopts @sharkdp/bat
+    id-as"bat" atclone"mise install -y bat" atpull"%atclone" atload"mise use -g bat bat-extras $QUIET" cloneopts @sharkdp/bat \
+    id-as"delta" atclone"mise install -y delta" atpull"%atclone" atload"mise use -g delta $QUIET" dandavison/delta
 
 unset QUIET
-
-# delta
-zinit lucid light-mode wait for \
-    id-as"delta" from"gh-r" as"command" mv"delta-* -> delta" pick"delta/delta" \
-    dl"https://raw.githubusercontent.com/dandavison/delta/main/etc/completion/completion.zsh -> _delta;" \
-    dandavison/delta
 
 # fzf
 zinit pack"bgn-binary+keys" for fzf
