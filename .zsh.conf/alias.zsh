@@ -4,7 +4,6 @@ alias pm=pm2
 alias yt=yt-dlp
 alias sedit=sudoedit
 
-alias -g -- ca="--color=always"
 alias -g -- outnull="&>/dev/null"
 
 alias delta='delta --line-numbers --hunk-header-decoration-style none'

@@ -28,4 +28,3 @@ export BAT_PAGER="less -r -F"
 export DELTA_PAGER="less -r -F"
 
 [[ $commands[sccache] ]] && export RUSTC_WRAPPER=sccache
-[[ $commands[powerpill] ]] && export PACMAN_WRAPPER=powerpill
