@@ -23,7 +23,7 @@ local lazy_comp="lazycomplete"
 zinit light-mode wait for as"program" from"gh-r" atload"source <($lazy_comp)" rsteube/lazycomplete
 
 # My forked plugins
-# [[ $commands[powerpill] ]] && export PACMAN_WRAPPER=powerpill
+[[ $commands[powerpill] ]] && export PACMAN_WRAPPER=powerpill
 zinit light-mode depth1 wait for \
     Nadim147c/zsh-completion-generator \
     Nadim147c/zsh-archlinux \
