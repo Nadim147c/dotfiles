@@ -3,6 +3,16 @@ autoload -Uz _zinit
 
 zinit cdreplay -q
 
+_cd_custom() {
+    local scored_list
+    local -a zoxide_list
+    scored_list="$(zoxide query --list | rev | cut -d'/' -f-2 | rev)"
+    zoxide_list=("${(@f)scored_list}")
+    _cd
+    _describe -t paths 'zoxide entries' zoxide_list
+}
+compdef _cd_custom cd
+
 # History
 export HISTSIZE=5000
 export HISTFILE="$HOME/.local/share/zsh_history"
@@ -25,6 +35,7 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' prefix ''
 zstyle ':fzf-tab:*' popup-min-size 50 8
 zstyle ':completion:*' menu no
+zstyle ':completion:*' sort false
 zstyle ':completion:*' auto-descitiption 'specify: %d'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -63,8 +74,15 @@ zstyle ':fzf-tab:complete:man:*' fzf-preview \
   'man -P \"col -bx\" \$word | $FZF_PREVIEW_FILE_COMMAND --language=man'
 
 # CD completion
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color=always --icons $realpath'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color=always --icons $realpath'
+local cd_eza_preview='
+if [[ -n $realpath ]]; then
+  eza --color=always --icons=always -w $FZF_PREVIEW_COLUMNS $realpath
+else
+  eza --color=always --icons=always -w $FZF_PREVIEW_COLUMNS "$(zoxide query $word)"
+fi
+'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview "$cd_eza_preview"
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview "$cd_eza_preview"
 
 # Kill process completion
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"

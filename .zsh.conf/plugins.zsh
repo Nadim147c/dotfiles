@@ -5,7 +5,6 @@ zinit light-mode depth1 for \
     id-as"patch-dl" zdharma-continuum/zinit-annex-patch-dl
 
 # The big 3
-export GENCOMPL_FPATH=$ZINIT[COMPLETIONS_DIR]
 zinit light-mode depth1 atload"zicompinit; zicdreplay" for \
     blockf zsh-users/zsh-completions \
     blockf zchee/zsh-completions
@@ -23,6 +22,7 @@ local lazy_comp="lazycomplete"
 zinit light-mode wait for as"program" from"gh-r" atload"source <($lazy_comp)" rsteube/lazycomplete
 
 # My forked plugins
+export GENCOMPL_FPATH=$ZINIT[COMPLETIONS_DIR]
 [[ $commands[powerpill] ]] && export PACMAN_WRAPPER=powerpill
 zinit light-mode depth1 wait for \
     Nadim147c/zsh-completion-generator \
