@@ -7,9 +7,11 @@ add_newline = false
 format = """\
 $os$hostname$shell\
 $directory\
-$git_branch\
+$git_branch$hg_branch\
+$git_state\
 $git_status\
 $git_metrics\
+$git_commit\
 $sudo\
 $character\
 """
@@ -68,22 +70,26 @@ format = ' [$symbol\($branch(:$remote_branch)\)]($style)'
 symbol = '󰊢 '
 style = 'red'
 
-[git_status]
-format = '[$all_status]($style)'
-style = 'red'
-
-[git_metrics]
-format = '([+$added]($added_style))[]($added_style)'
-added_style = 'red'
-deleted_style = 'red'
-disabled = false
-
 [hg_branch]
 format = '[ $symbol$branch ]($style)'
 symbol = ' '
 
-# Right prompt 
+[git_status]
+format = "([\\[](red)$conflicted$staged$modified$deleted$renamed$untracked$stashed[\\]](red))( $ahead_behind)"
 
+ahead = "↑${count}"
+behind = "↓${count}"
+diverged = "[↑${ahead_count}↓${behind_count}](yellow bold)"
+
+conflicted = "[ !$count! ](red bold)"
+staged = "[+$count](green bold)"
+modified = "[+$count](yellow bold)"
+deleted = "[-$count](red bold)"
+renamed = "[>$count](green bold)"
+untracked = "[!$count](cyan bold)"
+stashed = "[~$count](bold blue bold)"
+
+# Right prompt 
 
 [username]
 format = ' [ $user]($style)'
@@ -96,7 +102,7 @@ min_time = 500
 format = ' [$symbol$version]($style) '
 
 [nodejs]
-format = ' [$symbol($version )]($style)'
+format = ' [$symbol($version)]($style)'
 style = 'bold green'
 
 [python]
