@@ -10,8 +10,6 @@ $directory\
 $git_branch$hg_branch\
 $git_state\
 $git_status\
-$git_metrics\
-$git_commit\
 $sudo\
 $character\
 """
@@ -77,8 +75,8 @@ symbol = ' '
 [git_status]
 format = "([\\[](red)$conflicted$staged$modified$deleted$renamed$untracked$stashed[\\]](red))( $ahead_behind)"
 
-ahead = "↑${count}"
-behind = "↓${count}"
+ahead = "[↑${count}](yellow bold)"
+behind = "[↓${count}](yellow bold)"
 diverged = "[↑${ahead_count}↓${behind_count}](yellow bold)"
 
 conflicted = "[ !$count! ](red bold)"
