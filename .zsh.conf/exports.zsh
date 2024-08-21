@@ -3,12 +3,11 @@ CUSTOM_PATH=(
 	"$HOME/.cargo/bin"
 	"$HOME/.local/share/pnpm"
 	"$HOME/.spicetify"
-	"/usr/local/go/bin"
 	"$HOME/go/bin"
+	"/usr/local/go/bin"
 )
-for item in ${CUSTOM_PATH[@]}; do
-	export PATH="$PATH:$item"
-done
+export PATH="$PATH:${(j.:.)CUSTOM_PATH}"
+
 [[ -f "$HOME/git/jsutils/path" ]] && source "$HOME/git/jsutils/path"
 
 export FZF_DEFAULT_OPTS='
