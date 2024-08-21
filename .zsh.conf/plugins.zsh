@@ -74,7 +74,7 @@ zinit light-mode wait for as"program" from"gh-r" atclone"$zoxide_atclone" atpull
     id-as"zoxide" ajeetdsouza/zoxide
 
 local fastfetch_atclone=$'
-cp -vf "$HOME/.config/fastfetch/init.zsh" ./
+echo \'fastfetch\' > init.zsh
 mv -vf fastfetch*/usr/share/man/man1/fastfetch.1 $ZPFX/man/man1
 mv -vf fastfetch*/usr/share/fastfetch/presets .
 '
