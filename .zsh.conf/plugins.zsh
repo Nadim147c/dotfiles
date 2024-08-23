@@ -18,6 +18,7 @@ zinit light-mode wait"$(_zinit_wait_for fzf)" for Aloxaf/fzf-tab
 
 local lazy_comp="lazycomplete"
 [[ $commands[pnpm] ]] && lazy_comp+=" pnpm 'pnpm completion zsh'"
+[[ $commands[bun] ]] && lazy_comp+=" bun 'bun completion --help'"
 [[ $commands[warp-cli] ]] && lazy_comp+=" warp-cli 'warp-cli generate-completions zsh'"
 zinit light-mode wait for as"program" from"gh-r" atload"source <($lazy_comp)" rsteube/lazycomplete
 
@@ -51,26 +52,28 @@ zinit wait for \
     OMZP::sudo
 
 # Mise and it's apps
-local QUIET="&>/dev/null"
-local mise_atclone="cp -ru ./man* $ZPFX;\$(pwd)/mise activate zsh > init.zsh;\$(pwd)/mise completion zsh > _mise;\$(pwd)/mise install -y usage"
-zinit light-mode wait for as"program" from"gh-r" bpick"*.tar.gz" extract"!" mv"bin/mise -> mise" \
+local mise_atclone=$'
+cp -ru ./man* $ZPFX
+$(pwd)/mise activate zsh > init.zsh
+$(pwd)/mise completion zsh > _mise
+$(pwd)/mise install -y usage'
+zinit light-mode for as"program" from"gh-r" bpick"*.tar.gz" extract"!" mv"bin/mise -> mise" \
     atclone"$mise_atclone" atpull"%atclone" src"init.zsh" nocompile'!' \
-    atload"mise use -g usage $QUIET" \
-    jdx/mise
+    id-as"mise" jdx/mise
 
-zinit light-mode depth1 wait"$(_zinit_wait_for jdx/mise)" for \
-    id-as"eza" atclone"mise use -g jq;mise install -y eza" atpull"%atclone" atload"mise use -g eza $QUIET" eza-community/eza \
-    id-as"bat" atclone"mise install -y bat" atpull"%atclone" atload"mise use -g bat bat-extras $QUIET" cloneopts @sharkdp/bat \
-    id-as"delta" atclone"mise install -y delta" atpull"%atclone" atload"mise use -g delta $QUIET" dandavison/delta
-
-unset QUIET
+mise use -ygj4 \
+    usage jq \
+    ripgrep fd eza \
+    bat bat-extras delta \
+    sccache
+[[ $? == 0 ]] && clear
 
 # fzf
 zinit pack"bgn-binary+keys" for fzf
 
 # zoxide
-local zoxide_atclone="./zoxide init zsh --cmd cd > init.zsh"
-zinit light-mode wait for as"program" from"gh-r" atclone"$zoxide_atclone" atpull"%atclone" src"init.zsh" \
+zinit light-mode wait for as"program" from"gh-r" \
+    atclone"./zoxide init zsh --cmd cd > init.zsh" atpull"%atclone" src"init.zsh" \
     id-as"zoxide" ajeetdsouza/zoxide
 
 local fastfetch_atclone=$'
