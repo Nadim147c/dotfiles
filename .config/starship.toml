@@ -107,6 +107,10 @@ format = ' [$symbol$version]($style) '
 format = ' [$symbol($version)]($style)'
 style = 'bold green'
 
+[bun]
+format = ' [$symbol($version)]($style)'
+style = 'bold white'
+
 [python]
 format = ' [${symbol}${pyenv_prefix}(${version} )(\\($virtualenv\\) )]($style)'
 symbol = '󰌠 '
