@@ -18,7 +18,7 @@ zinit light-mode wait"$(_zinit_wait_for fzf)" for Aloxaf/fzf-tab
 
 local lazy_comp="lazycomplete"
 [[ $commands[pnpm] ]] && lazy_comp+=" pnpm 'pnpm completion zsh'"
-[[ $commands[bun] ]] && lazy_comp+=" bun 'bun completion --help'"
+[[ $commands[bun] ]] && lazy_comp+=" bun 'bun completions --help'"
 [[ $commands[warp-cli] ]] && lazy_comp+=" warp-cli 'warp-cli generate-completions zsh'"
 zinit light-mode wait for as"program" from"gh-r" atload"source <($lazy_comp)" rsteube/lazycomplete
 
