@@ -37,6 +37,12 @@ zinit light-mode depth1 wait for \
     djui/alias-tips \
     zshzoo/cd-ls
 
+# Load the
+local kill_word_binding=$'
+bindkey \'^h\'       smart-backward-kill-word
+bindkey \'\\e[3;5~\' smart-forward-kill-word'
+zinit light-mode depth1 wait for atload"$kill_word_binding" seletskiy/zsh-smart-kill-word
+
 # Git plugins
 zinit light-mode depth1 wait for \
     id-as"git-extras" as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"install PREFIX=$ZPFX" tj/git-extras \
