@@ -42,9 +42,8 @@ fish_indicator = '󰈺 '
 powershell_indicator = '󰨊 '
 bash_indicator = ' '
 cmd_indicator = ' '
-zsh_indicator = 'z'
+zsh_indicator = '[Z](bold)'
 unknown_indicator = '$'
-style = 'fg:black bg:red'
 disabled = false
 
 [directory]

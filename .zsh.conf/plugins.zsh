@@ -1,4 +1,4 @@
-function _zinit_wait_for() { echo -n 'zinit plugins '"$1"' | tail +2 |  sed '\''s/\x1b\[[0-9;]*[a-zA-Z]//g'\'' | grep -q '"$1"; }
+function _zinit_wait_for() { echo -n $'printf \'%s\\\\n\' $ZINIT_REGISTERED_PLUGINS | grep -q '"$1"; }
 
 zinit light-mode depth1 for \
     id-as"bin-gem" zdharma-continuum/zinit-annex-bin-gem-node \
@@ -14,6 +14,26 @@ zinit light-mode depth1 wait"$(_zinit_wait_for zsh-users/zsh-completions)" for \
     zdharma-continuum/fast-syntax-highlighting \
     zsh-users/zsh-autosuggestions
 
+# Mise and it's apps
+local mise_atclone=$'
+cp -ru ./man* $ZPFX
+$(pwd)/mise activate zsh > init.zsh
+$(pwd)/mise completion zsh > _mise
+$(pwd)/mise install -y usage'
+zinit light-mode for as"program" from"gh-r" bpick"*.tar.gz" extract"!" mv"bin/mise -> mise" \
+    atclone"$mise_atclone" atpull"%atclone" src"init.zsh" nocompile'!' \
+    id-as"mise" jdx/mise
+
+mise use -ygj6 \
+    usage jq zellij \
+    ripgrep fd eza \
+    bat bat-extras delta \
+    python pipx \
+    sccache &&
+    clear
+
+# fzf
+zinit pack"bgn-binary+keys" for fzf
 zinit light-mode wait"$(_zinit_wait_for fzf)" for Aloxaf/fzf-tab
 
 local lazy_comp="lazycomplete"
@@ -22,22 +42,19 @@ local lazy_comp="lazycomplete"
 [[ $commands[warp-cli] ]] && lazy_comp+=" warp-cli 'warp-cli generate-completions zsh'"
 zinit light-mode wait for as"program" from"gh-r" atload"source <($lazy_comp)" rsteube/lazycomplete
 
-# My forked plugins
-export GENCOMPL_FPATH=$ZINIT[COMPLETIONS_DIR]
-[[ $commands[powerpill] ]] && export PACMAN_WRAPPER=powerpill
+# Load better command_not_found_handler for Arch Linux
+local archlinux_command_not_found=$'
+[[ $commands[findpkg] ]] && command_not_found_handler() { findpkg "$1"; }'
 zinit light-mode depth1 wait for \
-    Nadim147c/zsh-completion-generator \
-    Nadim147c/zsh-archlinux \
-    Nadim147c/zsh-help
+    atload"$archlinux_command_not_found" Freed-Wu/zsh-command-not-found
 
 # All plugins
 zinit light-mode depth1 wait for \
     MichaelAquilina/zsh-autoswitch-virtualenv \
-    Freed-Wu/zsh-command-not-found \
     djui/alias-tips \
     zshzoo/cd-ls
 
-# Load the
+# Load the smart word kill
 local kill_word_binding=$'
 bindkey \'^h\'       smart-backward-kill-word
 bindkey \'\\e[3;5~\' smart-forward-kill-word'
@@ -51,31 +68,34 @@ zinit light-mode depth1 wait for \
     id-as"git-open" paulirish/git-open
 
 # Add snippets
-zinit wait for \
+zinit light-mode is-snippet wait for \
     OMZP::git-auto-fetch \
     OMZP::extract \
-    OMZP::thefuck \
-    OMZP::sudo
+    OMZP::sudo \
+    OMZP::man \
+    OMZP::cp
 
-# Mise and it's apps
-local mise_atclone=$'
-cp -ru ./man* $ZPFX
-$(pwd)/mise activate zsh > init.zsh
-$(pwd)/mise completion zsh > _mise
-$(pwd)/mise install -y usage'
-zinit light-mode for as"program" from"gh-r" bpick"*.tar.gz" extract"!" mv"bin/mise -> mise" \
-    atclone"$mise_atclone" atpull"%atclone" src"init.zsh" nocompile'!' \
-    id-as"mise" jdx/mise
+# My forked plugins
+export GENCOMPL_FPATH="$ZINIT[COMPLETIONS_DIR]"
+[[ $commands[powerpill] ]] && export PACMAN_WRAPPER=powerpill
+zinit light-mode depth1 wait for \
+    Nadim147c/zsh-completion-generator \
+    Nadim147c/zsh-archlinux \
+    Nadim147c/zsh-help
 
-mise use -ygj4 \
-    usage jq \
-    ripgrep fd eza \
-    bat bat-extras delta \
-    sccache
-[[ $? == 0 ]] && clear
-
-# fzf
-zinit pack"bgn-binary+keys" for fzf
+# The F**k
+export THEFUCK_EXCLUDE_RULES=$'fix_file'
+local thefuck_atclone=$'
+pipx upgrade --install --python 3.11 --fetch-missing-python thefuck
+thefuck --alias > init.zsh
+thefuck --alias f >> init.zsh
+thefuck --alias wtf >> init.zsh
+thefuck --alias hell >> init.zsh
+thefuck --alias bruh >> init.zsh
+thefuck --alias damn >> init.zsh'
+zinit light-mode depth1 has"pipx" as"null" wait for \
+    atclone"$thefuck_atclone" atpull"%atclone" src"init.zsh" nocompile"!" \
+    nvbn/thefuck
 
 # zoxide
 zinit light-mode wait for as"program" from"gh-r" \
@@ -85,8 +105,7 @@ zinit light-mode wait for as"program" from"gh-r" \
 local fastfetch_atclone=$'
 echo \'fastfetch\' > init.zsh
 mv -vf fastfetch*/usr/share/man/man1/fastfetch.1 $ZPFX/man/man1
-mv -vf fastfetch*/usr/share/fastfetch/presets .
-'
+mv -vf fastfetch*/usr/share/fastfetch/presets .'
 zinit light-mode for from"gh-r" as"program" bpick"fastfetch-linux-amd64.tar.gz" \
     mv"fastfetch*/usr/bin/fastfetch -> fastfetch" pick"fastfetch*/fastfetch" \
     atclone"$fastfetch_atclone" atpull"%atclone" src"init.zsh" \
