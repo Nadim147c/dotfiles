@@ -1,6 +1,7 @@
 CUSTOM_PATH=(
 	"$HOME/.local/bin"
 	"$HOME/.cargo/bin"
+	"$HOME/.bun/bin"
 	"$HOME/.local/share/pnpm"
 	"$HOME/.spicetify"
 	"$HOME/go/bin"
@@ -16,7 +17,6 @@ export FZF_DEFAULT_OPTS='
 --info=inline --layout reverse --border
 '
 
-export SANDBOXRC="$HOME/.zsh.conf/.sandboxrc"
 export PNPM_HOME="$HOME/.local/share/pnpm/"
 
 export EDITOR="nvim"

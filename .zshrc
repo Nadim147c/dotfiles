@@ -8,6 +8,8 @@ fi
 # Source/Load zinit
 source "$ZINIT_HOME/zinit.zsh"
 
+bindkey -e
+
 source "$HOME/.zsh.conf/exports.zsh"
 source "$HOME/.zsh.conf/bindings.zsh"
 source "$HOME/.zsh.conf/alias.zsh"

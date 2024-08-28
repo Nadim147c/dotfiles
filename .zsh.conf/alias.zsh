@@ -3,6 +3,7 @@ alias n=pnpm
 alias pm=pm2
 alias yt=yt-dlp
 alias sedit=sudoedit
+alias kys=exit
 
 alias -g -- outnull="&>/dev/null"
 
@@ -10,14 +11,15 @@ alias delta='delta --line-numbers --hunk-header-decoration-style none'
 alias ffmpeg='ffmpeg -hide_banner'
 alias pyvenv='python3 -m venv .venv'
 alias reload='clear && source ~/.zshrc'
-alias config='nvim ~/.zshrc'
 alias stdn='sudo shutdown now'
 alias start="xdg-open"
 alias s.="xdg-open ."
+alias lines=$'printf \'%s\\n\''
+alias files=$'fd --type f . --'
 
 # LS alias
 alias ls='eza --icons'
-alias l='eza --color=always --icons -ial'
+alias l='eza --color=always --icons -ialh'
 alias la='eza --color=always --icons -ia'
 alias tree='eza --color=always --icons=always -ia --tree --git-ignore | less -r -F'
 
