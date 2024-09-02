@@ -24,7 +24,7 @@ zinit light-mode for as"program" from"gh-r" bpick"*.tar.gz" extract"!" mv"bin/mi
     atclone"$mise_atclone" atpull"%atclone" src"init.zsh" nocompile'!' \
     id-as"mise" jdx/mise
 
-mise use -ygj6 \
+mise use -ygj8 \
     usage jq zellij \
     ripgrep fd eza \
     bat bat-extras delta \
@@ -86,6 +86,7 @@ zinit light-mode depth1 wait for \
 # The F**k
 export THEFUCK_EXCLUDE_RULES=$'fix_file'
 local thefuck_atclone=$'
+mise use -ygj2 python pipx
 pipx upgrade --install --python 3.11 --fetch-missing-python thefuck
 thefuck --alias > init.zsh
 thefuck --alias f >> init.zsh
@@ -93,7 +94,7 @@ thefuck --alias wtf >> init.zsh
 thefuck --alias hell >> init.zsh
 thefuck --alias bruh >> init.zsh
 thefuck --alias damn >> init.zsh'
-zinit light-mode depth1 has"pipx" as"null" wait for \
+zinit light-mode depth1 wait for \
     atclone"$thefuck_atclone" atpull"%atclone" src"init.zsh" nocompile"!" \
     nvbn/thefuck
 

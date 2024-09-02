@@ -15,7 +15,8 @@ alias stdn='sudo shutdown now'
 alias start="xdg-open"
 alias s.="xdg-open ."
 alias lines=$'printf \'%s\\n\''
-alias files=$'fd --type f . --'
+alias files='fd --type f . --'
+alias ff='clear && fastfetch'
 
 # LS alias
 alias ls='eza --icons'

@@ -6,10 +6,10 @@ CUSTOM_PATH=(
 	"$HOME/.spicetify"
 	"$HOME/go/bin"
 	"/usr/local/go/bin"
+
+	"$HOME/git/jsutils/bin"
 )
 export PATH="$PATH:${(j.:.)CUSTOM_PATH}"
-
-[[ -f "$HOME/git/jsutils/path" ]] && source "$HOME/git/jsutils/path"
 
 export FZF_DEFAULT_OPTS='
 --color=fg:#cdd6f4,header:#a6e3a1,info:#94e2d5,pointer:#f5e0dc

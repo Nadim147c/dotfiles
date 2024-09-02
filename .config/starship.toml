@@ -125,3 +125,18 @@ symbol = '󰢱 '
 [golang]
 format = ' [$symbol($version )]($style)'
 symbol = '󰟓 '
+
+[c]
+format = " [$symbol($version(-$name) )]($style)"
+symbol = " "
+
+[docker_context]
+format = " [$symbol$context]($style) "
+style = "blue bold"
+symbol = " "
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+disabled = false
+
+[container]
+format = "[$symbol \\[$name\\]]($style) "
+disabled = false
