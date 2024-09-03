@@ -26,4 +26,4 @@ export PAGER="less -r -F"
 export BAT_PAGER="less -r -F"
 export DELTA_PAGER="less -r -F"
 
-[[ $commands[sccache] ]] && export RUSTC_WRAPPER=sccache
+export RUSTC_WRAPPER=sccache

@@ -25,11 +25,9 @@ zinit light-mode for as"program" from"gh-r" bpick"*.tar.gz" extract"!" mv"bin/mi
     id-as"mise" jdx/mise
 
 mise use -ygj8 \
-    usage jq zellij \
+    usage jq sccache \
     ripgrep fd eza \
-    bat bat-extras delta \
-    python pipx \
-    sccache &&
+    bat bat-extras delta &&
     clear
 
 # fzf
@@ -47,6 +45,14 @@ local archlinux_command_not_found=$'
 [[ $commands[findpkg] ]] && command_not_found_handler() { findpkg "$1"; }'
 zinit light-mode depth1 wait for \
     atload"$archlinux_command_not_found" Freed-Wu/zsh-command-not-found
+
+# Load LS_COLORS
+local vivid_atclone=$'
+local LS_COLORS=$(./vivid generate molokai)
+echo "export LS_COLORS=\'$LS_COLORS\'" > init.zsh'
+zinit light-mode as"program" from"gh-r" bpick"*.tar.gz" for \
+    extract"!" atclone"$vivid_atclone" atpull"%atclone" src"init.zsh" \
+    id-as"LS_COLORS" @sharkdp/vivid
 
 # All plugins
 zinit light-mode depth1 wait for \
