@@ -3,21 +3,12 @@ autoload -Uz _zinit
 
 zinit cdreplay -q
 
-_cd_custom() {
-    local scored_list
-    local -a zoxide_list
-    scored_list="$(zoxide query --list | rev | cut -d'/' -f-2 | rev)"
-    zoxide_list=("${(@f)scored_list}")
-    _cd
-    _describe -t paths 'zoxide entries' zoxide_list
-}
-compdef _cd_custom cd
-
 # History
 export HISTSIZE=5000
 export HISTFILE="$HOME/.local/share/zsh_history"
 export SAVEHIST=$HISTSIZE
 export HISTDUP=erase
+
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
@@ -64,8 +55,8 @@ zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
 	esac"
 zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
 	"case \"\$group\" in
-    'modified file') git diff \$word | delta ;;
-    'recent commit object name') git show --color=always \$word | delta ;;
+    'modified file') git diff \$word | $default_delta ;;
+    'recent commit object name') git show --color=always \$word | $default_delta ;;
     *) git log --color=always \$word ;;
 	esac"
 
@@ -74,13 +65,7 @@ zstyle ':fzf-tab:complete:man:*' fzf-preview \
   'man -P \"col -bx\" \$word | $FZF_PREVIEW_FILE_COMMAND --language=man'
 
 # CD completion
-local cd_eza_preview='
-if [[ -n $realpath ]]; then
-  eza --color=always --icons=always -w $FZF_PREVIEW_COLUMNS $realpath
-else
-  eza --color=always --icons=always -w $FZF_PREVIEW_COLUMNS "$(zoxide query $word)"
-fi
-'
+local cd_eza_preview=$'eza --color=always --icons=always -w $FZF_PREVIEW_COLUMNS $realpath'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview "$cd_eza_preview"
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview "$cd_eza_preview"
 
