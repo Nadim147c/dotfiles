@@ -83,6 +83,7 @@ zinit light-mode is-snippet wait for \
 
 # My forked plugins
 export GENCOMPL_FPATH="$ZINIT[COMPLETIONS_DIR]"
+export HELP_PAGER="$PAGER"
 [[ $commands[powerpill] ]] && export PACMAN_WRAPPER=powerpill
 zinit light-mode depth1 wait for \
     Nadim147c/zsh-completion-generator \

@@ -34,7 +34,7 @@ alias .....='cd ../../../..'
 # Bat and Bat-extra
 alias cat=bat
 alias man=batman
-alias diff=batdiff
+alias diff="batdiff --delta"
 
 # GNU coreutils
 alias cp='cp -iv'
