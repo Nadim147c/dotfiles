@@ -10,6 +10,27 @@ function _zellij_check() {
 	fi
 }
 
+local status_path="$(dirname "$0")/.zellij_status.kdl"
+ZELLIJ_STATUS_BAR=$(cat "$status_path")
+
+function _get_zellij_layout() {
+	local layoutfile=$(mktemp)
+	echo "layout {
+		cwd \"$1\"
+		tab name=\"Neovim\" hide_floating_panes=true {
+			pane command=\"nvim\" cwd=\"$1\"
+		}
+		tab name=\"Shell\" focus=true hide_floating_panes=true {
+			pane cwd=\"$1\"
+		}
+		default_tab_template {
+			$ZELLIJ_STATUS_BAR
+			children
+		}
+	}" >"$layoutfile"
+	echo -n "$layoutfile"
+}
+
 function zc() {
 	_zellij_check || return
 
@@ -36,12 +57,12 @@ function zc() {
 
 	sessions=$(zellij list-sessions --no-formatting)
 
-	cd "$selected_directory"
+	layoutfile=$(_get_zellij_layout "$selected_directory")
 
 	if echo "$sessions" | grep -q "$session_name"; then
 		zellij attach "$session_name"
 	else
-		zellij -s "$session_name"
+		zellij -s "$session_name" --layout="$layoutfile"
 	fi
 }
 
@@ -83,11 +104,13 @@ function zn() {
 		[[ -z "$session_name" ]] && session_name="$default_name"
 	fi
 
+	layoutfile=$(_get_zellij_layout "$selected_directory")
+
 	if zellij list-sessions --no-formatting | grep -q "$session_name"; then
 		echo "Attaching to existing session: $session_name"
 		sleep 1
 		zellij attach "$session_name"
 	else
-		zellij --session "$session_name"
+		zellij --session "$session_name" --layout="$layoutfile"
 	fi
 }
