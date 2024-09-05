@@ -19,8 +19,9 @@ export FZF_DEFAULT_OPTS='
 
 export PNPM_HOME="$HOME/.local/share/pnpm/"
 
-export EDITOR="nvim"
-export VISUAL="nvim"
+export EDITOR="$(command -v nvim)"
+export VISUAL="$EDITOR"
+export ZELLIJ_EDITOR="${$(command -v vim):-$EDITOR}"
 
 export PAGER="less -r -F"
 export BAT_PAGER="less -r -F"

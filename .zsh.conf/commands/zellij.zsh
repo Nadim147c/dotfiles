@@ -17,10 +17,10 @@ function _get_zellij_layout() {
 	local layoutfile=$(mktemp)
 	echo "layout {
 		cwd \"$1\"
-		tab name=\"Neovim\" hide_floating_panes=true {
+		tab name=\"Neovim\" focus=true hide_floating_panes=true {
 			pane command=\"nvim\" cwd=\"$1\"
 		}
-		tab name=\"Shell\" focus=true hide_floating_panes=true {
+		tab name=\"Shell\" hide_floating_panes=true {
 			pane cwd=\"$1\"
 		}
 		default_tab_template {
@@ -104,7 +104,7 @@ function zn() {
 		[[ -z "$session_name" ]] && session_name="$default_name"
 	fi
 
-	layoutfile=$(_get_zellij_layout "$selected_directory")
+	layoutfile=$(_get_zellij_layout "$(pwd)")
 
 	if zellij list-sessions --no-formatting | grep -q "$session_name"; then
 		echo "Attaching to existing session: $session_name"
