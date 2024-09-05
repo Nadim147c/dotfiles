@@ -1,4 +1,3 @@
-alias vim=nvim
 alias n=pnpm
 alias pm=pm2
 alias yt=yt-dlp
@@ -7,6 +6,8 @@ alias kys=exit
 
 alias -g -- outnull="&>/dev/null"
 
+alias docker='sudo docker'
+alias lazydocker='sudo lazydocker'
 alias delta='delta --line-numbers --hunk-header-decoration-style none'
 alias ffmpeg='ffmpeg -hide_banner'
 alias pyvenv='python3 -m venv .venv'
