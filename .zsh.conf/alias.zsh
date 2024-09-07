@@ -11,7 +11,6 @@ alias lazydocker='sudo lazydocker'
 alias delta='delta --line-numbers --hunk-header-decoration-style none'
 alias ffmpeg='ffmpeg -hide_banner'
 alias pyvenv='python3 -m venv .venv'
-alias reload='clear && source ~/.zshrc'
 alias stdn='sudo shutdown now'
 alias start="xdg-open"
 alias s.="xdg-open ."
@@ -21,6 +20,7 @@ alias ff='clear && fastfetch'
 
 # LS alias
 alias ls='eza --icons'
+alias ls='eza --icons --long'
 alias l='eza --color=always --icons -ialh'
 alias la='eza --color=always --icons -ia'
 alias tree='eza --color=always --icons=always -ia --tree --git-ignore | less -r -F'
@@ -38,13 +38,13 @@ alias man=batman
 alias diff="batdiff --delta"
 
 # GNU coreutils
-alias cp='cp -iv'
-alias rm='rm -Iv'
-alias mv='mv -iv'
+alias cp='cp -v'
+alias rm='rm -v'
+alias mv='mv -v'
 alias du='du -h'
 alias less='less -r -F'
 alias mkdir='mkdir -pv'
-alias xa='xargs -d "\n"'
+alias xa=$'xargs -rd\'\\n\' -n1'
 
 # Fix ssh weirdness with kitty
 [[ $TERM == "xterm-kitty" ]] && alias ssh="kitty +kitten ssh"
