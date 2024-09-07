@@ -1,5 +1,5 @@
 function _zellij_check() {
-	if ! command -v zellij --help &>/dev/null; then
+	if ! command -v zellij &>/dev/null; then
 		echo "zellij multiplexer doesn't exists"
 		return 1
 	fi
@@ -32,19 +32,34 @@ function _get_zellij_layout() {
 }
 
 function zc() {
-	_zellij_check || return
+	# _zellij_check || return
 
-	directories=("$HOME/git/" "$HOME/tools/")
+	format_lines='{
+		cmd = "basename \"" $0 "\" | tr : -"
+		cmd | getline base
+		close(cmd)
+		if (length(base) > max_len) { max_len = length(base) }
+		files[NR] = base " " $0
+	} END {
+		bold_green = "\033[1;32m"
+		cyan = "\033[0;36m"
+		reset = "\033[0m"
 
-	repos=$(find "${directories[@]}" -mindepth 1 -maxdepth 1 -type d \
-		-exec sh -c $'printf "\e[1;32m%s\e[0m:\e[1;36m%s\e[0m\n" "$(basename "{}")" "{}"' $';')
+		for (i = 1; i <= NR; i++) {
+			split(files[i], parts, " ")
+			printf "%s%-*s%s | %s%s%s\n", bold_green, max_len, parts[1], reset, cyan, parts[2], reset
+		}
+	}'
+
+	directories=("$HOME/git/")
+	repos=$(find "${directories[@]}" -mindepth 1 -maxdepth 1 -type d | awk "$format_lines")
 
 	if [[ -z "$repos" ]]; then
 		echo "Git directory list is empty"
 		return
 	fi
 
-	selected_session=$(echo "$repos" | fzf --ansi -d: \
+	selected_session=$(echo "$repos" | fzf --ansi -d' \| ' \
 		--header=' Select the directory you want to attach' \
 		--preview=$'git -C {2} summary | head -13 | tail +2
 			eza -a --git-ignore --color=always --icons=always -w $FZF_PREVIEW_COLUMNS {2}
@@ -52,14 +67,12 @@ function zc() {
 
 	if [[ -z "$selected_session" ]]; then return; fi
 
-	session_name=$(echo "$selected_session" | cut -d: -f1)
-	selected_directory=$(echo "$selected_session" | cut -d: -f2-)
-
-	sessions=$(zellij list-sessions --no-formatting)
+	session_name=$(echo "$selected_session" | cut -d'|' -f1 | awk '{$1=$1};1')
+	selected_directory=$(echo "$selected_session" | cut -d'|' -f2- | awk '{$1=$1};1')
 
 	layoutfile=$(_get_zellij_layout "$selected_directory")
 
-	if echo "$sessions" | grep -q "$session_name"; then
+	if zellij list-sessions --no-formatting | grep -q "^$session_name "; then
 		zellij attach "$session_name"
 	else
 		zellij -s "$session_name" --layout="$layoutfile"
@@ -106,7 +119,7 @@ function zn() {
 
 	layoutfile=$(_get_zellij_layout "$(pwd)")
 
-	if zellij list-sessions --no-formatting | grep -q "$session_name"; then
+	if zellij list-sessions --no-formatting | grep -q "^$session_name "; then
 		echo "Attaching to existing session: $session_name"
 		sleep 1
 		zellij attach "$session_name"

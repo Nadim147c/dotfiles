@@ -25,8 +25,8 @@ zinit light-mode for as"program" from"gh-r" bpick"*.tar.gz" extract"!" mv"bin/mi
     id-as"mise" jdx/mise
 
 mise use -ygj8 \
-    usage jq sccache \
-    ripgrep fd eza \
+    usage jq \
+    ripgrep eza \
     bat bat-extras delta &&
     clear
 
@@ -110,14 +110,7 @@ zinit light-mode wait for as"program" from"gh-r" \
     atclone"./zoxide init zsh --cmd cd > init.zsh" atpull"%atclone" src"init.zsh" \
     id-as"zoxide" ajeetdsouza/zoxide
 
-local fastfetch_atclone=$'
-echo \'fastfetch\' > init.zsh
-mv -vf fastfetch*/usr/share/man/man1/fastfetch.1 $ZPFX/man/man1
-mv -vf fastfetch*/usr/share/fastfetch/presets .'
-zinit light-mode for from"gh-r" as"program" bpick"fastfetch-linux-amd64.tar.gz" \
-    mv"fastfetch*/usr/bin/fastfetch -> fastfetch" pick"fastfetch*/fastfetch" \
-    atclone"$fastfetch_atclone" atpull"%atclone" src"init.zsh" \
-    id-as"fastfetch" fastfetch-cli/fastfetch
+cat "$HOME/.logo" | xargs -rd'\n' printf '\033[32m%s\033[0m\n'
 
 # Starship prompt
 local starship_atclone="./starship init zsh > init.zsh; ./starship completions zsh > _starship"
