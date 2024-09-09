@@ -1,0 +1,17 @@
+[include]
+    path = ~/.gitconfig.local
+[core]
+    pager = delta --line-numbers --hunk-header-decoration-style none 
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
+
+[alias]
+	grep = !rg --color=always -S
+	fork = !gh repo fork
+	open = browse

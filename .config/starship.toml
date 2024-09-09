@@ -16,7 +16,7 @@ $character\
 
 continuation_prompt = '[  => ](green bold)'
 
-right_format = '$git_metrics'
+right_format = '$all'
 
 [character]
 success_symbol = '[ 󰁔](green bold)'

@@ -57,8 +57,7 @@ zinit light-mode as"program" from"gh-r" bpick"*.tar.gz" for \
 # All plugins
 zinit light-mode depth1 wait for \
     MichaelAquilina/zsh-autoswitch-virtualenv \
-    djui/alias-tips \
-    zshzoo/cd-ls
+    djui/alias-tips
 
 # Load the smart word kill
 local kill_word_binding=$'
@@ -109,8 +108,6 @@ zinit light-mode depth1 wait for \
 zinit light-mode wait for as"program" from"gh-r" \
     atclone"./zoxide init zsh --cmd cd > init.zsh" atpull"%atclone" src"init.zsh" \
     id-as"zoxide" ajeetdsouza/zoxide
-
-cat "$HOME/.logo" | xargs -rd'\n' printf '\033[32m%s\033[0m\n'
 
 # Starship prompt
 local starship_atclone="./starship init zsh > init.zsh; ./starship completions zsh > _starship"
