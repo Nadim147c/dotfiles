@@ -10,9 +10,9 @@ source "$ZINIT_HOME/zinit.zsh"
 
 bindkey -e
 
-source "$HOME/.zsh.conf/exports.zsh"
-source "$HOME/.zsh.conf/bindings.zsh"
-source "$HOME/.zsh.conf/alias.zsh"
-source "$HOME/.zsh.conf/plugins.zsh"
-source "$HOME/.zsh.conf/completion.zsh"
-source "$HOME/.zsh.conf/commansds.zsh"
+source "$HOME/.zshrc.d/exports.zsh"
+source "$HOME/.zshrc.d/bindings.zsh"
+source "$HOME/.zshrc.d/alias.zsh"
+source "$HOME/.zshrc.d/plugins.zsh"
+source "$HOME/.zshrc.d/completion.zsh"
+source "$HOME/.zshrc.d/commands.zsh"

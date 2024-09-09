@@ -10,6 +10,8 @@ function _zellij_check() {
 	fi
 }
 
+alias zk='zellij kill-all-sessions --yes'
+
 local status_path="$(dirname "$0")/.zellij_status.kdl"
 ZELLIJ_STATUS_BAR=$(cat "$status_path")
 
@@ -32,7 +34,7 @@ function _get_zellij_layout() {
 }
 
 function zc() {
-	# _zellij_check || return
+	_zellij_check || return
 
 	format_lines='{
 		cmd = "basename \"" $0 "\" | tr : -"
@@ -72,7 +74,7 @@ function zc() {
 
 	layoutfile=$(_get_zellij_layout "$selected_directory")
 
-	if zellij list-sessions --no-formatting | grep -q "^$session_name "; then
+	if zellij list-sessions --short | grep -q "^$session_name$"; then
 		zellij attach "$session_name"
 	else
 		zellij -s "$session_name" --layout="$layoutfile"
@@ -80,28 +82,27 @@ function zc() {
 }
 
 function za() {
-	_zellij_check || return
 
-	sessions=$(zellij list-sessions)
+	sessions=$(zellij list-sessions --short | xargs -d'\n' printf '\033[1;32m%s\n')
 	if [[ -z "$sessions" ]]; then
 		echo "Sessions list is empty"
 		return
 	fi
 
-	selected_directory=$(echo "$sessions" | fzf --ansi --header=' Select the zellij session you want to attach' | cut -d' ' -f1)
+	selected_directory=$(echo "$sessions" | fzf --ansi --header=' Select the zellij session you want to attach')
 	[[ -n "$selected_directory" ]] && zellij attach "$selected_directory"
 }
 
 function zr() {
 	_zellij_check || return
 
-	sessions=$(zellij list-sessions)
+	sessions=$(zellij list-sessions --short | xargs -d'\n' printf '\033[1;32m%s\n')
 	if [[ -z "$sessions" ]]; then
 		echo "Sessions list is empty"
 		return
 	fi
 
-	selected_directory=$(echo "$sessions" | fzf --ansi --header=' Select the zellij session you want to delete' | cut -d' ' -f1)
+	selected_directory=$(echo "$sessions" | fzf --ansi --header=' Select the zellij session you want to delete')
 	[[ -n "$selected_directory" ]] && zellij delete-session --force "$selected_directory"
 }
 
@@ -119,7 +120,7 @@ function zn() {
 
 	layoutfile=$(_get_zellij_layout "$(pwd)")
 
-	if zellij list-sessions --no-formatting | grep -q "^$session_name "; then
+	if zellij list-sessions --short | grep -q "^$session_name$"; then
 		echo "Attaching to existing session: $session_name"
 		sleep 1
 		zellij attach "$session_name"

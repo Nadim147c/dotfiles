@@ -2,7 +2,6 @@ alias n=pnpm
 alias pm=pm2
 alias yt=yt-dlp
 alias sedit=sudoedit
-alias kys=exit
 
 alias -g -- outnull="&>/dev/null"
 
