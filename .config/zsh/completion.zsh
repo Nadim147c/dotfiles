@@ -1,10 +1,23 @@
+local COMPLETIONS=(
+    clarketm/zsh-completions
+    greymd/docker-zsh-completion
+
+    'https://github.com/eza-community/eza/blob/main/completions/zsh/_eza'
+
+    mv'bun.zsh -> _bun' 
+    'https://github.com/oven-sh/bun/blob/main/completions/bun.zsh'
+)
+
+zinit light-mode depth1 as"completion" id-as for \
+    atload"zicompinit; zicdreplay" nocd blockf $COMPLETIONS
+
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 zinit cdreplay -q
 
 # History
-export HISTSIZE=5000
+export HISTSIZE=10000
 export HISTFILE="$HOME/.local/share/zsh_history"
 export SAVEHIST=$HISTSIZE
 export HISTDUP=erase
@@ -40,7 +53,7 @@ zstyle ':completion::complete:rm:*:globbed-files' ignored-patterns
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
 	fzf-preview 'echo ${(P)word}'
 
-local default_delta='delta --line-numbers --file-style=omit --hunk-header-style=omit'
+local default_delta='delta --line-numbers --hunk-header-style=omit'
 # Git Completions 
 zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
   "git diff --no-ext-diff \$word | $default_delta"
