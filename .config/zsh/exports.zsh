@@ -19,12 +19,16 @@ export FZF_DEFAULT_OPTS='
 
 export PNPM_HOME="$HOME/.local/share/pnpm/"
 
-export EDITOR="$(command -v nvim)"
-export VISUAL="$EDITOR"
-export ZELLIJ_EDITOR="${$(command -v vim):-$EDITOR}"
+export EDITOR=$(command -v nvim)
+export VISUAL=$EDITOR
+export ZELLIJ_EDITOR=${$(command -v vim):-$EDITOR}
 
-export PAGER="less -r -F"
-export BAT_PAGER="less -r -F"
-export DELTA_PAGER="less -r -F"
+export PAGER='less -r -F'
+export LESS='-r -F'
+export BAT_PAGER='less -r -F'
+export DELTA_PAGER='less -r -F'
 
 export RUSTC_WRAPPER=sccache
+
+export GCC_COLORS='error=1;31:warning=1;33:note=1;47;107:caret=1;47;107:locus=40;1;35:quote=1;33'
+export GREP_COLORS=':mt=1;36:ms=41;1;30:mc=1;41:sl=:cx=:fn=1;35;40:ln=32:bn=32:se=1;36;40'
