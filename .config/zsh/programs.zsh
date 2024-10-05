@@ -6,11 +6,11 @@ local PROGRAMS=(
     wait'!' pack fzf
 
     # Install mise package manager
-    atclone=$'
-    $(pwd)/mise activate zsh > init.zsh
-    $(pwd)/mise completion zsh > _mise
-    $(pwd)/mise install -y usage'
-    bpick"*.tar.gz" src"init.zsh" extract'!' cp"*/mise -> mise"
+    atpull"%atclone" atclone=$'
+    $(pwd)/bin/mise activate zsh > init.zsh
+    $(pwd)/bin/mise completion zsh > _mise
+    $(pwd)/bin/mise install -y usage'
+    bpick"*.tar.gz" src"init.zsh" extract'!' sbin"bin/mise -> mise"
     jdx/mise
 
     # Install vivid LS_COLORS generator
@@ -46,6 +46,9 @@ local PROGRAMS=(
     # Install grep but faster
     sbin"**/rg" BurntSushi/ripgrep
 
+    # Install sed but it doesn't make you sad
+    sbin'sd' chmln/sd
+
     # Install The F**k
     atclone=$'
     mise use -yj2 python@3.11 pipx
@@ -53,25 +56,20 @@ local PROGRAMS=(
     thefuck --alias > init.zsh
     thefuck --alias f >> init.zsh'
     src"init.zsh" nocompile"!"
-    wait"_zinit_check_plugin fzf"
+    wait"_zinit_check_plugin mise"
     nvbn/thefuck
 
     # Install GRC (Generic Colorizer)
     atload$'
     export GRC_CONFIG="$ZPFX/etc/grc.conf"
-    export GRC_COLOUR_PATH="$ZPFX/share/grc/"
-    export GRC=$(which grc)
-    export GRC_SUDO="sudo GRC_CONFIG=\'$ZPFX/etc/grc.conf\' GRC_COLOUR_PATH=\'$ZPFX/share/grc/\' $GRC"
-    unalias du df docker docker-compose docker-machine &>/dev/null
-    unfunction du df docker docker-compose docker-machine &>/dev/null
-    alias du="$GRC du -h"
-    alias df="$GRC df -h"
-    alias ds="df -h | grep -iP \'^file|^/dev\' | grcat conf.df"
-    alias docker="$GRC_SUDO docker"
-    alias docker-compose="$GRC_SUDO docker-compose"
-    alias docker-machine="$GRC_SUDO docker-machine"'
+    export GRC_COLOUR_PATH="$ZPFX/share/grc/"'
     from'gh' atclone'./install.sh $ZPFX $ZPFX' nocompile sbin"(grc|grcat)" src'grc.zsh' pick'$ZPFX/bin/grc*'
     Nadim147c/grc
+
+    wait"_zinit_check_plugin grc"
+    atload$'alias docker="csudo docker"'
+    sbin"bin/colorize" src'scripts/alias.zsh'
+    Nadim147c/colorize
 
     # Install zellij
     sbin"zellij" zellij-org/zellij

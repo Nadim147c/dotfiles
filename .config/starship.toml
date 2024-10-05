@@ -16,7 +16,7 @@ $character\
 
 continuation_prompt = '[  => ](green bold)'
 
-right_format = '$all'
+right_format = '${custom.git_tag}$all'
 
 [character]
 success_symbol = '[ 󰁔](green bold)'
@@ -64,7 +64,7 @@ disabled = false
 
 [git_branch]
 format = ' [$symbol\($branch(:$remote_branch)\)]($style)'
-symbol = '󰊢 '
+symbol = ' '
 style = 'red'
 
 [hg_branch]
@@ -96,8 +96,15 @@ format = '   [$duration](bold yellow)'
 min_time = 500
 
 [git_metrics]
-format = '( [git](red) \(([+$added]($added_style))([-$deleted]($deleted_style))\))'
+format = '( [󰊢 ](red)\(([+$added]($added_style))([-$deleted]($deleted_style))\))'
 disabled = false
+
+[custom.git_tag]
+format = "([$symbol($output)]($style))"
+command = "git describe --tags --abbrev=0"
+when = "git rev-parse --is-inside-work-tree"
+symbol = "󰓼 "
+style = "bold red"
 
 [package]
 format = ' [$symbol$version]($style) '
