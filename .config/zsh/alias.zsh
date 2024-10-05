@@ -26,9 +26,12 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # GNU coreutils
+alias rm='rm -vI'
 alias cp='cp -vi'
-alias rm='rm -vi'
 alias mv='mv -vi'
+alias df='df -h'
+alias du='du -h'
+alias grep='grep --color'
 alias less='less -r -F'
 alias mkdir='mkdir -pv'
 alias xa="xargs -rd'\\n'"

@@ -94,7 +94,10 @@ function za() {
 }
 
 function zr() {
-	_zellij_check || return
+	if ! command -v zellij &>/dev/null; then
+		echo "zellij multiplexer doesn't exists"
+		return 1
+	fi
 
 	sessions=$(zellij list-sessions --short | xargs -d'\n' printf '\033[1;32m%s\n')
 	if [[ -z "$sessions" ]]; then

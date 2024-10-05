@@ -12,7 +12,7 @@ CUSTOM_PATH=(
 export PATH="$PATH:${(j.:.)CUSTOM_PATH}"
 
 export FZF_DEFAULT_OPTS='
---color=fg:#cdd6f4,header:#a6e3a1,info:#94e2d5,pointer:#f5e0dc
+--color=fg:#cdd6f4,header:#f9e2af,info:#94e2d5,pointer:#f5e0dc
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#94e2d5,hl+:#a6e3a1
 --info=inline --layout reverse --border
 '
