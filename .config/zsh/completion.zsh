@@ -31,13 +31,13 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 # Completion styling
-zstyle ':fzf-tab:*' fzf-flags '--ansi'
 zstyle ':fzf-tab:*' fzf-min-height 20
 zstyle ':fzf-tab:*' fzf-bindings 'tab:accept' 
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' prefix ''
 zstyle ':fzf-tab:*' popup-min-size 50 8
+zstyle ':fzf-tab:*' fzf-flags --ansi $(echo $FZF_DEFAULT_OPTS)
 zstyle ':completion:*' menu no
 zstyle ':completion:*' sort false
 zstyle ':completion:*' auto-descitiption 'specify: %d'

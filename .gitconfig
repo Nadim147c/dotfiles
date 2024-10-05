@@ -11,9 +11,11 @@
 [diff]
 	colorMoved = default
 [alias]
-	grep = !rg --color=always -S
+	tag-latest = "!f() { git tag -a \"$1\" -m \"Release: $1\"; }; f"
+	grep = "!f() { rg --color=always $@ -- $(rg --files --hidden --color=never --glob=!.git); }; f"
 	fork = !gh repo fork
 	quick-stats = !git-quick-stats
 
+	ls = !rg --files --hidden --color=never --glob=!.git
 	down = pull --rebase
 	open = browse
