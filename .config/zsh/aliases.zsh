@@ -9,7 +9,6 @@ alias docker='sudo docker'
 alias lazydocker='sudo lazydocker'
 alias delta='delta --line-numbers --hunk-header-decoration-style none'
 alias ffmpeg='ffmpeg -hide_banner'
-alias paru='paru --aur'
 
 alias pyvenv='python3 -m venv .venv'
 alias stdn='sudo shutdown now'

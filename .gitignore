@@ -1,3 +1,5 @@
 .config/mpv/scripts/sponsorblock_shared/sponsorblock.txt
 .config/kitty/wallpaper.png
+.config/fastfetch/images
+.config/zsh/**/*.zwc
 .mise.toml

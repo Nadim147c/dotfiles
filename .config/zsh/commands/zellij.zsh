@@ -1,5 +1,12 @@
+alias zk='zellij kill-all-sessions --yes'
+
+function _zellij_zoxide_add() {
+	[[ ! $commands[zoxide] ]] && return 1
+	zoxide add "$1"
+}
+
 function _zellij_check() {
-	if ! command -v zellij &>/dev/null; then
+	if [[ ! $commands[zellij] ]]; then
 		echo "zellij multiplexer doesn't exists"
 		return 1
 	fi
@@ -10,12 +17,11 @@ function _zellij_check() {
 	fi
 }
 
-alias zk='zellij kill-all-sessions --yes'
 
 local status_path="$(dirname "$0")/.zellij_status.kdl"
 ZELLIJ_STATUS_BAR=$(cat "$status_path")
 
-function _get_zellij_layout() {
+function _zellij_get_layout() {
 	local layoutfile=$(mktemp)
 	echo "layout {
 		cwd \"$1\"
@@ -36,45 +42,26 @@ function _get_zellij_layout() {
 function zc() {
 	_zellij_check || return
 
-	format_lines='{
-		cmd = "basename \"" $0 "\" | tr : -"
-		cmd | getline base
-		close(cmd)
-		if (length(base) > max_len) { max_len = length(base) }
-		files[NR] = base " " $0
-	} END {
-		bold_green = "\033[1;32m"
-		cyan = "\033[0;36m"
-		reset = "\033[0m"
-
-		for (i = 1; i <= NR; i++) {
-			split(files[i], parts, " ")
-			printf "%s%-*s%s | %s%s%s\n", bold_green, max_len, parts[1], reset, cyan, parts[2], reset
-		}
-	}'
-
-	directories=("$HOME/git/")
-	repos=$(find "${directories[@]}" -mindepth 1 -maxdepth 1 -type d | awk "$format_lines")
+	repos=$(printf '%s\n' "$HOME/git"/*/ | xargs -d'\n' -I {} sh -c $'printf \'\e[1;32m%s\e[0m\n\' $(basename "{}")')
 
 	if [[ -z "$repos" ]]; then
 		echo "Git directory list is empty"
 		return
 	fi
 
-	selected_session=$(echo "$repos" | fzf --ansi -d' \| ' \
-		--header=' Select the directory you want to attach' \
-		--preview=$'git -C {2} summary | head -13 | tail +2
-			eza -a --git-ignore --color=always --icons=always -w $FZF_PREVIEW_COLUMNS {2}
-			eza -aT --git-ignore --color=always --icons=always -w $FZF_PREVIEW_COLUMNS {2}')
+	selected_name=$(echo "$repos" | fzf --ansi --preview='cd "$HOME/git/"{};fd --hidden --exclude=.git --color=always')
 
-	if [[ -z "$selected_session" ]]; then return; fi
+	[[ -z "$selected_name" ]] && return 1
 
-	session_name=$(echo "$selected_session" | cut -d'|' -f1 | awk '{$1=$1};1')
-	selected_directory=$(echo "$selected_session" | cut -d'|' -f2- | awk '{$1=$1};1')
+	session_name="$selected_name"
+	selected_directory="$HOME/git/$selected_name"
 
-	layoutfile=$(_get_zellij_layout "$selected_directory")
+	_zellij_zoxide_add "$selected_directory"
 
-	if zellij list-sessions --short | grep -q "^$session_name$"; then
+	layoutfile=$(_zellij_get_layout "$selected_directory")
+
+	sessions=("${(@f)$(zellij list-sessions --short)}")
+	if (( ${#sessions[(r)$session_name]} )); then
 		zellij attach "$session_name"
 	else
 		zellij -s "$session_name" --layout="$layoutfile"
@@ -82,24 +69,25 @@ function zc() {
 }
 
 function za() {
+	_zellij_check || return
 
-	sessions=$(zellij list-sessions --short | xargs -d'\n' printf '\033[1;32m%s\n')
+	sessions=$(zellij list-sessions --short | sort | xargs -d'\n' printf '\033[1;32m%s\n')
 	if [[ -z "$sessions" ]]; then
 		echo "Sessions list is empty"
 		return
 	fi
 
-	selected_directory=$(echo "$sessions" | fzf --ansi --header=' Select the zellij session you want to attach')
-	[[ -n "$selected_directory" ]] && zellij attach "$selected_directory"
+	selected_session=$(echo "$sessions" | fzf --ansi --header=' Select the zellij session you want to attach')
+	[[ -n "$selected_session" ]] && zellij attach "$selected_session"
 }
 
 function zr() {
-	if ! command -v zellij &>/dev/null; then
+	if [[ ! $commands[zellij] ]]; then
 		echo "zellij multiplexer doesn't exists"
 		return 1
 	fi
 
-	sessions=$(zellij list-sessions --short | xargs -d'\n' printf '\033[1;32m%s\n')
+	sessions=$(zellij list-sessions --short | sort | xargs -d'\n' printf '\033[1;32m%s\n')
 	if [[ -z "$sessions" ]]; then
 		echo "Sessions list is empty"
 		return
@@ -121,9 +109,12 @@ function zn() {
 		[[ -z "$session_name" ]] && session_name="$default_name"
 	fi
 
-	layoutfile=$(_get_zellij_layout "$(pwd)")
+	_zellij_zoxide_add "$(pwd)"
 
-	if zellij list-sessions --short | grep -q "^$session_name$"; then
+	layoutfile=$(_zellij_get_layout "$(pwd)")
+
+	sessions=("${(@f)$(zellij list-sessions --short)}")
+	if (( ${#sessions[(r)$session_name]} )); then
 		echo "Attaching to existing session: $session_name"
 		sleep 1
 		zellij attach "$session_name"
