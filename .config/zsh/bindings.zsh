@@ -1,3 +1,5 @@
+bindkey -e
+
 bindkey "^[[H" beginning-of-line     # Home: start of the line
 bindkey "^[[F" end-of-line           # End: end of the line
 bindkey "^p" history-search-backward # Ctrl+P: previous result
