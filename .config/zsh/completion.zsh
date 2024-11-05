@@ -2,8 +2,6 @@ local COMPLETIONS=(
     clarketm/zsh-completions
     greymd/docker-zsh-completion
 
-    'https://github.com/eza-community/eza/blob/main/completions/zsh/_eza'
-
     mv'bun.zsh -> _bun' 
     'https://github.com/oven-sh/bun/blob/main/completions/bun.zsh'
 )
@@ -17,10 +15,7 @@ autoload -Uz _zinit
 zinit cdreplay -q
 
 # History
-export HISTSIZE=10000
-export HISTFILE="$HOME/.local/share/zsh_history"
-export SAVEHIST=$HISTSIZE
-export HISTDUP=erase
+export HISTSIZE=100000
 
 setopt appendhistory
 setopt sharehistory
@@ -38,6 +33,7 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' prefix ''
 zstyle ':fzf-tab:*' popup-min-size 50 8
 zstyle ':fzf-tab:*' fzf-flags --ansi $(echo $FZF_DEFAULT_OPTS)
+zstyle ':fzf-tab:*' query-string ''
 zstyle ':completion:*' menu no
 zstyle ':completion:*' sort false
 zstyle ':completion:*' auto-descitiption 'specify: %d'

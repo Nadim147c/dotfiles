@@ -1,5 +1,11 @@
-_COMMAND_DIR="$(dirname "$0")/commands"
+local commands_dir="$(dirname "$0")/commands"
 
-for COMMAND_FILE in "$_COMMAND_DIR"/*.zsh; do
-	source $COMMAND_FILE
+for file in "$commands_dir"/*.zsh; do
+	local compiled_file="${file}.zwc"
+
+	if [[ ! -f $compiled_file || "$file" -nt "$compiled_file" ]]; then
+		zcompile "$file"
+	fi
+
+	source "$file"
 done
