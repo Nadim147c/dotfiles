@@ -9,7 +9,6 @@ alias docker='sudo docker'
 alias lazydocker='sudo lazydocker'
 alias delta='delta --line-numbers --hunk-header-decoration-style none'
 alias ffmpeg='ffmpeg -hide_banner'
-alias paru='paru --aur'
 
 alias pyvenv='python3 -m venv .venv'
 alias stdn='sudo shutdown now'
@@ -42,7 +41,7 @@ alias dsc=$'dfc -c always 2>/dev/null | rg \'FILESYSTEM|^/dev/\\w+\''
 [[ $TERM == "xterm-kitty" ]] && alias ssh="kitty +kitten ssh"
 
 # Sync dotfiles using GNU stow
-alias dotsync='stow -d ~/git/dotfiles/ -t ~/ .'
+alias dotsync='stow -d ~/git/dotfiles/ -t ~/ -vvv .'
 
 # Git
 alias ga='git add'

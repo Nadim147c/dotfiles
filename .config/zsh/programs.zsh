@@ -3,86 +3,99 @@ export THEFUCK_EXCLUDE_RULES=$'fix_file'
 
 local PROGRAMS=(
     # Install fzf
-    wait'!' pack fzf
+    dl="$(printf 'https://raw.githubusercontent.com/junegunn/fzf/master/%s;' \
+        shell/{'completion.zsh -> _fzf',key-bindings.zsh} \
+        man/man1/fzf{,-tmux}.1)"
+    lbin='!fzf' compile='key-bindings.zsh' src='key-bindings.zsh'
+    @junegunn/fzf
+
+    atpull="%atclone" atclone='./carapace _carapace > init.zsh'
+    atload="zicompinit; zicdreplay"
+    lbin='!carapace' compile='init.zsh' src"init.zsh"
+    carapace-sh/carapace-bin
 
     # Install mise package manager
-    atpull"%atclone" atclone=$'
+    atpull="%atclone" atclone='
     $(pwd)/bin/mise activate zsh > init.zsh
     $(pwd)/bin/mise completion zsh > _mise
     $(pwd)/bin/mise install -y usage'
-    bpick"*.tar.gz" src"init.zsh" extract'!' sbin"bin/mise -> mise"
+    lbin='!bin/mise' bpick='*.tar.gz' compile='init.zsh' src='init.zsh' extract=!
     jdx/mise
 
     # Install vivid LS_COLORS generator
-    atload'export LS_COLORS=$(vivid generate catppuccin-mocha)'
-    bpick"*.tar.gz" as sbin'vivid'
+    atpull='%atclone' atclone='echo "export LS_COLORS=$(vivid generate catppuccin-mocha)" > init.zsh'
+    lbin='!vivid' bpick="*.tar.gz" compile='init.zsh' src='init.zsh'
     @sharkdp/vivid
 
     # Install fd finder
-    atload"alias files='fd --type f . --'"
-    sbin"**/fd" @sharkdp/fd
+    atload="alias files='fd --type f . --'"
+    lbin='!**/fd' @sharkdp/fd
 
     # Install eza (ls with colors and icons)
-    atload"
+    atload="
     alias e='eza --icons'
     alias ls='eza --icons'
     alias ll='eza --icons --long'
     alias l='eza --color=always --icons -ialh'
     alias la='eza --color=always --icons -ia'
     alias tree='eza --color=always --icons=always -ia --tree --git-ignore | less -r -F'"
-    sbin'eza' eza-community/eza
+    lbin='!eza' eza-community/eza
 
     # Install bat (cat with wings)
     atload'alias cat=bat'
-    sbin"**/bat" @sharkdp/bat
+    lbin='!**/bat' @sharkdp/bat
 
     # Install bat-extras (uses power of bat)
-    atload$'alias man=batman; alias diff=\'batdiff --delta\''
-    sbin"bin/*" eth-p/bat-extras
+    atload=$'alias man=batman; alias diff=\'batdiff --delta\''
+    lbin='!bin/*' eth-p/bat-extras
 
     # Install delta diff parser
-    sbin"**/delta" dandavison/delta
+    lbin="!**/delta" dandavison/delta
 
     # Install grep but faster
-    sbin"**/rg" BurntSushi/ripgrep
-
-    # Install sed but it doesn't make you sad
-    sbin'sd' chmln/sd
+    lbin="!**/rg" BurntSushi/ripgrep
 
     # Install The F**k
-    atclone=$'
+    atpull='%atclone' atclone=$'
     mise use -yj2 python@3.11 pipx
     pipx upgrade --install --python 3.11 --fetch-missing-python thefuck
     thefuck --alias > init.zsh
     thefuck --alias f >> init.zsh'
-    src"init.zsh" nocompile"!"
-    wait"_zinit_check_plugin mise"
+    from='gh' depth1 compile='init.zsh' src"init.zsh"
+    wait="_zinit_check_plugin mise"
     nvbn/thefuck
 
     # Install GRC (Generic Colorizer)
-    atload$'
-    export GRC_CONFIG="$ZPFX/etc/grc.conf"
-    export GRC_COLOUR_PATH="$ZPFX/share/grc/"'
-    from'gh' atclone'./install.sh $ZPFX $ZPFX' nocompile sbin"(grc|grcat)" src'grc.zsh' pick'$ZPFX/bin/grc*'
+    atload=$'export GRC_CONFIG="$ZPFX/etc/grc.conf"; export GRC_COLOUR_PATH="$ZPFX/share/grc/"'
+    from='gh' atpull='%atclone' atclone='./install.sh $ZPFX $ZPFX'
+    lbin"!(grc|grcat)" compile="grc.zsh" src'grc.zsh'
     Nadim147c/grc
 
-    wait"_zinit_check_plugin grc"
-    atload$'alias docker="csudo docker"'
-    sbin"bin/colorize" src'scripts/alias.zsh'
-    Nadim147c/colorize
+    atload=$'
+    export CHROMASHIFT_CONFIG="$HOME/git/ChromaShift/config.toml"
+    export CHROMASHIFT_RULES="$HOME/git/ChromaShift/rules"
+    alias docker="csudo docker"'
+    atpull='%atclone' atclone="./bin/cshift alias zsh > init.zsh"
+    lbin="!bin/cshift" compile='init.zsh' src='init.zsh'
+    wait="_zinit_check_plugin grc"
+    Nadim147c/ChromaShift
 
     # Install zellij
-    sbin"zellij" zellij-org/zellij
+    lbin="!zellij" zellij-org/zellij
 
     # Install cd but you don't know where you're going
-    atclone"./zoxide init zsh --cmd cd > init.zsh"
-    src"init.zsh" sbin'zoxide'
+    atpull='%atclone' atclone="./zoxide init zsh --cmd cd > init.zsh"
+    lbin='!zoxide' compile='init.zsh' src="init.zsh"
     ajeetdsouza/zoxide
 
+    atload='[[ -z "$TMUX" && -z "$ZELLIJ" ]] && clear && fastfetch'
+    lbin="!*/bin/*" extract="!"
+    fastfetch-cli/fastfetch
+
     # Install starship the slowest shell prompt (probably)
-    atclone="./starship init zsh > init.zsh; ./starship completions zsh > _starship"
-    src"init.zsh" wait'!'
-    sbin'starship' starship/starship
+    atpull='%atclone' atclone="./starship init zsh > init.zsh; ./starship completions zsh > _starship"
+    lbin='!starship' compile='init.zsh' src"init.zsh" wait'!'
+    starship/starship
 )
 
-zinit light-mode as'program' from'gh-r' id-as lman atpull"%atclone" wait for $PROGRAMS
+zinit light-mode as'null' from'gh-r' nocompile'!' id-as lman wait for $PROGRAMS

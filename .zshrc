@@ -1,40 +1,37 @@
-function _set_prompt() { PS1=$(printf "\e[1m\e[36m%s\e[0m\n" "$1"); }
+# shellcheck disable=all
+
+function _set_prompt() { PS1=$(printf "\e[1;36m%s\e[0m\n" "$1"); }
 function _zinit_check_plugin() {
-    for arg in "$@"; do
-        printf '%s\n' $ZINIT_REGISTERED_PLUGINS | grep -q "^$arg$" || return 1
-    done
-    return 0
+    for arg in "$@"; do [[ " ${ZINIT_REGISTERED_PLUGINS[@]} " =~ " $arg " ]] || return 1; done
 }
 
-_set_prompt 'Loading bootstrapping...'
-
 # Download Zinit, if it's not there yet
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-if [ ! -d "$ZINIT_HOME" ]; then
+export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+if [[ ! -d "$ZINIT_HOME" ]]; then
+    _set_prompt "Installing zinit..."
     mkdir -p "$(dirname "$ZINIT_HOME")"
-    git clone --depth 1 https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+    git clone --depth 1 https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME" || return 1
 fi
 
-_set_prompt 'Loading config...'
+_set_prompt 'Loading zinit...'
 
 # Source/Load zinit
 source "$ZINIT_HOME/zinit.zsh"
 
-local ZINIT_ANNEX=(
-    zdharma-continuum/zinit-annex-bin-gem-node
-    zdharma-continuum/zinit-annex-patch-dl
-    zdharma-continuum/zinit-annex-linkman
-)
-zinit light-mode depth1 id-as for $ZINIT_ANNEX
+zinit light-mode depth1 id-as for \
+    @zdharma-continuum/zinit-annex-{binary-symlink,patch-dl,linkman}
 
-bindkey -e
+_set_prompt 'Compiling modules...'
+for module in exports bindings aliases plugins programs snippets completion commands; do
+    file="$HOME/.config/zsh/$module.zsh"
+    compiled_file="${file}.zwc"
 
-source "$HOME/.config/zsh/exports.zsh"
-source "$HOME/.config/zsh/bindings.zsh"
-source "$HOME/.config/zsh/alias.zsh"
-source "$HOME/.config/zsh/plugins.zsh"
-source "$HOME/.config/zsh/programs.zsh"
-source "$HOME/.config/zsh/snippets.zsh"
-source "$HOME/.config/zsh/plugins.zsh"
-source "$HOME/.config/zsh/completion.zsh"
-source "$HOME/.config/zsh/commands.zsh"
+    if [[ ! -f $compiled_file || "$file" -nt "$compiled_file" ]]; then
+        _set_prompt "Compiling: $file"
+        zcompile "$file"
+    fi
+    source "$file"
+done
+
+_set_prompt 'Loading config...'
+unfunction _set_prompt

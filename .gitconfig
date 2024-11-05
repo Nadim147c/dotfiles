@@ -10,12 +10,21 @@
 	conflictstyle = diff3
 [diff]
 	colorMoved = default
+[commit]
+	verbose = true
+[color]
+	ui = true
 [alias]
 	tag-latest = "!f() { git tag -a \"$1\" -m \"Release: $1\"; }; f"
 	grep = "!f() { rg --color=always $@ -- $(rg --files --hidden --color=never --glob=!.git); }; f"
 	fork = !gh repo fork
-	quick-stats = !git-quick-stats
 
 	ls = !rg --files --hidden --color=never --glob=!.git
 	down = pull --rebase
+	fast-clone = clone --depth=1
 	open = browse
+	dis = diff --cached
+
+	lsignored = ls-files . --ignored --exclude-standard --others
+	graph = log --graph --decorate --pretty=oneline --abbrev-commit --all
+
