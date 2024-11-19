@@ -33,7 +33,6 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' prefix ''
 zstyle ':fzf-tab:*' popup-min-size 50 8
 zstyle ':fzf-tab:*' fzf-flags --ansi $(echo $FZF_DEFAULT_OPTS)
-zstyle ':fzf-tab:*' query-string ''
 zstyle ':completion:*' menu no
 zstyle ':completion:*' sort false
 zstyle ':completion:*' auto-descitiption 'specify: %d'

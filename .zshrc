@@ -1,8 +1,17 @@
 # shellcheck disable=all
+if [[ -z "$SHELL_START_TIME" ]]; then
+    export SHELL_START_TIME=$(date +%s)
+fi
 
 function _set_prompt() { PS1=$(printf "\e[1;36m%s\e[0m" "$1"); }
 function _zinit_check_plugin() {
-    for arg in "$@"; do [[ " ${ZINIT_REGISTERED_PLUGINS[@]} " =~ " $arg " ]] || return 1; done
+    local current_time=$(date +%s)
+    local elapsed_time=$((current_time - SHELL_START_TIME))
+    if ((elapsed_time >= 120)); then return 0; fi
+
+    for arg in "$@"; do
+        [[ " ${ZINIT_REGISTERED_PLUGINS[@]} " =~ " $arg " ]] || return 1
+    done
 }
 
 # Download Zinit, if it's not there yet
