@@ -20,11 +20,14 @@
 	fast-clone = "!f() { git clone --depth=1 \"$1\" \"$HOME/git/$(basename \"$1\" .git)\"; }; f"
 	fork = !gh repo fork
 
-	ls = !rg --files --hidden --color=never --glob=!.git
+	find = !rg --files --hidden --color=never --glob=!.git
 	down = pull --rebase
 	open = browse
 	dis = diff --cached
 
 	lsignored = ls-files . --ignored --exclude-standard --others
 	graph = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	vtag = !git tag | sort -V
 
+[git-extras "feature"]
+	prefix = feat

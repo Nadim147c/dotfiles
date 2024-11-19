@@ -73,19 +73,12 @@ local PROGRAMS=(
     wait="_zinit_check_plugin mise"
     nvbn/thefuck
 
-    # Install GRC (Generic Colorizer)
-    atload=$'export GRC_CONFIG="$ZPFX/etc/grc.conf"; export GRC_COLOUR_PATH="$ZPFX/share/grc/"'
-    from='gh' atpull='%atclone' atclone='./install.sh $ZPFX $ZPFX'
-    lbin"!(grc|grcat)" compile="grc.zsh" src'grc.zsh'
-    Nadim147c/grc
-
     atload=$'
     export CHROMASHIFT_CONFIG="$HOME/git/ChromaShift/config.toml"
     export CHROMASHIFT_RULES="$HOME/git/ChromaShift/rules"
     alias docker="csudo docker"'
     atpull='%atclone' atclone="./bin/cshift alias zsh > init.zsh"
     lbin="!bin/cshift" compile='init.zsh' src='init.zsh'
-    wait="_zinit_check_plugin grc"
     Nadim147c/ChromaShift
 
     # Install zellij
