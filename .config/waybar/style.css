@@ -1,0 +1,144 @@
+* {
+    min-height: 0;
+    min-width: 0;
+    font-family: "JetBrainsMono Nerd Font Mon";
+    font-size: 12px;
+    font-weight: 600;
+}
+
+window#waybar {
+    /* transition-property: background-color; */
+    transition-duration: 0.5s;
+    background-color: transparent;
+}
+
+#workspaces button {
+    min-height: 0;
+    min-width: 0;
+    padding: 0.3rem 0.6rem;
+    margin: 0.4rem 0.25rem;
+    border-radius: 6px;
+    color: #cdd6f4;
+}
+
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+    color: #1e1e2e;
+    background-color: #cdd6f4;
+}
+
+#workspaces button.active {
+    background-color: #1e1e2e;
+    color: #89b4fa;
+}
+
+#workspaces button.urgent {
+    background-color: #1e1e2e;
+    color: #f38ba8;
+}
+
+#taskbar {
+    min-height: 0;
+    min-width: 0;
+    padding: 0;
+    border-radius: 6px;
+    margin: 0.4rem 0.25rem;
+    background-color: #1e1e2e;
+}
+
+#clock,
+#network,
+#pulseaudio,
+#custom-logo,
+#custom-power,
+#custom-spotify,
+#cpu,
+#tray,
+#memory,
+#window,
+#mpris {
+    min-height: 0;
+    min-width: 0;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    margin: 0.4rem 0.25rem;
+    background-color: #1e1e2e;
+}
+
+#mpris.playing {
+    color: #a6e3a1;
+}
+
+#mpris.paused {
+    color: #9399b2;
+}
+
+#custom-sep {
+    padding: 0px;
+    color: #585b70;
+}
+
+#custom-spotify.playing {
+    color: #a6e3a1;
+}
+
+#custom-spotify.liked {
+    color: #cba6f7;
+}
+#custom-spotify.added {
+    color: #f9e2af;
+}
+
+#custom-spotify.removed {
+    color: #f38ba8;
+}
+
+#custom-spotify.paused {
+    color: #9399b2;
+}
+
+window#waybar.empty #window {
+    background-color: transparent;
+}
+
+#cpu {
+    color: #94e2d5;
+}
+
+#memory {
+    color: #cba6f7;
+}
+
+#clock {
+    color: #74c7ec;
+}
+
+#network {
+    color: #89b4fa;
+}
+
+#window {
+    color: #a6e3a1;
+}
+
+#pulseaudio {
+    color: #b4befe;
+}
+
+#pulseaudio.muted {
+    color: #a6adc8;
+}
+
+#custom-logo {
+    color: #89b4fa;
+}
+
+#custom-power {
+    color: #f38ba8;
+}
+
+tooltip {
+    background-color: #181825;
+    border: 2px solid #89b4fa;
+}
