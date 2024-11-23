@@ -1,13 +1,14 @@
+@import "colors.css";
+
 * {
     min-height: 0;
     min-width: 0;
-    font-family: "JetBrainsMono Nerd Font Mon";
+    font-family: "JetBrainsMono Nerd Font";
     font-size: 12px;
     font-weight: 600;
 }
 
 window#waybar {
-    /* transition-property: background-color; */
     transition-duration: 0.5s;
     background-color: transparent;
 }
@@ -18,24 +19,24 @@ window#waybar {
     padding: 0.3rem 0.6rem;
     margin: 0.4rem 0.25rem;
     border-radius: 6px;
-    color: #cdd6f4;
+    color: @on_background;
 }
 
 #workspaces button:hover {
     box-shadow: inherit;
     text-shadow: inherit;
-    color: #1e1e2e;
-    background-color: #cdd6f4;
+    color: @primary;
+    background-color: @background;
 }
 
 #workspaces button.active {
-    background-color: #1e1e2e;
-    color: #89b4fa;
+    background-color: @background;
+    color: @primary;
 }
 
 #workspaces button.urgent {
-    background-color: #1e1e2e;
-    color: #f38ba8;
+    background-color: @background;
+    color: @on_serface_variant;
 }
 
 #taskbar {
@@ -44,101 +45,48 @@ window#waybar {
     padding: 0;
     border-radius: 6px;
     margin: 0.4rem 0.25rem;
-    background-color: #1e1e2e;
+    background-color: @background;
 }
 
 #clock,
 #network,
-#pulseaudio,
-#custom-logo,
+#custom-pipewire,
+#custom-notification,
+#custom-hyprpaper,
 #custom-power,
 #custom-spotify,
+#custom-lyrics,
 #cpu,
-#tray,
 #memory,
-#window,
-#mpris {
+#tray,
+#window {
     min-height: 0;
     min-width: 0;
     padding: 0.3rem 0.6rem;
     border-radius: 6px;
     margin: 0.4rem 0.25rem;
-    background-color: #1e1e2e;
-}
-
-#mpris.playing {
-    color: #a6e3a1;
-}
-
-#mpris.paused {
-    color: #9399b2;
-}
-
-#custom-sep {
-    padding: 0px;
-    color: #585b70;
-}
-
-#custom-spotify.playing {
-    color: #a6e3a1;
-}
-
-#custom-spotify.liked {
-    color: #cba6f7;
-}
-#custom-spotify.added {
-    color: #f9e2af;
-}
-
-#custom-spotify.removed {
-    color: #f38ba8;
-}
-
-#custom-spotify.paused {
-    color: #9399b2;
-}
-
-window#waybar.empty #window {
-    background-color: transparent;
+    background-color: @background;
+    color: @primary;
 }
 
 #cpu {
-    color: #94e2d5;
+    margin-right: 0;
+    border-radius: 6px 0 0 6px;
 }
 
 #memory {
-    color: #cba6f7;
-}
-
-#clock {
-    color: #74c7ec;
+    margin: 0.4rem 0;
+    border-radius: 0;
+    padding: 0.3rem 0;
 }
 
 #network {
-    color: #89b4fa;
-}
-
-#window {
-    color: #a6e3a1;
-}
-
-#pulseaudio {
-    color: #b4befe;
-}
-
-#pulseaudio.muted {
-    color: #a6adc8;
-}
-
-#custom-logo {
-    color: #89b4fa;
-}
-
-#custom-power {
-    color: #f38ba8;
+    margin-left: 0;
+    border-radius: 0 6px 6px 0;
 }
 
 tooltip {
-    background-color: #181825;
-    border: 2px solid #89b4fa;
+    border-radius: 15px;
+    background-color: @background;
+    border: 2px solid @on_primary;
 }

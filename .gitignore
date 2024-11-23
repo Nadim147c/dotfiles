@@ -3,3 +3,7 @@
 .config/fastfetch/images
 .config/zsh/**/*.zwc
 .mise.toml
+
+.config/waybar/colors.css
+.config/wlogout/colors.css
+.config/hypr/configs/colors.conf

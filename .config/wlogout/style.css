@@ -1,3 +1,5 @@
+@import "colors.css";
+
 * {
     font-family: "JetBrains Mono", "Iosevka Nerd Font", archcraft, sans-serif;
     font-size: 0px;
@@ -12,19 +14,19 @@ window {
 
 button {
     border: none;
-    background-color: #242434;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 24%;
+    background-color: @background;
 }
 
 button:focus,
 button:active {
-    background-color: #333349;
+    background-color: @surface_container;
 }
 
 button:hover {
-    background-color: #89b4fa;
+    background-color: @primary;
     outline-style: none;
 }
 
