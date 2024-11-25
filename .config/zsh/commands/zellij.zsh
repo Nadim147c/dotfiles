@@ -64,7 +64,7 @@ function zc() {
 	if (( ${#sessions[(r)$session_name]} )); then
 		zellij attach "$session_name"
 	else
-		zellij -s "$session_name" --layout="$layoutfile"
+		zellij -s "$session_name" -n "$layoutfile"
 	fi
 }
 
@@ -119,6 +119,6 @@ function zn() {
 		sleep 1
 		zellij attach "$session_name"
 	else
-		zellij --session "$session_name" --layout="$layoutfile"
+		zellij -s "$session_name" -n "$layoutfile"
 	fi
 }
