@@ -85,6 +85,10 @@ window#waybar {
     border-radius: 0 6px 6px 0;
 }
 
+#custom-lyrics {
+    font-family: "Noto Font";
+}
+
 tooltip {
     border-radius: 15px;
     background-color: @background;

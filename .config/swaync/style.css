@@ -1,0 +1,41 @@
+@import "colors.css";
+
+.notification,
+.control-center {
+    padding: 0.4em;
+    border: 0.2em solid @on_primary;
+    background-color: @background;
+}
+
+.notification-default-action {
+    background-color: @background;
+}
+
+.notification-default-action:hover {
+    background-color: @surface;
+}
+
+.widget-dnd > switch {
+    background-color: @background;
+    border: 0.1em solid @on_primary;
+}
+
+.widget-dnd > switch:checked {
+    background: @primary;
+}
+
+.widget-dnd > switch slider {
+    box-shadow: none;
+    background: @surface_bright;
+    border: 0.1em solid @on_primary;
+}
+
+button {
+    border-radius: 1em;
+    background-color: @background;
+    border: 0.1em solid @on_primary;
+}
+
+.notification button {
+    margin: 0.3em;
+}
