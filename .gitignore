@@ -6,6 +6,7 @@
 
 .config/waybar/colors.css
 .config/wlogout/colors.css
+.config/swaync/colors.css
 .config/hypr/configs/colors.conf
 .config/gtk-3.0/colors.css
 .config/gtk-4.0/colors.css

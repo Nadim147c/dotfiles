@@ -23,7 +23,7 @@
         "interval": 1,
         "signal": 4,
         "return-type": "json",
-        "format": "{icon} {0}",
+        "format": "{icon}  {0}",
         "format-tooltip": "<Big>{}</Big>",
         "format-icons": {
             "playing": "",
@@ -31,7 +31,7 @@
             "lyric": "",
         },
         "exec-if": "which ewmod",
-        "exec": "ewmod lyrics --max-length 70",
+        "exec": "ewmod lyrics --max-length 150",
         "on-click": "ewmod lyrics --toggle",
     },
     "hyprland/workspaces": {
