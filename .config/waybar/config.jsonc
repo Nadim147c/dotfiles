@@ -47,12 +47,20 @@
     "wlr/taskbar": {
         "format": "{icon}",
         "icon-size": 17,
-        "icon-theme": "${i_theme}",
         "spacing": 0,
         "tooltip-format": "{title}",
         "on-click": "activate",
         "on-click-middle": "close",
-        "on-click-right": "fullscreen",
+        "on-click-right": null,
+        "ignore-list": [
+            "Picture-in-Picture",
+            "Picture in Picture",
+            "Picture in picture",
+        ],
+        "app_ids-mapping": {
+            "vesktop": "discord",
+            "equibop": "discord",
+        },
     },
     "tray": {
         "show-passive-items": true,
