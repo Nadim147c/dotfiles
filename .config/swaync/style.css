@@ -1,39 +1,69 @@
 @import "colors.css";
 
-.notification,
 .control-center {
+    margin: 1em;
     padding: 0.4em;
-    border: 0.2em solid @on_primary;
+    border: 0.2em solid @outline;
+    color: @on_background;
+    background-color: @background;
+}
+
+.notification {
+    padding: 0.4em;
+    border: 0.08em solid @outline;
+    color: @on_background;
     background-color: @background;
 }
 
 .notification-default-action {
-    background-color: @background;
+    color: @on_background;
 }
 
 .notification-default-action:hover {
     background-color: @surface;
 }
 
-.widget-dnd > switch {
+.close-button {
+    border: none;
+    color: @on_primary_container;
+    background-color: @primary_container;
+}
+
+.close-button:hover {
+    color: @on_error;
+    background-color: @error;
+}
+
+switch {
+    border-radius: 2em;
     background-color: @background;
-    border: 0.1em solid @on_primary;
+    border: 0.1em solid @outline;
 }
 
-.widget-dnd > switch:checked {
-    background: @primary;
+switch:checked {
+    background: @primary_container;
 }
 
-.widget-dnd > switch slider {
+switch slider {
+    margin: 0.3em;
     box-shadow: none;
-    background: @surface_bright;
-    border: 0.1em solid @on_primary;
+    border: none;
+    background: @on_primary_container;
+}
+
+.notification-group-collapse-button,
+.notification-group-close-all-button {
+    border-radius: 2em;
+    box-shadow: none;
+    color: @on_primary_container;
+    background: @primary_container;
 }
 
 button {
-    border-radius: 1em;
-    background-color: @background;
-    border: 0.1em solid @on_primary;
+    border: none;
+    border-radius: 2em;
+    color: @on_primary_container;
+    background-color: @primary_container;
 }
 
 .notification button {

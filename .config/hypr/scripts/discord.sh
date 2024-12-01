@@ -1,7 +1,7 @@
 #!/bin/sh
 
-command="equibop"
-title="Equibop"
+command="vesktop"
+title="Discord"
 
 hyprctl dispatch -- exec '[workspace 3 slient]' "$command"
 

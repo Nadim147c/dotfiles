@@ -9,14 +9,15 @@
     "modules-left": ["hyprland/workspaces", "wlr/taskbar", "custom/lyrics"],
     "modules-center": [],
     "modules-right": [
-        "cpu",
-        "memory",
+        // "custom/weather",
+        // "cpu",
+        // "memory",
         "network",
-        "tray",
         "custom/pipewire",
-        "clock",
-        "custom/hyprpaper",
+        "tray",
+        "custom/wallpaper",
         "custom/notification",
+        "clock",
         "custom/power",
     ],
     "custom/lyrics": {
@@ -31,7 +32,7 @@
             "lyric": "",
         },
         "exec-if": "which ewmod",
-        "exec": "ewmod lyrics --max-length 150",
+        "exec": "ewmod lyrics --max-length 110",
         "on-click": "ewmod lyrics --toggle",
     },
     "hyprland/workspaces": {
@@ -56,6 +57,7 @@
             "Picture-in-Picture",
             "Picture in Picture",
             "Picture in picture",
+            "ChatGPT",
         ],
         "app_ids-mapping": {
             "vesktop": "discord",
@@ -107,6 +109,23 @@
         "on-click-right": "swaync-client -d -sw",
         "escape": true,
     },
+    "custom/weather": {
+        "interval": 2,
+        "signal": 4,
+        "return-type": "json",
+        "format": "{icon} {0}",
+        "format-icons": {
+            "clear": "",
+            "cloudy": "",
+            "fog": "󰖑",
+            "drizzle": "",
+            "rain": "󰖗",
+            "snow": "",
+            "thunderstorm": "",
+        },
+        "exec-if": "which ewmod",
+        "exec": "ewmod weather --unit c",
+    },
     "custom/pipewire": {
         "interval": 1,
         "signal": 4,
@@ -122,9 +141,9 @@
         "on-scroll-up": "ewmod pipewire --up 2",
         "on-scroll-down": "ewmod pipewire --down 2",
     },
-    "custom/hyprpaper": {
+    "custom/wallpaper": {
         "tooltip-format": "Change wallpaper",
-        "on-click": "$HOME/.config/hypr/scripts/hyprpaper.sh",
+        "on-click": "$HOME/.config/hypr/scripts/swww.sh",
         // Fixes Nerdfont width: add half with space
         "format": "<span><small><sup> </sup></small></span>",
     },

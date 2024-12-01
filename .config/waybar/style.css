@@ -19,24 +19,26 @@ window#waybar {
     padding: 0.3rem 0.6rem;
     margin: 0.4rem 0.25rem;
     border-radius: 6px;
+    border: none;
     color: @on_background;
+}
+
+#workspaces button.active {
+    background: @background;
+    color: @primary;
+}
+
+#workspaces button.urgent {
+    background: @background;
+    color: @on_serface_variant;
 }
 
 #workspaces button:hover {
     box-shadow: inherit;
     text-shadow: inherit;
-    color: @primary;
-    background-color: @background;
-}
-
-#workspaces button.active {
-    background-color: @background;
-    color: @primary;
-}
-
-#workspaces button.urgent {
-    background-color: @background;
-    color: @on_serface_variant;
+    border: none;
+    color: @on_primary_container;
+    background: @primary_container;
 }
 
 #taskbar {
@@ -45,14 +47,28 @@ window#waybar {
     padding: 0;
     border-radius: 6px;
     margin: 0.4rem 0.25rem;
-    background-color: @background;
+    padding: 0 0.3em;
+    background: @background;
+}
+
+#taskbar button {
+    padding: 0 0.5em;
+    box-shadow: none;
+    border: none;
+}
+
+#taskbar button:hover {
+    color: @on_primary_container;
+    background: @primary_container;
 }
 
 #clock,
 #network,
+#custom-weather,
+#custom-chatgpt,
 #custom-pipewire,
 #custom-notification,
-#custom-hyprpaper,
+#custom-wallpaper,
 #custom-power,
 #custom-spotify,
 #custom-lyrics,
@@ -69,21 +85,21 @@ window#waybar {
     color: @primary;
 }
 
-#cpu {
-    margin-right: 0;
-    border-radius: 6px 0 0 6px;
-}
-
-#memory {
-    margin: 0.4rem 0;
-    border-radius: 0;
-    padding: 0.3rem 0;
-}
-
-#network {
-    margin-left: 0;
-    border-radius: 0 6px 6px 0;
-}
+/* #cpu { */
+/*     margin-right: 0; */
+/*     border-radius: 6px 0 0 6px; */
+/* } */
+/**/
+/* #memory { */
+/*     margin: 0.4rem 0; */
+/*     border-radius: 0; */
+/*     padding: 0.3rem 0; */
+/* } */
+/**/
+/* #network { */
+/*     margin-left: 0; */
+/*     border-radius: 0 6px 6px 0; */
+/* } */
 
 #custom-lyrics {
     font-family: "Noto Font";

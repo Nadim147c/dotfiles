@@ -1,8 +1,9 @@
 # DO NOT EDIT! This file will be overwritten by nwg-look.
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
+include "/home/ephemeral/.gtkrc-2.0.mine"
 gtk-theme-name="AdwaitaDark"
-gtk-icon-theme-name="BeautySolar"
+gtk-icon-theme-name="Adwaita-dark"
 gtk-font-name="Segoe UI 10"
 gtk-cursor-theme-name="FossaCursors"
 gtk-cursor-theme-size=20
