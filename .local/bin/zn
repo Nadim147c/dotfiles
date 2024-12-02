@@ -17,21 +17,20 @@ get_layout() {
     cwd="$1"
     layoutfile=$(mktemp)
     zellij_status_bar=$(cat ~/.config/zellij/status.kdl)
-    cat <<EOF >"$layoutfile"
+    echo "
 layout {
-    cwd "$cwd"
-    tab name="Neovim" focus=true hide_floating_panes=true {
-        pane command="nvim" cwd="$cwd"
+    cwd \"$cwd\"
+    tab name=\"Neovim\" focus=true hide_floating_panes=true {
+        pane command=\"nvim\" cwd=\"$cwd\"
     }
-    tab name="Shell" hide_floating_panes=true {
-        pane cwd="$cwd"
+    tab name=\"Shell\" hide_floating_panes=true {
+        pane cwd=\"$cwd\"
     }
     default_tab_template {
-        "$zellij_status_bar"
+        $zellij_status_bar
         children
     }
-}
-EOF
+}" >"$layoutfile"
     echo "$layoutfile"
 }
 
