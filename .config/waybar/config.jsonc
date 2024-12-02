@@ -15,9 +15,9 @@
         "network",
         "custom/pipewire",
         "tray",
-        "custom/wallpaper",
-        "custom/notification",
+        // "custom/wallpaper",
         "clock",
+        "custom/notification",
         "custom/power",
     ],
     "custom/lyrics": {

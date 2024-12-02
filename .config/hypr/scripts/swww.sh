@@ -13,17 +13,7 @@ _get_wallpaper() {
     find -L ~/Pictures/Wallpapers/ -type f |
         grep -P '\.(jpg|jpeg)$' |
         grep -Fv "$current_wallpaper" |
-        grep -Fv "/Pictures/Wallpapers/walpaper.jpg" |
         shuf -n1
-}
-
-_move_wallpaper() {
-    extension="${1##*.}"
-    if [ "$extension" = "jpg" ] || [ "$extension" = "jpeg" ]; then
-        cp "$1" ~/Pictures/Wallpapers/walpaper.jpg
-    else
-        magick "$1" ~/Pictures/Wallpapers/walpaper.jpg
-    fi
 }
 
 _gen_colors() {
@@ -40,7 +30,7 @@ _set_wallpaper() {
 
     _log "Setting wallpaper ($cursor_pos) '$1'"
 
-    _logger swww img \
+    swww img \
         --transition-type=grow \
         --transition-fps=30 \
         --invert-y --transition-pos="$cursor_pos" \
@@ -51,7 +41,7 @@ _set_wallpaper() {
 
 wallpaper=$(_get_wallpaper)
 
-_log "Selected wallpaper is $wallpaper"
+_log "Selected wallpaper is '$wallpaper'"
 
 if [ "$1" = "--startup" ]; then
     _log "Starting swww-daemon"
@@ -61,5 +51,3 @@ fi
 
 _set_wallpaper "$wallpaper" &
 _gen_colors "$wallpaper"
-_move_wallpaper "$wallpaper"
-sleep 4

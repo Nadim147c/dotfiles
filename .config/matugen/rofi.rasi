@@ -11,7 +11,7 @@
 }
 
 configuration {
-	font: "JetBrainsMono Nerd Font 12";
+	font: "JetBrainsMono Nerd Font 10";
 
 	drun {
 	    display-name: " ";
@@ -40,7 +40,7 @@ window {
 	location: center;
 	anchor: center;
 	fullscreen: false;
-	width: 600px;
+	width: 750px;
 	x-offset: 0px;
 	y-offset: 0px;
 
@@ -133,7 +133,7 @@ element {
 	enabled: true;
 	spacing: 10px;
 	margin: 0px;
-	padding: 8px;
+	padding: 2px;
 	border: 0px solid;
 	border-radius: 0px;
 	border-color: @outline;
