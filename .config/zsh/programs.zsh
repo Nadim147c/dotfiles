@@ -1,5 +1,4 @@
-# the f**k file exclude rule
-export THEFUCK_EXCLUDE_RULES=$'fix_file'
+# export THEFUCK_EXCLUDE_RULES=$'fix_file'
 export CARAPACE_MATCH=CASE_INSENSITIVE
 
 local PROGRAMS=(
@@ -63,20 +62,10 @@ local PROGRAMS=(
     # Install grep but faster
     lbin="!**/rg" BurntSushi/ripgrep
 
-    # Install The F**k
-    atpull='%atclone' atclone=$'
-    mise use -yj2 python@3.11 pipx
-    pipx upgrade --install --python 3.11 --fetch-missing-python thefuck
-    thefuck --alias > init.zsh
-    thefuck --alias f >> init.zsh'
-    from='gh' depth1 compile='init.zsh' src"init.zsh"
-    wait="_zinit_check_plugin mise"
-    nvbn/thefuck
-
     atload=$'
     export CHROMASHIFT_CONFIG="$HOME/git/ChromaShift/config.toml"
     export CHROMASHIFT_RULES="$HOME/git/ChromaShift/rules"
-    alias docker="csudo docker"'
+    '
     atpull='%atclone' atclone="./bin/cshift alias zsh > init.zsh"
     lbin="!bin/cshift" compile='init.zsh' src='init.zsh'
     Nadim147c/ChromaShift
