@@ -11,7 +11,7 @@ _get_wallpaper() {
     current_wallpaper=$(swww query | grep -o '/.\+$' || echo "<IGNORE_ME>")
 
     find -L ~/Pictures/Wallpapers/ -type f |
-        grep -P '\.(jpg|jpeg)$' |
+        grep -P '\.(jpg|jpeg|png|webm)$' |
         grep -Fv "$current_wallpaper" |
         shuf -n1
 }
