@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ -z "$TMUX" ] && [ -z "$ZELLIJ" ]; then
+    LOGO=$(find ~/.config/fastfetch/images/ 2>/dev/null | shuf -n1)
+fi
+
+if [ -n "$LOGO" ]; then
+    echo "$LOGO"
+    exit
+fi
+
+echo "$HOME/.config/fastfetch/logo"
