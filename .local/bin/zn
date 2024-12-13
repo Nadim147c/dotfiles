@@ -1,0 +1,56 @@
+#!/bin/sh
+
+zellij_check() {
+    if ! command -v zellij >/dev/null 2>&1; then
+        echo "zellij multiplexer doesn't exist"
+        return 1
+    fi
+
+    if [ -n "$ZELLIJ" ]; then
+        echo "This operation isn't allowed inside a session"
+        return 1
+    fi
+    return 0
+}
+
+get_layout() {
+    cwd="$1"
+    layoutfile=$(mktemp)
+    zellij_status_bar=$(cat ~/.config/zellij/status.kdl)
+    echo "
+layout {
+    cwd \"$cwd\"
+    tab name=\"Neovim\" focus=true hide_floating_panes=true {
+        pane command=\"nvim\" cwd=\"$cwd\"
+    }
+    tab name=\"Shell\" hide_floating_panes=true {
+        pane cwd=\"$cwd\"
+    }
+    default_tab_template {
+        $zellij_status_bar
+        children
+    }
+}" >"$layoutfile"
+    echo "$layoutfile"
+}
+
+zellij_check || exit 1
+
+session_name="$1"
+if [ -z "$session_name" ]; then
+    default_name=$(basename "$(pwd)" | tr . _)
+    printf " What is the name of the session (Default: %s): " "$default_name"
+    read -r session_name
+    [ -z "$session_name" ] && session_name="$default_name"
+fi
+
+layoutfile=$(get_layout "$(pwd)")
+
+sessions=$(zellij list-sessions --short 2>/dev/null)
+if echo "$sessions" | grep -q "^$session_name$"; then
+    echo "Attaching to existing session: $session_name"
+    sleep 1
+    zellij attach "$session_name"
+else
+    zellij --session "$session_name" --layout "$layoutfile"
+fi
