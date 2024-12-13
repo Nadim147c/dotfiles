@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "Killing all active zellij sessions"
+
+zellij kill-all-sessions --yes
