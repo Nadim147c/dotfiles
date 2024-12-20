@@ -7,6 +7,7 @@ zstyle ':zle:smart-kill-word' precise always
 zstyle ':zle:smart-kill-word' keep-slash on
 
 local PLUGINS=(
+
     # Install Syntax Highlighting
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
     zdharma-continuum/fast-syntax-highlighting
@@ -23,7 +24,8 @@ local PLUGINS=(
     Nadim147c/zsh-help
 
     # Install fzf-tab (use fzf for tab completions)
-    Aloxaf/fzf-tab
+    # Aloxaf/fzf-tab
+    marlonrichert/zsh-autocomplete
 
     # Load command_not_found_handler
     # Load better command_not_found_handler for Arch Linux

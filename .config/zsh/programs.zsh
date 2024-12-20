@@ -16,9 +16,9 @@ local PROGRAMS=(
     lbin='!atuin' extract='!' bpick='*.tar.gz' compile='init.zsh' src='init.zsh'
     @atuinsh/atuin
 
-    # atpull="%atclone" atclone='./carapace _carapace > init.zsh'
-    # lbin='!carapace' compile='init.zsh' src"init.zsh" atload="zicompinit;zicdreplay"
-    # carapace-sh/carapace-bin
+    atpull="%atclone" atclone='./carapace _carapace > init.zsh'
+    lbin='!carapace' compile='init.zsh' src"init.zsh" atload="zicompinit;zicdreplay"
+    carapace-sh/carapace-bin
 
     # Install mise package manager
     atpull="%atclone" atclone='
