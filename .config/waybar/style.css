@@ -1,4 +1,4 @@
-@import "colors.css";
+@import "../../.cache/matugen/gtk-colors.css";
 
 * {
     min-height: 0;
@@ -16,29 +16,27 @@ window#waybar {
 #workspaces button {
     min-height: 0;
     min-width: 0;
-    padding: 0.3rem 0.6rem;
-    margin: 0.4rem 0.25rem;
     border-radius: 6px;
     border: none;
     color: @on_background;
 }
 
 #workspaces button.active {
-    background: @background;
-    color: @primary;
+    background: @primary_container;
+    color: @on_primary_container;
 }
 
 #workspaces button.urgent {
-    background: @background;
-    color: @on_serface_variant;
+    background: @secondary_container;
+    color: @on_secondary_container;
 }
 
 #workspaces button:hover {
     box-shadow: inherit;
     text-shadow: inherit;
     border: none;
-    color: @on_primary_container;
-    background: @primary_container;
+    background: @primary_fixed;
+    color: @on_primary_fixed;
 }
 
 #taskbar {
@@ -62,8 +60,10 @@ window#waybar {
     background: @primary_container;
 }
 
+#workspaces,
 #clock,
 #network,
+#custom-docker,
 #custom-weather,
 #custom-chatgpt,
 #custom-pipewire,
@@ -83,6 +83,10 @@ window#waybar {
     margin: 0.4rem 0.25rem;
     background-color: @background;
     color: @primary;
+}
+
+#workspaces {
+    padding: 0;
 }
 
 /* #cpu { */

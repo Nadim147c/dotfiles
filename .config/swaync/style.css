@@ -1,4 +1,4 @@
-@import "colors.css";
+@import "../../.cache/matugen/gtk-colors.css";
 
 .control-center {
     margin: 1em;

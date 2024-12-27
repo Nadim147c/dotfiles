@@ -1,18 +1,15 @@
 #!/bin/sh
 
-_log() {
-    echo "$@" | logger -t 'waybar-script'
-}
-_logger() {
-    "$@" 2>&1 | logger -t 'waybar-script'
-}
+if ! command -v inotifywait >/dev/null 2>&1; then
+    swaync
+else
+    swaync &
+fi
 
-_logger swaync &
-
-_log "Running swaync config daemon..."
+echo "Running swaync config daemon..."
 while true; do
     inotifywait -e create,modify ~/.config/swaync/*
-    _log "Reloading swaync config"
-    _logger swaync-client --reload-config
-    _logger swaync-client --reload-css
+    echo "Reloading swaync config"
+    swaync-client --reload-config
+    swaync-client --reload-css
 done
