@@ -23,6 +23,9 @@
 
     co = checkout
     cm = commit
+    aa = add -A
+
+    hard = reset --hard
 
     amend = commit --amend
 
@@ -37,3 +40,5 @@
 
 [git-extras "feature"]
 	prefix = feat
+[maintenance]
+	repo = /home/ephemeral/git/gotify
