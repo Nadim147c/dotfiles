@@ -16,7 +16,7 @@ $character\
 
 continuation_prompt = '[  => ](green bold)'
 
-right_format = '${custom.git_tag}$all'
+right_format = '${custom.git_tag}$docker_context$all'
 
 [character]
 success_symbol = '[ 󰁔](green bold)'
@@ -86,7 +86,7 @@ renamed = "[>$count](green bold)"
 deleted = "[-$count](red bold)"
 
 
-# Right prompt 
+# Right prompt
 
 [username]
 format = ' [ $user]($style)'

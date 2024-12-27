@@ -6,10 +6,12 @@
     "gtk-layer-shell": true,
     "passthrough": false,
     "fixed-center": true,
+    "reload_style_on_change": true,
+    "margin": "0 8px",
     "modules-left": ["hyprland/workspaces", "wlr/taskbar", "custom/lyrics"],
     "modules-center": [],
     "modules-right": [
-        // "custom/weather",
+        "custom/docker",
         // "cpu",
         // "memory",
         "network",
@@ -35,6 +37,15 @@
         "exec": "waytune lyrics --max-length 110",
         "on-click": "waytune lyrics --toggle",
     },
+    "custom/docker": {
+        "interval": 5,
+        "signal": 4,
+        "return-type": "json",
+        "format": "{icon} {0}",
+        "format-icons": [""],
+        "exec-if": "! docker ps --quiet",
+        "exec": "waytune docker",
+    },
     "hyprland/workspaces": {
         "on-click": "activate",
         "format": "{id}",
@@ -53,12 +64,7 @@
         "on-click": "activate",
         "on-click-middle": "close",
         "on-click-right": null,
-        "ignore-list": [
-            "Picture-in-Picture",
-            "Picture in Picture",
-            "Picture in picture",
-            "ChatGPT",
-        ],
+        "ignore-list": ["Picture-in-Picture", "Picture in Picture", "Picture in picture", "ChatGPT"],
         "app_ids-mapping": {
             "vesktop": "discord",
             "equibop": "discord",

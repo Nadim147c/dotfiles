@@ -2,7 +2,7 @@ local COMPLETIONS=(
     clarketm/zsh-completions
     greymd/docker-zsh-completion
 
-    mv'bun.zsh -> _bun' 
+    mv'bun.zsh -> _bun'
     'https://github.com/oven-sh/bun/blob/main/completions/bun.zsh'
 )
 
@@ -27,7 +27,7 @@ setopt hist_find_no_dups
 
 # Completion styling
 zstyle ':fzf-tab:*' fzf-min-height 20
-zstyle ':fzf-tab:*' fzf-bindings 'tab:accept' 
+zstyle ':fzf-tab:*' fzf-bindings 'tab:accept'
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' prefix ''
@@ -49,7 +49,7 @@ zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|
 	fzf-preview 'echo ${(P)word}'
 
 local default_delta='delta --line-numbers --hunk-header-style=omit'
-# Git Completions 
+# Git Completions
 zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
   "git diff --no-ext-diff \$word | $default_delta"
 zstyle ':fzf-tab:complete:git-log:*' fzf-preview \

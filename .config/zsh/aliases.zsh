@@ -5,10 +5,10 @@ alias sedit=sudoedit
 
 alias -g -- outnull="&>/dev/null"
 
-alias docker='sudo docker'
-alias lazydocker='sudo lazydocker'
 alias delta='delta --line-numbers --hunk-header-decoration-style none'
 alias ffmpeg='ffmpeg -hide_banner'
+
+alias temp='cd "$(mktemp -d)"'
 
 alias pyvenv='python3 -m venv .venv'
 alias stdn='sudo shutdown now'
@@ -16,6 +16,13 @@ alias start="xdg-open"
 alias s.="xdg-open ."
 alias lines=$'printf \'%s\\n\''
 alias ff='clear && fastfetch'
+
+alias e='eza --icons'
+alias ls='eza --icons'
+alias ll='eza --icons --long'
+alias l='eza --color=always --icons -ialh'
+alias la='eza --color=always --icons -ia'
+alias tree='eza --color=always --icons=always -ia --tree --git-ignore | less -r -F'
 
 # CD
 alias rd='cd -' # Return to previous directory
@@ -25,6 +32,7 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # GNU coreutils
+man() { batman "$@"; }
 alias rm='rm -vI'
 alias cp='cp -vi'
 alias mv='mv -vi'
@@ -44,6 +52,7 @@ alias dsc=$'dfc -c always 2>/dev/null | rg \'FILESYSTEM|^/dev/\\w+\''
 alias dotsync='stow -d ~/git/dotfiles/ -t ~/ .'
 
 # Git
+alias g=git
 alias ga='git add'
 alias gpl='git pull'
 alias gph='git push'

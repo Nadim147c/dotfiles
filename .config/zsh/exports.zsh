@@ -37,3 +37,8 @@ export GRAVEYARD="$HOME/.local/share/graveyard/"
 
 export GCC_COLORS='error=1;31:warning=1;33:note=1;47;107:caret=1;47;107:locus=40;1;35:quote=1;33'
 export GREP_COLORS=':mt=1;36:ms=41;1;30:mc=1;41:sl=:cx=:fn=1;35;40:ln=32:bn=32:se=1;36;40'
+
+export CARAPACE_MATCH=CASE_INSENSITIVE
+export LS_COLORS=$(vivid generate catppuccin-mocha)
+export CHROMASHIFT_CONFIG="$HOME/git/ChromaShift/config.toml"
+export CHROMASHIFT_RULES="$HOME/git/ChromaShift/rules"

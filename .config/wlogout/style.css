@@ -1,4 +1,4 @@
-@import "colors.css";
+@import "../../.cache/matugen/gtk-colors.css";
 
 * {
     font-family: "JetBrains Mono", "Iosevka Nerd Font", archcraft, sans-serif;
