@@ -1,4 +1,5 @@
-$env.TRANSIENT_PROMPT_COMMAND = "󰁔 "
+$env.TRANSIENT_PROMPT_INDICATOR = $" (ansi red)=>> "
+$env.TRANSIENT_PROMPT_COMMAND = { date now | format date $"(ansi blue)%I:%M:%S %p" }
 
 $env.LS_COLORS = (vivid generate catppuccin-mocha | str trim)
 
