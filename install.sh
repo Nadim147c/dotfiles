@@ -3,15 +3,16 @@
 PKGS=(
     # System
     zsh pacman-contrib
-    uwsm hyprland hypridle hyprlock hyprcursor hyprshot
+    hyprland hypridle hyprlock hyprcursor hyprshot
     waybar swaync swww
     matugen-bin python-pywal16 python-pywalfox
+    bibata-cursor-theme
 
     # Desktop Apps
     vesktop spotify spicetify-cli
 
     # Shell
-    starship zoxide mise
+    zsh nushell carapace-bin starship zoxide mise
     eza atuin chromashift-git waytune-git
 
     # CLI
@@ -42,6 +43,14 @@ _print "Stowing the dotfiles"
 
 _print "Setting Default shell to zsh"
 sudo chsh --shell /bin/zsh "$USER"
+
+_print "Installing nushell caches"
+mkdir -p ~/.cache/nushell/
+carapace _carapace nushell >~/.cache/nushell/starship.nu
+starship init nu >~/.cache/nushell/starship.nu
+zoxide init nushell --cmd cd >~/.cache/nushell/zoxide.nu
+atuin init nu --disable-up-arrow --disable-ctrl-r >~/.cache/nushell/atuin.nu
+mise activate nu >~/.cache/nushell/atuin.nu
 
 _print "Stowing dotfiles"
 stow -t "$HOME/" . -vv

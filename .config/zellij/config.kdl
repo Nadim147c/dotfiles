@@ -198,6 +198,9 @@ plugins {
     }
 }
 
+default_shell "nu"
+session_serialization false
+
 pane_frames false
 
 serialize_pane_viewport true
@@ -225,5 +228,5 @@ mouse_mode true
 
 scroll_buffer_size 10000
 
-// copy_command "wl-copy"                    
+// copy_command "wl-copy"
 scrollback_editor "vim"
