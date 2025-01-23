@@ -12,7 +12,7 @@ workspaces = false
 filter_mode_shell_up_key_binding = "global"
 search_mode_shell_up_key_binding = "skim"
 
-style = "compact"
+# style = "compact"
 invert = true
 inline_height = 20
 
