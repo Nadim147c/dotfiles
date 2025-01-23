@@ -1,22 +1,13 @@
 # Git
-alias g = git
-alias ga = git add
 alias gpl = git pull
 alias gph = git push
 alias gr = git reset
 alias gcm = git commit
 alias gaa = git add -A
-alias gt = git status
-alias gd = git diff
 alias gpr = git pull --rebase
-alias gst = git status
-alias grh = git reset --hard
-alias grs = git reset --soft
-alias grhh = git reset --hard HEAD
-alias grsh = git reset --soft HEAD
 
 # Print git log as nushell table
-def "git nlog" [
+def gnl [
     --long # All item parsed on the table
 ]: nothing -> table {
     # There is invalid parsing error in nushell
