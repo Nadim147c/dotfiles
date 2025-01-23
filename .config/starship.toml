@@ -38,11 +38,12 @@ style = 'yellow'
 
 [shell]
 format = '$indicator'
-fish_indicator = '󰈺 '
-powershell_indicator = '󰨊 '
-bash_indicator = ' '
-cmd_indicator = ' '
+fish_indicator = '󰈺'
+powershell_indicator = '󰨊'
+bash_indicator = ''
+cmd_indicator = ''
 zsh_indicator = '[Z](bold)'
+nu_indicator = "[󰟆](green)"
 unknown_indicator = '$'
 disabled = false
 
