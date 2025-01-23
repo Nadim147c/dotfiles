@@ -2,6 +2,8 @@
 alias ll = ls --long --du
 alias l = ls -lam
 alias la = ls -a
+alias fn = ^find
+
 alias dotsync = stow -d ~/git/dotfiles/ -t ~/ .
 
 # Core utils
