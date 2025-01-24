@@ -52,7 +52,7 @@ def zc [] {
     _zellij_check
 
     let git_dir = ($env.HOME | path join "git")
-    let repos = (ls $git_dir --full-paths | get name | each { |x| echo $x | path basename })
+    let repos = (ls $git_dir --full-paths | get name | each { |x| $x | path basename } | each { |x| $"(ansi green)($x)" })
 
     if ($repos | is-empty) {
         echo "Git directory list is empty"
