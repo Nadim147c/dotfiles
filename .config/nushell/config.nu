@@ -56,6 +56,10 @@ $env.config.completions = {
     use_ls_colors: true
 }
 
+$env.config.hooks.command_not_found = {|cmd|
+    findpkg $cmd
+}
+
 let zoxide_completer = {|spans|
     $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
 }
