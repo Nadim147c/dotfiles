@@ -3,11 +3,11 @@ alias ll = ls --long --du
 alias l = ls -lam
 alias la = ls -a
 alias fn = ^find
+alias n = pnpm
 
 alias dotsync = stow -d ~/git/dotfiles/ -t ~/ .
 
 # Core utils
-alias df = ^df -h
 alias du = ^du -h
 alias grep = ^grep --color
 alias less = ^less -r -F
