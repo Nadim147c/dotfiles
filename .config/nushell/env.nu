@@ -1,4 +1,4 @@
-$env.TRANSIENT_PROMPT_INDICATOR = $"(ansi red)=>> "
+$env.TRANSIENT_PROMPT_INDICATOR = $"(ansi red)=>> (ansi reset)"
 $env.TRANSIENT_PROMPT_COMMAND =  ""
 
 $env.LS_COLORS = (vivid generate catppuccin-mocha | str trim)

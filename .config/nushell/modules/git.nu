@@ -7,7 +7,7 @@ alias gaa = git add -A
 alias gpr = git pull --rebase
 
 # Print git log as nushell table
-def gnl [
+def "nit log" [
     --long # All item parsed on the table
 ]: nothing -> table {
     # There is invalid parsing error in nushell
@@ -19,3 +19,4 @@ def gnl [
         $log | upsert date {|it| $it.date | into datetime} | select commit subject name date
     }
 }
+
