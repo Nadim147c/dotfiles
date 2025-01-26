@@ -7,6 +7,7 @@ PKGS=(
     waybar swaync swww
     matugen-bin python-pywal16 python-pywalfox
     bibata-cursor-theme
+    nautilus loupe dolphin
 
     # Desktop Apps
     vesktop spotify spicetify-cli
