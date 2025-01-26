@@ -60,7 +60,7 @@ def zc [] {
     }
 
     let name = ($repos | to text |
-        fzf --ansi --preview $"fd --hidden --exclude '.git' --color always . ($git_dir)/{}")
+        fzf --ansi --preview $"tree -C --gitignore ($git_dir)/{}")
 
     if $name == null {
         _error "No Session selected"
