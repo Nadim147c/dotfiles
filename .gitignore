@@ -7,8 +7,3 @@
 
 # Nushell history
 .config/nushell/history*
-
-# Spicetify
-.config/spicetify
-!.config/spicetify/Themes/Sleek
-!.config/spicetify/config-xpui.ini
