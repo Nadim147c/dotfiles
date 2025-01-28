@@ -1,0 +1,70 @@
+(include "variables.yuck")
+
+(defwindow music_window
+    :monitor 0 ;; Optional for X11
+    :stacking "fg"
+    :windowtype "normal"
+    :wm-ignore false
+    :geometry (geometry
+        :width "400px"
+        :height "200px"
+        :anchor "top right"
+        :x "20px"
+    )
+    (music_widget)
+)
+
+
+(defwidget music_widget []
+    (revealer
+        :transition "slideup"
+        :reveal {mpris == "{}" ? false : mpris.player == "" ? false : true}
+        :duration {ANIM_DURATION}
+
+        (box
+            :orientation "v"
+            :class "music"
+            :space-evenly false
+            (box :orientation "h" :space-evenly false
+                (box :orientation "h" :space-evenly false :class "music-image" :style "background-image: url('${mpris.art}');")
+                (box :orientation "v" :space-evenly false :class "music-text" :hexpand true
+                    (box :orientation "h" :space-evenly false :halign "end" :class "music-player"
+                        (label :text {mpris.player})
+                    )
+                    (box :orientation "v" :space-evenly false
+                        (label :halign "start" :class "music-title" :limit-width 20 :text {mpris.title})
+                        (label :halign "start" :class "music-artist" :limit-width 20 :text {mpris.artist})
+                    )
+                )
+            )
+
+            (box
+                :orientation "v"
+                :space-evenly false
+                :class "music-scale-box"
+                :visible {mpris.length == 0 ? false : true}
+                (scale
+                    :min 0
+                    :max {mpris.length}
+                    :active true
+                    :value {mpris.position}
+                    ;; :onchange "playerctl position {}"
+                    :class "music-scale")
+                ;; (box :orientation "h" :space-evenly false :hexpand true
+                ;;     (label :hexpand true :class "music-strtime" :text {mpris.position} :halign "start")
+                ;;     (label :hexpand true :class "music-strtime" :text {mpris.length} :halign "end")
+                ;; )
+            )
+
+            (box
+                :orientation "h"
+                :space-evenly false
+                :halign "center"
+                :class "music-actions-box"
+                (button :class "music-action" :onclick "playerctl previous" "󰒮")
+                (button :class "music-action" :onclick "playerctl play-pause" {mpris.status == "Playing" ? "󰓛" : "󰐊"})
+                (button :class "music-action" :onclick "playerctl next" "󰒭")
+            )
+        )
+    )
+)
