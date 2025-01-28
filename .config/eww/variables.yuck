@@ -1,0 +1,48 @@
+; VARS
+
+(defvar clipboard "[]")
+(defvar ANIM_DURATION "500ms")
+
+(deflisten mpris
+    :initial "{}"
+    "scripts/mpris.nu"
+)
+
+; POLLS
+
+;; (defpoll recording :interval "1s"
+;; "pgrep 'wf-recorder' || echo false")
+;;
+;; ; LISTENS
+;;
+;; (deflisten network :initial '{"essid": "lo", "signal": ""}'
+;; "scripts/network.sh")
+;;
+;; (deflisten kb_layout :initial "en"
+;; "scripts/get_kb_layout.sh")
+;;
+;; (deflisten volume :initial "0"
+;; "scripts/volume.sh")
+;;
+;; (deflisten current_workspace :initial "1"
+;; "scripts/get_active_workspace.sh")
+
+
+;;
+;; (deflisten do-not-disturb :initial false
+;; "scripts/notifications.sh getdnd")
+;;
+;; (deflisten workspaces :initial "[{'window'}]"
+;; "scripts/workspaces.sh")
+;;
+;; (deflisten weather :initial "null"
+;; "scripts/weather.py")
+;;
+;; (deflisten current_theme :initial "dark"
+;; "scripts/material.py --current")
+;;
+;; (deflisten notifications :initial '{"count": 0, "notifications": [], "popups": []}'
+;; "scripts/notifications.sh current")
+;;
+;; (deflisten apps :initial "{}"
+;; "scripts/apps.py")
