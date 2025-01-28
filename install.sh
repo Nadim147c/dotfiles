@@ -51,7 +51,7 @@ carapace _carapace nushell >~/.cache/nushell/starship.nu
 starship init nu >~/.cache/nushell/starship.nu
 zoxide init nushell --cmd cd >~/.cache/nushell/zoxide.nu
 atuin init nu --disable-up-arrow --disable-ctrl-r >~/.cache/nushell/atuin.nu
-mise activate nu >~/.cache/nushell/atuin.nu
+mise activate nu >~/.cache/nushell/mise.nu
 
 _print "Stowing dotfiles"
 stow -t "$HOME/" . -vv
