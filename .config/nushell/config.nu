@@ -50,7 +50,7 @@ $env.config.history = {
 $env.config.completions = {
     algorithm: "fuzzy"
     sort: "smart"
-    case_sensitive: true
+    case_sensitive: false
     quick: true
     partial: true
     use_ls_colors: true
@@ -61,7 +61,7 @@ $env.config.hooks.command_not_found = {|cmd|
 }
 
 let zoxide_completer = {|spans|
-    $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
+    $spans | skip 1 | zoxide query -l ...$in | lines
 }
 
 let external_completer = {|spans|
