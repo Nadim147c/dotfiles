@@ -8,7 +8,7 @@ def pacman_installed_pkgs [] {
     pacman -Qq | lines
 }
 
-def _fuzzy_package_select [] {
+def _fuzzy_package_select [--installed] {
     let fzf_flags = [
         '--multi'
         '--prompt=Search: '
@@ -17,7 +17,12 @@ def _fuzzy_package_select [] {
         `--preview=echo {+}; printf '\n\n\n'; pacman -Si {}`
     ]
 
-    pacman -Slq | fzf ...$fzf_flags | lines
+    if $installed {
+        pacman -Qq | fzf ...$fzf_flags | lines
+    } else {
+        pacman -Slq | fzf ...$fzf_flags | lines
+    }
+
 }
 
 # Installs the specified packages using pacman, but only if they are not already installed.
@@ -101,15 +106,37 @@ def "pac own" [
 
 # Removes the specified installed packages and their unused dependencies.
 def "pac rm" [
+    --interactive(-i) # Select packages with fzf
     ...pkgs: string@pacman_installed_pkgs # List of packages to remove
 ]: nothing -> nothing {
+    if $interactive {
+        let packages = (_fuzzy_package_select --installed)
+        if ($packages | is-empty) {
+            error make --unspanned { msg: "No package selected" }
+        }
+
+        sudo pacman -Rs ...$packages
+        return
+    }
+
     sudo pacman -Rs ...$pkgs
 }
 
 # Removes the specified installed packages and their unused dependencies.
 def "pac remove" [
+    --interactive(-i) # Select packages with fzf
     ...pkgs: string@pacman_installed_pkgs # List of packages to remove
 ]: nothing -> nothing {
+    if $interactive {
+        let packages = (_fuzzy_package_select --installed)
+        if ($packages | is-empty) {
+            error make --unspanned { msg: "No package selected" }
+        }
+
+        sudo pacman -Rs ...$packages
+        return
+    }
+
     sudo pacman -Rs ...$pkgs
 }
 
