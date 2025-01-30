@@ -8,24 +8,87 @@ def pacman_installed_pkgs [] {
     pacman -Qq | lines
 }
 
+def _fuzzy_package_select [] {
+    let fzf_flags = [
+        '--multi'
+        '--prompt=Search: '
+        '--header=Use <Tab> key for selecting'
+        '--preview-label=Selected packages'
+        `--preview=echo {+}; printf '\n\n\n'; pacman -Si {}`
+    ]
+
+    pacman -Slq | fzf ...$fzf_flags | lines
+}
+
 # Installs the specified packages using pacman, but only if they are not already installed.
 def "pac add" [
+    --interactive(-i) # Select packages with fzf
+    --paru # Use paru instead of pacman
     ...pkgs: string@pacman_pkgs # List of packages to install
 ]: nothing -> nothing {
-    sudo pacman -S --needed ...$pkgs
+    mut pacman = "pacman"
+    if $paru {
+        $pacman = "paru"
+    }
+
+    if $interactive {
+        let packages = (_fuzzy_package_select)
+        if ($packages | is-empty) {
+            error make --unspanned { msg: "No package selected" }
+        }
+
+        sudo $pacman -S --needed ...$packages
+        return
+    }
+
+    sudo $pacman -S --needed ...$pkgs
 }
 
 # Installs the specified packages using pacman without checking if they are already installed.
 def "pac i" [
+    --interactive(-i) # Select packages with fzf
+    --paru # Use paru instead of pacman
     ...pkgs: string@pacman_pkgs # List of packages to install
 ]: nothing -> nothing {
+    mut pacman = "pacman"
+    if $paru {
+        $pacman = "paru"
+    }
+
+    if $interactive {
+        let packages = (_fuzzy_package_select)
+        if ($packages | is-empty) {
+            error make --unspanned { msg: "No package selected" }
+        }
+
+        sudo $pacman -S ...$packages
+        return
+    }
+
     sudo pacman -S ...$pkgs
 }
 
 # Installs the specified packages using pacman without checking if they are already installed.
 def "pac install" [
+    --interactive(-i) # Select packages with fzf
+    --paru # Use paru instead of pacman
     ...pkgs: string@pacman_pkgs # List of packages to install
 ]: nothing -> nothing {
+    mut pacman = "pacman"
+    if $paru {
+        $pacman = "paru"
+    }
+
+    if $interactive {
+        let packages = (_fuzzy_package_select)
+        if ($packages | is-empty) {
+            error make --unspanned { msg: "No package selected" }
+        }
+
+        sudo $pacman -S ...$packages
+        return
+    }
+
     sudo pacman -S ...$pkgs
 }
 
@@ -52,15 +115,49 @@ def "pac remove" [
 
 # Removes the specified packages and their dependencies before upgrading.
 def "pac upg" [
+    --interactive(-i) # Select packages with fzf
+    --paru # Use paru instead of pacman
     ...pkgs: string@pacman_pkgs # List of packages to install
 ]: nothing -> nothing {
+    mut pacman = "pacman"
+    if $paru {
+        $pacman = "paru"
+    }
+
+    if $interactive {
+        let packages = (_fuzzy_package_select)
+        if ($packages | is-empty) {
+            error make --unspanned { msg: "No package selected" }
+        }
+
+        sudo $pacman -Syu ...$packages
+        return
+    }
+
     sudo pacman -Syu ...$pkgs
 }
 
 # Removes the specified packages and their dependencies before upgrading.
 def "pac upgrade" [
+    --interactive(-i) # Select packages with fzf
+    --paru # Use paru instead of pacman
     ...pkgs: string@pacman_pkgs # List of packages to install
 ]: nothing -> nothing {
+    mut pacman = "pacman"
+    if $paru {
+        $pacman = "paru"
+    }
+
+    if $interactive {
+        let packages = (_fuzzy_package_select)
+        if ($packages | is-empty) {
+            error make --unspanned { msg: "No package selected" }
+        }
+
+        sudo $pacman -Syu ...$packages
+        return
+    }
+
     sudo pacman -Syu ...$pkgs
 }
 
