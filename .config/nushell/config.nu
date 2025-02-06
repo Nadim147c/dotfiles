@@ -48,38 +48,28 @@ $env.config.history = {
 }
 
 $env.config.completions = {
-    algorithm: "fuzzy"
+    algorithm: "prefix"
     sort: "smart"
     case_sensitive: false
     quick: true
     partial: true
     use_ls_colors: true
 }
+$env.config.use_kitty_protocol = true
 
 $env.config.hooks.command_not_found = {|cmd|
     findpkg $cmd
 }
 
-let zoxide_completer = {|spans|
-    $spans | skip 1 | zoxide query -l ...$in | lines
-}
+$env.config.display_errors.termination_signal = false
+$env.config.footer_mode = "auto"
 
-let external_completer = {|spans|
-    let expanded_alias = scope aliases | where name == $spans.0 | get -i 0.expansion
-
-    let spans = if $expanded_alias != null {
-        $spans | skip 1 | prepend ($expanded_alias | split row ' ' | take 1)
-    } else {
-        $spans
+$env.config.keybindings ++= [
+    {
+        name: completion_menu
+        modifier: none
+        keycode: Tab
+        mode: emacs
+        event: { send: menu name: completion_menu }
     }
-
-    match $spans.0 {
-        __zoxide_z | __zoxide_zi => $zoxide_completer
-        _ => $carapace_completer
-    } | do $in $spans
-}
-
-$env.config.completions.external =  {
-    enable: true
-    completer: $external_completer
-}
+]

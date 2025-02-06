@@ -12,14 +12,24 @@ def post_hooks [] {
     swaync-client --reload-css
     pywalfox update
 
-    # Reload spotify (spicetify)
+    # # Reload spotify (spicetify)
     if (ps --long | where command =~ "spicetify watch -s" | is-empty) {
         hyprctl dispatch -- exec spicetify watch -s
+    }
+
+    # Reload Goofcord discord mod
+    let goofcord = ("~/.config/goofcord/GoofCord/settings.json" | path expand)
+    if ($goofcord | path exists) {
+        let discordCss = (open ~/.cache/matugen/discord.css | to text)
+        open $goofcord |
+        upsert quickcss $discordCss |
+        upsert quickcss_time { date now } |
+        save -f $goofcord
     }
 }
 
 def get_walpaper []: nothing -> string {
-    let current_wallpaper = (swww query | grep -o '/.\+$' | lines)
+    let current_wallpaper = (swww query | grep -o '/.\+$' | lines | str trim)
 
     mkdir ~/Pictures/Wallpapers/
 
