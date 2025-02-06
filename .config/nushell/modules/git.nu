@@ -20,3 +20,10 @@ def "nit log" [
     }
 }
 
+# Print print list of git authors
+def "nit authors" []: nothing -> table {
+    # There is invalid parsing error in nushell
+    let log = (sh -c "git log --pretty=%aN»¦«%aE" | lines | reverse | split column "»¦«" name email)
+
+    $log | uniq --count | each {|it| $it.value | upsert commits $it.count}
+}

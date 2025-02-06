@@ -330,8 +330,10 @@ def "pac clean" [
 
     print $"(ansi green)Clearing pacman caches...(ansi reset)"
 
-    paccache -vruk1
-    paccache -vrk2 -c /var/cache/pacman/pkg
+    # Keep last 2 version of installed package
+    paccache -vrk2
+    # Delete all version of uninstalled package
+    paccache -vruk0
 
     mut aur_cache_dirs = []
 
@@ -348,14 +350,16 @@ def "pac clean" [
         }
     }
 
+    # Keep last 2 version of installed package
+    paccache -vrk2 -c ...$aur_cache_dirs
+    # Delete all version of uninstalled package
+    paccache -ruvk0 -c ...$aur_cache_dirs
+
     for dir in $aur_cache_dirs {
-        print $"Clearing the cache from '(dir)'"
-
-        ^paccache -vrk2 $dir | grep "removed '.*'"
-
-        let deleted = (^paccache -ruvk0 -c $dir err> /dev/null | grep "removed '.*'" | cut -d `'` -f2 | lines)
-        for file in $deleted {
-            rm -rf ($file | path dirname)
+        if (ls $dir | where name =~ '.*\.tar\.zst' | is-empty) {
+            print $"Clearing the cache from '($dir)'"
+            rm -vrf $dir
+            continue
         }
     }
 }
