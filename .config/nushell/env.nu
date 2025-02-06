@@ -3,7 +3,7 @@ $env.TRANSIENT_PROMPT_COMMAND = false
 
 $env.LS_COLORS = (vivid generate catppuccin-mocha | str trim)
 
-let custom_path = [
+$env.Path = $env.Path ++ [
     "/usr/local/go/bin"
     $"($env.HOME)/.local/bin"
     $"($env.HOME)/.cargo/bin"
@@ -14,7 +14,6 @@ let custom_path = [
     $"($env.HOME)/.local/share/go/bin/"
     $"($env.HOME)/git/jsutils/bin"
 ]
-$env.Path = ($env.Path | append $custom_path)
 
 $env.GOPATH = $"($env.HOME)/.local/share/go"
 $env.PNPM_HOME = $"($env.HOME)/.local/share/pnpm/"
