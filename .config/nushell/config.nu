@@ -64,6 +64,27 @@ $env.config.hooks.command_not_found = {|cmd|
 $env.config.display_errors.termination_signal = false
 $env.config.footer_mode = "auto"
 
+$env.config.color_config.shape_external_resolved = true
+
+$env.config.color_config = {
+    shape_globpattern: blue
+    shape_filepath: magenta
+    shape_redirection: red
+    shape_string: red
+    shape_flag: red
+    shape_external: blue
+    shape_pipe: yellow
+
+    header: blue
+    glob: blue
+    float: yellow
+    int: yellow
+    bool: {if $in { "yellow" } else { "blue" }}
+    date: green
+    separator: black
+    row_index: yellow
+}
+
 $env.config.keybindings ++= [
     {
         name: completion_menu
