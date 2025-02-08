@@ -29,6 +29,7 @@ def ff [] { clear; ^fastfetch }
 source ~/.config/nushell/modules/archlinux.nu
 source ~/.config/nushell/modules/git.nu
 source ~/.config/nushell/modules/zellij.nu
+source ~/.config/nushell/modules/yt-dlp.nu
 
 source ~/.cache/nushell/carapace.nu
 source ~/.cache/nushell/starship.nu
@@ -84,13 +85,3 @@ $env.config.color_config = {
     separator: black
     row_index: yellow
 }
-
-$env.config.keybindings ++= [
-    {
-        name: completion_menu
-        modifier: none
-        keycode: Tab
-        mode: emacs
-        event: { send: menu name: completion_menu }
-    }
-]

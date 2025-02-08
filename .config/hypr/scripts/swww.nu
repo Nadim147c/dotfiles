@@ -22,9 +22,9 @@ def post_hooks [] {
     if ($goofcord | path exists) {
         let discordCss = (open ~/.cache/matugen/discord.css | to text)
         open $goofcord |
-        upsert quickcss $discordCss |
-        upsert quickcss_time { date now } |
-        save -f $goofcord
+            upsert quickcss $discordCss |
+            upsert quickcss_time { date now } |
+            save -f $goofcord
     }
 }
 
