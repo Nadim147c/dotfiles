@@ -8,9 +8,13 @@ output_path = '~/.cache/matugen/hyprland.conf'
 input_path = '~/.config/matugen/templates/kitty.conf'
 output_path = '~/.cache/matugen/kitty.conf'
 
-[templates.gtk]
+[templates.gtk-colors]
 input_path = '~/.config/matugen/templates/gtk-colors.css'
 output_path = '~/.cache/matugen/gtk-colors.css'
+
+[templates.gtk]
+input_path = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.cache/matugen/gtk.css'
 
 [templates.scss]
 input_path = '~/.config/matugen/templates/colors.scss'
