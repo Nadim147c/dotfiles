@@ -26,6 +26,15 @@ alias ffmpeg = ^ffmpeg -hide_banner
 def man [...$rest: any] { ^batman ...$rest }
 def ff [] { clear; ^fastfetch }
 
+
+# Choose a random item from a table or list
+def "random choose" []: [
+table -> any
+list -> any
+] {
+    $in | get (random int ..<($in | length))
+}
+
 source ~/.config/nushell/modules/archlinux.nu
 source ~/.config/nushell/modules/git.nu
 source ~/.config/nushell/modules/zellij.nu

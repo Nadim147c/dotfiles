@@ -16,6 +16,7 @@
         // "memory",
         "network",
         "custom/pipewire",
+        "custom/mic",
         "tray",
         // "custom/wallpaper",
         "clock",
@@ -92,7 +93,6 @@
         "interval": 1,
     },
     "memory": {
-        // Fixes Nerdfont width: add half with space
         "format": " <span><small><sup> </sup></small></span>{used:0.1f}GiB",
         "tooltip": true,
         "tooltip-format": "Ram: {percentage}% {used}/{total}GiB\nSwap: {swapPercentage}% {swapUsed}/{swapTotal}GiB",
@@ -131,6 +131,18 @@
         },
         "exec-if": "which waytune",
         "exec": "waytune weather --unit c",
+    },
+    "custom/mic": {
+        "interval": 1,
+        "signal": 4,
+        "return-type": "json",
+        "format": "{icon}",
+        "format-icons": {
+            "normal": "",
+            "muted": " ",
+        },
+        "exec": "~/.config/waybar/scripts/mic.nu",
+        "on-click": "~/.config/waybar/scripts/mic.nu --toggle",
     },
     "custom/pipewire": {
         "interval": 1,

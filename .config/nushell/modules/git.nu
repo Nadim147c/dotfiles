@@ -10,13 +10,19 @@ def _error [msg: string] {
     error make --unspanned { msg: $msg }
 }
 
+def _git_check [] {
+    let work_tree = ((git rev-parse --is-inside-work-tree | complete | get exit_code) != 0)
+    let git_directory = ((git rev-parse --is-inside-git-dir | complete | get exit_code) != 0)
+    if $work_tree and $git_directory {
+        _error "Not inside a git repo"
+    }
+}
+
 # Print git log as nushell table
 def "nit log" [
     --long # All item parsed on the table
 ]: nothing -> table {
-    if (git rev-parse --is-inside-work-tree | complete | get exit_code) != 0 {
-        _error "Not inside a git work tree"
-    }
+    _git_check
     # There is invalid parsing error in nushell
     let log = (git log --pretty=%h»¦«%s»¦«%aN»¦«%aD»¦«%H»¦«%aE | lines | reverse | split column "»¦«" commit subject name date hash email)
 
@@ -29,9 +35,7 @@ def "nit log" [
 
 # Print print list of git authors
 def "nit authors" []: nothing -> table {
-    if (git rev-parse --is-inside-work-tree | complete | get exit_code) != 0 {
-        _error "Not inside a git work tree"
-    }
+    _git_check
 
     # There is invalid parsing error in nushell
     let log = (git log --pretty=%aN»¦«%aE | lines | split column "»¦«" name email)
@@ -41,9 +45,7 @@ def "nit authors" []: nothing -> table {
 
 # Print print list of git authors
 def "nit summary" []: nothing -> record {
-    if (git rev-parse --is-inside-work-tree | complete | get exit_code) != 0 {
-        _error "Not inside a git work tree"
-    }
+    _git_check
 
     let commits = (
         git log --pretty="%aN»¦«%aE»¦«%aD" |
@@ -74,7 +76,6 @@ def "nit summary" []: nothing -> record {
     let streak = ($days | uniq --count | sort-by count --reverse | rename date commits | first 3)
 
     let files = (git ls-files | wc -l | into int)
-    let lines = (git ls-files | lines | each { wc -l $in } | split column " " | get column1 | into int | math sum)
 
     let branch = (git rev-parse --abbrev-ref HEAD)
 
@@ -86,7 +87,6 @@ def "nit summary" []: nothing -> record {
         commits: $total_commits
         active: $"($active) days"
         files: $files
-        lines: $lines
         streak: $streak
         authors: $authors
     }

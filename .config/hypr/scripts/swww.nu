@@ -1,6 +1,8 @@
 #!/bin/nu
 
 def post_hooks [] {
+    install -vDm644 ~/.cache/matugen/gtk.css ~/.config/gtk-3.0/gtk.css
+    install -vDm644 ~/.cache/matugen/gtk.css ~/.config/gtk-4.0/gtk.css
     install -vDm644 ~/.cache/matugen/discord.css ~/.config/vesktop/settings/quickCss.css
     install -vDm644 ~/.cache/matugen/colors.scss ~/.config/eww/styles/colors.scss
     install -vDm644 ~/.cache/matugen/spicetify.ini ~/.config/spicetify/Themes/Sleek/color.ini
@@ -18,14 +20,17 @@ def post_hooks [] {
     }
 
     # Reload Goofcord discord mod
-    let goofcord = ("~/.config/goofcord/GoofCord/settings.json" | path expand)
-    if ($goofcord | path exists) {
-        let discordCss = (open ~/.cache/matugen/discord.css | to text)
-        open $goofcord |
-            upsert quickcss $discordCss |
-            upsert quickcss_time { date now } |
-            save -f $goofcord
-    }
+    # Not consistance
+    # let goofcord = ("~/.config/goofcord/GoofCord/settings.json" | path expand)
+    # if ($goofcord | path exists) {
+    #     let discordCss = (open ~/.cache/matugen/discord.css | to text)
+    #     open $goofcord |
+    #         upsert quickcss $discordCss |
+    #         upsert quickcss_time { date now } |
+    #         save -f $goofcord
+    # }
+    # Reload goofcord with python script
+    python ~/.config/hypr/scripts/goofcord.py
 }
 
 def get_walpaper []: nothing -> string {
@@ -57,12 +62,14 @@ def set_wallpaper [wallpaper: string] {
 
     print $"Setting wallpaper \(($cursor.x),($cursor.y)\) '($wallpaper)'"
 
+    let animation = [grow outer] | get (random int 0..1)
     let swww_flags = [
         --invert-y
-        --transition-type=grow
         --transition-fps=60
+        --transition-step=60
         --transition-duration=0.6
         "--transition-bezier=.43,1.19,1,.4"
+        $"--transition-type=($animation)"
         $"--transition-pos=($cursor.x),($cursor.y)"
     ]
 
