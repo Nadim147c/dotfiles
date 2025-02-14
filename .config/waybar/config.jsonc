@@ -149,13 +149,12 @@
         "format": "{icon} {percentage}%",
         "format-icons": {
             "normal": ["", "", ""],
-            "muted": [" "],
+            "muted": " ",
         },
-        "exec-if": "which waytune",
-        "exec": "waytune pipewire",
+        "exec": "~/.config/waybar/scripts/pipewire.nu",
         "on-click": "pavucontrol",
-        "on-scroll-up": "waytune pipewire --up 2",
-        "on-scroll-down": "waytune pipewire --down 2",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ '2%+'",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ '2%-'",
     },
     "custom/wallpaper": {
         "tooltip-format": "Change wallpaper",
