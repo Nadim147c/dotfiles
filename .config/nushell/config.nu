@@ -28,17 +28,13 @@ def ff [] { clear; ^fastfetch }
 
 
 # Choose a random item from a table or list
-def "random choose" []: [
-table -> any
-list -> any
-] {
-    $in | get (random int ..<($in | length))
-}
+def "get random" [] { $in | get (random int ..<($in | length)) }
 
 source ~/.config/nushell/modules/archlinux.nu
 source ~/.config/nushell/modules/git.nu
 source ~/.config/nushell/modules/zellij.nu
 source ~/.config/nushell/modules/yt-dlp.nu
+source ~/.config/nushell/modules/organize.nu
 
 source ~/.cache/nushell/carapace.nu
 source ~/.cache/nushell/starship.nu
