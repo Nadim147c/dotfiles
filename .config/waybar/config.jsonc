@@ -76,6 +76,7 @@
     "clock": {
         "format": " {:%I:%M%p}",
         "tooltip-format": "<big>{:%d %B %Y}</big>\n<tt>{calendar}</tt>",
+        "on-click": "gnome-calendar",
     },
     "network": {
         "interval": 5,
