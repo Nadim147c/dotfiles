@@ -89,6 +89,7 @@ audio/x-vorbis+ogg=mpv.desktop;
 audio/x-wav=mpv.desktop;
 image/jpeg=org.gnome.Loupe.desktop;
 image/png=org.gnome.Loupe.desktop;
+image/webp=org.gnome.Loupe.desktop;
 text/html=zen.desktop;
 text/markdown=org.kde.kwrite.desktop;
 text/plain=org.kde.kwrite.desktop;
