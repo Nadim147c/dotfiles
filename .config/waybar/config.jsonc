@@ -43,7 +43,7 @@
         "format": "{icon} {0}",
         "format-icons": [""],
         "exec-if": "! docker ps --quiet",
-        "exec": "~/.config/waybar/scripts/docker.nu",
+        "exec": "waybar-docker.nu",
     },
     "hyprland/workspaces": {
         "on-click": "activate",
@@ -140,8 +140,8 @@
             "normal": "",
             "muted": " ",
         },
-        "exec": "~/.config/waybar/scripts/mic.nu",
-        "on-click": "~/.config/waybar/scripts/mic.nu --toggle",
+        "exec": "waybar-mix.nu",
+        "on-click": "waybar-mix.nu --toggle",
     },
     "custom/pipewire": {
         "interval": 1,
@@ -152,7 +152,7 @@
             "normal": ["", "", ""],
             "muted": " ",
         },
-        "exec": "~/.config/waybar/scripts/pipewire.nu",
+        "exec": "waybar-pipewire.nu",
         "on-click": "pavucontrol",
         "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ '2%+'",
         "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ '2%-'",

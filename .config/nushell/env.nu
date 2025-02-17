@@ -15,6 +15,8 @@ $env.Path = $env.Path ++ [
     $"($env.HOME)/git/jsutils/bin"
 ]
 
+$env.PATH = ($env.PATH | str replace --regex '/$' '' | uniq)
+
 $env.GOPATH = $"($env.HOME)/.local/share/go"
 $env.PNPM_HOME = $"($env.HOME)/.local/share/pnpm/"
 
