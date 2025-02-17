@@ -5,7 +5,7 @@ alias la = ls -a
 alias fn = ^find
 alias n = pnpm
 
-alias dotsync = stow -d ~/git/dotfiles/ -t ~/ .
+alias dotsync = stow -d ~/git/dotfiles/ -t ~/ --no-folding .
 
 # Core utils
 alias du = ^du -h
