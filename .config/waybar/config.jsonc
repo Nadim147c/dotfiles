@@ -80,8 +80,8 @@
     },
     "network": {
         "interval": 5,
-        "format-wifi": " {bandwidthTotalBits}",
-        "format-ethernet": " {bandwidthTotalBits}",
+        "format-wifi": " {bandwidthTotalBytes}",
+        "format-ethernet": " {bandwidthTotalBytes}",
         "format-linked": "󰛵 (No IP)",
         "format-disconnected": " ",
         "tooltip-format": "Upload Speed: {bandwidthUpBytes}\nDownload Speed: {bandwidthDownBytes}",
