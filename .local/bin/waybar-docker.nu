@@ -5,13 +5,12 @@ def main [] {
     let tooltip = (
         $stats |
         each {|it| {
-            Name: ($it.Name | str replace "_" " " | str title-case)
+            Name: ($it.Name | str replace --regex "_|-" " " | str title-case)
             Mem: $it.MemPerc
             CPU: $it.CPUPerc
         }} |
         table -i false |
-        ansi strip |
-        str trim
+        ansi strip | lines | str substring -g 1..-2 | drop nth 0 | drop 1 | str join "\n"
     )
 
     let text = ($stats | length)
