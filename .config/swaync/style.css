@@ -45,7 +45,6 @@ switch:checked {
 }
 
 switch slider {
-    margin: 0.3em;
     box-shadow: none;
     border: none;
     background: @on_primary_container;
@@ -64,8 +63,4 @@ button {
     border-radius: 2em;
     color: @on_primary_container;
     background-color: @primary_container;
-}
-
-.notification button {
-    margin: 0.3em;
 }
