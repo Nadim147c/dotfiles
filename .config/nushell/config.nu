@@ -28,7 +28,10 @@ def ff [] { clear; ^fastfetch }
 
 
 # Choose a random item from a table or list
-def "get random" [] { $in | get (random int ..<($in | length)) }
+def "get random" [] {
+    if $in == null { error make --unspanned { msg: "Input must be a table or list" } }
+    $in | get (random int ..<($in | length))
+}
 
 source ~/.config/nushell/modules/archlinux.nu
 source ~/.config/nushell/modules/git.nu
