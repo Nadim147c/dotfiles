@@ -200,6 +200,7 @@ plugins {
 
 default_shell "nu"
 session_serialization false
+support_kitty_keyboard_protocol true
 
 pane_frames false
 
