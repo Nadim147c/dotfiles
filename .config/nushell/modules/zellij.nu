@@ -1,6 +1,6 @@
 let zellij_status_bar = (open ~/.config/zellij/status.kdl)
 
-def _error [msg: string] {
+def "error message" [msg: string] {
     error make --unspanned { msg: $msg }
 }
 
@@ -12,11 +12,11 @@ def _zellij_zoxide_add [path: string] {
 
 def _zellij_check [] {
     if (which zellij | length) == 0 {
-        _error "zellij multiplexer doesn't exist"
+        error message "zellij multiplexer doesn't exist"
     }
 
     if "ZELLIJ" in $env {
-        _error "This operation isn't allowed inside a session"
+        error message "This operation isn't allowed inside a session"
     }
 }
 
@@ -51,22 +51,24 @@ def zk [] { zellij kill-all-sessions --yes }
 def zc [] {
     _zellij_check
 
-    let git_dir = ($env.HOME | path join "git")
-    let repos = (ls $git_dir --full-paths | get name | each { |x| echo $x | path basename })
+    let projects = [
+        $"($env.HOME)/git"
+    ]
+    let repos = (fd . ~/git --color=always --max-depth 1 --min-depth 1 | lines | str replace $env.HOME '~')
 
     if ($repos | is-empty) {
-        echo "Git directory list is empty"
-        return
+        error message "Git directory list is empty"
     }
 
-    let name = ($repos | to text |
-        fzf --ansi --preview $"tree -C --gitignore ($git_dir)/{}")
+    let selected = ($repos | to text | fzf --ansi --preview $"sh -c 'tree -C --gitignore {}'")
 
-    if $name == null {
-        _error "No Session selected"
+    if $selected == null {
+        error message "No Session selected"
     }
 
-    let directory = ($git_dir | path join $name)
+    let name = ($selected | path basename | str replace --regex "\\.| " "-")
+
+    let directory = ($selected | path expand)
 
     _zellij_zoxide_add $directory
 
@@ -98,7 +100,7 @@ def zr [] {
 def zn [] {
     _zellij_check
 
-    let default_name = (pwd | path basename | str replace "." "_" | str replace " " "_")
+    let default_name = (pwd | path basename | str replace --regex "\\.| " "_")
 
     let name = (input -d $default_name "What is the name of the session? ")
 
