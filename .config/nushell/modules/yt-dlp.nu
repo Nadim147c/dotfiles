@@ -11,7 +11,7 @@ def "video" [
     --threads = 4: int # Number of concurrent downloads
     --browser: string # Name of the browser to use cookies from
     --sections: string # Section of the video to download. timestamp must start with * (ex: '*0.11-0.50')"
-    --save = "~/Downloads/videos": string # Where to save downloaded video
+    --save = "~/Downloads/Video": string # Where to save downloaded video
     url: string # URL of the video to download
 ]: nothing -> any {
     let filename = "%(title)s-%(id)s.%(ext)s"

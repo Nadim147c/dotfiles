@@ -26,6 +26,7 @@ alias ffmpeg = ^ffmpeg -hide_banner
 def man [...$rest: any] { ^batman ...$rest }
 def ff [] { clear; ^fastfetch }
 
+def --wrapped make [...p] { ^make GO="cshift -- go" ...$p }
 
 # Choose a random item from a table or list
 def "get random" [] {
@@ -38,8 +39,11 @@ source ~/.config/nushell/modules/git.nu
 source ~/.config/nushell/modules/zellij.nu
 source ~/.config/nushell/modules/yt-dlp.nu
 source ~/.config/nushell/modules/organize.nu
+source ~/.config/nushell/modules/ffmpeg.nu
+source ~/.config/nushell/modules/imagemagick.nu
 
 source ~/.cache/nushell/carapace.nu
+source ~/.cache/nushell/chromashift.nu
 source ~/.cache/nushell/starship.nu
 source ~/.cache/nushell/zoxide.nu
 source ~/.cache/nushell/atuin.nu

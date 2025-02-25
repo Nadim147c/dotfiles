@@ -9,8 +9,8 @@ def main [] {
             Mem: $it.MemPerc
             CPU: $it.CPUPerc
         }} |
-        table -i false |
-        ansi strip | lines | str substring -g 1..-2 | drop nth 0 | drop 1 | str join "\n"
+        table -i false --theme compact |
+        ansi strip | lines | drop nth 0 | drop 1 | str join "\n"
     )
 
     let text = ($stats | length)

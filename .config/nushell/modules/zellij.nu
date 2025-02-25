@@ -54,7 +54,8 @@ def zc [] {
     let projects = [
         $"($env.HOME)/git"
     ]
-    let repos = (fd . ~/git --color=always --max-depth 1 --min-depth 1 | lines | str replace $env.HOME '~')
+    let repos = (fd . ~/git --color=always --max-depth 1 --min-depth 1 | lines |
+        str replace $env.HOME $"(ansi red)~(ansi blue)")
 
     if ($repos | is-empty) {
         error message "Git directory list is empty"

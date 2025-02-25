@@ -30,7 +30,7 @@ def post_hooks [] {
     #         save -f $goofcord
     # }
     # Reload goofcord with python script
-    python ~/.config/hypr/scripts/goofcord.py
+    python ~/.local/bin/goofcord.py
 }
 
 def get_walpaper []: nothing -> string {

@@ -48,9 +48,10 @@ sudo chsh --shell /bin/zsh "$USER"
 _print "Installing nushell caches"
 mkdir -p ~/.cache/nushell/
 carapace _carapace nushell >~/.cache/nushell/starship.nu
+cshift alias nu >~/.cache/nushell/chromashift.nu
 starship init nu >~/.cache/nushell/starship.nu
 zoxide init nushell --cmd cd >~/.cache/nushell/zoxide.nu
-atuin init nu --disable-up-arrow --disable-ctrl-r >~/.cache/nushell/atuin.nu
+atuin init nu --disable-up-arrow >~/.cache/nushell/atuin.nu
 mise activate nu >~/.cache/nushell/mise.nu
 
 _print "Stowing dotfiles"
