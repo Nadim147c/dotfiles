@@ -38,6 +38,8 @@ source ~/.config/nushell/modules/git.nu
 source ~/.config/nushell/modules/zellij.nu
 source ~/.config/nushell/modules/yt-dlp.nu
 source ~/.config/nushell/modules/organize.nu
+source ~/.config/nushell/modules/ffmpeg.nu
+source ~/.config/nushell/modules/imagemagick.nu
 
 source ~/.cache/nushell/carapace.nu
 source ~/.cache/nushell/starship.nu

@@ -12,7 +12,6 @@ $env.Path = $env.Path ++ [
     $"($env.HOME)/.spicetify"
     $"($env.HOME)/go/bin"
     $"($env.HOME)/.local/share/go/bin/"
-    $"($env.HOME)/git/jsutils/bin"
 ]
 
 $env.PATH = ($env.PATH | str replace --regex '/$' '' | uniq)
