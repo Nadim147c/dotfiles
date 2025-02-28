@@ -6,6 +6,7 @@ def post_hooks [] {
     install -vDm644 ~/.cache/matugen/discord.css ~/.config/vesktop/settings/quickCss.css
     install -vDm644 ~/.cache/matugen/colors.scss ~/.config/eww/styles/colors.scss
     install -vDm644 ~/.cache/matugen/spicetify.ini ~/.config/spicetify/Themes/Sleek/color.ini
+    install -vDm644 ~/.cache/matugen/ghostty ~/.config/ghostty/colors
 
     # Reload hyprland, kitty, waybar, swaync, firefox
     hyprctl reload

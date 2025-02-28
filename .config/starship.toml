@@ -16,7 +16,7 @@ $character\
 
 continuation_prompt = '[  => ](green bold)'
 
-right_format = '${custom.git_tag}$docker_context$all'
+right_format = '$docker_context$all'
 
 [character]
 success_symbol = '[ 󰁔](green bold)'
@@ -100,12 +100,12 @@ min_time = 500
 format = '( [󰊢 ](red)\(([+$added]($added_style))([-$deleted]($deleted_style))\))'
 disabled = false
 
-[custom.git_tag]
-format = "([$symbol($output)]($style))"
-command = "git describe --tags --abbrev=0"
-when = "git rev-parse --is-inside-work-tree"
-symbol = "󰓼 "
-style = "bold red"
+# [custom.git_tag]
+# format = "([$symbol($output)]($style))"
+# command = "git describe --tags --abbrev=0"
+# when = "git rev-parse --is-inside-work-tree"
+# symbol = "󰓼 "
+# style = "bold red"
 
 [package]
 format = ' [$symbol$version]($style) '
