@@ -76,7 +76,7 @@ def setup_nushell_caches [] {
 
 def stow_dotfiles [] {
     title "Stowing dotfiles"
-    stow -t $env.HOME/ . -vv
+    stow -t $env.HOME . -vv --no-folding
 }
 
 def generate_colors [] {
@@ -101,12 +101,28 @@ def install_spicetify [] {
     spicetify apply -n
 }
 
+def install_waybar_lyrics [] {
+    title "Installing spicetify"
+    let repo = "https://github.com/Nadim147c/waybar-lyric"
+    let dir = ("~/git/waybar-lyric/" | path expand)
+    let script = $dir | path join "scripts"
+    let current = $env.PWD
+
+    git clone $repo $dir | complete
+    cd $script
+    paru -Bi .
+    cd $current
+}
+
 def main [] {
     install_paru
     install_packages
+
     set_default_shell
     setup_nushell_caches
     stow_dotfiles
+
     generate_colors
     install_spicetify
+    install_waybar_lyrics
 }
