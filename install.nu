@@ -117,6 +117,26 @@ def setup_nushell_caches [] {
     mise activate nu                 | save -f ~/.cache/nushell/mise.nu
 }
 
+def setup_gitconfig [] {
+    let gitconfig_public = "~/.gitconfig.public" | path expand
+    let gitconfig_main = "~/.gitconfig" | path expand
+
+    let config_status = (rg --multiline "^\\[include\\]\\s*path = \"?~/.gitconfig.public\"?" $gitconfig_main | complete)
+    if ($config_status | get exit_code ) == 0 {return}
+
+    if (question "Setup .gitconfig file?") {return}
+
+    title "Setting up gitconfig"
+
+    # Symlink .gitconfig.public if it doesn't exist
+    if not ($gitconfig_public | path exists) {
+        ln -s ~/.gitconfig.public $gitconfig_public
+    }
+
+    # Check if .gitconfig includes .gitconfig.public, if not, add it
+    "[include]\n    path = ~/.gitconfig.public\n" | save -a $gitconfig_main
+}
+
 def link_dotfiles [] {
     if (question "Stow dotfiles?") {return}
     title "Stowing dotfiles"
@@ -132,7 +152,7 @@ def apply_wallpaper_colors [] {
 def apply_spicetify [] {
     if (question "Apply Spicetify?") {return}
     title "Applying Spicetify settings"
-    spicetify apply -n
+    spicetify restore backup apply
 }
 
 # This Nushell script automates the setup and configuration of an Arch Linux system with various utilities and customizations.
@@ -151,6 +171,7 @@ def apply_spicetify [] {
 # 3. Shell and Environment Setup:
 #    - setup_default_shell: Changes the default shell to zsh.
 #    - setup_nushell_caches: Configures Nushell caches for various tools.
+#    - setup_gitconfig: Configures gitconfig file.
 #
 # 4. Dotfiles and Aesthetic Configuration:
 #    - link_dotfiles: Uses stow to manage and apply dotfiles.
@@ -164,6 +185,7 @@ def main [] {
 
     setup_default_shell
     setup_nushell_caches
+    setup_gitconfig
     link_dotfiles
 
     apply_wallpaper_colors
