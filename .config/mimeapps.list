@@ -134,4 +134,4 @@ x-scheme-handler/migu=appimagekit_fb7b0853152e16b22effb25dd6497a54-Migu.desktop;
 x-scheme-handler/tg=org.telegram.desktop.desktop;
 x-scheme-handler/tonsite=org.telegram.desktop.desktop;
 x-scheme-handler/unknown=zen.desktop;
-inode/directory=org.gnome.Nautilus.desktop
+inode/directory=org.kde.dolphin.desktop;
