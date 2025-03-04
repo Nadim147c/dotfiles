@@ -8,12 +8,13 @@ def post_hooks [] {
     install -vDm644 ~/.cache/matugen/spicetify.ini ~/.config/spicetify/Themes/Sleek/color.ini
     install -vDm644 ~/.cache/matugen/ghostty ~/.config/ghostty/colors
 
-    # Reload hyprland, kitty, waybar, swaync, firefox
+    # Reload hyprland, kitty, waybar, swaync, firefox, alacritty
     hyprctl reload
     killall -SIGUSR1 kitty
     killall -SIGUSR2 waybar
     swaync-client --reload-css
     pywalfox update
+    touch ~/.config/alacritty/alacritty.toml
 
     # # Reload spotify (spicetify)
     if (ps --long | where command =~ "spicetify watch -s" | is-empty) {

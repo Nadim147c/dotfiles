@@ -8,6 +8,10 @@ output_path = '~/.cache/matugen/hyprland.conf'
 input_path = '~/.config/matugen/templates/kitty.conf'
 output_path = '~/.cache/matugen/kitty.conf'
 
+[templates.alacritty]
+input_path = '~/.config/matugen/templates/alacritty.toml'
+output_path = '~/.cache/matugen/alacritty.toml'
+
 [templates.ghostty]
 input_path = '~/.config/matugen/templates/ghostty.ini'
 output_path = '~/.cache/matugen/ghostty'
