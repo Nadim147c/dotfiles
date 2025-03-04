@@ -2,6 +2,9 @@
 
 def main [] {
     let stats = (docker stats --no-stream --no-trunc --format=json | lines | each { $in | from json })
+
+    if ($stats | is-empty) { exit 1 }
+
     let tooltip = (
         $stats |
         each {|it| {
