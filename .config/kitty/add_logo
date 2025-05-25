@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+_add_logo() {
+    WALLPAPER_PATH="$HOME/.config/fastfetch/logo/$(uuidgen).png"
+
+    mkdir -p "$(dirname "$WALLPAPER_PATH")"
+
+    if [[ $(echo "$1" | grep -o -E '\.\w+$') == ".png" ]]; then
+        cp -f "$selected_file" "$WALLPAPER_PATH"
+    elif command -v magick &>/dev/null; then
+        magick "$1" "$WALLPAPER_PATH"
+    else
+        echo "ImageMagick isn't installed. Please supply an png image."
+    fi
+}
+
+if command -v kdialog &>/dev/null; then
+    selected_file=$(kdialog --getopenfilename . "Image files (*.png *.jpg *.jpeg *.bmp *.gif *.tiff)")
+elif command -v zenity &>/dev/null; then
+    selected_file=$(zenity --file-selection --title="Select a file" --file-filter="Images | *.png *.jpg *.jpeg *.bmp *.gif *.tiff")
+else
+    echo "Failed detarmine os specific file picker"
+fi
+
+if [[ -n "$selected_file" ]]; then
+    _add_logo "$selected_file"
+else
+    echo "No file selected."
+fi

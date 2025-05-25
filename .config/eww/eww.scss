@@ -1,0 +1,17 @@
+@import "styles/colors.scss";
+@import "styles/music.scss";
+@import "styles/power.scss";
+@import "styles/workspace.scss";
+
+* {
+    all: unset;
+}
+@mixin window {
+    border-radius: 1rem;
+    background-color: $background;
+}
+
+.controll_center {
+    background-color: $background;
+    border-radius: 1.5rem;
+}

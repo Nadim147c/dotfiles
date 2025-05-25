@@ -1,0 +1,28 @@
+config-file = ./theme
+config-file = ./colors
+
+keybind = ctrl+c=copy_to_clipboard
+keybind = ctrl+v=paste_from_clipboard
+
+font-family = JetBrainsMono Nerd Font
+font-style = true
+font-synthetic-style = true
+font-size = 9.5
+alpha-blending = linear
+adjust-cell-height = -5%
+
+window-vsync = true
+
+window-decoration = server
+
+window-padding-x = 6
+window-padding-y = 6
+
+command = /bin/nu
+
+# Empty values reset the configuration to theault value
+class = ghostty
+
+clipboard-paste-protection = true
+
+auto-update = off
