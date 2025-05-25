@@ -1,0 +1,53 @@
+.music-text {
+    margin-left: 1rem;
+    margin-top: 1.5rem;
+}
+
+.music-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.music-artist {
+    color: $onSurfaceVariant;
+}
+
+.music-close {
+    margin: 0.3rem;
+    font-size: 1.2rem;
+    background-color: transparent;
+}
+.music-close:hover {
+    color: $error;
+}
+
+.music-player {
+    background-color: $primary;
+    color: $surface;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+}
+
+.music-action {
+    font-size: 2rem;
+    min-width: 3rem;
+    background-color: transparent;
+    padding: 0;
+}
+
+.music-scale {
+    margin-top: 0;
+}
+
+.music-scale trough {
+    background-color: $surfaceVariant;
+    border-radius: 1rem;
+    min-height: 0.5rem;
+}
+
+.music-scale highlight {
+    background-color: $primary;
+    border-radius: 1rem;
+    min-height: 0.5rem;
+}

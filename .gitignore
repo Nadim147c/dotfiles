@@ -1,0 +1,10 @@
+.config/mpv/scripts/sponsorblock_shared/sponsorblock.txt
+.config/zsh/**/*.zwc
+.mise.toml
+
+# Colors
+.config/eww/styles/colors.scss
+
+# Nushell history
+.config/nushell/history*
+.config/nushell/plugin.*

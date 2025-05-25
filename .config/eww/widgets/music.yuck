@@ -1,0 +1,51 @@
+(deflisten mpris :initial "{}" "scripts/mpris.nu")
+
+(defwidget music_widget []
+    (revealer
+        :transition "slideup"
+        :reveal {mpris == "{}" ? false : mpris.player == "" ? false : true}
+        :duration 500
+
+        (box
+            :orientation "v"
+            :class "music"
+            :space-evenly false
+            (box :orientation "h" :space-evenly false
+                (box :orientation "h" :space-evenly false :class "music-image" :style "background-image: url('${mpris.art}');")
+                (box :orientation "v" :space-evenly false :class "music-text" :hexpand true
+                    (box :orientation "v" :space-evenly false
+                        (label :halign "start" :class "music-title" :limit-width 20 :text {mpris.title})
+                        (label :halign "start" :class "music-artist" :limit-width 20 :text {mpris.artist})
+                    )
+                )
+
+                (button :halign "start" :valign "start" :class "music-close" :onclick "eww close music_window" "")
+            )
+
+            (box
+                :orientation "v"
+                :space-evenly false
+                :class "music-scale-box"
+                (scale
+                    :min 0
+                    :max {mpris.length}
+                    :active true
+                    :value {mpris.position}
+                    :class "music-scale"
+                    ;; :onchange "playerctl position {}"
+                )
+            )
+
+            (box
+                :orientation "h"
+                :space-evenly false
+                :halign "center"
+                :class "music-actions-box"
+                (button :class "music-action" :onclick "playerctl previous" "󰒮")
+                (button :class "music-action" :onclick "playerctl play-pause" {mpris.status == "Playing" ? "󰓛" : "󰐊"})
+                (button :class "music-action" :onclick "playerctl next" "󰒭")
+            )
+        )
+    )
+)
+

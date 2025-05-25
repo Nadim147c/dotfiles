@@ -1,0 +1,20 @@
+(defpoll hyprworkspaces :interval "100ms" `hyprctl activeworkspace -j`)
+
+(defwindow workspace_name
+    :monitor 0 ;; Optional for X11
+    :stacking "fg"
+    :windowtype "normal"
+    :wm-ignore false
+    :geometry (geometry
+        :width "100px"
+        :height "100px"
+        :anchor "center center"
+    )
+    (revealer
+        :transition "slideup"
+        :reveal true
+        :duration "500ms"
+        (label :class "workspace-name" :hight 20 :text "${hyprworkspaces.name}")
+    )
+)
+

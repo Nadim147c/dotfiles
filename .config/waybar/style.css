@@ -1,0 +1,86 @@
+@import "../../.cache/matugen/gtk-colors.css";
+
+* {
+    min-height: 0;
+    min-width: 0;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+window#waybar {
+    transition-duration: 0.5s;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.module {
+    padding: 0 0.3rem;
+    margin: 0;
+    border-radius: 10px;
+    background-color: @background;
+    color: @primary;
+}
+
+.modules-right,
+#workspaces,
+#tray,
+#custom-lyrics {
+    margin: 0 0.2rem;
+    margin-top: 0.5rem;
+    padding: 0 0.4rem;
+    background-color: @background;
+    color: @primary;
+    border-radius: 10px;
+}
+
+#tray,
+#custom-lyrics {
+    padding: 0 0.7rem;
+}
+
+#workspaces button {
+    box-shadow: none;
+    text-shadow: none;
+    border: none;
+    border-radius: 15px;
+    padding: 0 0.4rem;
+    margin: 0;
+    color: @on_background;
+}
+
+#workspaces button.active {
+    background: @background;
+    color: @primary;
+}
+
+#workspaces button.urgent {
+    background: @secondary_container;
+    color: @on_secondary_container;
+}
+
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+    border: none;
+    background: @primary_fixed;
+    color: @on_primary_fixed;
+}
+
+#custom-lyrics {
+    font-family: "Noto Font";
+}
+
+#custom-lyrics.paused {
+    font-style: italic;
+    color: @secondary;
+}
+
+tooltip {
+    font-family: "Noto Font";
+    border-radius: 15px;
+    background-color: @background;
+    border: 2px solid @on_primary;
+}

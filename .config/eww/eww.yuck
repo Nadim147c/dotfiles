@@ -1,0 +1,25 @@
+;; Imports
+(include "./widgets/music.yuck")
+(include "./widgets/power.yuck")
+(include "./widgets/workspace.yuck")
+
+(defwindow controll_center
+    :monitor 0 ;; Optional for X11
+    :stacking "fg"
+    :windowtype "normal"
+    :wm-ignore false
+    :geometry (geometry
+        :width "350px"
+        :height "180px"
+        :anchor "top right"
+        :x "20px"
+    )
+    (box
+        :orientation "v"
+        :class "music"
+        :space-evenly false
+        (power_widget)
+        (music_widget)
+    )
+)
+
