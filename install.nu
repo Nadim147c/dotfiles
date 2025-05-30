@@ -5,13 +5,11 @@ let pkgs = [
     base-devel
 
     # Desktop env
-        # Envs
-    flatpak flatseal
         # Hyprland
     hyprland hypridle hyprlock hyprcursor hyprshot hyprsunset hyprpaper
     waybar swaync swww aur/waypaper waybar-lyric-git
         # Color
-    matugen-bin python-pywal16 python-pywalfox
+    matugen-bin python-pywalfox
         # Clipboard
     wl-clipboard cliphist
 
@@ -37,10 +35,6 @@ let pkgs = [
     neovim zellij base-devel sccache curl make wget
         # Git
     git git-extras git-delta
-]
-
-let flatpak_pkg = [
-    com.spotify.Client # Spotify
 ]
 
 def title [msg: string] {
@@ -71,7 +65,6 @@ def install_packages [] {
     if (question "Update the system and install required packages?") {return}
     title "Updating system and installing packages"
     paru -Syu --needed ...$pkgs
-    flatpak install --or-update flathub ...$flatpak_pkg
 }
 
 def install_spicetify [] {
