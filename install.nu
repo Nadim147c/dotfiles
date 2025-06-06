@@ -2,27 +2,32 @@
 
 let pkgs = [
     # System
-    base-devel
+    base-devel git archlinux-xdg-menu findpkg
 
     # Desktop env
         # Hyprland
     hyprland hypridle hyprlock hyprcursor hyprshot hyprsunset hyprpaper
-    waybar swaync swww aur/waypaper waybar-lyric-git
+    waybar swaync wlogout aur/waypaper waybar-lyric-git
+    adw-gtk-theme breeze nwg-look qt6ct bibata-cursor-theme
         # Color
     matugen-bin python-pywalfox
         # Clipboard
     wl-clipboard cliphist
 
     # Desktop Apps
-        # Spotify
-    spicetify-cli
-        # Discord
-    goofcord
-        # Other
-    nautilus loupe dolphin gnome-calendar
+    zen-browser-bin #browser
+    youtube-music-bin #browser
+    equibop-bin # Discord
+
+    nautilus loupe dolphin gnome-calendar # Other
+    kio-admin kio-gdrive ffmpegthumbs icoutils kdegraphics-thumbnailers kimageformats libappimage resvg taglib
+
+    # Fonts
+    noto-fonts noto-fonts-extra noto-fonts-emoji
+    ttf-jetbrains-mono-nerd
 
     # Shell
-    zsh nushell carapace-bin starship zoxide mise
+    zsh fish nushell carapace-bin starship mise
     eza atuin chromashift-git
 
     # CLI
@@ -55,7 +60,9 @@ def install_paru [] {
 
         title "Installing paru (AUR Helper)"
         sudo pacman -S --needed base-devel
+        if not ("~/.cache/paru/clone/paru" | path exists) {
         git clone https://aur.archlinux.org/paru.git ~/.cache/paru/clone/paru
+        }
         cd ~/.cache/paru/clone/paru
         makepkg -si
     }
@@ -65,32 +72,6 @@ def install_packages [] {
     if (question "Update the system and install required packages?") {return}
     title "Updating system and installing packages"
     paru -Syu --needed ...$pkgs
-}
-
-def install_spicetify [] {
-    if (question "Install Spicetify?") {return}
-
-    title "Installing spicetify"
-    sudo chmod a+wr /var/lib/flatpak/app/com.spotify.Client/x86_64/stable/active/files/extra/share/spotify
-    sudo chmod a+wr -R /var/lib/flatpak/app/com.spotify.Client/x86_64/stable/active/files/extra/share/spotify/Apps
-
-    let theme_url = "https://github.com/spicetify/spicetify-themes/raw/refs/heads/master/Sleek/user.css"
-    let theme_path = ("~/.config/spicetify/Themes/Sleek/user.css" | path expand)
-
-    wget $theme_url -O "/tmp/spicetify.sleek.css"
-    install --verbose -Dm644 "/tmp/spicetify.sleek.css" $theme_path
-
-    spicetify config prefs_path ("~/.var/app/com.spotify.Client/config/spotify/prefs" | path expand)
-    spicetify config spotify_path /var/lib/flatpak/app/com.spotify.Client/x86_64/stable/active/files/extra/share/spotify/
-    spicetify config current_theme Sleek
-    spicetify config color_scheme Matugen
-    spicetify config custom_apps lyrics-plus
-
-
-    if not (question "Install spicetify marketplace") {
-        title "Installing spicetify market"
-        curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh
-    }
 }
 
 def setup_default_shell [] {
@@ -111,7 +92,6 @@ def setup_nushell_caches [] {
     carapace _carapace nushell            | save -f $"($cache_dir)/carapace.nu"
     # cshift alias nu                       | save -f $"($cache_dir)/chromashift.nu"
     starship init nu                      | save -f $"($cache_dir)/starship.nu"
-    zoxide init nushell --cmd cd          | save -f $"($cache_dir)/zoxide.nu"
     atuin init nu --disable-up-arrow      | save -f $"($cache_dir)/atuin.nu"
     atuin gen-completions --shell nushell | save -f -a $"($cache_dir)/atuin.nu"
     mise activate nu                      | save -f $"($cache_dir)/mise.nu"
@@ -160,12 +140,6 @@ def apply_wallpaper_colors [] {
     ~/.local/bin/wallpaper.nu
 }
 
-def apply_spicetify [] {
-    if (question "Apply Spicetify?") {return}
-    title "Applying Spicetify settings"
-    spicetify restore backup apply
-}
-
 # This Nushell script automates the setup and configuration of an Arch Linux system with various utilities and customizations.
 # It consists of multiple functions, each handling a specific installation or configuration task. Before executing any function, the script prompts the user for confirmation to proceed.
 #
@@ -175,22 +149,17 @@ def apply_spicetify [] {
 #    - install_paru: Installs paru (AUR helper) if not installed.
 #    - install_packages: Updates the system and installs predefined packages.
 #
-# 2. Software Customization:
-#    - install_spicetify: Installs and configures Spicetify for Spotify customization.
-#
-# 3. Shell and Environment Setup:
+# 2. Shell and Environment Setup:
 #    - setup_default_shell: Changes the default shell to zsh.
 #    - setup_nushell_caches: Configures Nushell caches for various tools.
 #    - setup_gitconfig: Configures gitconfig file.
 #
-# 4. Dotfiles and Aesthetic Configuration:
+# 3. Dotfiles and Aesthetic Configuration:
 #    - link_dotfiles: Uses stow to manage and apply dotfiles.
 #    - apply_wallpaper_colors: Generates colors from Matugen based on the wallpaper.
-#    - apply_spicetify: Applies Spicetify themes and color schemes.
 def main [] {
     install_paru
     install_packages
-    install_spicetify
 
     setup_default_shell
     setup_nushell_caches
@@ -199,5 +168,4 @@ def main [] {
     link_dotfiles
 
     apply_wallpaper_colors
-    apply_spicetify
 }
