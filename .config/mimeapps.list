@@ -135,5 +135,5 @@ x-scheme-handler/tg=org.telegram.desktop.desktop;
 x-scheme-handler/tonsite=org.telegram.desktop.desktop;
 x-scheme-handler/unknown=zen.desktop;
 inode/directory=org.kde.dolphin.desktop;
-x-scheme-handler/discord=goofcord.desktop
+x-scheme-handler/discord=equibop.desktop
 x-scheme-handler/postman=Postman.desktop

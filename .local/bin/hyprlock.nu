@@ -26,7 +26,11 @@ def main [
             return
         }
 
-        let icon = if $info.player =~ spotify { "󰓇  " } else {""}
+        let icon = match $info.player {
+            spotify => "󰓇  " ,
+            YoutubeMusic => "󰗃  "
+             _ => "",
+        }
 
         print $"($icon)($info.artist) - ($info.title)"
         return
