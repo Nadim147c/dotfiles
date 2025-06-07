@@ -31,7 +31,7 @@ let pkgs = [
     eza atuin chromashift-git
 
     # CLI
-    ripgrep fd sd fzf skim bat bat-extras fastfetch
+    ripgrep fd sd fzf skim bat bat-extras fastfetch tree
 
     # Dev tools
         # Lang
