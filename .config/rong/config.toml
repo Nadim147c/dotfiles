@@ -1,0 +1,10 @@
+
+[link]
+"gtk-css.css" = [
+    "~/.config/waybar/colors.css",
+    "~/.config/swaync/colors.css",
+    "~/.config/wlogout/colors.css",
+]
+"midnight-discord.css" = [
+    "~/.config/equibop/settings/quickCss.css",
+]
