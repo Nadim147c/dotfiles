@@ -3,6 +3,7 @@
 let pkgs = [
     # System
     base-devel git archlinux-xdg-menu findpkg
+    zip unzip
 
     # Desktop env
         # Hyprland
@@ -13,6 +14,7 @@ let pkgs = [
     matugen-bin python-pywalfox
         # Clipboard
     wl-clipboard cliphist
+    kdeconnect blueman
 
     # Desktop Apps
     zen-browser-bin #browser
@@ -20,7 +22,8 @@ let pkgs = [
     equibop-bin # Discord
 
     nautilus loupe dolphin gnome-calendar # Other
-    kio-admin kio-gdrive ffmpegthumbs icoutils kdegraphics-thumbnailers kimageformats libappimage resvg taglib
+    thunar tumbler ffmpegthumbnailer libgsf tumbler-extra-thumbnailers thunar-archive-plugin
+    thunar-media-tags-plugin thunar-shares-plugin thunar-vcs-plugin
 
     # Fonts
     noto-fonts noto-fonts-extra noto-fonts-emoji

@@ -44,7 +44,7 @@
         "return-type": "json",
         "format": "{icon} {0}",
         "format-icons": [""],
-        "exec-if": "! docker ps --quiet",
+        "exec-if": "docker ps --quiet",
         "exec": "waybar-docker.nu",
     },
     "custom/warp": {
