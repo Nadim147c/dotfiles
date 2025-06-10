@@ -43,6 +43,7 @@ def generate_colors [image?: string] {
     if $image != null {
         print $"Generating color from ($image)"
         matugen image $image --verbose
+        try { rong image -- $image }
     } else {
         matugen color hex "#00ff00" --verbose
     }
