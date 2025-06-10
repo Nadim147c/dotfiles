@@ -3,8 +3,6 @@
 def post_hooks [] {
     install -vDm644 ~/.cache/matugen/gtk.css ~/.config/gtk-3.0/gtk.css
     install -vDm644 ~/.cache/matugen/gtk.css ~/.config/gtk-4.0/gtk.css
-    install -vDm644 ~/.cache/matugen/discord.css ~/.config/vesktop/settings/quickCss.css
-    install -vDm644 ~/.cache/matugen/discord.css ~/.config/goofcord/GoofCord/assets/wallpaper.css
     install -vDm644 ~/.cache/matugen/colors.scss ~/.config/eww/styles/colors.scss
     install -vDm644 ~/.cache/matugen/spicetify.ini ~/.config/spicetify/Themes/Sleek/color.ini
     install -vDm644 ~/.cache/matugen/ghostty ~/.config/ghostty/colors
@@ -34,9 +32,9 @@ def get_walpaper []: nothing -> string {
 
     mkdir ~/Pictures/Wallpapers/
 
-    ls ~/Pictures/Wallpapers/* |
-        where type == file and name =~ '.*\.(jpg|jpeg|png|webm)' and name not-in $current_wallpaper |
-        get name | to text | shuf -n1
+    ^find ~/Pictures/Wallpapers/ -type f | lines |
+        where $it =~ '.*\.(jpg|jpeg|png|webm)' and $it not-in $current_wallpaper |
+        to text | shuf -n1
 }
 
 def generate_colors [image?: string] {
