@@ -170,6 +170,7 @@ def link_dotfiles [] {
     if (question "Stow dotfiles?") {return}
     title "Stowing dotfiles"
     stow -t $env.HOME . -vv --no-folding
+    touch ~/.config/hypr/hyprpaper.conf
 }
 
 def apply_wallpaper_colors [] {
