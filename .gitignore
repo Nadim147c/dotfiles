@@ -7,3 +7,4 @@
 # Nushell history
 .config/nushell/history*
 .config/nushell/plugin.*
+.config/hypr/hyprpaper.conf
