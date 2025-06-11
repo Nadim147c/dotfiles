@@ -92,7 +92,6 @@ def setup_nushell_caches [] {
 
     let cache_dir = ($nu.data-dir | path join "vendor/autoload")
     mkdir $cache_dir
-    carapace _carapace nushell            | save -f $"($cache_dir)/carapace.nu"
     # cshift alias nu                       | save -f $"($cache_dir)/chromashift.nu"
     starship init nu                      | save -f $"($cache_dir)/starship.nu"
     atuin init nu --disable-up-arrow      | save -f $"($cache_dir)/atuin.nu"
