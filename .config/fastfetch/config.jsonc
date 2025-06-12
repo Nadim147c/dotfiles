@@ -3,7 +3,8 @@
     "logo": {
         "source": "$(~/.local/bin/fastfetch-logo)",
         "height": 12,
-        "preserveAspectRatio": true,
+        "width": 28,
+        "type": "kitty-direct",
     },
     "general": {
         "multithreading": true,
