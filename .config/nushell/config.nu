@@ -143,3 +143,19 @@ $env.config.color_config = {
     separator: black
     row_index: yellow
 }
+
+# $env.VIRTUAL_ENV_DISABLE_PROMPT = true
+$env.config = ($env.config | upsert hooks {
+    env_change: {
+        PWD: [
+            {
+                condition: {|before, after| ("VIRTUAL_ENV" in $env) and ("activate" in (overlay list)) }
+                code: "overlay hide activate --keep-env [ PWD ]"
+            },
+            {
+                condition: {|before, after| ".venv/bin/activate.nu" | path exists }
+                code: "overlay use .venv/bin/activate.nu"
+            },
+        ]
+    }
+})
