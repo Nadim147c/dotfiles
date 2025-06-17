@@ -1,10 +1,4 @@
-;; Imports
-;; (include "./widgets/music.yuck")
-;; (include "./widgets/power.yuck")
-;; (include "./widgets/workspace.yuck")
-
 ;; Bar
-(include "./modules/bar/widget.yuck")
-(include "./modules/bar/window.yuck")
+(include "./modules/bar/bar.yuck")
 (include "./modules/dialog/confirm.yuck")
 
