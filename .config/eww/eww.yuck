@@ -6,4 +6,5 @@
 ;; Bar
 (include "./modules/bar/widget.yuck")
 (include "./modules/bar/window.yuck")
+(include "./modules/dialog/confirm.yuck")
 

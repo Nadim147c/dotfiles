@@ -1,0 +1,21 @@
+.eww-confirm {
+    background-color: $background;
+    color: $onBackground;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-weight: bold;
+
+    .cancel {
+        padding: 0.5rem;
+        border-radius: 1rem;
+        border: 1px solid $primary;
+        color: $primary;
+        background-color: $background;
+    }
+    .okay {
+        padding: 0.5rem;
+        border-radius: 1rem;
+        color: $onPrimary;
+        background-color: $primary;
+    }
+}
