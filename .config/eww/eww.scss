@@ -3,15 +3,27 @@
 @import "styles/power.scss";
 @import "styles/workspace.scss";
 
+@import "modules/bar/style.scss";
+
 * {
     all: unset;
 }
 @mixin window {
     border-radius: 1rem;
     background-color: $background;
+    color: $primary;
 }
 
 .controll_center {
     background-color: $background;
     border-radius: 1.5rem;
+}
+
+tooltip {
+    font-family: "JetBrainsMono Nerd Font";
+    background-color: $background;
+    padding: 1.5rem;
+    margin: 0.8rem;
+    border-radius: 0.8rem;
+    border: 2px solid $outline;
 }

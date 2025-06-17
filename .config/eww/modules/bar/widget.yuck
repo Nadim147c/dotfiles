@@ -1,0 +1,180 @@
+;; waybar-lyric: https://github.com/Nadim147c/waybar-lyric
+(deflisten lyrics :initial "{}" `waybar-lyric -qm150 -fpartial`)
+(defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚" }`)
+
+;; hyprland
+(deflisten hyprland_ipc :initial "{}" `~/.config/eww/modules/bar/hyprland.nu`)
+;; network
+(deflisten network :initial "{}" `~/.config/eww/modules/bar/network.nu`)
+
+(defvar spacing 7)
+
+(defwidget hyprland []
+    (box
+        :class "workspaces"
+        :orientation "h"
+        :space-evenly true
+        :halign "start"
+        :spacing {spacing}
+        (for workspace in hyprland_ipc
+            (eventbox :cursor "pointer"
+                (button
+                    :class {workspace.active ? "active-workspace" : "workspace"}
+                    :onclick "hyprctl dispatch workspace ${workspace.id}"
+                    (label :text "${workspace.active ? "" : workspace.name }" :tooltip "${workspace.hover}")
+                )
+            )
+        )
+    )
+)
+
+(defwidget lyrics []
+    (eventbox :cursor "pointer"
+        (button :onclick "waybar-lyric --toggle"
+            ;; TODO: create a music widget
+            (tooltip
+                (label :markup "${lyrics.tooltip}")
+                (label :text {lyrics.text != "null" ? "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" : ""})
+            )
+        )
+    )
+)
+
+(defwidget network []
+    (button
+        :class "network"
+        (tooltip
+            (label :markup "${network.table}")
+            (label :text "${network.wireless ? " " : "󰈀 "} ${network.change}")
+        )
+    )
+)
+
+(defvar volume_show false)
+(defpoll volume_value :interval "10s" `wpctl get-volume @DEFAULT_SINK@ | sed 's|Volume: 0.||'`)
+(defwidget volume []
+    (eventbox
+        :class "volume"
+        :onhover "${EWW_CMD} update volume_show=true"
+        :onhoverlost "${EWW_CMD} update volume_show=false"
+        (box
+            :orientation "h"
+            :space-evenly false
+            :spacing 0
+            (revealer
+                :transition "slideleft"
+				:reveal volume_show
+				:duration "400ms"
+                (scale :min 0 :max 100 :value 25 :width 100 :orientation "h"
+                    :onchange `${EWW_CMD} update volume_value={} && wpctl set-volume @DEFAULT_SINK@ {}%`
+                )
+            )
+            (button "   ${volume_value}%")
+        )
+    )
+)
+
+(defwidget clock []
+    (box (label :text "  ${formattime(EWW_TIME, "%R%p")}"))
+)
+
+(defvar power_show false)
+(defwidget power []
+    (eventbox
+        :class "power"
+        :onhover "${EWW_CMD} update power_show=true"
+        :onhoverlost "${EWW_CMD} update power_show=false"
+        (box
+            :orientation "h"
+            :space-evenly false
+            :spacing 0
+            (revealer
+                :class "revealer"
+                :transition "slideleft"
+				:reveal power_show
+				:duration "400ms"
+                (box
+                    :spacing {spacing}
+                    (eventbox :cursor "pointer"
+                        (button :onclick `hyprctl dispatch exec -- hyprlock`
+                            (label :class "lock-button" :text "" :tooltip "Lock")
+                        )
+                    )
+                    (eventbox :cursor "pointer"
+                        (button :onclick `hyprctl dispatch exit`
+                            (label :class "logout-button" :text "󰍃" :tooltip "Logout")
+                        )
+                    )
+                    (eventbox :cursor "pointer"
+                        (button :onclick `systemctl suspend`
+                            (label :class "sleep-button" :text "󰒲" :tooltip "Sleep")
+                        )
+                    )
+                    (eventbox :cursor "pointer"
+                        (button :onclick `systemctl reboot`
+                            (label :class "reboot-button" :text "" :tooltip "Reboot")
+                        )
+                    )
+                    (eventbox :cursor "pointer"
+                        (button :onclick `systemctl poweroff`
+                            (label :class "power-button" :text "" :tooltip "Shutdown")
+                        )
+                    )
+                )
+            )
+            (eventbox :cursor "pointer"
+                (button :onclick "swaync-client --open-panel"
+                    (label :class "menu-button" :text "󰇙" :tooltip "Control Center")
+                )
+            )
+        )
+    )
+)
+
+
+(defwidget left []
+	(box
+        :class "left"
+        :orientation "h"
+        :halign "start"
+        :space-evenly false
+        :spacing {spacing}
+        (hyprland)
+        (systray :class "systray" :spacing 5 :icon-size 17 :prepend-new true)
+    )
+)
+
+(defwidget center []
+	(box
+        :class "center"
+        :orientation "v"
+        :spacing {spacing}
+        :valign "center"
+            (lyrics)
+    )
+)
+
+(defwidget right []
+	(box
+        :class "right"
+        :orientation "h"
+        :halign "end"
+        :spacing {spacing}
+        :space-evenly false
+        (network)
+        (volume)
+        (clock)
+        (power)
+    )
+)
+
+(defwidget bar []
+    (centerbox
+        :class "eww-bar"
+        :orientation "h"
+        (left)
+        (center)
+        (right)
+    )
+)
+
