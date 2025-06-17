@@ -3,7 +3,6 @@
 def post_hooks [] {
     install -vDm644 ~/.cache/matugen/gtk.css ~/.config/gtk-3.0/gtk.css
     install -vDm644 ~/.cache/matugen/gtk.css ~/.config/gtk-4.0/gtk.css
-    install -vDm644 ~/.cache/matugen/colors.scss ~/.config/eww/styles/colors.scss
     install -vDm644 ~/.cache/matugen/spicetify.ini ~/.config/spicetify/Themes/Sleek/color.ini
     install -vDm644 ~/.cache/matugen/ghostty ~/.config/ghostty/colors
     install -vDm644 ~/.cache/matugen/hyprpaper.conf ~/.config/hypr/hyprpaper.conf

@@ -1,0 +1,109 @@
+.eww-bar {
+    background-color: $background;
+    color: $primary;
+    margin: 0.5rem;
+    padding: 0.3rem 1rem;
+    border-radius: 0.8rem;
+}
+
+.volume slider {
+    color: #ffd5cd;
+}
+
+.volume scale trough highlight {
+    background-color: $primary;
+    padding: 3px 0;
+    color: $onPrimary;
+    border-radius: 10px;
+}
+
+.volume scale trough {
+    all: unset;
+    background-color: $surfaceContainerHighest;
+    border-radius: 3rem;
+    min-width: 3rem;
+    margin-right: calc(0.8rem + 10px);
+    margin-right: 0.8rem;
+}
+
+.power {
+    all: unset;
+
+    .revealer {
+        padding-right: 0.4rem;
+    }
+
+    .lock-button,
+    .reboot-button,
+    .logout-button,
+    .power-button,
+    .sleep-button {
+        font-weight: bolder;
+        background-color: $background;
+        color: $primary;
+        &:hover {
+            color: $onPrimary;
+            background-color: $primary;
+        }
+    }
+
+    .logout-button {
+        padding-right: 1px;
+    }
+    .lock-button {
+        padding-right: 2.5px;
+    }
+    .power-button {
+        padding-right: 3.5px;
+    }
+    .reboot-button {
+        padding-right: 2.5px;
+    }
+    .sleep-button {
+        padding-right: 4px;
+    }
+}
+
+.workspaces {
+    .active-workspace {
+        padding-right: 4px;
+    }
+    .workspace {
+        border-radius: 0.2rem;
+        &:hover {
+            color: $onPrimary;
+            background-color: $primary;
+        }
+    }
+}
+
+.systray menu {
+    background-color: $background;
+    padding: 0.6rem;
+    margin: 0.8rem;
+    border-radius: 0.8rem;
+
+    > menuitem {
+        padding: 2px 5px;
+        border-radius: 0.2rem;
+
+        &:disabled label {
+            color: gray;
+        }
+
+        &:hover {
+            color: $onPrimary;
+            background: $primary;
+        }
+    }
+
+    separator {
+        background-color: $outline;
+        padding-top: 1px;
+        margin: 2px 0;
+
+        &:last-child {
+            padding: unset;
+        }
+    }
+}
