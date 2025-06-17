@@ -1,5 +1,5 @@
 ;; waybar-lyric: https://github.com/Nadim147c/waybar-lyric
-(deflisten lyrics :initial "{}" `waybar-lyric -qm150 -fpartial`)
+(deflisten lyrics :initial "{}" `waybar-lyric -qdm150 -fpartial`)
 (defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚" }`)
 
 ;; hyprland
@@ -28,13 +28,81 @@
     )
 )
 
-(defwidget lyrics []
-    (eventbox :cursor "pointer"
-        (button :onclick "waybar-lyric --toggle"
-            ;; TODO: create a music widget
-            (tooltip
-                (label :markup "${lyrics.tooltip}")
-                (label :text {lyrics.text != "null" ? "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" : ""})
+(defvar player_position_show false)
+(defwidget player []
+    (tooltip
+        :class "player"
+        (box
+            :class "card"
+            :orientation "v"
+            :valign "center"
+            :halign "center"
+            :space-evenly false
+            :spacing 20
+            :width 450
+            (box
+                :class "info"
+                :orientation "h"
+                :space-evenly false
+                :halign "center"
+                :spacing 15
+                (box :class "cover"
+                    (image :height 100 :width 100
+                        :style 'background-image: url("${lyrics.info.cover}"); background-size: cover')
+                )
+                (box
+                    :orientation "v"
+                    :valign "center"
+                    :halign "start"
+                    (label :class "title" :markup "<big>${lyrics.info.title}</big>")
+                    (label :class "artist" :text {lyrics.info.artist})
+                    (label :class "album" :text {lyrics.info.album})
+                )
+            )
+            (label :class "lyrics" :justify "center" :markup "${lyrics.tooltip}")
+        )
+        (eventbox :cursor "pointer"
+            (box
+                :orientation "h"
+                :spacing {spacing}
+                :space-evenly false
+                (button
+                    :class {lyrics.info.shuffle ? "shuffled" : "shuffle"}
+                    :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} shuffle Toggle"
+                    ""
+                )
+                (button
+                    :class "previous"
+                    :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} previous"
+                    ""
+                )
+                (button
+                    :class {lyrics.info.status == "Playing" ? "pause" : "play"}
+                    :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} play-pause"
+                    {lyrics.info.status == "Playing" ? "" : ""}
+                )
+                (button
+                    :class "next"
+                    :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} next"
+                    ""
+                )
+                (eventbox
+                    :class "position"
+                    :onhover "${EWW_CMD} update player_position_show=true"
+                    :onhoverlost "${EWW_CMD} update player_position_show=false"
+                    (box
+                        :space-evenly false
+                        (button :class {player_position_show ? "seeking" :"seek"} "")
+                        (revealer
+                            :transition "slideleft"
+                            :reveal player_position_show
+                            :duration "400ms"
+                            (scale :min 0 :max {lyrics.info.length / 1000000000} :value {lyrics.info.position / 1000000000} :width 150 :orientation "h"
+                                :onchange `playerctl --player=${substring(lyrics.info.name, 23, 1000)} position {}`
+                            )
+                        )
+                    )
+                )
             )
         )
     )
@@ -75,7 +143,7 @@
 )
 
 (defwidget clock []
-    (box (label :text "  ${formattime(EWW_TIME, "%R%p")}"))
+    (box (label :text "  ${formattime(EWW_TIME, "%I:%M%p")}"))
 )
 
 (defvar power_show false)
@@ -155,7 +223,7 @@
         :orientation "v"
         :spacing {spacing}
         :valign "center"
-            (lyrics)
+            (player)
     )
 )
 
@@ -179,13 +247,7 @@
     :windowtype "dock"
     :wm-ignore false
     :exclusive true
-	:geometry (geometry
-        :x "0%"
-        :y "0%"
-        :height "35px"
-        :width "100%"
-        :anchor "center top"
-    )
+	:geometry (geometry :x "0%" :y "0%" :height "35px" :width "100%" :anchor "center top")
     (centerbox
         :class "eww-bar"
         :orientation "h"
