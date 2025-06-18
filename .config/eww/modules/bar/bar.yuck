@@ -1,5 +1,5 @@
 ;; waybar-lyric: https://github.com/Nadim147c/waybar-lyric
-(deflisten lyrics :initial "{}" `waybar-lyric -qdm150 -fpartial`)
+(deflisten lyrics :initial "{}" `waybar-lyric -qdm150 -b47 -fpartial`)
 (defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚" }`)
 
 ;; hyprland
@@ -39,7 +39,7 @@
             :halign "center"
             :space-evenly false
             :spacing 20
-            :width 450
+            :width 400
             (box
                 :class "info"
                 :orientation "h"
