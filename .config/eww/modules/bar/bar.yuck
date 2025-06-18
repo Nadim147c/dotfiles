@@ -7,7 +7,7 @@
 ;; network
 (deflisten network :initial "{}" `~/.config/eww/modules/bar/network.nu`)
 
-(defvar spacing 7)
+(defvar spacing 16)
 
 (defwidget hyprland []
     (box
@@ -15,7 +15,7 @@
         :orientation "h"
         :space-evenly true
         :halign "start"
-        :spacing {spacing}
+        :spacing {spacing / 2}
         (for workspace in hyprland_ipc
             (eventbox :cursor "pointer"
                 (button
@@ -45,7 +45,7 @@
                 :orientation "h"
                 :space-evenly false
                 :halign "center"
-                :spacing 15
+                :spacing {spacing}
                 (box :class "cover"
                     (image :height 100 :width 100
                         :style 'background-image: url("${lyrics.info.cover}"); background-size: cover')
@@ -64,7 +64,7 @@
         (eventbox :cursor "pointer"
             (box
                 :orientation "h"
-                :spacing {spacing}
+                :spacing {spacing / 2}
                 :space-evenly false
                 (button
                     :class {lyrics.info.shuffle ? "shuffled" : "shuffle"}
@@ -119,7 +119,8 @@
 )
 
 (defvar volume_show false)
-(defpoll volume_value :interval "10s" `wpctl get-volume @DEFAULT_SINK@ | sed 's|Volume: 0.||'`)
+(defpoll volume_value :interval "2s" `~/.config/eww/modules/bar/audio.sh --volume`)
+(defpoll volume_muted :interval "2s" `~/.config/eww/modules/bar/audio.sh --muted`)
 (defwidget volume []
     (eventbox
         :class "volume"
@@ -133,11 +134,16 @@
                 :transition "slideleft"
 				:reveal volume_show
 				:duration "400ms"
-                (scale :min 0 :max 100 :value 25 :width 100 :orientation "h"
+                (scale :min 0 :max 100 :value {volume_value} :width 100 :orientation "h"
                     :onchange `${EWW_CMD} update volume_value={} && wpctl set-volume @DEFAULT_SINK@ {}%`
                 )
             )
-            (button "   ${volume_value}%")
+            (eventbox :cursor "pointer"
+                (button
+                    :onclick `wpctl set-mute @DEFAULT_SINK@ toggle && ${EWW_CMD} update volume_muted=$(~/.config/eww/modules/bar/audio.sh --muted) `
+                    "${volume_muted ? "" : ""}   ${volume_value}%"
+                )
+            )
         )
     )
 )
