@@ -124,6 +124,7 @@
 (defwidget volume []
     (eventbox
         :class "volume"
+        :cursor "pointer"
         :onhover "${EWW_CMD} update volume_show=true"
         :onhoverlost "${EWW_CMD} update volume_show=false"
         (box
@@ -138,11 +139,9 @@
                     :onchange `${EWW_CMD} update volume_value={} && wpctl set-volume @DEFAULT_SINK@ {}%`
                 )
             )
-            (eventbox :cursor "pointer"
-                (button
-                    :onclick `wpctl set-mute @DEFAULT_SINK@ toggle && ${EWW_CMD} update volume_muted=$(~/.config/eww/modules/bar/audio.sh --muted) `
-                    "${volume_muted ? "" : ""}   ${volume_value}%"
-                )
+            (button
+                :onclick `wpctl set-mute @DEFAULT_SINK@ toggle && ${EWW_CMD} update volume_muted=$(~/.config/eww/modules/bar/audio.sh --muted) `
+                "${volume_muted ? "" : ""}   ${volume_value}%"
             )
         )
     )
