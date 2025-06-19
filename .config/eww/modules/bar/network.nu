@@ -1,7 +1,7 @@
 #!/usr/bin/nu
 
 # Parse /proc/net/dev and extract interface stats
-def parse-net-dev [] {
+def parse_net_dev [] {
   cat /proc/net/dev
       | lines
       | where ($it | str contains ":")
@@ -10,12 +10,8 @@ def parse-net-dev [] {
       | update tx {|row| $row.tx | into filesize }
 }
 
-# Get stats before and after delay
-mut before = parse-net-dev
-
-while true {
-    sleep 2sec
-    let after = parse-net-dev
+def calc_speed [before: any, time: int] {
+    let after = parse_net_dev
     if ($after | is-empty) {
         continue
     }
@@ -37,5 +33,15 @@ while true {
         | upsert table { $delta | table --index false --theme psql | ansi strip | str trim --right }
 
     print ($speed | to json --raw)
-    $before = $after
+    $after
+}
+
+# Get stats before and after delay
+mut before = parse_net_dev
+
+$before = calc_speed $before 1
+
+while true {
+    sleep 2sec
+    $before = calc_speed $before 2
 }

@@ -1,4 +1,8 @@
 .eww-bar {
+    $buttonBorderRadius: 0.4rem;
+    $singleSpacing: 8px;
+    $spacing: 16px;
+
     background-color: $background;
     color: $primary;
     margin: 0.5rem;
@@ -28,7 +32,7 @@
         all: unset;
 
         .revealer {
-            padding-right: 0.4rem;
+            padding-right: $spacing;
         }
 
         .lock-button,
@@ -67,7 +71,8 @@
             padding-right: 4px;
         }
         .workspace {
-            border-radius: 0.2rem;
+            border-radius: $buttonBorderRadius;
+            padding: 0 0.5rem;
             &:hover {
                 color: $onPrimary;
                 background-color: $primary;
@@ -96,7 +101,7 @@
 
         button {
             padding: 0.2rem 0.6rem;
-            border-radius: 0.4rem;
+            border-radius: $buttonBorderRadius;
             &:hover {
                 color: $onPrimary;
                 background-color: $primary;

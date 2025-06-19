@@ -15,7 +15,6 @@
         :orientation "h"
         :space-evenly true
         :halign "start"
-        :spacing {spacing / 2}
         (for workspace in hyprland_ipc
             (eventbox :cursor "pointer"
                 (button
@@ -77,9 +76,9 @@
                     ""
                 )
                 (button
-                    :class {lyrics.info.status == "Playing" ? "pause" : "play"}
+                    :class {lyrics?.info?.status == "Playing" ? "pause" : "play"}
                     :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} play-pause"
-                    {lyrics.info.status == "Playing" ? "" : ""}
+                    {lyrics?.info?.status == "Playing" ? "" : ""}
                 )
                 (button
                     :class "next"
@@ -111,9 +110,10 @@
 (defwidget network []
     (button
         :class "network"
-        (tooltip
-            (label :markup "${network.table}")
-            (label :text "${network.wireless ? " " : "󰈀 "} ${network.change}")
+        (label
+            :class "text"
+            :text "${network.wireless ? " " : " "} ${network.change}"
+            :tooltip "${network.table}"
         )
     )
 )

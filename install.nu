@@ -179,6 +179,31 @@ def apply_wallpaper_colors [] {
     ~/.local/bin/wallpaper.nu
 }
 
+def install_spicetify [] {
+    if (question "Install Spicetify?") {return}
+
+    title "Installing spicetify"
+    sudo chmod a+wr /opt/spotify
+    sudo chmod a+wr /opt/spotify/Apps -R
+
+    let theme_url = "https://github.com/spicetify/spicetify-themes/raw/refs/heads/master/Sleek/user.css"
+    let theme_path = ("~/.config/spicetify/Themes/Sleek/user.css" | path expand)
+
+    wget $theme_url -O "/tmp/spicetify.sleek.css"
+    install --verbose -Dm644 "/tmp/spicetify.sleek.css" $theme_path
+
+    spicetify config current_theme Sleek
+    spicetify config color_scheme Matugen
+    spicetify config custom_apps lyrics-plus
+
+    if not (question "Install spicetify marketplace") {
+        title "Installing spicetify market"
+        curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh
+    }
+
+    spicetify backend apply
+}
+
 # This Nushell script automates the setup and configuration of an Arch Linux system with various utilities and customizations.
 # It consists of multiple functions, each handling a specific installation or configuration task. Before executing any function, the script prompts the user for confirmation to proceed.
 #
@@ -199,6 +224,7 @@ def apply_wallpaper_colors [] {
 def main [] {
     install_paru
     install_packages
+    install_spicetify
 
     setup_default_shell
     setup_nushell_caches
