@@ -9,7 +9,7 @@ let pkgs = [
         # Hyprland
     hyprland hypridle hyprlock hyprcursor hyprshot hyprsunset hyprpaper
     waybar swaync wlogout aur/waypaper waybar-lyric-git hyprpolkitagent
-    adw-gtk-theme breeze nwg-look qt6ct bibata-cursor-theme
+    adw-gtk-theme breeze nwg-look qt6ct bibata-cursor-theme mpvpaper
         # Color
     matugen-bin python-pywalfox
         # Clipboard
@@ -157,10 +157,11 @@ def setup_waypaper [] {
     let config = $"
 [Settings]
 language = en
-folder = ~/Pictures/Wallpapers
+folder = ~/Videos/Wallpapers
 post_command = (echo "~/.local/bin/wallpaper.nu" | path expand --no-symlink) --no-set-wallpaper $wallpaper
-backend = hyprpaper
+backend = mpvpaper
 show_path_in_tooltip = False
+mpvpaper_options = config=no no-audio
 "
     mkdir --verbose ~/.config/waypaper
     echo $config | str trim | save --force ~/.config/waypaper/config.ini
@@ -174,7 +175,7 @@ def link_dotfiles [] {
 }
 
 def apply_wallpaper_colors [] {
-    if (question "Generate colors from Matugen?") {return}
+    if (question "Generate colors from rong?") {return}
     title "Generating colors from matugen"
     ~/.local/bin/wallpaper.nu
 }
@@ -193,7 +194,7 @@ def install_spicetify [] {
     install --verbose -Dm644 "/tmp/spicetify.sleek.css" $theme_path
 
     spicetify config current_theme Sleek
-    spicetify config color_scheme Matugen
+    spicetify config color_scheme rong
     spicetify config custom_apps lyrics-plus
 
     if not (question "Install spicetify marketplace") {
