@@ -1,22 +1,14 @@
 #!/bin/nu
 
 def post_hooks [] {
-    install -vDm644 ~/.cache/matugen/gtk.css ~/.config/gtk-3.0/gtk.css
-    install -vDm644 ~/.cache/matugen/gtk.css ~/.config/gtk-4.0/gtk.css
-    install -vDm644 ~/.cache/matugen/spicetify.ini ~/.config/spicetify/Themes/Sleek/color.ini
-    install -vDm644 ~/.cache/matugen/ghostty ~/.config/ghostty/colors
-    install -vDm644 ~/.cache/matugen/hyprpaper.conf ~/.config/hypr/hyprpaper.conf
-
     # Reload kitty, waybar, swaync, firefox, alacritty
-    killall -v -SIGUSR1 kitty
-    killall -v -SIGUSR2 waybar
-    pywalfox --verbose update
+    killall -v -SIGUSR1 kitty | complete | get stdout
+    killall -v -SIGUSR2 waybar | complete | get stdout
+    pywalfox --verbose update | complete | get stdout
     touch ~/.config/alacritty/alacritty.toml
 
-    try {
-        pkill swaync
-        hyprctl dispatch exec -- swaync
-    }
+    pkill swaync | complete | get stdout
+    hyprctl dispatch exec -- swaync
 
     # Reload spotify (spicetify)
     if (ps --long | where command =~ "spicetify watch -s" | is-empty) {
@@ -27,14 +19,24 @@ def post_hooks [] {
 }
 
 def get_walpaper []: nothing -> string {
-    let current_wallpaper = (hyprctl hyprpaper listloaded | lines | str trim)
+    mut current_wallpaper  = ""
+    try {
+        $current_wallpaper = open --raw ~/.cache/wallpaper
+    }
 
     mkdir ~/Videos/Wallpapers/
 
-    ^find ~/Videos/Wallpapers/ -type f | lines | where $it =~ '.*\.(mp4|mkv|webm)' | to text | shuf -n1
+    let wallpaper = (
+        ^find ~/Videos/Wallpapers/ -type f | lines
+        | where $it =~ '.*\.(mp4|mkv|webm)' and $it != $current_wallpaper
+        | get (random int ..<($in | length))
+    )
+
+    $wallpaper
 }
 
-def generate_colors [image?: string] {
+def generate_colors [image: string] {
+    print $"Generating color for ($image)"
     rong video -- $image
     post_hooks
 }
@@ -46,11 +48,13 @@ def set_wallpaper [wallpaper: string] {
 
 def main [wallpaper?: string, --no-set-wallpaper] {
     if $wallpaper != null {
-        if not $no_set_wallpaper {set_wallpaper $wallpaper}
         generate_colors $wallpaper
+        if not $no_set_wallpaper {set_wallpaper $wallpaper}
+        echo $wallpaper | path expand | to text | save -f ~/.cache/wallpaper
     } else {
         let wallpaper = (get_walpaper)
-        if not $no_set_wallpaper {set_wallpaper $wallpaper}
         generate_colors $wallpaper
+        if not $no_set_wallpaper {set_wallpaper $wallpaper}
+        echo $wallpaper | path expand | to text | save -f ~/.cache/wallpaper
     }
 }
