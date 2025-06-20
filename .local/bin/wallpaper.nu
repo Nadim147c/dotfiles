@@ -29,32 +29,19 @@ def post_hooks [] {
 def get_walpaper []: nothing -> string {
     let current_wallpaper = (hyprctl hyprpaper listloaded | lines | str trim)
 
-    mkdir ~/Pictures/Wallpapers/
+    mkdir ~/Videos/Wallpapers/
 
-    ^find ~/Pictures/Wallpapers/ -type f | lines |
-        where $it =~ '.*\.(jpg|jpeg|png|webm)' and $it not-in $current_wallpaper |
-        to text | shuf -n1
+    ^find ~/Videos/Wallpapers/ -type f | lines | where $it =~ '.*\.(mp4|mkv|webm)' | to text | shuf -n1
 }
 
 def generate_colors [image?: string] {
-    if $image != null {
-        print $"Generating color from ($image)"
-        matugen image $image --verbose
-        try { rong image -- $image }
-    } else {
-        matugen color hex "#00ff00" --verbose
-    }
+    rong video -- $image
     post_hooks
 }
 
 def set_wallpaper [wallpaper: string] {
     print $"setting wallpaper ($wallpaper)"
-    if (ps | where name == hyprpaper | is-empty) {
-        hyprctl dispatch -- exec hyprpaper
-    }
-    hyprctl hyprpaper preload $wallpaper
-    hyprctl monitors -j | from json | each { hyprctl hyprpaper wallpaper $"($in.name),($wallpaper)" }
-    hyprctl hyprpaper unload all
+    ^echo $"loadfile \"($wallpaper)\"" | socat - /tmp/mpv-socket-All
 }
 
 def main [wallpaper?: string, --no-set-wallpaper] {

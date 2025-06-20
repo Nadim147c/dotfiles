@@ -2,6 +2,7 @@
 [link]
 "colors.lua" = "~/.config/wezterm/colors.lua"
 "colors.scss" = "~/.config/eww/styles/colors.scss"
+"spicetify-sleek.ini" = "~/.config/spicetify/Themes/Sleek/color.ini"
 "gtk-css.css" = [
     "~/.config/waybar/colors.css",
     "~/.config/swaync/colors.css",
