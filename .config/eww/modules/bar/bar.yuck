@@ -5,7 +5,7 @@
 ;; hyprland
 (deflisten hyprland_ipc :initial "{}" `~/.config/eww/modules/bar/hyprland.nu`)
 ;; network
-(deflisten network :initial "{}" `~/.config/eww/modules/bar/network.nu`)
+(deflisten network :initial "{}" `~/.config/eww/modules/bar/network.go`)
 
 (defvar spacing 16)
 
