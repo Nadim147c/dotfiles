@@ -99,42 +99,6 @@ def setup_nushell_caches [] {
     mise activate nu                      | save -f $"($cache_dir)/mise.nu"
 }
 
-def setup_kanata [] {
-    if (question "Setup kanta keymapping?") {return}
-    let kanata_config = "/etc/kanata/home-row.kbd"
-
-    sudo mkdir -p /etc/kanata/
-    sudo cp ./.config/kanata.kbd $kanata_config
-    let unit = $"
-[Unit]
-Description=Kanata keyboard remapper
-Documentation=https://github.com/jtroo/kanata
-
-[Service]
-CPUSchedulingPolicy=rr
-CPUSchedulingPriority=99
-IOSchedulingClass=realtime
-Nice=-20
-Type=simple
-ExecStart=kanata -c ($kanata_config)
-Restart=no
-
-[Install]
-WantedBy=default.target
-"
-
-
-    let unit_path = "/etc/systemd/system/kanata.service"
-
-    if not ($unit_path | path exists) {
-        $unit | sudo tee $unit_path | ignore
-        sudo systemctl daemon-reexec
-    }
-
-    # Enable the service (optional)
-    sudo systemctl enable --now kanata.service
-}
-
 def setup_gitconfig [] {
     let gitconfig_public = "~/.config/git/config.public" | path expand --no-symlink
 
