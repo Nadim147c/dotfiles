@@ -121,11 +121,11 @@ def setup_waypaper [] {
     let config = $"
 [Settings]
 language = en
-folder = ~/Videos/Wallpapers
-post_command = (echo "~/.local/bin/wallpaper.nu" | path expand --no-symlink) --no-set-wallpaper $wallpaper
-backend = mpvpaper
+folder = (echo "~/Videos/Wallpapers/" | path expand --no-symlink)
+post_command = (echo "~/.local/bin/wallpaper.nu" | path expand --no-symlink) $wallpaper
+backend = none
 show_path_in_tooltip = False
-mpvpaper_options = config=no no-audio
+mpvpaper_options = config=no
 "
     mkdir --verbose ~/.config/waypaper
     echo $config | str trim | save --force ~/.config/waypaper/config.ini
@@ -193,7 +193,6 @@ def main [] {
 
     setup_default_shell
     setup_nushell_caches
-    setup_kanata
     setup_gitconfig
     setup_waypaper
     link_dotfiles

@@ -43,7 +43,7 @@ def generate_colors [image: string] {
 
 def set_wallpaper [wallpaper: string] {
     print $"setting wallpaper ($wallpaper)"
-    ^echo $"loadfile \"($wallpaper)\"" | socat - /tmp/mpv-socket-All
+    ^echo $"loadfile \"($wallpaper)\"" | socat - /tmp/mpvpaper.sock
 }
 
 def main [wallpaper?: string, --no-set-wallpaper] {
