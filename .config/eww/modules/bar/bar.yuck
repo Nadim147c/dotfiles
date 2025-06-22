@@ -170,7 +170,7 @@
                     :spacing {spacing}
                     (eventbox :cursor "pointer"
                         (button
-                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Lock --arg decs="Lock your current sesssion?" --arg callback="hyprctl dispatch exec -- hyprlock"`
+                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Lock --arg decs="Lock your current sesssion?" --arg callback="hyprctl dispatch exec -- ~/.local/bin/hyprlock-starter.sh"`
                             (label :class "lock-button" :text "" :tooltip "Lock")
                         )
                     )
@@ -188,13 +188,13 @@
                     )
                     (eventbox :cursor "pointer"
                         (button
-                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Reboot --arg decs="Reboot your computer??" --arg callback="systemctl reboot"`
+                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Reboot --arg decs="Reboot your computer?" --arg callback="systemctl reboot"`
                             (label :class "reboot-button" :text "" :tooltip "Reboot")
                         )
                     )
                     (eventbox :cursor "pointer"
                         (button
-                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Shutdown --arg decs="Shutdown your computer??" --arg callback="systemctl poweroff"`
+                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Shutdown --arg decs="Shutdown your computer?" --arg callback="systemctl poweroff"`
                             (label :class "power-button" :text "" :tooltip "Shutdown")
                         )
                     )
