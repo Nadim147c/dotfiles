@@ -5,7 +5,8 @@ package main
 // scriptisto-begin
 // script_src: main.go
 // build_once_cmd: go mod tidy
-// build_cmd: go build -o script
+// build_cmd: go build -o mpvpaper-watcher
+// target_bin: mpvpaper-watcher
 // replace_shebang_with: //
 // files:
 //  - path: go.mod

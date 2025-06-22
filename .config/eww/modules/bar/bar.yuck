@@ -3,7 +3,7 @@
 (defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚" }`)
 
 ;; hyprland
-(deflisten hyprland_ipc :initial "{}" `~/.config/eww/modules/bar/hyprland.nu`)
+(deflisten hyprland_ipc :initial "{}" `~/.config/eww/modules/bar/hyprland.go`)
 ;; network
 (deflisten network :initial "{}" `~/.config/eww/modules/bar/network.go`)
 
