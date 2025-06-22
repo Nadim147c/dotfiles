@@ -5,8 +5,9 @@ package main
 // scriptisto-begin
 // script_src: main.go
 // build_once_cmd: go mod tidy
-// build_cmd: go build -o script
+// build_cmd: go build -o eww-network
 // replace_shebang_with: //
+// target_bin: ./eww-network
 // files:
 //  - path: go.mod
 //    content: |
