@@ -125,9 +125,9 @@ func calcSpeed(before map[string]NetStat, interval time.Duration) (map[string]Ne
 
 		d := Delta{
 			Interface: iface,
-			Down:      fmt.Sprintf("%.1M/s", drx),
-			Up:        fmt.Sprintf("%.1M/s", dtx),
-			Change:    fmt.Sprintf("%.1M/s", change),
+			Down:      fmt.Sprintf("%.1B/s", drx),
+			Up:        fmt.Sprintf("%.1B/s", dtx),
+			Change:    fmt.Sprintf("%.1B/s", change),
 			Wireless:  wireless,
 			delta:     change,
 		}

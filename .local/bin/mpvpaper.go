@@ -26,8 +26,6 @@ import (
 	"strings"
 )
 
-const MpvSocketPath = "/tmp/mpvpaper.sock"
-
 type Client struct {
 	Workspace struct {
 		ID int `json:"id"`
@@ -35,28 +33,33 @@ type Client struct {
 	Floating bool `json:"floating"`
 }
 
+var (
+	MpvSocket      = "/tmp/mpvpaper.sock"
+	XdgRuntime     = os.Getenv("XDG_RUNTIME_DIR")
+	His            = os.Getenv("HYPRLAND_INSTANCE_SIGNATURE")
+	HyprlandSocket = fmt.Sprintf("%s/hypr/%s/.socket2.sock", XdgRuntime, His)
+)
+
 func main() {
 	// Attempt wallpaper restore
-	wallpaperPath, err := getWallpaperPath()
+	wallpaperPath, err := GetWallpaperPath()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Failed to read wallpaper path:", err)
 		os.Exit(1)
 	}
 
-	if err := startMPVPaper(wallpaperPath); err != nil {
+	if err := StartMpvPaper(wallpaperPath); err != nil {
 		fmt.Fprintln(os.Stderr, "Failed to start mpvpaper:", err)
 	}
 
-	workspace := 5 // fallback
-	socketPath := fmt.Sprintf("%s/hypr/%s/.socket2.sock", os.Getenv("XDG_RUNTIME_DIR"), os.Getenv("HYPRLAND_INSTANCE_SIGNATURE"))
-
-	conn, err := net.Dial("unix", socketPath)
+	conn, err := net.Dial("unix", HyprlandSocket)
 	if err != nil {
 		fmt.Println("Failed to connect Hyprland socket:", err)
 		os.Exit(1)
 	}
 	defer conn.Close()
 
+	workspace := 5 // fallback
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -65,21 +68,21 @@ func main() {
 			fmt.Sscanf(id, "%d", &workspace)
 		}
 
-		noClients, err := getWorkspaceClients(workspace)
+		noClients, err := GetWorkspaceClients(workspace)
 		if err != nil {
 			fmt.Println("Error checking clients:", err)
 			continue
 		}
 
 		if noClients {
-			sendMPVCmd(false)
+			SendMPVCmd(false)
 		} else {
-			sendMPVCmd(true)
+			SendMPVCmd(true)
 		}
 	}
 }
 
-func getWallpaperPath() (string, error) {
+func GetWallpaperPath() (string, error) {
 	data, err := os.ReadFile(os.ExpandEnv("$HOME/.cache/wallpaper"))
 	if err != nil {
 		return "", err
@@ -87,9 +90,9 @@ func getWallpaperPath() (string, error) {
 	return strings.TrimSpace(string(data)), nil
 }
 
-func startMPVPaper(path string) error {
+func StartMpvPaper(path string) error {
 	args := []string{
-		"-o", "loop panscan=1.0 background-color='#222222' mute=yes config=no input-ipc-server=" + MpvSocketPath,
+		"-o", "loop panscan=1.0 background-color='#222222' mute=yes config=no input-ipc-server=" + MpvSocket,
 		"*", path,
 	}
 	cmd := exec.Command("mpvpaper", args...)
@@ -98,7 +101,9 @@ func startMPVPaper(path string) error {
 	return cmd.Start()
 }
 
-func getWorkspaceClients(workspace int) (bool, error) {
+var GetHyprlandClients = []byte("j/clients")
+
+func GetWorkspaceClients(workspace int) (bool, error) {
 	socket := fmt.Sprintf("%s/hypr/%s/.socket.sock", os.Getenv("XDG_RUNTIME_DIR"), os.Getenv("HYPRLAND_INSTANCE_SIGNATURE"))
 	conn, err := net.Dial("unix", socket) // ignore the err
 	if err != nil {
@@ -106,11 +111,15 @@ func getWorkspaceClients(workspace int) (bool, error) {
 	}
 	defer conn.Close()
 
-	// Send ipc client request
-	fmt.Fprint(conn, "j/clients")
+	_, err = conn.Write(GetHyprlandClients)
+	if err != nil {
+		return false, err
+	}
 
 	var clients []Client
-	json.NewDecoder(conn).Decode(&clients)
+	if err := json.NewDecoder(conn).Decode(&clients); err != nil {
+		return false, err
+	}
 
 	// Check if there are no non-floating clients in the workspace
 	for _, c := range clients {
@@ -121,16 +130,21 @@ func getWorkspaceClients(workspace int) (bool, error) {
 	return true, nil
 }
 
-func sendMPVCmd(paused bool) {
-	state := "no"
-	if paused {
-		state = "yes"
-	}
-	conn, err := net.Dial("unix", MpvSocketPath)
+var (
+	Pause = []byte("set pause yes\n")
+	Play  = []byte("set pause no\n")
+)
+
+func SendMPVCmd(paused bool) error {
+	conn, err := net.Dial("unix", MpvSocket)
 	if err != nil {
-		fmt.Println("mpv socket error:", err)
-		return
+		return err
 	}
 	defer conn.Close()
-	fmt.Fprintf(conn, "set pause %s\n", state)
+	if paused {
+        _, err = conn.Write(Pause)
+        return err
+	}
+    _, err = conn.Write(Play)
+    return err
 }
