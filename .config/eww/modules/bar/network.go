@@ -303,8 +303,8 @@ type pair struct {
 var (
 	siBytes     = []pair{{"kB", KB}, {"MB", MB}, {"GB", GB}, {"TB", TB}, {"PB", PB}, {"EB", EB}}
 	siBits      = []pair{{"kb", Kb}, {"Mb", Mb}, {"Gb", Gb}, {"Tb", Tb}, {"Pb", Pb}, {"Eb", Eb}}
-	binaryBytes = []pair{{"kiB", KiB}, {"KiB", KiB}, {"MiB", MiB}, {"GiB", GiB}, {"TiB", TiB}, {"PiB", PiB}, {"EiB", EiB}}
-	binaryBits  = []pair{{"kib", Kib}, {"Kib", Kib}, {"Mib", Mib}, {"Gib", Gib}, {"Tib", Tib}, {"Pib", Pib}}
+	binaryBytes = []pair{{"kiB", KiB}, {"MiB", MiB}, {"GiB", GiB}, {"TiB", TiB}, {"PiB", PiB}, {"EiB", EiB}}
+	binaryBits  = []pair{{"kib", Kib}, {"Mib", Mib}, {"Gib", Gib}, {"Tib", Tib}, {"Pib", Pib}}
 )
 
 func (d Diskspace) findBestUnit(kind string) string {
