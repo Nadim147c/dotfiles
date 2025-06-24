@@ -1,6 +1,11 @@
 $env.TRANSIENT_PROMPT_INDICATOR = ""
 $env.TRANSIENT_PROMPT_COMMAND = false
 
+$env.XDG_CONFIG_HOME = $env.HOME | path join ".config"
+$env.XDG_CACHE_HOME = $env.HOME | path join ".cache"
+$env.XDG_DATA_HOME = $env.HOME | path join ".local" "share"
+$env.XDG_STATE_HOME = $env.HOME | path join ".local" "state"
+
 $env.LS_COLORS = (vivid generate catppuccin-mocha | str trim)
 
 $env.Path = [
