@@ -19,20 +19,12 @@ def post_hooks [] {
 }
 
 def get_walpaper []: nothing -> string {
-    mut current_wallpaper  = ""
-    try {
-        $current_wallpaper = open --raw ~/.cache/wallpaper
-    }
-
+    let current_wallpaper = (hyprctl hyprpaper listloaded | lines | str trim)
     mkdir ~/Videos/Wallpapers/
 
-    let wallpaper = (
-        ^find ~/Videos/Wallpapers/ -type f | lines
-        | where $it =~ '.*\.(mp4|mkv|webm)' and $it != $current_wallpaper
-        | get (random int ..<($in | length))
-    )
-
-    $wallpaper
+    ^find ~/Pictures/Wallpapers/ -type f | lines |
+        where $it =~ '.*\.(jpg|jpeg|png|webm)' and $it not-in $current_wallpaper |
+        get (random int ..<($in | length))
 }
 
 def generate_colors [image: string] {
@@ -43,18 +35,21 @@ def generate_colors [image: string] {
 
 def set_wallpaper [wallpaper: string] {
     print $"setting wallpaper ($wallpaper)"
-    ^echo $"loadfile \"($wallpaper)\"" | socat - /tmp/mpvpaper.sock
+    if (ps | where name == hyprpaper | is-empty) {
+        hyprctl dispatch -- exec hyprpaper
+    }
+    hyprctl hyprpaper preload $wallpaper
+    hyprctl monitors -j | from json | each { hyprctl hyprpaper wallpaper $"($in.name),($wallpaper)" }
+    hyprctl hyprpaper unload all
 }
 
 def main [wallpaper?: string, --no-set-wallpaper] {
     if $wallpaper != null {
         generate_colors $wallpaper
         if not $no_set_wallpaper {set_wallpaper $wallpaper}
-        echo $wallpaper | path expand | to text | save -f ~/.cache/wallpaper
     } else {
         let wallpaper = (get_walpaper)
         generate_colors $wallpaper
         if not $no_set_wallpaper {set_wallpaper $wallpaper}
-        echo $wallpaper | path expand | to text | save -f ~/.cache/wallpaper
     }
 }

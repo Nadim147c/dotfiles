@@ -170,31 +170,31 @@
                     :spacing {spacing}
                     (eventbox :cursor "pointer"
                         (button
-                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Lock --arg decs="Lock your current sesssion?" --arg callback="hyprctl dispatch exec -- ~/.local/bin/hyprlock-starter.sh"`
+                            :onclick `confirm.nu -c Cencel -o Lock -d "Lock your current sesssion?" "hyprctl dispatch exec -- hyprlock"`
                             (label :class "lock-button" :text "" :tooltip "Lock")
                         )
                     )
                     (eventbox :cursor "pointer"
                         (button
-                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Lockout --arg decs="Exit your current sesssion?" --arg callback="hyprctl dispatch exit"`
+                            :onclick `confirm.nu -c Cencel -o Lock -d "Exit your current sesssion?" "hyprctl dispatch exit"`
                             (label :class "logout-button" :text "󰍃" :tooltip "Logout")
                         )
                     )
                     (eventbox :cursor "pointer"
                         (button
-                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Sleep --arg decs="Sleep your computer?" --arg callback="systemctl suspend"`
+                            :onclick `confirm.nu -c Cencel -o Sleep -d "Sleep your computer?" "systemctl suspend"`
                             (label :class "sleep-button" :text "󰒲" :tooltip "Sleep")
                         )
                     )
                     (eventbox :cursor "pointer"
                         (button
-                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Reboot --arg decs="Reboot your computer?" --arg callback="systemctl reboot"`
+                            :onclick `confirm.nu -c Cencel -o Reboot -d "Reboot your computer?" "systemctl reboot"`
                             (label :class "reboot-button" :text "" :tooltip "Reboot")
                         )
                     )
                     (eventbox :cursor "pointer"
                         (button
-                            :onclick `${EWW_CMD} open confirm --arg cancel=Cencel --arg okay=Shutdown --arg decs="Shutdown your computer?" --arg callback="systemctl poweroff"`
+                            :onclick `confirm.nu -c Cencel -Shutdown -d "Shutdown your computer?" "systemctl poweroff"`
                             (label :class "power-button" :text "" :tooltip "Shutdown")
                         )
                     )
