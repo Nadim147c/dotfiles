@@ -47,6 +47,9 @@ source ~/.config/nushell/modules/organize.nu
 source ~/.config/nushell/modules/ffmpeg.nu
 source ~/.config/nushell/modules/imagemagick.nu
 
+if ("ZELLIJ" not-in $env) and ("TMUX" not-in $env) {
+    fastfetch
+}
 
 def disk [...p] {
     ^df ...$p

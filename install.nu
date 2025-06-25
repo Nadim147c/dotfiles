@@ -121,11 +121,10 @@ def setup_waypaper [] {
     let config = $"
 [Settings]
 language = en
-folder = (echo "~/Videos/Wallpapers/" | path expand --no-symlink)
+folder = (echo "~/Pictures/Wallpapers/" | path expand --no-symlink)
 post_command = (echo "~/.local/bin/wallpaper.nu" | path expand --no-symlink) $wallpaper
-backend = none
+backend = hyprpaper
 show_path_in_tooltip = False
-mpvpaper_options = config=no
 "
     mkdir --verbose ~/.config/waypaper
     echo $config | str trim | save --force ~/.config/waypaper/config.ini
