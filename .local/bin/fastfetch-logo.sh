@@ -10,4 +10,3 @@ if [ -n "$LOGO" ]; then
 fi
 
 echo "$HOME/.config/fastfetch/logo"
-
