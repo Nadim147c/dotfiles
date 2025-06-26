@@ -1,0 +1,30 @@
+.eww-wallpaper {
+    background-color: $background;
+    color: $onBackground;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    .title {
+        font-size: 16px;
+        font-weight: 700;
+    }
+    image {
+        margin: 0.6rem 0;
+        border-radius: 1rem;
+    }
+
+    .close {
+        button {
+            background-color: $primary;
+            color: $onPrimary;
+            padding: 0 4px;
+            padding-right: 9px;
+            margin-right: 0px;
+            border-radius: 15px;
+            &:hover {
+                background-color: $error;
+                color: $onError;
+            }
+        }
+    }
+}

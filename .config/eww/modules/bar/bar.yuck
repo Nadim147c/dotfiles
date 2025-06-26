@@ -210,6 +210,24 @@
 )
 
 
+(defwidget action_row []
+	(box
+        :class "action-row"
+        :orientation "h"
+        :space-evenly false
+        :spacing {spacing}
+        (eventbox
+            :cursor "pointer"
+            (button
+                :class "wallpaper"
+                :onclick "${EWW_CMD} open wallpaper"
+                "󰸉"
+            )
+        )
+    )
+)
+
+
 (defwidget left []
 	(box
         :class "left"
@@ -242,6 +260,7 @@
         (network)
         (volume)
         (clock)
+        (action_row)
         (power)
     )
 )
