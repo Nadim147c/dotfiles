@@ -1,5 +1,3 @@
-#!/usr/bin/env scriptisto
-
 // This program adjusts the screen color temperature throughout the day using Hyprland's `hyprctl hyprsunset`.
 //
 // Behavior:
@@ -11,20 +9,6 @@
 // The program runs continuously, checking and updating the temperature every minute.
 
 package main
-
-// scriptisto-begin
-// script_src: main.go
-// build_once_cmd: go mod tidy
-// build_cmd: go build -o hyprsunset-daemon
-// target_bin: hyprsunset-daemon
-// replace_shebang_with: //
-// files:
-//  - path: go.mod
-//    content: |
-//      module hyprsunset
-//
-//      go 1.24
-// scriptisto-end
 
 import (
 	"fmt"

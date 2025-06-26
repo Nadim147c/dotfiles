@@ -1,20 +1,4 @@
-#!/usr/bin/env scriptisto
-
 package main
-
-// scriptisto-begin
-// script_src: main.go
-// build_once_cmd: go mod tidy
-// build_cmd: go build -o eww-hyprland
-// replace_shebang_with: //
-// target_bin: ./eww-hyprland
-// files:
-//  - path: go.mod
-//    content: |
-//      module eww
-//
-//      go 1.24
-// scriptisto-end
 
 import (
 	"bufio"

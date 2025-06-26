@@ -1,159 +1,10 @@
-#!/usr/bin/env scriptisto
-
-package main
-
-// scriptisto-begin
-// script_src: main.go
-// build_once_cmd: go mod tidy
-// build_cmd: go build -o eww-network
-// replace_shebang_with: //
-// target_bin: ./eww-network
-// files:
-//  - path: go.mod
-//    content: |
-//      module eww
-//
-//      go 1.24
-// scriptisto-end
+package diskspace
 
 import (
-	"bufio"
-	"encoding/json"
 	"fmt"
 	"math/big"
-	"os"
-	"path/filepath"
 	"slices"
-	"strconv"
-	"strings"
-	"time"
 )
-
-func main() {
-	start := time.Now()
-	before, err := parseNetDev()
-	if err != nil {
-		panic(err)
-	}
-
-	before, err = calcSpeed(before, time.Since(start))
-	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error:", err)
-	}
-
-	interval := 2 * time.Second
-
-	ticker := time.NewTicker(interval)
-	for {
-		<-ticker.C
-		before, err = calcSpeed(before, interval)
-		if err != nil {
-			fmt.Fprintln(os.Stderr, "Error:", err)
-		}
-	}
-}
-
-type NetStat struct {
-	Interface string
-	Rx, Tx    Diskspace
-}
-
-type Delta struct {
-	Interface string `json:"interface"`
-	Down      string `json:"down"`
-	Up        string `json:"up"`
-	Change    string `json:"change"`
-	Wireless  bool   `json:"wireless"`
-	Table     string `json:"table,omitzero"` // You can customize this
-	delta     Diskspace
-}
-
-func parseNetDev() (map[string]NetStat, error) {
-	file, err := os.Open("/proc/net/dev")
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	stats := map[string]NetStat{}
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
-		if !strings.Contains(line, ":") {
-			continue
-		}
-
-		parts := strings.Split(line, ":")
-		iface := strings.TrimSpace(parts[0])
-		fields := strings.Fields(parts[1])
-		if len(fields) < 9 {
-			continue
-		}
-
-		rx, _ := strconv.ParseInt(fields[0], 10, 64)
-		tx, _ := strconv.ParseInt(fields[8], 10, 64)
-		stats[iface] = NetStat{Interface: iface, Rx: Diskspace(rx), Tx: Diskspace(tx)}
-	}
-
-	return stats, nil
-}
-
-func calcSpeed(before map[string]NetStat, interval time.Duration) (map[string]NetStat, error) {
-	after, err := parseNetDev()
-	if err != nil {
-		return nil, err
-	}
-
-	var allDeltas []Delta
-
-	for iface, b := range before {
-		a, ok := after[iface]
-		if !ok {
-			continue
-		}
-
-		durationSec := float64(interval) / float64(time.Second)
-
-		drx := Diskspace(float64(a.Rx-b.Rx) / durationSec)
-		dtx := Diskspace(float64(a.Tx-b.Tx) / durationSec)
-		change := drx + dtx
-
-		wireless := false
-		if _, err := os.Stat(filepath.Join("/sys/class/net", iface, "wireless")); err == nil {
-			wireless = true
-		}
-
-		d := Delta{
-			Interface: iface,
-			Down:      fmt.Sprintf("%.1B/s", drx),
-			Up:        fmt.Sprintf("%.1B/s", dtx),
-			Change:    fmt.Sprintf("%.1B/s", change),
-			Wireless:  wireless,
-			delta:     change,
-		}
-		allDeltas = append(allDeltas, d)
-	}
-	if len(allDeltas) == 0 {
-		return after, nil
-	}
-
-	slices.SortFunc(allDeltas, func(a, b Delta) int {
-		return int(b.delta - a.delta)
-	})
-
-	rows := make([]string, len(allDeltas))
-	for i, d := range allDeltas {
-		row := fmt.Sprintf("%s:\t  %s\t  %s\t  %s", d.Interface, d.Change, d.Down, d.Up)
-		rows[i] = row
-	}
-
-	speed := allDeltas[0]
-	speed.Table = strings.Join(rows, "\n")
-
-	json.NewEncoder(os.Stdout).Encode(speed)
-
-	return after, nil
-}
 
 type Diskspace int64
 
@@ -259,11 +110,11 @@ func (d Diskspace) Format(f fmt.State, verb rune) {
 	case 'B':
 		unit = d.findBestUnit("binary-byte")
 	case 'b':
-		unit = d.findBestUnit("binary-bite")
+		unit = d.findBestUnit("binary-bit")
 	case 'M':
 		unit = d.findBestUnit("si-byte")
 	case 'm':
-		unit = d.findBestUnit("si-bite")
+		unit = d.findBestUnit("si-bit")
 	case 'd':
 		fmt.Fprint(f, int64(d))
 		return
