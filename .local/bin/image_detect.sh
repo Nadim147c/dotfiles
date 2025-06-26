@@ -35,12 +35,11 @@ find "$BASE_DIR" -type f ! -name "*.*" | while read -r file; do
   esac
 
   # Rename the file with the appropriate extension
-  new_file="${file}.${ext}"
+  new_file="$(dirname "$file")/$(uuidgen).${ext}"
   if [[ -e "$new_file" ]]; then
     echo "Cannot rename $file to $new_file: target exists."
   else
-    mv "$file" "$new_file"
-    echo "Renamed: $file → $new_file"
+    mv -v "$file" "$new_file"
   fi
 done
 
