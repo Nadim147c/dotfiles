@@ -18,7 +18,7 @@ socat -U - "$uri" | while IFS= read -r line; do
 
     # Check if workspace has no non-floating clients
     if hyprctl clients -j | jq -e --argjson ws "$workspace" \
-        '[.[] | select(.workspace.id == $ws and (.floating | not))] | length == 0' > /dev/null; then
+        '[.[] | select(.workspace.id == $ws and (.floating | not))] | length == 0' >/dev/null; then
         echo "Playing"
         printf 'set pause no\n' | socat - /tmp/mpv-socket-All
     else
@@ -26,4 +26,3 @@ socat -U - "$uri" | while IFS= read -r line; do
         printf 'set pause yes\n' | socat - /tmp/mpv-socket-All
     fi
 done
-
