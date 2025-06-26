@@ -8,7 +8,7 @@ let pkgs = [
     # Desktop env
         # Hyprland
     hyprland hypridle hyprlock hyprcursor hyprshot hyprsunset hyprpaper
-    waybar swaync wlogout aur/waypaper waybar-lyric-git hyprpolkitagent
+    swaync wlogout aur/waypaper waybar-lyric-git hyprpolkitagent
     adw-gtk-theme breeze nwg-look qt6ct bibata-cursor-theme mpvpaper
         # Color
     matugen-bin python-pywalfox

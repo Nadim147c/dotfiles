@@ -3,9 +3,9 @@
 (defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚" }`)
 
 ;; hyprland
-(deflisten hyprland_ipc :initial "{}" `~/.config/eww/modules/bar/hyprland.go`)
+(deflisten hyprland_ipc :initial "{}" `eww-hyprland`)
 ;; network
-(deflisten network :initial "{}" `~/.config/eww/modules/bar/network.go`)
+(deflisten network :initial "{}" `eww-network -fb`)
 
 (defvar spacing 16)
 
