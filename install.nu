@@ -7,9 +7,9 @@ let pkgs = [
 
     # Desktop env
         # Hyprland
-    hyprland hypridle hyprlock hyprcursor hyprshot hyprsunset hyprpaper
-    swaync wlogout aur/waypaper waybar-lyric-git hyprpolkitagent
-    adw-gtk-theme breeze nwg-look qt6ct bibata-cursor-theme mpvpaper
+    hyprland hypridle hyprlock hyprcursor hyprshot hyprsunset
+    swaync wlogout waybar-lyric-git hyprpolkitagent
+    adw-gtk-theme breeze nwg-look qt6ct bibata-cursor-theme
         # Color
     matugen-bin python-pywalfox
         # Clipboard
@@ -20,6 +20,7 @@ let pkgs = [
     zen-browser-bin #browser
     youtube-music-bin #browser
     equibop-bin # Discord
+    mpv ffmpeg
 
     nautilus loupe dolphin gnome-calendar # Other
     thunar tumbler ffmpegthumbnailer libgsf tumbler-extra-thumbnailers thunar-archive-plugin
@@ -111,23 +112,6 @@ def setup_gitconfig [] {
     title "Setting up gitconfig"
 
     ^git config --global --add include.path $gitconfig_public
-}
-
-def setup_waypaper [] {
-    if (question "Setup waypaper config?") { return }
-
-    title "Setting up waypaper"
-
-    let config = $"
-[Settings]
-language = en
-folder = (echo "~/Pictures/Wallpapers/" | path expand --no-symlink)
-post_command = (echo "~/.local/bin/wallpaper.nu" | path expand --no-symlink) $wallpaper
-backend = hyprpaper
-show_path_in_tooltip = False
-"
-    mkdir --verbose ~/.config/waypaper
-    echo $config | str trim | save --force ~/.config/waypaper/config.ini
 }
 
 def link_dotfiles [] {

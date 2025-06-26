@@ -35,21 +35,30 @@ def generate_colors [image: string] {
 
 def set_wallpaper [wallpaper: string] {
     print $"setting wallpaper ($wallpaper)"
-    if (ps | where name == hyprpaper | is-empty) {
-        hyprctl dispatch -- exec hyprpaper
+    if (ps | where name == swww-daemon | is-empty) {
+        hyprctl dispatch exec -- swww-daemon
     }
-    hyprctl hyprpaper preload $wallpaper
-    hyprctl monitors -j | from json | each { hyprctl hyprpaper wallpaper $"($in.name),($wallpaper)" }
-    hyprctl hyprpaper unload all
+
+    let cursor = hyprctl cursorpos | str replace ", " ","
+
+    (hyprctl dispatch exec --
+        swww img
+        --transition-type ([grow outer] | get (random int ..<($in | length)))
+        --transition-duration 2
+        --transition-pos $cursor
+        --transition-bezier ".09,.91,.52,.93"
+        --transition-fps 60
+        --invert-y
+        $wallpaper)
 }
 
-def main [wallpaper?: string, --no-set-wallpaper] {
+def main [wallpaper?: string] {
     if $wallpaper != null {
+        set_wallpaper $wallpaper
         generate_colors $wallpaper
-        if not $no_set_wallpaper {set_wallpaper $wallpaper}
     } else {
         let wallpaper = (get_walpaper)
+        set_wallpaper $wallpaper
         generate_colors $wallpaper
-        if not $no_set_wallpaper {set_wallpaper $wallpaper}
     }
 }
