@@ -1,6 +1,6 @@
 (defwindow confirm [decs callback okay cancel]
     :monitor 0
-    :stacking "fg"
+    :stacking "overlay"
     :windowtype "dialog"
 	:geometry (geometry
         :x "-50%"

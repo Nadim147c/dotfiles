@@ -1,4 +1,5 @@
 ;; Bar
 (include "./modules/bar/bar.yuck")
 (include "./modules/dialog/confirm.yuck")
+(include "./modules/wallpaper/wallpaper.yuck")
 
