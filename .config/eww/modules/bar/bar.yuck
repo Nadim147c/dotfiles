@@ -194,7 +194,7 @@
                     )
                     (eventbox :cursor "pointer"
                         (button
-                            :onclick `confirm.nu -c Cencel -Shutdown -d "Shutdown your computer?" "systemctl poweroff"`
+                            :onclick `confirm.nu -c Cencel -o Shutdown -d "Shutdown your computer?" "systemctl poweroff"`
                             (label :class "power-button" :text "" :tooltip "Shutdown")
                         )
                     )
