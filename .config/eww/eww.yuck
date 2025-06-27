@@ -3,3 +3,4 @@
 (include "./modules/dialog/confirm.yuck")
 (include "./modules/wallpaper/wallpaper.yuck")
 (include "./modules/calendar/calendar.yuck")
+(include "./modules/media/media.yuck")

@@ -25,12 +25,6 @@ func init() {
 "b" for si bit (Kbps, Mbps...)
 `)
 
-	pflag.Usage = func() {
-		fmt.Printf("Usage: %s [options]\n", os.Args[0])
-		fmt.Println("Options:")
-		fmt.Println(pflag.CommandLine.FlagUsages())
-	}
-
 	pflag.Parse()
 
 	switch *format {
