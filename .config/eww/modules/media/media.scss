@@ -1,0 +1,41 @@
+.eww-media {
+    background-color: $background;
+    color: $onBackground;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    .title {
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+
+    .line {
+        .active {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+        &:hover {
+            font-weight: 800;
+        }
+    }
+
+    slider {
+        background-color: $primary;
+        padding: 0.5rem;
+    }
+
+    scale trough highlight {
+        background-color: $primary;
+        padding: 3px 0;
+        color: $onPrimary;
+        border-radius: 10px;
+    }
+
+    scale trough {
+        all: unset;
+        background-color: $surfaceContainerHighest;
+        border-radius: 3rem;
+        min-width: 3rem;
+        margin-right: 7px;
+    }
+}

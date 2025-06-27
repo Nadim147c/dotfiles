@@ -10,10 +10,6 @@
     padding-left: 0.6rem;
     border-radius: 0.8rem;
 
-    slider {
-        color: #ffd5cd;
-    }
-
     scale trough highlight {
         background-color: $primary;
         padding: 3px 0;
@@ -119,9 +115,10 @@
             padding-right: 1rem;
         }
 
-        scale trough {
-            margin-left: 7px;
+        .drop {
+            padding-right: 0.8rem;
         }
+
         .seek,
         .seeking {
             padding-right: 0.9rem;

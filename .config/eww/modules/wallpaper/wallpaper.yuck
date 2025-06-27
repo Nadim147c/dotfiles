@@ -41,7 +41,8 @@
                         (eventbox
                             :cursor "pointer"
                             (button
-                                :onclick "hyprctl dispatch exec -- wallpaper.nu '${wall}'"
+                                :timeout "10s"
+                                :onclick "wallpaper.nu '${wall}'"
                                 (image :path {wall} :image-width 270)
                             )
                         )

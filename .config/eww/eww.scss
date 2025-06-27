@@ -22,7 +22,7 @@ tooltip {
     button {
         background-color: $primary;
         color: $onPrimary;
-        padding: 0 5px;
+        padding: 2.5px 5px;
         padding-right: 10px;
         margin-right: 0px;
         border-radius: 15px;
@@ -34,8 +34,8 @@ tooltip {
 }
 
 @import "styles/workspace.scss";
-
 @import "modules/bar/bar.scss";
 @import "modules/dialog/confirm.scss";
 @import "modules/wallpaper/wallpaper.scss";
 @import "modules/calendar/calendar.scss";
+@import "modules/media/media.scss";
