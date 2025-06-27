@@ -26,6 +26,17 @@ alias fork = hyprctl dispatch exec --
 
 def ff [] { clear; ^fastfetch }
 
+let keychain_env = (
+    keychain --eval --quiet --ignore-missing id_ed25519 id_rsa
+    | lines
+    | each {$in | split row ';' | first }
+    | parse "{val}={key}"
+    | transpose -r
+)
+
+$env.SSH_AUTH_SOCK = $keychain_env.SSH_AUTH_SOCK | first
+$env.SSH_AGENT_PID = $keychain_env.SSH_AGENT_PID | first
+
 # Choose a random item from a table or list
 def "get random" [] {
     if $in == null { error make --unspanned { msg: "Input must be a table or list" } }
