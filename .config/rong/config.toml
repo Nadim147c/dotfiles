@@ -2,7 +2,7 @@
 [link]
 "hyprland.conf" = "~/.config/hypr/colors.conf"
 "colors.lua" = "~/.config/wezterm/colors.lua"
-"colors.scss" = "~/.config/eww/styles/colors.scss"
+"colors.scss" = "~/.config/eww/colors.scss"
 "spicetify-sleek.ini" = "~/.config/spicetify/Themes/Sleek/color.ini"
 "kitty.conf" = "~/.config/kitty/colors.conf"
 "pywalfox.json" = "~/.cache/wal/colors.json"
