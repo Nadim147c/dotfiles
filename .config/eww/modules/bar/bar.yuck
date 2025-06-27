@@ -148,7 +148,11 @@
 )
 
 (defwidget clock []
-    (box (label :text "  ${formattime(EWW_TIME, "%I:%M%p")}"))
+    (eventbox :cursor "pointer"
+        (button :onclick "${EWW_CMD} open calendar"
+            "  ${formattime(EWW_TIME, "%I:%M%p")}"
+        )
+    )
 )
 
 (defvar power_show false)

@@ -20,7 +20,7 @@
         (box
             :space-evenly false
             :orientation "v"
-            :spacing {spacing}
+            :spacing 5
             (box
                 :orientation "h"
                 (label :class "title" :halign "start" :text "Wallpapers")
