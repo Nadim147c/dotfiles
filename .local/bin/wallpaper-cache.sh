@@ -22,6 +22,7 @@ cache_image() {
     local cache_file="$CACHE_DIR/$filename"
 
     if [[ ! -f "$cache_file" ]] || [[ "$src" -nt "$cache_file" ]]; then
+        echo "caching $src"
         magick "$src" -resize 300x -strip -quality 80 "$cache_file" 2>/dev/null
     fi
     echo "$cache_file"
