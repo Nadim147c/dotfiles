@@ -11,14 +11,13 @@ let pkgs = [
     swaync wlogout waybar-lyric-git hyprpolkitagent
     adw-gtk-theme breeze nwg-look qt6ct bibata-cursor-theme
         # Color
-    matugen-bin python-pywalfox
+    python-pywalfox
         # Clipboard
     wl-clipboard cliphist
     kdeconnect blueman
 
     # Desktop Apps
     zen-browser-bin #browser
-    youtube-music-bin #browser
     equibop-bin # Discord
     mpv ffmpeg
 
@@ -39,7 +38,7 @@ let pkgs = [
 
     # Dev tools
         # Lang
-    rustup go nodejs python3
+    rust go nodejs python3
         # Tool
     neovim zellij base-devel sccache curl make wget
         # Git
@@ -131,9 +130,6 @@ def install_spicetify [] {
     if (question "Install Spicetify?") {return}
 
     title "Installing spicetify"
-    sudo chmod a+wr /opt/spotify
-    sudo chmod a+wr /opt/spotify/Apps -R
-
     let theme_url = "https://github.com/spicetify/spicetify-themes/raw/refs/heads/master/Sleek/user.css"
     let theme_path = ("~/.config/spicetify/Themes/Sleek/user.css" | path expand)
 
@@ -177,7 +173,6 @@ def main [] {
     setup_default_shell
     setup_nushell_caches
     setup_gitconfig
-    setup_waypaper
     link_dotfiles
 
     apply_wallpaper_colors

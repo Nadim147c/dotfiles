@@ -1,6 +1,6 @@
 (defpoll wallpapers
     :interval "3s"
-    `~/.config/eww/modules/wallpaper/wallpaper.nu`
+    `wallpaper-cache.sh list`
 )
 
 (defvar HEIGHT 650)
@@ -42,7 +42,7 @@
                             :cursor "pointer"
                             (button
                                 :timeout "10s"
-                                :onclick "wallpaper.nu '${wall}'"
+                                :onclick "wallpaper.nu $(wallpaper-cache.sh resolve '${wall}')"
                                 (image :path {wall} :image-width 270)
                             )
                         )
