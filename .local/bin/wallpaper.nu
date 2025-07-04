@@ -1,4 +1,4 @@
-#!/bin/nu
+#!/usr/bin/env nu
 
 def post_hooks [] {
     # Reload kitty, waybar, swaync, firefox, alacritty
@@ -23,7 +23,7 @@ def get_walpaper []: nothing -> string {
     mkdir ~/Videos/Wallpapers/
 
     ^find ~/Pictures/Wallpapers/ -type f | lines |
-        where $it =~ '.*\.(jpg|jpeg|png|webm)' and $it not-in $current_wallpaper |
+        where $it =~ '.*\.(jpg|jpeg|png|webp)' and $it not-in $current_wallpaper |
         get (random int ..<($in | length))
 }
 
