@@ -23,16 +23,15 @@ cache_image() {
 
     if [[ ! -f "$cache_file" ]] || [[ "$src" -nt "$cache_file" ]]; then
         echo "caching $src"
-        magick "$src" -resize 300x -strip -quality 80 "$cache_file" 2>/dev/null
+        magick "$src" -resize 300x -strip -quality 80 "$cache_file"
     fi
-    echo "$cache_file"
 }
 
 case "$1" in
     "cache")
         # Cache all images in wallpaper directory
         while IFS= read -r -d $'\0' img; do
-            cache_image "$img" >/dev/null
+            cache_image "$img"
         done < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -print0)
         ;;
     "list")
