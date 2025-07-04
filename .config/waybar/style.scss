@@ -1,0 +1,88 @@
+@import "colors.scss";
+
+* {
+    min-height: 0;
+    min-width: 0;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+window#waybar {
+    transition-duration: 0.5s;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    margin: 0 1rem;
+}
+
+.module {
+    padding: 0 0.3rem;
+    margin: 0;
+    border-radius: 10px;
+    background-color: $background;
+    color: $primary;
+}
+
+.modules-right,
+#workspaces,
+#tray,
+#custom-lyrics {
+    margin: 0 0.5rem;
+    padding: 0 0.4rem;
+    background-color: $background;
+    color: $primary;
+    border-radius: 10px;
+}
+
+#tray,
+#custom-lyrics {
+    padding: 0 0.7rem;
+}
+
+#workspaces {
+    button {
+        box-shadow: none;
+        text-shadow: none;
+        border: none;
+        border-radius: 15px;
+        padding: 0 0.4rem;
+        margin: 0.5rem 0;
+        color: $onBackground;
+
+        &.active {
+            background: $primary;
+            color: $onPrimary;
+        }
+
+        &.urgent {
+            background: $secondaryContainer;
+            color: $onSecondaryContainer;
+        }
+
+        &:hover {
+            box-shadow: inherit;
+            text-shadow: inherit;
+            border: none;
+            background: $primaryFixed;
+            color: $onPrimaryFixed;
+        }
+    }
+}
+
+#custom-lyrics {
+    font-family: "Noto Font";
+
+    &.paused {
+        font-style: italic;
+        color: $secondary;
+    }
+}
+
+tooltip {
+    font-family: "Noto Font";
+    border-radius: 15px;
+    background-color: $background;
+    border: 2px solid $onPrimary;
+}

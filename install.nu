@@ -38,7 +38,7 @@ let pkgs = [
 
     # Dev tools
         # Lang
-    rust go nodejs python3
+    rust go nodejs python3 ruby-sass
         # Tool
     neovim zellij base-devel sccache curl make wget
         # Git
