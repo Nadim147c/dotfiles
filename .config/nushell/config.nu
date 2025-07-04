@@ -22,7 +22,6 @@ alias ..... = cd ../../../..
 
 alias delta = ^delta --line-numbers --hunk-header-decoration-style none
 alias ffmpeg = ^ffmpeg -hide_banner
-alias fork = hyprctl dispatch exec --
 
 def ff [] { clear; ^fastfetch }
 
