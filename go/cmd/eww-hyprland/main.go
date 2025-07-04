@@ -7,7 +7,6 @@ import (
 	"net"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -121,25 +120,37 @@ func main() {
 	}
 	defer conn.Close()
 
+	var id int
 	// Listen for events
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {
 		line := scanner.Text()
-		after, ok := strings.CutPrefix(line, "workspacev2>>")
-		if !ok {
+		split := strings.SplitN(line, ">>", 2)
+
+		if len(split) != 2 {
 			continue
 		}
+		event, meta := split[0], split[1]
 
-		idStr := strings.SplitN(after, ",", 2)[0]
-		id, err := strconv.Atoi(idStr)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error parsing workspace ID '%s': %v\n", idStr, err)
-			continue
+		switch event {
+		case "openwindow", "openlayer":
+			if err := PrintWorkspaces(id); err != nil {
+				fmt.Fprintf(os.Stderr, "Error printing workspaces: %v\n", err)
+			}
+		case "workspacev2":
+			var ws int
+			_, err := fmt.Sscanf(meta, "%d,", &ws)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Error parsing workspace ID '%s': %v\n", meta, err)
+				continue
+			}
+			id = ws
+
+			if err := PrintWorkspaces(id); err != nil {
+				fmt.Fprintf(os.Stderr, "Error printing workspaces: %v\n", err)
+			}
 		}
 
-		if err := PrintWorkspaces(id); err != nil {
-			fmt.Fprintf(os.Stderr, "Error printing workspaces: %v\n", err)
-		}
 	}
 
 	if err := scanner.Err(); err != nil {
