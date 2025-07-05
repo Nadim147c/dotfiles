@@ -21,14 +21,6 @@
                 background-color: $primary;
             }
         }
-        .volume-slider {
-            padding-left: 0.5rem;
-        }
-
-        slider {
-            background-color: $primary;
-            padding: 0.3rem;
-        }
 
         .shuffle,
         .shuffled {
@@ -55,14 +47,9 @@
         }
     }
 
-    slider {
-        background-color: $primary;
-        padding: 0.5rem;
-    }
-
     scale trough highlight {
         background-color: $primary;
-        padding: 3px 0;
+        padding: 0.4rem 0;
         color: $onPrimary;
         border-radius: 10px;
     }
@@ -71,5 +58,7 @@
         all: unset;
         background-color: $surfaceContainerHighest;
         border-radius: 3rem;
+        min-width: 3rem;
+        margin-right: 7px;
     }
 }
