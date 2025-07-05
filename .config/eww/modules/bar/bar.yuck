@@ -40,13 +40,10 @@
 )
 
 (defwidget network []
-    (button
+    (label
         :class "network"
-        (label
-            :class "text"
-            :text "${network.wireless ? " " : " "} ${network.change}"
-            :tooltip "${network.table}"
-        )
+        :text "${network.wireless ? " " : " "} ${network.change}"
+        :tooltip "${network.table}"
     )
 )
 
@@ -54,35 +51,39 @@
 (defpoll volume_value :interval "2s" `~/.config/eww/modules/bar/audio.sh --volume`)
 (defpoll volume_muted :interval "2s" `~/.config/eww/modules/bar/audio.sh --muted`)
 (defwidget volume []
-    (eventbox
-        :class "volume"
-        :cursor "pointer"
-        :onhover "${EWW_CMD} update volume_show=true"
-        :onhoverlost "${EWW_CMD} update volume_show=false"
-        (box
-            :orientation "h"
-            :space-evenly false
-            :spacing 0
-            (revealer
-                :transition "slideleft"
-				:reveal volume_show
-				:duration "400ms"
-                (scale :min 0 :max 100 :value {volume_value} :width 100 :orientation "h"
-                    :onchange `${EWW_CMD} update volume_value={} && wpctl set-volume @DEFAULT_SINK@ {}%`
+    (box :class "volume"
+        (eventbox
+            :cursor "pointer"
+            :onhover "${EWW_CMD} update volume_show=true"
+            :onhoverlost "${EWW_CMD} update volume_show=false"
+            (box
+                :orientation "h"
+                :space-evenly false
+                :spacing 0
+                (revealer
+                    :transition "slideleft"
+                    :reveal volume_show
+                    :duration "400ms"
+                    (scale :min 0 :max 100 :value {volume_value} :width 100 :orientation "h"
+                        :onchange `${EWW_CMD} update volume_value={} && wpctl set-volume @DEFAULT_SINK@ {}%`
+                    )
                 )
-            )
-            (button
-                :onclick `wpctl set-mute @DEFAULT_SINK@ toggle && ${EWW_CMD} update volume_muted=$(~/.config/eww/modules/bar/audio.sh --muted)`
-                "${volume_muted ? "" : ""}   ${volume_value}%"
+                (button
+                    :onclick `wpctl set-mute @DEFAULT_SINK@ toggle && ${EWW_CMD} update volume_muted=$(~/.config/eww/modules/bar/audio.sh --muted)`
+                    "${volume_muted ? "" : ""}   ${volume_value}%"
+                )
             )
         )
     )
 )
 
 (defwidget clock []
-    (eventbox :cursor "pointer"
-        (button :onclick "${EWW_CMD} open calendar --toggle"
-            "  ${formattime(EWW_TIME, "%I:%M%p")}"
+    (box :class "clock"
+        (eventbox
+            :cursor "pointer"
+            (button :onclick "${EWW_CMD} open calendar --toggle"
+                "  ${formattime(EWW_TIME, "%I:%M%p")}"
+            )
         )
     )
 )
@@ -103,35 +104,40 @@
 				:reveal power_show
 				:duration "400ms"
                 (box
-                    :spacing {spacing}
+                    :spacing 0
                     (eventbox :cursor "pointer"
                         (button
+                            :class "lock"
                             :onclick `confirm.nu -c Cencel -o Lock -d "Lock your current sesssion?" "hyprctl dispatch exec -- hyprlock"`
-                            (label :class "lock-button" :text "" :tooltip "Lock")
+                            (label :text "" :tooltip "Lock")
                         )
                     )
                     (eventbox :cursor "pointer"
                         (button
+                            :class "logout"
                             :onclick `confirm.nu -c Cencel -o Lock -d "Exit your current sesssion?" "hyprctl dispatch exit"`
-                            (label :class "logout-button" :text "󰍃" :tooltip "Logout")
+                            (label :text "󰍃" :tooltip "Logout")
                         )
                     )
                     (eventbox :cursor "pointer"
                         (button
+                            :class "sleep"
                             :onclick `confirm.nu -c Cencel -o Sleep -d "Sleep your computer?" "systemctl suspend"`
-                            (label :class "sleep-button" :text "󰒲" :tooltip "Sleep")
+                            (label :text "󰒲" :tooltip "Sleep")
                         )
                     )
                     (eventbox :cursor "pointer"
                         (button
+                            :class "reboot"
                             :onclick `confirm.nu -c Cencel -o Reboot -d "Reboot your computer?" "systemctl reboot"`
-                            (label :class "reboot-button" :text "" :tooltip "Reboot")
+                            (label :text "" :tooltip "Reboot")
                         )
                     )
                     (eventbox :cursor "pointer"
                         (button
+                            :class "power"
                             :onclick `confirm.nu -c Cencel -o Shutdown -d "Shutdown your computer?" "systemctl poweroff"`
-                            (label :class "power-button" :text "" :tooltip "Shutdown")
+                            (label :text "" :tooltip "Shutdown")
                         )
                     )
                 )
@@ -151,7 +157,7 @@
         :class "action-row"
         :orientation "h"
         :space-evenly false
-        :spacing {spacing}
+        :spacing 0
         (eventbox
             :cursor "pointer"
             (button
@@ -170,7 +176,6 @@
         :orientation "h"
         :halign "start"
         :space-evenly false
-        :spacing {spacing}
         (hyprland)
         (systray :class "systray" :spacing 5 :icon-size 17 :prepend-new true)
     )
@@ -180,7 +185,6 @@
 	(box
         :class "center"
         :orientation "v"
-        :spacing {spacing}
         :valign "center"
             (player)
     )
@@ -191,7 +195,6 @@
         :class "right"
         :orientation "h"
         :halign "end"
-        :spacing {spacing}
         :space-evenly false
         (network)
         (volume)
