@@ -1,71 +1,137 @@
 .eww-bar {
-    $buttonBorderRadius: 0.4rem;
-    $singleSpacing: 8px;
-    $spacing: 16px;
+    // Spacing and Size Tokens
+    $borderRadiusSm: 0.2rem;
+    $borderRadiusMd: 0.4rem;
+    $borderRadiusLg: 0.8rem;
+    $borderRadiusFull: 3rem;
+
+    $paddingXs: 0.2rem;
+    $paddingSm: 0.3rem;
+    $paddingMd: 0.4rem;
+    $paddingLg: 0.5rem;
+    $paddingXl: 0.6rem;
+
+    $marginXs: 0.3rem;
+    $marginSm: 0.5rem;
+    $marginMd: 0.6rem;
+    $marginLg: 0.8rem;
+
+    $highlightPaddingY: 3px;
+    $highlightBorderRadius: 10px;
+
+    // Colors assumed to be declared elsewhere
+    // $background, $primary, $onPrimary, $surfaceContainerHighest, $outline
 
     background-color: $background;
     color: $primary;
-    margin: 0.5rem;
-    padding: 0.3rem 1rem;
-    padding-left: 0.6rem;
-    border-radius: 0.8rem;
+    margin: $marginSm $marginMd;
+    padding: $paddingSm $paddingMd;
+    border-radius: $borderRadiusLg;
 
     scale trough highlight {
         background-color: $primary;
-        padding: 3px 0;
+        padding: $highlightPaddingY 0;
         color: $onPrimary;
-        border-radius: 10px;
+        border-radius: $highlightBorderRadius;
     }
 
     scale trough {
         all: unset;
         background-color: $surfaceContainerHighest;
-        border-radius: 3rem;
+        border-radius: $borderRadiusFull;
         min-width: 3rem;
         margin-right: 7px;
     }
 
+    .volume {
+        scale trough highlight {
+            background-color: $primary;
+            padding: $highlightPaddingY 0;
+            color: $onPrimary;
+            border-radius: $highlightBorderRadius;
+        }
+
+        scale trough {
+            all: unset;
+            background-color: $surfaceContainerHighest;
+            border-radius: $borderRadiusFull;
+            min-width: 3rem;
+            margin: $marginSm;
+        }
+    }
+
+    .network {
+        margin: 0;
+        padding: 0 $paddingLg;
+        border-radius: $borderRadiusMd;
+    }
+
+    .volume,
+    .clock,
+    .power {
+        button {
+            margin: 0;
+            padding: 0 $paddingLg;
+            border-radius: $borderRadiusMd;
+            &:hover {
+                color: $onPrimary;
+                background: $primary;
+            }
+        }
+    }
+
     .action-row {
+        button {
+            border-radius: $borderRadiusMd;
+            padding: 0 $paddingLg;
+            &:hover {
+                color: $onPrimary;
+                background: $primary;
+            }
+        }
+
         .wallpaper {
-            padding-right: 4px;
+            padding-right: calc($borderRadiusMd + 4px);
         }
     }
 
     .power {
         all: unset;
+        padding: 0 $paddingLg;
 
-        .revealer {
-            padding-right: $spacing;
-        }
+        .lock,
+        .reboot,
+        .logout,
+        .power,
+        .sleep {
+            margin: 0;
 
-        .lock-button,
-        .reboot-button,
-        .logout-button,
-        .power-button,
-        .sleep-button {
-            font-weight: bolder;
-            background-color: $background;
-            color: $primary;
-            &:hover {
-                color: $onPrimary;
-                background-color: $primary;
+            button {
+                padding: 0 $paddingLg;
+                background-color: $background;
+                color: $primary;
+
+                &:hover {
+                    color: $onPrimary;
+                    background-color: $primary;
+                }
             }
         }
 
-        .logout-button {
-            padding-right: 1px;
+        .logout {
+            padding-right: calc($paddingLg + 1px);
         }
-        .lock-button {
-            padding-right: 2.5px;
+        .lock {
+            padding-right: calc($paddingLg + 2px);
         }
-        .power-button {
-            padding-right: 3.5px;
+        .power {
+            padding-right: calc($paddingLg + 3.5px);
         }
-        .reboot-button {
-            padding-right: 2.5px;
+        .reboot {
+            padding-right: calc($paddingLg + 2px);
         }
-        .sleep-button {
-            padding-right: 4px;
+        .sleep {
+            padding-right: calc($paddingLg + 4px);
         }
     }
 
@@ -73,9 +139,11 @@
         .active-workspace {
             padding-right: 4px;
         }
+
         .workspace {
-            border-radius: $buttonBorderRadius;
-            padding: 0 0.5rem;
+            border-radius: $borderRadiusMd;
+            padding: 0 $paddingLg;
+
             &:hover {
                 color: $onPrimary;
                 background-color: $primary;
@@ -84,8 +152,9 @@
     }
 
     .player button {
-        padding: 0.2rem 0.6rem;
-        border-radius: $buttonBorderRadius;
+        padding: $paddingXs $paddingXl;
+        border-radius: $borderRadiusMd;
+
         &:hover {
             color: $onPrimary;
             background-color: $primary;
@@ -94,13 +163,13 @@
 
     .systray menu {
         background-color: $background;
-        padding: 0.6rem;
-        margin: 0.8rem;
-        border-radius: 0.8rem;
+        padding: $paddingXl;
+        margin: calc($marginLg * 2);
+        border-radius: $borderRadiusLg;
 
         > menuitem {
             padding: 2px 5px;
-            border-radius: 0.2rem;
+            border-radius: $borderRadiusSm;
 
             &:disabled label {
                 color: gray;
