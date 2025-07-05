@@ -22,7 +22,7 @@ import (
 	"github.com/spf13/pflag"
 )
 
-const Extension = ".jpg"
+const Extension = ".png"
 
 func init() {
 	quite := pflag.BoolP("quite", "q", false, "Subpress all logs")
@@ -155,7 +155,7 @@ func GetLocalPath(url string) (string, error) {
 	}
 
 	// Handle conversion or move
-	if mtype.String() == "image/jpg" || mtype.String() == "image/jpeg" {
+	if mtype.String() == "image/png" {
 		if err := Copy(tmpPath, cachedFile); err != nil {
 			return "", err
 		}
@@ -215,7 +215,15 @@ func Convert(input, ext, output string) error {
 
 	slog.Info("Converting image", "input", newName, "output", output)
 
-	cmd := exec.Command("magick", newName, output)
+	cmd := exec.Command(
+		"magick", newName,
+		"(", "+clone", "-alpha", "extract",
+		"-draw", "fill black polygon 0,0 0,30 30,0 fill white circle 30,30 30,0",
+		"(", "+clone", "-flip", ")", "-compose", "Multiply", "-composite",
+		"(", "+clone", "-flop", ")", "-compose", "Multiply", "-composite", ")",
+		"-alpha", "off", "-compose", "CopyOpacity", "-composite",
+		output,
+	)
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stderr
 	if err := cmd.Run(); err != nil {
