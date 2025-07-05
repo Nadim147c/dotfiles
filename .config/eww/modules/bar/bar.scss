@@ -83,49 +83,10 @@
         }
     }
 
-    .player {
-        .card {
-            font-family: "Noto Font";
-            .cover {
-                border-radius: 1rem;
-            }
-            .info {
-                font-size: 26px;
-            }
-            .title {
-                font-weight: bolder;
-            }
-
-            .lyrics {
-                font-family: "Noto Font";
-                font-size: 10px;
-            }
-        }
-
-        button {
-            padding: 0.2rem 0.6rem;
-            border-radius: $buttonBorderRadius;
-            &:hover {
-                color: $onPrimary;
-                background-color: $primary;
-            }
-        }
-        .shuffle,
-        .shuffled {
-            padding-right: 1rem;
-        }
-
-        .drop {
-            padding-right: 0.8rem;
-        }
-
-        .seek,
-        .seeking {
-            padding-right: 0.9rem;
-        }
-        .shuffled,
-        .play,
-        .seeking {
+    .player button {
+        padding: 0.2rem 0.6rem;
+        border-radius: $buttonBorderRadius;
+        &:hover {
             color: $onPrimary;
             background-color: $primary;
         }

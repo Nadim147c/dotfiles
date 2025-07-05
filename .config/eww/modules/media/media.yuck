@@ -1,5 +1,43 @@
 (deflisten cover_art :initial "" `eww-mpris-cover -q`)
 
+(defwidget media_control []
+    (eventbox
+        :cursor "pointer"
+        :class "control"
+        :halign "center"
+        (box
+            :orientation "h"
+            :spacing {spacing / 2}
+            :space-evenly false
+            (button
+                :class {lyrics.info.shuffle ? "shuffled" : "shuffle"}
+                :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} shuffle Toggle"
+                ""
+            )
+            (button
+                :class "previous"
+                :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} previous"
+                ""
+            )
+            (button
+                :class {lyrics?.info?.status == "Playing" ? "pause" : "play"}
+                :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} play-pause"
+                {lyrics?.info?.status == "Playing" ? "" : ""}
+            )
+            (button
+                :class "next"
+                :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} next"
+                ""
+            )
+            (button
+                :class "open"
+                :onclick `open-player.sh ${lyrics.info.name} && ${EWW_CMD} close media`
+                "󰁌"
+            )
+        )
+    )
+)
+
 (defwindow media []
     :monitor 0
     :stacking "overlay"
@@ -15,9 +53,10 @@
         :space-evenly false
         :spacing {spacing}
         (box
+            :class "info"
             :orientation "h"
             :space-evenly false
-            :spacing 20
+            :spacing {spacing}
             (image
                 :class "cover"
                 :path "${cover_art}"
@@ -30,7 +69,7 @@
                 :width 300
                 :halign "center"
                 :space-evenly false
-                :spacing {spacing}
+                :spacing 5
                 (box
                     :orientation "h"
                     (eventbox
@@ -41,19 +80,21 @@
                     )
                 )
                 (label
-                    :text {lyrics.info.title}
+                    :text "   ${lyrics.info.title}"
                     :class "title"
-                    :valign "center"
-                    :halign "center"
+                    :halign "start"
                 )
                 (label
-                    :text {lyrics.info.artist}
+                    :text "󰠃  ${lyrics.info.artist}"
                     :class "artist"
-                    :show-truncated true
-                    :limit-width 100
-                    :valign "center"
-                    :halign "center"
+                    :halign "start"
                 )
+                (label
+                    :text "󰀥  ${lyrics.info.album}"
+                    :class "album"
+                    :halign "start"
+                )
+                (media_control)
                 (box
                     :class "progressbar"
                     :halign "center"

@@ -31,35 +31,10 @@
     (eventbox
         :cursor "pointer"
         :class "player"
-        (box
-            :orientation "h"
-            :spacing {spacing / 2}
-            :space-evenly false
-            (button
-                :class {lyrics.info.shuffle ? "shuffled" : "shuffle"}
-                :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} shuffle Toggle"
-                ""
-            )
-            (button
-                :class "previous"
-                :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} previous"
-                ""
-            )
-            (button
-                :class {lyrics?.info?.status == "Playing" ? "pause" : "play"}
-                :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} play-pause"
-                {lyrics?.info?.status == "Playing" ? "" : ""}
-            )
-            (button
-                :class "next"
-                :onclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} next"
-                ""
-            )
-            (button
-                :class "drop"
-                :onclick "${EWW_CMD} open media --toggle"
-                ""
-            )
+        (button
+            :onclick "${EWW_CMD} open media --toggle"
+            :onmiddleclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} play-pause"
+            (label :text "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" :tooltip "Click open the player")
         )
     )
 )
@@ -97,7 +72,7 @@
                 )
             )
             (button
-                :onclick `wpctl set-mute @DEFAULT_SINK@ toggle && ${EWW_CMD} update volume_muted=$(~/.config/eww/modules/bar/audio.sh --muted) `
+                :onclick `wpctl set-mute @DEFAULT_SINK@ toggle && ${EWW_CMD} update volume_muted=$(~/.config/eww/modules/bar/audio.sh --muted)`
                 "${volume_muted ? "" : ""}   ${volume_value}%"
             )
         )

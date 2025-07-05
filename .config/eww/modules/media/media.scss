@@ -1,12 +1,48 @@
 .eww-media {
+    $buttonBorderRadius: 0.4rem;
+
     background-color: $background;
     color: $onBackground;
     padding: 1rem;
     border-radius: 1rem;
 
     .title {
-        font-size: 1.8rem;
-        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .control {
+        margin: 0 1rem;
+
+        button {
+            padding: 0.2rem 0.6rem;
+            border-radius: $buttonBorderRadius;
+            &:hover {
+                color: $onPrimary;
+                background-color: $primary;
+            }
+        }
+        .volume-slider {
+            padding-left: 0.5rem;
+        }
+
+        slider {
+            background-color: $primary;
+            padding: 0.3rem;
+        }
+
+        .shuffle,
+        .shuffled {
+            padding-right: 1rem;
+        }
+        .open {
+            padding-right: 0.8rem;
+        }
+
+        .shuffled,
+        .play {
+            color: $onPrimary;
+            background-color: $primary;
+        }
     }
 
     .line {
@@ -35,7 +71,5 @@
         all: unset;
         background-color: $surfaceContainerHighest;
         border-radius: 3rem;
-        min-width: 3rem;
-        margin-right: 7px;
     }
 }
