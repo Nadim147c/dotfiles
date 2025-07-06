@@ -31,7 +31,7 @@ let pkgs = [
 
     # Shell
     zsh fish nushell carapace-bin starship mise
-    eza atuin chromashift-git
+    eza atuin chromashift-git zoxide
 
     # CLI
     ripgrep fd sd fzf skim bat bat-extras fastfetch tree
@@ -93,6 +93,7 @@ def setup_nushell_caches [] {
     let cache_dir = ($nu.data-dir | path join "vendor/autoload")
     mkdir $cache_dir
     # cshift alias nu                       | save -f $"($cache_dir)/chromashift.nu"
+    zoxide init nushell                   | save -f $"($cache_dir)/zoxide.nu"
     starship init nu                      | save -f $"($cache_dir)/starship.nu"
     atuin init nu --disable-up-arrow      | save -f $"($cache_dir)/atuin.nu"
     atuin gen-completions --shell nushell | save -f -a $"($cache_dir)/atuin.nu"
