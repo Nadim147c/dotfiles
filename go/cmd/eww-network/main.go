@@ -46,7 +46,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "Error:", err)
 	}
 
-	interval := 750 * time.Millisecond
+	interval := time.Second
 
 	ticker := time.NewTicker(interval)
 	for {

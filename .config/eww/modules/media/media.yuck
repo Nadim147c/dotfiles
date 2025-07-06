@@ -1,5 +1,17 @@
 (deflisten cover_art :initial "" `eww-mpris-cover -q`)
 
+(defwindow media []
+    :monitor 0
+    :stacking "overlay"
+    :windowtype "dialog"
+	:geometry (geometry
+        :x "20px"
+        :y "0"
+        :anchor "top left"
+    )
+    (media)
+)
+
 (defwidget media_control []
     (eventbox
         :cursor "pointer"
@@ -38,15 +50,7 @@
     )
 )
 
-(defwindow media []
-    :monitor 0
-    :stacking "overlay"
-    :windowtype "dialog"
-	:geometry (geometry
-        :x "20px"
-        :y "0"
-        :anchor "top center"
-    )
+(defwidget media []
     (box
         :class "eww-media"
         :orientation "v"
