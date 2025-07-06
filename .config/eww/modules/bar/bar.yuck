@@ -217,16 +217,7 @@
         :halign "start"
         :space-evenly false
         (hyprland)
-        (systray :class "systray" :spacing 5 :icon-size 17 :prepend-new true)
-    )
-)
-
-(defwidget center []
-	(box
-        :class "center"
-        :orientation "v"
-        :valign "center"
-            (player)
+        (player)
     )
 )
 
@@ -238,6 +229,7 @@
         :space-evenly false
         (network)
         (volume)
+        (systray :class "systray" :spacing 5 :icon-size 17 :prepend-new true)
         (clock)
         (action_row)
         (power)
@@ -251,11 +243,10 @@
     :wm-ignore false
     :exclusive true
 	:geometry (geometry :x "0%" :y "0%" :height "35px" :width "100%" :anchor "center top")
-    (centerbox
+    (box
         :class "eww-bar"
         :orientation "h"
         (left)
-        (center)
         (right)
     )
 )

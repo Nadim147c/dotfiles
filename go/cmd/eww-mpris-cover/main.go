@@ -211,6 +211,8 @@ func Convert(input, ext, output string) error {
 		return err
 	}
 
+	fmt.Println(newName)
+
 	defer os.Remove(newName)
 
 	slog.Info("Converting image", "input", newName, "output", output)
