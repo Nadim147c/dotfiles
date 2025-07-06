@@ -2,13 +2,17 @@ package main
 
 import (
 	"bufio"
+	"dotfiles/pkg/log"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"net"
 	"os"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/spf13/pflag"
 )
 
 var (
@@ -40,20 +44,95 @@ type ActiveWorkspace struct {
 	ID int `json:"id"`
 }
 
+func init() {
+	quite := pflag.BoolP("quite", "q", false, "Subpress all logs")
+
+	pflag.Parse()
+
+	if *quite {
+		log.Setup(slog.LevelError + 1)
+	} else {
+		log.Setup(slog.LevelInfo)
+	}
+}
+
+func main() {
+	// Get and print initial workspace state
+	activeID, err := GetActiveWorkspaceID()
+	if err != nil {
+		slog.Error("Failed to get active workspace ID", "error", err)
+		os.Exit(1)
+	}
+
+	if err := PrintWorkspaces(activeID); err != nil {
+		slog.Error("Failed to print workspaces", "error", err)
+		os.Exit(1)
+	}
+
+	conn, err := net.Dial("unix", EventSocket)
+	if err != nil {
+		slog.Error("Failed to connect to event socket", "socket", EventSocket, "error", err)
+		panic(err)
+	}
+	defer conn.Close()
+
+	var id int
+	// Listen for events
+	scanner := bufio.NewScanner(conn)
+	for scanner.Scan() {
+		line := scanner.Text()
+		split := strings.SplitN(line, ">>", 2)
+
+		if len(split) != 2 {
+			slog.Debug("Received malformed event", "line", line)
+			continue
+		}
+		event, meta := split[0], split[1]
+
+		switch event {
+		case "openwindow", "openlayer":
+			if err := PrintWorkspaces(id); err != nil {
+				slog.Error("Failed to print workspaces after window event", "event", event, "error", err)
+			}
+		case "workspacev2":
+			var ws int
+			_, err := fmt.Sscanf(meta, "%d,", &ws)
+			if err != nil {
+				slog.Error("Failed to parse workspace ID", "meta", meta, "error", err)
+				continue
+			}
+			id = ws
+
+			if err := PrintWorkspaces(id); err != nil {
+				slog.Error("Failed to print workspaces after workspace change", "workspace", id, "error", err)
+			}
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		slog.Error("Scanner error", "error", err)
+		panic(err)
+	}
+}
+
 // GetActiveWorkspaceID gets the currently active workspace ID
 func GetActiveWorkspaceID() (int, error) {
 	conn, err := net.Dial("unix", DataSocket)
 	if err != nil {
+		slog.Error("Failed to connect to data socket", "socket", DataSocket, "error", err)
 		return 0, err
 	}
+	defer conn.Close()
 
 	_, err = conn.Write(GetActiveWorkspace)
 	if err != nil {
+		slog.Error("Failed to write to data socket", "error", err)
 		return 0, err
 	}
 
 	var result ActiveWorkspace
 	if err := json.NewDecoder(conn).Decode(&result); err != nil {
+		slog.Error("Failed to decode active workspace", "error", err)
 		return 0, err
 	}
 
@@ -69,16 +148,20 @@ func PrintWorkspaces(id int) error {
 
 	conn, err := net.Dial("unix", DataSocket)
 	if err != nil {
+		slog.Error("Failed to connect to data socket", "socket", DataSocket, "error", err)
 		return err
 	}
+	defer conn.Close()
 
 	_, err = conn.Write(GetWorkspaces)
 	if err != nil {
+		slog.Error("Failed to write to data socket", "error", err)
 		return err
 	}
 
 	var raw []RawWorkspace
 	if err := json.NewDecoder(conn).Decode(&raw); err != nil {
+		slog.Error("Failed to decode workspaces", "error", err)
 		return err
 	}
 
@@ -98,62 +181,10 @@ func PrintWorkspaces(id int) error {
 		return workspaces[i].ID < workspaces[j].ID
 	})
 
-	return json.NewEncoder(os.Stdout).Encode(workspaces)
-}
-
-func main() {
-	// Get and print initial workspace state
-	activeID, err := GetActiveWorkspaceID()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error getting active workspace ID: %v\n", err)
-		os.Exit(1)
+	if err := json.NewEncoder(os.Stdout).Encode(workspaces); err != nil {
+		slog.Error("Failed to encode workspaces", "error", err)
+		return err
 	}
 
-	if err := PrintWorkspaces(activeID); err != nil {
-		fmt.Fprintf(os.Stderr, "Error printing workspaces: %v\n", err)
-		os.Exit(1)
-	}
-
-	conn, err := net.Dial("unix", EventSocket)
-	if err != nil {
-		panic(err)
-	}
-	defer conn.Close()
-
-	var id int
-	// Listen for events
-	scanner := bufio.NewScanner(conn)
-	for scanner.Scan() {
-		line := scanner.Text()
-		split := strings.SplitN(line, ">>", 2)
-
-		if len(split) != 2 {
-			continue
-		}
-		event, meta := split[0], split[1]
-
-		switch event {
-		case "openwindow", "openlayer":
-			if err := PrintWorkspaces(id); err != nil {
-				fmt.Fprintf(os.Stderr, "Error printing workspaces: %v\n", err)
-			}
-		case "workspacev2":
-			var ws int
-			_, err := fmt.Sscanf(meta, "%d,", &ws)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error parsing workspace ID '%s': %v\n", meta, err)
-				continue
-			}
-			id = ws
-
-			if err := PrintWorkspaces(id); err != nil {
-				fmt.Fprintf(os.Stderr, "Error printing workspaces: %v\n", err)
-			}
-		}
-
-	}
-
-	if err := scanner.Err(); err != nil {
-		panic(err)
-	}
+	return nil
 }

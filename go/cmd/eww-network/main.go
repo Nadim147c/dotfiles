@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"dotfiles/pkg/log"
+	"log/slog"
 	"time"
 
 	"github.com/spf13/pflag"
@@ -18,7 +18,15 @@ func init() {
 "b" for si bit (Kbps, Mbps...)
 `)
 
+	quite := pflag.BoolP("quite", "q", false, "Subpress all logs")
+
 	pflag.Parse()
+
+	if *quite {
+		log.Setup(slog.LevelError + 1)
+	} else {
+		log.Setup(slog.LevelInfo)
+	}
 
 	switch *format {
 	case "K":
@@ -38,12 +46,13 @@ func main() {
 	start := time.Now()
 	before, err := ParseNetDev()
 	if err != nil {
+		slog.Error("Failed to parse net dev", "error", err)
 		panic(err)
 	}
 
 	before, iface, err := CalcSpeed(before, "", time.Since(start))
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error:", err)
+		slog.Error("Error calculating speed", "error", err)
 	}
 
 	interval := time.Second
@@ -53,7 +62,7 @@ func main() {
 		<-ticker.C
 		before, iface, err = CalcSpeed(before, iface, interval)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "Error:", err)
+			slog.Error("Error calculating speed", "error", err)
 		}
 	}
 }
