@@ -14,9 +14,9 @@ player="$1"
 pid=$(dbus-send --session --print-reply --dest=org.freedesktop.DBus \
     /org/freedesktop/DBus \
     org.freedesktop.DBus.GetConnectionUnixProcessID \
-    "string:$player" \
-    | tail -1 \
-    | awk '{print $NF}')
+    "string:$player" |
+    tail -1 |
+    awk '{print $NF}')
 
 if [ -z "$pid" ]; then
     echo "Could not get PID for player: $player"
