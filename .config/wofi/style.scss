@@ -1,0 +1,62 @@
+@import "colors.scss";
+
+* {
+    all: unset;
+}
+
+window {
+    margin: 0px;
+    border: 2px solid $outline;
+    background-color: $background;
+    border-radius: 1rem;
+}
+
+#input {
+    margin: 5px;
+    border: none;
+    color: $onBackground;
+    background-color: $background;
+}
+
+#inner-box {
+    margin: 5px;
+    border: none;
+    background-color: transparent;
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: transparent;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+#text {
+    margin: 5px;
+    border: none;
+    color: $onBackground;
+    font-weight: 700;
+}
+
+#entry {
+    border: none;
+}
+
+#entry:focus {
+    border: none;
+}
+
+#entry:selected {
+    background-color: $primary;
+    color: $onPrimary;
+    border-radius: 5px;
+    border: none;
+
+    #text {
+        color: $onPrimary;
+    }
+}
