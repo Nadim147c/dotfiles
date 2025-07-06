@@ -192,3 +192,30 @@
         }
     }
 }
+
+$catppuccinGreen: #a6e3a1;
+$catppuccinRed: #f38ba8;
+$catppuccinMauve: #cba6f7;
+
+.netspeed-graph-down {
+    color: $catppuccinGreen;
+    background: rgba($catppuccinGreen, 0.3);
+}
+.netspeed-graph-up {
+    color: $catppuccinRed;
+    background: rgba($catppuccinRed, 0.3);
+}
+.netspeed-graph-change {
+    color: $catppuccinMauve;
+    background: rgba($catppuccinMauve, 0.3);
+}
+
+.netspeed-ident-down {
+    color: $catppuccinGreen;
+}
+.netspeed-ident-up {
+    color: $catppuccinRed;
+}
+.netspeed-ident-total {
+    color: $catppuccinMauve;
+}

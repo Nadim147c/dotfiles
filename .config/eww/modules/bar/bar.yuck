@@ -1,6 +1,6 @@
 ;; waybar-lyric: https://github.com/Nadim147c/waybar-lyric
-(deflisten lyrics :initial "{}" `waybar-lyric -qdm150 -b47 -fpartial`)
-(defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚", "no_lyric": " " }`)
+(deflisten lyrics :initial `{ "text": "" }` `waybar-lyric -qdm150 -b47 -fpartial`)
+(defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚", "no_lyric": " ", "": "" }`)
 
 ;; hyprland
 (deflisten hyprland_ipc :initial "{}" `eww-hyprland`)
@@ -34,16 +34,56 @@
         (button
             :onclick "${EWW_CMD} open media --toggle"
             :onmiddleclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} play-pause"
-            (label :text "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" :tooltip "Click open the player")
+            (label :text {lyrics.text != "" ? "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" : "" } :tooltip "Click open the player")
         )
     )
 )
 
 (defwidget network []
-    (label
+    (tooltip
         :class "network"
-        :text "${network.wireless ? " " : " "} ${network.change}"
-        :tooltip "${network.table}"
+        (box
+            :orientation "v"
+            :space-evenly false
+            :spacing 5
+            (overlay
+                :class "graph"
+                (graph
+                    :class "netspeed-graph-change"
+                    :dynamic true
+                    :thickness 2
+                    :time-range "15s"
+                    :line-style "round"
+                    :height 150 :width 300
+                    :value {network.graph_change}
+                )
+                (graph
+                    :class "netspeed-graph-up"
+                    :dynamic true
+                    :thickness 2
+                    :time-range "15s"
+                    :line-style "round"
+                    :height 150 :width 300
+                    :value {network.graph_up}
+                )
+                (graph
+                    :class "netspeed-graph-down"
+                    :dynamic true
+                    :thickness 2
+                    :time-range "15s"
+                    :line-style "round"
+                    :height 150 :width 300
+                    :value {network.graph_down}
+                )
+            )
+            (box
+                :orientation "h"
+                (label :class "netspeed-ident-down" :text "  Down")
+                (label :class "netspeed-ident-up" :text "  Up")
+                (label :class "netspeed-ident-total" :text "  Total")
+            )
+        )
+        (label :text "${network.wireless ? " " : " "} ${network.change}")
     )
 )
 
