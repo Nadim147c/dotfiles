@@ -10,6 +10,7 @@
     "~/.config/eww/colors.scss",
     "~/.config/waybar/colors.scss",
     "~/.config/swaync/colors.scss",
+    "~/.config/wofi/colors.scss",
 ]
 
 "qtct.conf" = [

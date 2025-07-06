@@ -1,20 +1,9 @@
 #!/usr/bin/env nu
 
-def complie_scss [input: string] {
-    let path = $input | path expand --no-symlink
-    let parsed = $path | path parse
-    let output = $"($parsed.parent)/($parsed.stem).css"
-
-    rm -vf $output
-    mkdir $parsed.parent
-
-    print $"Compiling ($path) | Output ($output)"
-    scss --no-cache $path | save -f $output
-}
-
 def post_hooks [] {
-    complie_scss ~/.config/waybar/style.scss
-    complie_scss ~/.config/swaync/style.scss
+    compile-scss.sh ~/.config/waybar/style.scss
+    compile-scss.sh ~/.config/swaync/style.scss
+    compile-scss.sh ~/.config/wofi/style.scss
 
     # Reload kitty, waybar, swaync, firefox, alacritty
     killall -v -SIGUSR1 kitty | complete
