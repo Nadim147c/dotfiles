@@ -4,9 +4,10 @@ import (
 	"dotfiles/pkg/diskspace"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"os"
 	"path/filepath"
-	"slices"
+	"sync"
 	"time"
 )
 
@@ -25,73 +26,98 @@ type Delta struct {
 	drx, dtx, change diskspace.Diskspace
 }
 
+var (
+	wirelessCache   = make(map[string]bool)
+	wirelessCacheMu sync.Mutex
+)
+
+func isWireless(iface string) bool {
+	wirelessCacheMu.Lock()
+	defer wirelessCacheMu.Unlock()
+
+	if cached, ok := wirelessCache[iface]; ok {
+		return cached
+	}
+
+	path := filepath.Join("/sys/class/net", iface, "wireless")
+	_, err := os.Stat(path)
+	wireless := err == nil
+	wirelessCache[iface] = wireless
+	return wireless
+}
+
 func CalcSpeed(before map[string]NetStat, lastIFace string, interval time.Duration) (map[string]NetStat, string, error) {
 	after, err := ParseNetDev()
 	if err != nil {
+		slog.Error("Failed to parse network device stats", "error", err)
 		return nil, "", err
 	}
 
-	var allDeltas []Delta
+	var (
+		firstDelta     *Delta
+		maxDelta       *Delta
+		foundLastIFace *Delta
+	)
+
+	durationSec := float64(interval) / float64(time.Second)
 
 	for iface, b := range before {
 		a, ok := after[iface]
 		if !ok {
+			slog.Debug("Interface not found in current stats", "interface", iface)
 			continue
 		}
-
-		durationSec := float64(interval) / float64(time.Second)
 
 		drx := diskspace.Diskspace(float64(a.Rx-b.Rx) / durationSec)
 		dtx := diskspace.Diskspace(float64(a.Tx-b.Tx) / durationSec)
 		change := drx + dtx
 
-		wireless := false
-		if _, err := os.Stat(filepath.Join("/sys/class/net", iface, "wireless")); err == nil {
-			wireless = true
-		}
-
-		d := Delta{
+		d := &Delta{
 			Interface: iface,
-			Down:      fmt.Sprintf(Format, drx),
-			Up:        fmt.Sprintf(Format, dtx),
-			Change:    fmt.Sprintf(Format, change),
-			Wireless:  wireless,
-
-			drx: drx, dtx: dtx, change: change,
+			drx:       drx,
+			dtx:       dtx,
+			change:    change,
+			Wireless:  isWireless(iface),
 		}
-		allDeltas = append(allDeltas, d)
+
+		if firstDelta == nil {
+			firstDelta = d
+		}
+		if iface == lastIFace {
+			foundLastIFace = d
+		}
+		if change > 0 && (maxDelta == nil || change > maxDelta.change) {
+			maxDelta = d
+		}
 	}
 
-	if len(allDeltas) == 0 {
+	if firstDelta == nil {
+		slog.Warn("No network interfaces with traffic found")
 		return after, "", nil
 	}
 
-	noZero := slices.ContainsFunc(allDeltas, func(d Delta) bool {
-		return d.change != 0
-	})
-
-	speed := allDeltas[0]
-
-	if noZero {
-		slices.SortFunc(allDeltas, func(a, b Delta) int {
-			return int(b.change - a.change)
-		})
-		speed = allDeltas[0]
-	} else {
-		for d := range slices.Values(allDeltas) {
-			if d.Interface == lastIFace {
-				speed = d
-				break
-			}
-		}
+	candidate := firstDelta
+	switch {
+	case maxDelta != nil:
+		candidate = maxDelta
+	case foundLastIFace != nil:
+		candidate = foundLastIFace
 	}
 
-	highest := float64(max(speed.drx, speed.dtx, speed.change, 1*diskspace.Mb)) * 1.1
-	speed.GraphDown = float64(speed.drx) * 100 / highest
-	speed.GraphUp = float64(speed.dtx) * 100 / highest
-	speed.GraphChange = float64(speed.change) * 100 / highest
+	candidate.Down = fmt.Sprintf(Format, candidate.drx)
+	candidate.Up = fmt.Sprintf(Format, candidate.dtx)
+	candidate.Change = fmt.Sprintf(Format, candidate.change)
 
-	json.NewEncoder(os.Stdout).Encode(speed)
+	maxVal := max(candidate.drx, candidate.dtx, candidate.change, diskspace.Mb)
+	highest := float64(maxVal) * 1.1
 
-	return after, speed.Interface, nil
+	candidate.GraphDown = float64(candidate.drx) * 100 / highest
+	candidate.GraphUp = float64(candidate.dtx) * 100 / highest
+	candidate.GraphChange = float64(candidate.change) * 100 / highest
+
+	if err := json.NewEncoder(os.Stdout).Encode(candidate); err != nil {
+		slog.Error("Failed to encode speed data", "error", err)
+	}
+
+	return after, candidate.Interface, nil
 }

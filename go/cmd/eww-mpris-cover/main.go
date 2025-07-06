@@ -26,6 +26,9 @@ const Extension = ".png"
 
 func init() {
 	quite := pflag.BoolP("quite", "q", false, "Subpress all logs")
+
+	pflag.Parse()
+
 	if *quite {
 		log.Setup(slog.LevelError + 1)
 	} else {
