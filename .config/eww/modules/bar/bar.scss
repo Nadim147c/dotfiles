@@ -161,33 +161,36 @@
         }
     }
 
-    .systray menu {
-        background-color: $background;
-        padding: $paddingXl;
-        margin: calc($marginLg * 2);
-        border-radius: $borderRadiusLg;
+    .systray {
+        margin: 0 $marginSm;
+        menu {
+            background-color: $background;
+            padding: $paddingXl;
+            margin: calc($marginLg * 2);
+            border-radius: $borderRadiusLg;
 
-        > menuitem {
-            padding: 2px 5px;
-            border-radius: $borderRadiusSm;
+            menuitem {
+                padding: 2px 5px;
+                border-radius: $borderRadiusSm;
 
-            &:disabled label {
-                color: gray;
+                &:disabled label {
+                    color: $outline;
+                }
+
+                &:hover {
+                    color: $onPrimary;
+                    background: $primary;
+                }
             }
 
-            &:hover {
-                color: $onPrimary;
-                background: $primary;
-            }
-        }
+            separator {
+                background-color: $outline;
+                padding-top: 1px;
+                margin: 2px 0;
 
-        separator {
-            background-color: $outline;
-            padding-top: 1px;
-            margin: 2px 0;
-
-            &:last-child {
-                padding: unset;
+                &:last-child {
+                    padding: unset;
+                }
             }
         }
     }
