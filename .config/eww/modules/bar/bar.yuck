@@ -33,7 +33,7 @@
         :class "player"
         (button
             :onclick "${EWW_CMD} open media --toggle"
-            :onmiddleclick "playerctl --player=${substring(lyrics.info.name, 23, 1000)} play-pause"
+            :onmiddleclick "playerctl --player=${lyrics.info.player} play-pause"
             (label :text {lyrics.text != "" ? "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" : "" } :tooltip "Click open the player")
         )
     )
@@ -110,7 +110,7 @@
                 )
                 (button
                     :onclick `wpctl set-mute @DEFAULT_SINK@ toggle && ${EWW_CMD} update volume_muted=$(~/.config/eww/modules/bar/audio.sh --muted)`
-                    "${volume_muted ? "" : ""}   ${volume_value}%"
+                    "${volume_muted ? "" : ""} ${volume_value}%"
                 )
             )
         )
@@ -122,7 +122,7 @@
         (eventbox
             :cursor "pointer"
             (button :onclick "${EWW_CMD} open calendar --toggle"
-                "  ${formattime(EWW_TIME, "%I:%M%p")}"
+                " ${formattime(EWW_TIME, "%I:%M%p")}"
             )
         )
     )
