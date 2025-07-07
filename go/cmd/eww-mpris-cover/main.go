@@ -172,15 +172,6 @@ func GetLocalPath(url string, pathCh chan string) (string, error) {
 		return "", errors.New("url is not a image")
 	}
 
-	// Handle conversion or move
-	if mtype.String() == "image/png" {
-		if err := Move(tmpPath, cachedFile); err != nil {
-			return "", err
-		}
-		PathCache[url] = cachedFile
-		return cachedFile, nil
-	}
-
 	err = Convert(tmpPath, mtype.Extension(), cachedFile, pathCh)
 	if err != nil {
 		return "", err
@@ -188,32 +179,6 @@ func GetLocalPath(url string, pathCh chan string) (string, error) {
 
 	PathCache[url] = cachedFile
 	return cachedFile, nil
-}
-
-func Move(src, dst string) error {
-	srcFile, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer srcFile.Close()
-
-	dstFile, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer dstFile.Close()
-
-	_, err = io.Copy(dstFile, srcFile)
-	if err != nil {
-		return err
-	}
-
-	err = srcFile.Close()
-	if err != nil {
-		return err
-	}
-
-	return os.Remove(src)
 }
 
 func Download(url string, out *os.File) error {
