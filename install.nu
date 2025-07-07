@@ -93,7 +93,7 @@ def setup_nushell_caches [] {
     let cache_dir = ($nu.data-dir | path join "vendor/autoload")
     mkdir $cache_dir
     # cshift alias nu                       | save -f $"($cache_dir)/chromashift.nu"
-    zoxide init nushell                   | save -f $"($cache_dir)/zoxide.nu"
+    zoxide init nushell --cmd cd          | save -f $"($cache_dir)/zoxide.nu"
     starship init nu                      | save -f $"($cache_dir)/starship.nu"
     atuin init nu --disable-up-arrow      | save -f $"($cache_dir)/atuin.nu"
     atuin gen-completions --shell nushell | save -f -a $"($cache_dir)/atuin.nu"
