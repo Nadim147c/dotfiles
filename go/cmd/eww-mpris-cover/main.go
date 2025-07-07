@@ -24,6 +24,8 @@ import (
 
 const Extension = ".png"
 
+var CacheDir string
+
 func init() {
 	quite := pflag.BoolP("quite", "q", false, "Subpress all logs")
 
@@ -37,16 +39,37 @@ func init() {
 }
 
 func main() {
+	cache, err := os.UserCacheDir()
+	if err != nil {
+		panic(err)
+	}
+
+	CacheDir = filepath.Join(cache, "mpris-cover")
+
+	if err := os.MkdirAll(cache, 0755); err != nil {
+		panic(err)
+	}
+
 	conn, err := dbus.SessionBus()
 	if err != nil {
 		slog.Error("Failed to create dbus connection", "error", err)
 		return
 	}
 
-	ticker := time.NewTicker(500 * time.Microsecond)
+	ticker := time.NewTicker(500 * time.Millisecond)
 	defer ticker.Stop()
 
-	var lastCover string
+	pathCh := make(chan string)
+
+	go func() {
+		var lastCover string
+		for path := range pathCh {
+			if lastCover != path {
+				fmt.Println(path)
+				lastCover = path
+			}
+		}
+	}()
 
 	for {
 		<-ticker.C
@@ -74,15 +97,13 @@ func main() {
 			continue
 		}
 
-		path, err := GetLocalPath(cover)
+		path, err := GetLocalPath(cover, pathCh)
 		if err != nil {
 			slog.Error("Failed to get cache cover image", "error", err)
+		} else {
+			pathCh <- path
 		}
 
-		if lastCover != path {
-			fmt.Println(path)
-			lastCover = path
-		}
 	}
 }
 
@@ -110,23 +131,17 @@ func SelectPlayer(conn *dbus.Conn) (*mpris.Player, error) {
 	return nil, errors.New("No player exists")
 }
 
-func GetLocalPath(url string) (string, error) {
-	cache, err := os.UserCacheDir()
-	if err != nil {
-		return "", err
-	}
+var PathCache = map[string]string{}
 
-	cache = filepath.Join(cache, "mpris-cover")
-
-	if err := os.MkdirAll(cache, 0755); err != nil {
-		return "", err
+func GetLocalPath(url string, pathCh chan string) (string, error) {
+	if path, ok := PathCache[url]; ok {
+		return path, nil
 	}
 
 	// Create URL md5sum
 	md5sum := md5.Sum([]byte(url))
 	hash := base64.RawURLEncoding.EncodeToString(md5sum[:])
-
-	cachedFile := filepath.Join(cache, hash+Extension)
+	cachedFile := filepath.Join(CacheDir, hash+Extension)
 
 	if _, err := os.Stat(cachedFile); err == nil {
 		return cachedFile, nil
@@ -159,21 +174,23 @@ func GetLocalPath(url string) (string, error) {
 
 	// Handle conversion or move
 	if mtype.String() == "image/png" {
-		if err := Copy(tmpPath, cachedFile); err != nil {
+		if err := Move(tmpPath, cachedFile); err != nil {
 			return "", err
 		}
+		PathCache[url] = cachedFile
 		return cachedFile, nil
 	}
 
-	err = Convert(tmpPath, mtype.Extension(), cachedFile)
+	err = Convert(tmpPath, mtype.Extension(), cachedFile, pathCh)
 	if err != nil {
 		return "", err
 	}
 
+	PathCache[url] = cachedFile
 	return cachedFile, nil
 }
 
-func Copy(src, dst string) error {
+func Move(src, dst string) error {
 	srcFile, err := os.Open(src)
 	if err != nil {
 		return err
@@ -187,7 +204,16 @@ func Copy(src, dst string) error {
 	defer dstFile.Close()
 
 	_, err = io.Copy(dstFile, srcFile)
-	return err
+	if err != nil {
+		return err
+	}
+
+	err = srcFile.Close()
+	if err != nil {
+		return err
+	}
+
+	return os.Remove(src)
 }
 
 func Download(url string, out *os.File) error {
@@ -206,20 +232,18 @@ func Download(url string, out *os.File) error {
 	return err
 }
 
-func Convert(input, ext, output string) error {
+func Convert(input, ext, output string, pathCh chan string) error {
 	newName := input + ext
 
 	err := os.Rename(input, newName)
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(newName)
-
 	defer os.Remove(newName)
 
-	slog.Info("Converting image", "input", newName, "output", output)
+	pathCh <- newName
 
+	slog.Info("Converting image", "input", newName, "output", output)
 	cmd := exec.Command(
 		"magick", newName,
 		"(", "+clone", "-alpha", "extract",
@@ -227,10 +251,13 @@ func Convert(input, ext, output string) error {
 		"(", "+clone", "-flip", ")", "-compose", "Multiply", "-composite",
 		"(", "+clone", "-flop", ")", "-compose", "Multiply", "-composite", ")",
 		"-alpha", "off", "-compose", "CopyOpacity", "-composite",
+		"-resize", "200x",
 		output,
 	)
+
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stderr
+
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("imagemagick conversion failed: %w", err)
 	}
