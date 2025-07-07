@@ -1,5 +1,6 @@
 .eww-bar {
     // Spacing and Size Tokens
+    $nerd: "JetBrainsMono Nerd Font";
     $borderRadiusSm: 0.2rem;
     $borderRadiusMd: 0.4rem;
     $borderRadiusLg: 0.8rem;
@@ -70,6 +71,7 @@
     .clock,
     .power {
         button {
+            font-family: $nerd;
             margin: 0;
             padding: 0 $paddingLg;
             border-radius: $borderRadiusMd;
