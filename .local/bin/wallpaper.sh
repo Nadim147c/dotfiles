@@ -3,26 +3,17 @@
 # Function to run post-processing hooks
 post_hooks() {
     # Compile SCSS files for various components
-    compile-scss.sh ~/.config/waybar/style.scss
-    compile-scss.sh ~/.config/swaync/style.scss
-    compile-scss.sh ~/.config/wofi/style.scss
+    compile-scss.sh ~/.config/waybar/style.scss && killall -v -SIGUSR1 kitty &
+    compile-scss.sh ~/.config/swaync/style.scss && pkill swaync && fork swaync &
+    compile-scss.sh ~/.config/wofi/style.scss &
+    touch ~/.config/alacritty/alacritty.toml &
 
     # Reload applications by sending signals
-    killall -v -SIGUSR1 kitty
-    killall -v -SIGUSR2 waybar
-    pywalfox --verbose update
-    touch ~/.config/alacritty/alacritty.toml # Triggers Alacritty reload
+    killall -v -SIGUSR2 waybar &
+    pywalfox --verbose update &
 
-    # Restart swaync
-    pkill swaync
-    hyprctl dispatch exec -- swaync
-
-    # Start spicetify watcher if not running
-    if ! pgrep -f "spicetify watch -s" >/dev/null; then
-        hyprctl dispatch -- exec spicetify watch -s
-    fi
-
-    hyprctl reload
+    hyprctl reload &
+    sleep 1.5 # Ensure all the command finished running
 }
 
 # Function to get a random wallpaper path
@@ -30,25 +21,24 @@ get_wallpaper() {
     # Create directory if missing
     mkdir -p ~/Videos/Wallpapers/
 
-    # Get currently loaded wallpapers
-    # current_wallpapers=($(hyprctl hyprpaper listloaded | awk '{$1=$1};1'))
+    # Get currently loaded wallpapers (ignore errors)
+    local current_wallpapers=$(hyprctl hyprpaper listloaded 2>/dev/null | awk '{$1=$1};1' || true)
 
     # Find candidate wallpapers (images not currently loaded)
-    mapfile -t candidates < <(
-        find ~/Pictures/Wallpapers/ -type f \( \
-            -iname "*.jpg" -o \
-            -iname "*.jpeg" -o \
-            -iname "*.png" -o \
-            -iname "*.webp" \)
-        # grep -vF "${current_wallpapers[@]}"
-    )
+    local candidates=()
+    while IFS= read -r file; do
+        # Skip if file is in current wallpapers
+        if echo "$current_wallpapers" | grep -qFx "$file"; then
+            continue
+        fi
+        candidates+=("$file")
+    done < <(find ~/Pictures/Wallpapers/ -type f \( \
+        -iname "*.jpg" -o \
+        -iname "*.jpeg" -o \
+        -iname "*.png" -o \
+        -iname "*.webp" \))
 
-    # Select random wallpaper
-    if [ ${#candidates[@]} -gt 0 ]; then
-        echo "${candidates[RANDOM % ${#candidates[@]}]}"
-    else
-        echo "" # Return empty if no candidates
-    fi
+    printf '%s\n' "${candidates[@]}" | shuf -n1
 }
 
 # Function to generate color scheme from image
@@ -62,11 +52,11 @@ generate_colors() {
 # Function to set wallpaper with swww
 set_wallpaper() {
     local wallpaper="$1"
-    echo "setting wallpaper $wallpaper"
+    echo "Setting wallpaper $wallpaper"
 
     # Start swww daemon if not running
     if ! pgrep swww-daemon >/dev/null; then
-        hyprctl dispatch exec -- swww-daemon
+        fork swww-daemon
     fi
 
     # Get cursor position in required format
