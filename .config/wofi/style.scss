@@ -1,10 +1,8 @@
 @import "colors.scss";
 
-* {
-    all: unset;
-}
-
 window {
+    box-shadow: none;
+    all: unset;
     margin: 0px;
     border: 2px solid $outline;
     background-color: $background;
@@ -16,6 +14,10 @@ window {
     border: none;
     color: $onBackground;
     background-color: $background;
+}
+
+#img {
+    margin: 5px;
 }
 
 #inner-box {
