@@ -1,5 +1,3 @@
-(deflisten cover_art :initial "" `eww-mpris-cover -q`)
-
 (defwindow media []
     :monitor 0
     :stacking "overlay"

@@ -3,7 +3,6 @@
     "logo": {
         "source": "$(~/.local/bin/fastfetch-logo.sh)",
         "height": 12,
-        "width": 28,
     },
     "general": {
         "multithreading": true,

@@ -18,8 +18,6 @@ def post_hooks [] {
     if (ps --long | where command =~ "spicetify watch -s" | is-empty) {
         hyprctl dispatch -- exec spicetify watch -s
     }
-
-    hyprctl reload
 }
 
 def get_walpaper []: nothing -> string {
