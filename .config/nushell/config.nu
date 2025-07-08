@@ -23,6 +23,7 @@ alias ..... = cd ../../../..
 alias delta = ^delta --line-numbers --hunk-header-decoration-style none
 alias ffmpeg = ^ffmpeg -hide_banner
 
+def field [n: int] { awk $"{ print $($n) }"}
 def ff [] { clear; ^fastfetch }
 
 # Choose a random item from a table or list
