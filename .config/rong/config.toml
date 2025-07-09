@@ -5,6 +5,7 @@
 "kitty.conf" = "~/.config/kitty/colors.conf"
 "pywalfox.json" = "~/.cache/wal/colors.json"
 "rofi.rasi" = "~/.config/rofi/config.rasi"
+"ghostty" = "~/.config/ghostty/colors"
 
 "colors.scss" = [
     "~/.config/eww/colors.scss",

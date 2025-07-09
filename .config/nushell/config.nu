@@ -40,6 +40,12 @@ def name-uuid [...files: string] {
     }
 }
 
+let hsts_line = $"hsts-file = ($env.XDG_CACHE_HOME | path join wget-hsts)"
+if not ($env.WGETRC | path exists) {
+    mkdir ($env.WGETRC | path dirname)
+    $hsts_line | save $env.WGETRC
+}
+
 source ~/.config/nushell/modules/archlinux.nu
 source ~/.config/nushell/modules/git.nu
 source ~/.config/nushell/modules/zellij.nu

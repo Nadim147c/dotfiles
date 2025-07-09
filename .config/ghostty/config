@@ -8,7 +8,7 @@ font-family = JetBrainsMono Nerd Font
 font-style = true
 font-synthetic-style = true
 font-size = 9.5
-alpha-blending = linear
+alpha-blending = native
 adjust-cell-height = -5%
 
 window-vsync = true
