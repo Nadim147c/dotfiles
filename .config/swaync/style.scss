@@ -3,14 +3,14 @@
 .control-center {
     margin: 1em;
     padding: 0.4em;
-    border: 0.2em solid $outline;
+    border: 2px solid $outline;
     color: $onBackground;
     background-color: $background;
 }
 
 .notification {
     padding: 0.4em;
-    border: 0.08em solid $outline;
+    border: 2px solid $outline;
     color: $onBackground;
     background-color: $background;
 
@@ -24,8 +24,8 @@
 
 .close-button {
     border: none;
-    color: $onPrimaryContainer;
-    background-color: $primaryContainer;
+    color: $onPrimary;
+    background-color: $primary;
 
     &:hover {
         color: $onError;
@@ -36,7 +36,7 @@
 switch {
     border-radius: 2em;
     background-color: $background;
-    border: 0.1em solid $outline;
+    border: 1px solid $primary;
 
     &:checked {
         background: $primaryContainer;
@@ -53,8 +53,8 @@ switch {
 .notification-group-close-all-button {
     border-radius: 2em;
     box-shadow: none;
-    color: $onPrimaryContainer;
-    background: $primaryContainer;
+    color: $onPrimary;
+    background: $primary;
 }
 
 button {
@@ -62,4 +62,8 @@ button {
     border-radius: 2em;
     color: $onPrimaryContainer;
     background-color: $primaryContainer;
+    &:hover {
+        color: $onPrimary;
+        background: $primary;
+    }
 }
