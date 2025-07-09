@@ -1,12 +1,24 @@
 $env.TRANSIENT_PROMPT_INDICATOR = ""
 $env.TRANSIENT_PROMPT_COMMAND = false
 
-$env.XDG_CONFIG_HOME = $env.HOME | path join ".config"
-$env.XDG_CACHE_HOME = $env.HOME | path join ".cache"
-$env.XDG_DATA_HOME = $env.HOME | path join ".local" "share"
-$env.XDG_STATE_HOME = $env.HOME | path join ".local" "state"
-
 $env.LS_COLORS = (vivid generate catppuccin-mocha | str trim)
+
+$env.XDG_CONFIG_HOME = $env.HOME | path join .config
+$env.XDG_CACHE_HOME  = $env.HOME | path join .cache
+$env.XDG_DATA_HOME   = $env.HOME | path join .local share
+$env.XDG_STATE_HOME  = $env.HOME | path join .local state
+
+$env.STARSHIP_CONFIG       = $env.XDG_CONFIG_HOME | path join starship.toml
+$env.WGETRC                = $env.XDG_CONFIG_HOME | path join wget config
+$env.NPM_CONFIG_USERCONFIG = $env.XDG_CONFIG_HOME | path join npm npmrc
+
+$env.GOPATH      = $env.XDG_DATA_HOME | path join go
+$env.PNPM_HOME   = $env.XDG_DATA_HOME | path join pnpm
+$env.CARGO_HOME  = $env.XDG_DATA_HOME | path join cargo
+$env.RUSTUP_HOME = $env.XDG_DATA_HOME | path join rustup
+
+$env.STARSHIP_CACHE = $env.XDG_CACHE_HOME | path join "starship"
+$env.GOMODCACHE     = $env.XDG_CACHE_HOME | path join go mod
 
 $env.Path = [
     "/usr/local/go/bin"
@@ -15,14 +27,10 @@ $env.Path = [
     $"($env.HOME)/.bun/bin"
     $"($env.HOME)/.local/share/pnpm"
     $"($env.HOME)/.spicetify"
-    $"($env.HOME)/go/bin"
-    $"($env.HOME)/.local/share/go/bin/"
+    $"($env.GOPATH)/bin"
 ] ++ $env.Path
 
 $env.PATH = ($env.PATH | str replace --regex '/$' '' | uniq)
-
-$env.GOPATH = $"($env.HOME)/.local/share/go"
-$env.PNPM_HOME = $"($env.HOME)/.local/share/pnpm/"
 
 $env.SKIM_DEFAULT_OPTIONS = $"($env | get SKIM_DEFAULT_OPTIONS --ignore-errors | default "")
 --layout reverse --border
