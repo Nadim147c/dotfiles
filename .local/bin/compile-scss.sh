@@ -21,15 +21,13 @@ if ! command -v sass >/dev/null 2>&1; then
     exit 1
 fi
 
-CACHE_PATH="${XDG_CACHE_HOME:-$HOME/.cache}/scss/"
-
 DIR="$(dirname "$INPUT")"
 BASE="$(basename "$INPUT" .scss)"
 OUTPUT="$DIR/$BASE.css"
 TMPFILE="$(mktemp "$DIR/$BASE.XXXXXX.css")"
 
 # Compile SCSS to a temporary file
-if sass --cache-location "$CACHE_PATH" "$INPUT" "$TMPFILE"; then
+if sass --no-cache --sourcemap=none "$INPUT" "$TMPFILE"; then
     # Use install to safely move the file (preserves permissions, atomic)
     install -m 644 "$TMPFILE" "$OUTPUT"
     echo "Compiled $INPUT -> $OUTPUT"
