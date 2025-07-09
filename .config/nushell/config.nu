@@ -11,6 +11,7 @@ alias dotsync = stow -d ~/git/dotfiles/ -t ~/ --no-folding .
 alias du = ^du -h
 alias grep = ^grep --color
 alias less = ^less -r -F
+alias exe = chmod +x
 
 # Cd
 alias rd = cd - # Return to previous directory
