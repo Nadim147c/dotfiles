@@ -192,18 +192,25 @@
 )
 
 
+;; Check wheither stay awake mode is active or not
+(defpoll caffeinated :initial "false" :interval "1s" `coffee.sh --check`)
 (defwidget action_row []
-	(box
-        :class "action-row"
-        :orientation "h"
-        :space-evenly false
-        :spacing 0
-        (eventbox
-            :cursor "pointer"
+    (eventbox
+        :cursor "pointer"
+        (box
+            :class "action-row"
+            :orientation "h"
+            :space-evenly false
+            :spacing 0
             (button
                 :class "wallpaper"
                 :onclick "${EWW_CMD} open wallpaper --toggle"
                 "󰸉"
+            )
+            (button
+                :class {caffeinated ? "caffeinated" : "coffee"}
+                :onclick "coffee.sh --toggle && ${EWW_CMD} update caffeinated=$(coffee.sh --check)"
+                " "
             )
         )
     )
