@@ -4,12 +4,13 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"slices"
 	"syscall"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		log.Fatalf("Usage: %s <command> [args...]", os.Args[0])
+	if len(os.Args) < 2 || slices.Contains(os.Args, "--help") || slices.Contains(os.Args, "-help") {
+		log.Fatalf("Usage: fork <command> [args...]")
 	}
 
 	cmd := exec.Command(os.Args[1], os.Args[2:]...)
