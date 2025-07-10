@@ -21,7 +21,7 @@ organize_files() {
     echo "Starting organization..."
 
     # Find all files (not directories) in target directory
-    find "$dir" -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+    fd . "$dir" --max-depth 1 --type f | while read -r file; do
         # Get MIME type and basename
         type=$(file -b --mime-type "$file")
         base=$(basename "$file")

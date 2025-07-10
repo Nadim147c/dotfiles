@@ -6,7 +6,6 @@
 #   ./script [--force] [<directory-or-file>]
 #   If <directory-or-file> is not provided, defaults to current directory
 #   --force: Skip confirmation prompt
-#
 # Features:
 #   - Preserves file extensions
 #   - Handles files with spaces and special characters
@@ -54,7 +53,7 @@ fi
 
 # Directory mode - handle confirmation
 if [[ "$FORCE" -ne 1 ]]; then
-    read -p "You're about to rename all files (recursively) in '$TARGET_PATH'. Proceed? [y/N]: " confirm
+    read -p "You're about to rename all files in '$TARGET_PATH'. Proceed? [y/N]: " confirm
     [[ "$confirm" =~ ^[Yy]$ ]] || {
         echo "Aborted."
         exit 1
@@ -62,7 +61,7 @@ if [[ "$FORCE" -ne 1 ]]; then
 fi
 
 # Process directory recursively
-find "$TARGET_PATH" -type f | while IFS= read -r file; do
+fd . "$TARGET_PATH" --type f --max-depth 1 | while IFS= read -r file; do
     filename=$(basename -- "$file")
     ext="${filename##*.}"
     [[ "$filename" == "$ext" ]] && ext="" # Handle extensionless files

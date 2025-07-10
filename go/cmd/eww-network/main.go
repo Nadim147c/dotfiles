@@ -12,8 +12,8 @@ var Format = "%.1B"
 
 func init() {
 	format := pflag.StringP("format", "f", "B", `Format for speed
-"K" for binary byte (KiB/s, MiB/s...)
-"k" for binary bit (Kibps, Mibps...)
+"M" for binary byte (KiB/s, MiB/s...)
+"m" for binary bit (Kibps, Mibps...)
 "B" for si byte (KB/s, MB/s...)
 "b" for si bit (Kbps, Mbps...)
 `)
@@ -29,10 +29,10 @@ func init() {
 	}
 
 	switch *format {
-	case "K":
-		Format = "%.1K/s"
-	case "k":
-		Format = "%.1kps"
+	case "M":
+		Format = "%.1M/s"
+	case "m":
+		Format = "%.1mps"
 	case "B", "":
 		Format = "%.1B/s"
 	case "b":
