@@ -27,12 +27,25 @@ cache_image() {
     fi
 }
 
+cleanup_cache() {
+    while IFS= read -r -d $'\0' cache_file; do
+        filename=$(basename "$cache_file")
+        original="${WALLPAPER_DIR}/${filename}"
+        if [[ ! -f "$original" ]]; then
+            echo "Deleting orphaned cache file: $cache_file"
+            rm -f "$cache_file"
+        fi
+    done < <(find "$CACHE_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -print0)
+}
+
 case "$1" in
 "cache")
     # Cache all images in wallpaper directory
     while IFS= read -r -d $'\0' img; do
         cache_image "$img"
     done < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -print0)
+
+    cleanup_cache
     ;;
 "list")
     # Generate JSON array using jq for compact output
