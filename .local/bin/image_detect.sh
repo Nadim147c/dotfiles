@@ -4,7 +4,7 @@
 BASE_DIR="${1:-.}"
 
 # Walk through all files with no extension
-find "$BASE_DIR" -type f ! -name "*.*" | while read -r file; do
+fd '^[^\.]+$' --type f "$BASE_DIR" | while read -r file; do
     # Use the `file` command to detect MIME type
     mime_type=$(file --mime-type -b "$file")
 
