@@ -1,12 +1,10 @@
 [init]
     defaultBranch = main
-
 [core]
 	pager = delta --line-numbers --hunk-header-style=omit
     compression = 9  # trade cpu for network
     fsync = none
     whitespace = error  # threat incorrect whitespace as errors
-
 [interactive]
 	diffFilter = delta --line-numbers --hunk-header-style=omit
 
@@ -87,4 +85,3 @@
 
 [git-extras "feature"]
 	prefix = feat
-
