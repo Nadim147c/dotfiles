@@ -59,7 +59,8 @@ func CalcSpeed(before map[string]NetStat, lastIFace string, interval time.Durati
 		foundLastIFace *Delta
 	)
 
-	durationSec := float64(interval) / float64(time.Second)
+	const sec = diskspace.Diskspace(time.Second)
+	duration := diskspace.Diskspace(interval)
 
 	for iface, b := range before {
 		a, ok := after[iface]
@@ -68,8 +69,8 @@ func CalcSpeed(before map[string]NetStat, lastIFace string, interval time.Durati
 			continue
 		}
 
-		drx := diskspace.Diskspace(float64(a.Rx-b.Rx) / durationSec)
-		dtx := diskspace.Diskspace(float64(a.Tx-b.Tx) / durationSec)
+		drx := (a.Rx - b.Rx) * sec / duration
+		dtx := (a.Tx - b.Tx) * sec / duration
 		change := drx + dtx
 
 		d := &Delta{

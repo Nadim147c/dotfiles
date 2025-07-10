@@ -55,9 +55,10 @@ func main() {
 		slog.Error("Error calculating speed", "error", err)
 	}
 
-	interval := time.Second
+	interval := 500 * time.Millisecond
 
 	ticker := time.NewTicker(interval)
+	defer ticker.Stop()
 	for {
 		<-ticker.C
 		before, iface, err = CalcSpeed(before, iface, interval)
