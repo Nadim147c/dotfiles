@@ -5,16 +5,12 @@
 ;; hyprland
 (deflisten hyprland_ipc :initial "{}" `eww-hyprland -q`)
 ;; network
-(deflisten network :initial "{}" `eww-network -qfB`)
+(deflisten network :initial "{}" `eww-network -qfM`)
 
 (defvar spacing 16)
 
 (defwidget hyprland []
-    (box
-        :class "workspaces"
-        :orientation "h"
-        :space-evenly true
-        :halign "start"
+    (box :class "workspaces" :orientation "h" :space-evenly true :halign "start"
         (for workspace in hyprland_ipc
             (eventbox :cursor "pointer"
                 (button
@@ -28,56 +24,29 @@
 )
 
 (defwidget player []
-    (eventbox
-        :cursor "pointer"
-        :class "player"
-        (button
-            :onclick "${EWW_CMD} open media --toggle"
+    (eventbox :cursor "pointer" :class "player"
+        (button :onclick "${EWW_CMD} open media --toggle"
             :onmiddleclick "playerctl --player=${lyrics.info.player} play-pause"
-            (label :text {lyrics.text != "" ? "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" : "" } :tooltip "Click open the player")
+            (label
+                :text {lyrics.text != "" ? "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" : "" }
+                :tooltip "Click open the player"
+            )
         )
     )
 )
 
 (defwidget network []
-    (tooltip
-        :class "network"
-        (box
-            :orientation "v"
-            :space-evenly false
-            :spacing 5
-            (overlay
-                :class "graph"
-                (graph
-                    :class "netspeed-graph-change"
-                    :dynamic true
-                    :thickness 2
-                    :time-range "15s"
-                    :line-style "round"
-                    :height 150 :width 300
-                    :value {network.graph_change}
-                )
-                (graph
-                    :class "netspeed-graph-up"
-                    :dynamic true
-                    :thickness 2
-                    :time-range "15s"
-                    :line-style "round"
-                    :height 150 :width 300
-                    :value {network.graph_up}
-                )
-                (graph
-                    :class "netspeed-graph-down"
-                    :dynamic true
-                    :thickness 2
-                    :time-range "15s"
-                    :line-style "round"
-                    :height 150 :width 300
-                    :value {network.graph_down}
-                )
+    (tooltip :class "network"
+        (box :orientation "v" :space-evenly false :spacing 5
+            (overlay :class "graph"
+                (graph :class "netspeed-graph-change" :dynamic true :thickness 2 :time-range "15s"
+                    :line-style "round" :height 150 :width 300 :value {network.graph_change})
+                (graph :class "netspeed-graph-up" :dynamic true :thickness 2 :time-range "15s"
+                    :line-style "round" :height 150 :width 300 :value {network.graph_up})
+                (graph :class "netspeed-graph-down" :dynamic true :thickness 2 :time-range "15s"
+                    :line-style "round" :height 150 :width 300 :value {network.graph_down})
             )
-            (box
-                :orientation "h"
+            (box :orientation "h"
                 (label :class "netspeed-ident-down" :text "  Down")
                 (label :class "netspeed-ident-up" :text "  Up")
                 (label :class "netspeed-ident-total" :text "  Total")
@@ -88,12 +57,13 @@
 )
 
 (defvar volume_show false)
-(defpoll volume_value :interval "2s" `~/.config/eww/modules/bar/audio.sh --volume`)
-(defpoll volume_muted :interval "2s" `~/.config/eww/modules/bar/audio.sh --muted`)
+(defpoll volume_value :interval "5s" `eww-audio.sh --volume`)
+(defpoll volume_muted :interval "5s" `eww-audio.sh --muted`)
 (defwidget volume []
     (box :class "volume"
         (eventbox
             :cursor "pointer"
+            :onscroll "eww-audio.sh --scroll {}"
             :onhover "${EWW_CMD} update volume_show=true"
             :onhoverlost "${EWW_CMD} update volume_show=false"
             (box
@@ -105,11 +75,11 @@
                     :reveal volume_show
                     :duration "400ms"
                     (scale :min 0 :max 100 :value {volume_value} :width 100 :orientation "h"
-                        :onchange `${EWW_CMD} update volume_value={} && wpctl set-volume @DEFAULT_SINK@ {}%`
+                        :onchange `eww-audio.sh --set-volume {}%`
                     )
                 )
                 (button
-                    :onclick `wpctl set-mute @DEFAULT_SINK@ toggle && ${EWW_CMD} update volume_muted=$(~/.config/eww/modules/bar/audio.sh --muted)`
+                    :onclick `eww-audio.sh --toggle-mute`
                     "${volume_muted ? "" : ""} ${volume_value}%"
                 )
             )
@@ -119,10 +89,12 @@
 
 (defwidget clock []
     (box :class "clock"
-        (eventbox
-            :cursor "pointer"
+        (eventbox :cursor "pointer"
             (button :onclick "${EWW_CMD} open calendar --toggle"
-                " ${formattime(EWW_TIME, "%I:%M%p")}"
+                (label
+                    :text " ${formattime(EWW_TIME, "%I:%M%p")}"
+                    :tooltip "${formattime(EWW_TIME, "%A, %d %B, %Y")}"
+                )
             )
         )
     )
@@ -130,62 +102,36 @@
 
 (defvar power_show false)
 (defwidget power []
-    (eventbox
-        :class "power"
+    (eventbox :class "power" :cursor "pointer"
         :onhover "${EWW_CMD} update power_show=true"
         :onhoverlost "${EWW_CMD} update power_show=false"
-        (box
-            :orientation "h"
-            :space-evenly false
-            :spacing 0
-            (revealer
-                :class "revealer"
-                :transition "slideleft"
-				:reveal power_show
-				:duration "400ms"
-                (box
-                    :spacing 0
-                    (eventbox :cursor "pointer"
-                        (button
-                            :class "lock"
-                            :onclick `confirm.nu -c Cencel -o Lock -d "Lock your current sesssion?" "hyprctl dispatch exec -- hyprlock"`
-                            (label :text "" :tooltip "Lock")
-                        )
+        (box :orientation "h" :space-evenly false :spacing 1
+            (revealer :class "revealer" :transition "slideleft" :reveal power_show :duration "400ms"
+                (box :spacing 1
+                    (button :class "lock"
+                        :onclick `confirm.nu -c Cencel -o Lock -d "Lock your current sesssion?" "hyprctl dispatch exec -- hyprlock"`
+                        (label :text "" :tooltip "Lock")
                     )
-                    (eventbox :cursor "pointer"
-                        (button
-                            :class "logout"
-                            :onclick `confirm.nu -c Cencel -o Lock -d "Exit your current sesssion?" "hyprctl dispatch exit"`
-                            (label :text "󰍃" :tooltip "Logout")
-                        )
+                    (button :class "logout"
+                        :onclick `confirm.nu -c Cencel -o Lock -d "Exit your current sesssion?" "hyprctl dispatch exit"`
+                        (label :text "󰍃" :tooltip "Logout")
                     )
-                    (eventbox :cursor "pointer"
-                        (button
-                            :class "sleep"
-                            :onclick `confirm.nu -c Cencel -o Sleep -d "Sleep your computer?" "systemctl suspend"`
-                            (label :text "󰒲" :tooltip "Sleep")
-                        )
+                    (button :class "sleep"
+                        :onclick `confirm.nu -c Cencel -o Sleep -d "Sleep your computer?" "systemctl suspend"`
+                        (label :text "󰒲" :tooltip "Sleep")
                     )
-                    (eventbox :cursor "pointer"
-                        (button
-                            :class "reboot"
-                            :onclick `confirm.nu -c Cencel -o Reboot -d "Reboot your computer?" "systemctl reboot"`
-                            (label :text "" :tooltip "Reboot")
-                        )
+                    (button :class "reboot"
+                        :onclick `confirm.nu -c Cencel -o Reboot -d "Reboot your computer?" "systemctl reboot"`
+                        (label :text "" :tooltip "Reboot")
                     )
-                    (eventbox :cursor "pointer"
-                        (button
-                            :class "power"
-                            :onclick `confirm.nu -c Cencel -o Shutdown -d "Shutdown your computer?" "systemctl poweroff"`
-                            (label :text "" :tooltip "Shutdown")
-                        )
+                    (button :class "power"
+                        :onclick `confirm.nu -c Cencel -o Shutdown -d "Shutdown your computer?" "systemctl poweroff"`
+                        (label :text "" :tooltip "Shutdown")
                     )
                 )
             )
-            (eventbox :cursor "pointer"
-                (button :onclick "swaync-client --open-panel"
-                    (label :class "menu-button" :text "󰇙" :tooltip "Control Center")
-                )
+            (button :onclick "swaync-client --open-panel"
+                (label :class "menu-button" :text "󰇙" :tooltip "Control Center")
             )
         )
     )
@@ -195,22 +141,14 @@
 ;; Check wheither stay awake mode is active or not
 (defpoll caffeinated :initial "false" :interval "1s" `coffee.sh --check`)
 (defwidget action_row []
-    (eventbox
-        :cursor "pointer"
-        (box
-            :class "action-row"
-            :orientation "h"
-            :space-evenly false
-            :spacing 0
-            (button
-                :class "wallpaper"
-                :onclick "${EWW_CMD} open wallpaper --toggle"
-                "󰸉"
+    (eventbox :cursor "pointer"
+        (box :class "action-row" :orientation "h" :space-evenly false :spacing 1
+            (button :class "wallpaper" :onclick "${EWW_CMD} open wallpaper --toggle"
+                (label :text "󰸉" :tooltip "Open wallpaper changer")
             )
-            (button
-                :class {caffeinated ? "caffeinated" : "coffee"}
+            (button :class {caffeinated ? "caffeinated" : "coffee"}
                 :onclick "coffee.sh --toggle && ${EWW_CMD} update caffeinated=$(coffee.sh --check)"
-                " "
+                (label :text "" :tooltip "Toggle coffee mode")
             )
         )
     )
@@ -218,22 +156,14 @@
 
 
 (defwidget left []
-	(box
-        :class "left"
-        :orientation "h"
-        :halign "start"
-        :space-evenly false
+	(box :class "left" :orientation "h" :halign "start" :space-evenly false
         (hyprland)
         (player)
     )
 )
 
 (defwidget right []
-	(box
-        :class "right"
-        :orientation "h"
-        :halign "end"
-        :space-evenly false
+	(box :class "right" :orientation "h" :halign "end" :space-evenly false :spacing 1
         (network)
         (volume)
         (systray :class "systray" :spacing 5 :icon-size 17 :prepend-new true)
@@ -250,9 +180,7 @@
     :wm-ignore false
     :exclusive true
 	:geometry (geometry :x "0%" :y "0%" :height "35px" :width "100%" :anchor "center top")
-    (box
-        :class "eww-bar"
-        :orientation "h"
+    (box :class "eww-bar" :orientation "h"
         (left)
         (right)
     )

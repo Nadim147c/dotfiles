@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
+fork() {
+    hyprctl dispatch exec -- "$@"
+}
+
 # Function to run post-processing hooks
 post_hooks() {
     # Compile SCSS files for various components
     compile-scss.sh ~/.config/waybar/style.scss && killall -v -SIGUSR1 kitty &
     compile-scss.sh ~/.config/swaync/style.scss && pkill swaync && fork swaync &
+    compile-scss.sh ~/.config/swayosd/style.scss && pkill swayosd-server && fork swayosd-server
     compile-scss.sh ~/.config/wofi/style.scss &
     touch ~/.config/alacritty/alacritty.toml &
 

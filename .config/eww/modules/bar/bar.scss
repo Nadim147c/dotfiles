@@ -1,7 +1,4 @@
 .eww-bar {
-    // Spacing and Size Tokens
-    $nerd: "JetBrainsMono Nerd Font";
-    $san: "Noto Font";
     $borderRadiusSm: 0.2rem;
     $borderRadiusMd: 0.4rem;
     $borderRadiusLg: 0.8rem;
@@ -97,10 +94,6 @@
             color: $onPrimary;
             background: $primary;
         }
-
-        .wallpaper {
-            padding-right: calc($borderRadiusMd + 4px);
-        }
     }
 
     .power {
@@ -124,22 +117,6 @@
                     background-color: $primary;
                 }
             }
-        }
-
-        .logout {
-            padding-right: calc($paddingLg + 1px);
-        }
-        .lock {
-            padding-right: calc($paddingLg + 2px);
-        }
-        .power {
-            padding-right: calc($paddingLg + 3.5px);
-        }
-        .reboot {
-            padding-right: calc($paddingLg + 2px);
-        }
-        .sleep {
-            padding-right: calc($paddingLg + 4px);
         }
     }
 
@@ -174,7 +151,7 @@
         menu {
             background-color: $background;
             padding: $paddingXl;
-            margin: calc($marginLg * 2);
+            margin: $marginLg;
             border-radius: $borderRadiusLg;
 
             menuitem {
