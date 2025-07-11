@@ -69,7 +69,7 @@
     .clock,
     .power {
         button {
-            font-family: $san, $nerd;
+            font-family: $sans, $nerd;
             margin: 0;
             padding: 0 $paddingLg;
             border-radius: $borderRadiusMd;
@@ -82,7 +82,7 @@
 
     .action-row {
         button {
-            font-family: $san, $nerd;
+            font-family: $sans, $nerd;
             border-radius: $borderRadiusMd;
             padding: 0 $paddingLg;
             &:hover {
@@ -121,10 +121,7 @@
     }
 
     .workspaces {
-        .active-workspace {
-            padding-right: 4px;
-        }
-
+        font-family: $sans, $nerd;
         .workspace {
             border-radius: $borderRadiusMd;
             padding: 0 $paddingLg;

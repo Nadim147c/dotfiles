@@ -11,11 +11,21 @@
         border: 1px solid $primary;
         color: $primary;
         background-color: $background;
+
+        &:hover {
+            color: $onSurface;
+            background-color: $surfaceContainerHighest;
+        }
     }
     .okay {
         padding: 0.5rem;
         border-radius: 1rem;
         color: $onPrimary;
         background-color: $primary;
+
+        &:hover {
+            color: $onPrimaryContainer;
+            background-color: $primaryContainer;
+        }
     }
 }

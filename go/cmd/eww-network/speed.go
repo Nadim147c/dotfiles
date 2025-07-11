@@ -19,9 +19,9 @@ type Delta struct {
 	Wireless  bool   `json:"wireless"`
 	Table     string `json:"table,omitzero"` // You can customize this
 
-	GraphUp     float64 `json:"graph_up"`
-	GraphDown   float64 `json:"graph_down"`
-	GraphChange float64 `json:"graph_change"`
+	GraphUp     diskspace.Diskspace `json:"graph_up"`
+	GraphDown   diskspace.Diskspace `json:"graph_down"`
+	GraphChange diskspace.Diskspace `json:"graph_change"`
 
 	drx, dtx, change diskspace.Diskspace
 }
@@ -109,12 +109,9 @@ func CalcSpeed(before map[string]NetStat, lastIFace string, interval time.Durati
 	candidate.Up = fmt.Sprintf(Format, candidate.dtx)
 	candidate.Change = fmt.Sprintf(Format, candidate.change)
 
-	maxVal := max(candidate.drx, candidate.dtx, candidate.change, diskspace.Mb)
-	highest := float64(maxVal) * 1.1
-
-	candidate.GraphDown = float64(candidate.drx) * 100 / highest
-	candidate.GraphUp = float64(candidate.dtx) * 100 / highest
-	candidate.GraphChange = float64(candidate.change) * 100 / highest
+	candidate.GraphChange = candidate.change
+	candidate.GraphUp = candidate.dtx
+	candidate.GraphDown = candidate.drx
 
 	if err := json.NewEncoder(os.Stdout).Encode(candidate); err != nil {
 		slog.Error("Failed to encode speed data", "error", err)
