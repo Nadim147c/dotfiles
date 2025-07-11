@@ -55,7 +55,7 @@ func main() {
 		slog.Error("Error calculating speed", "error", err)
 	}
 
-	interval := 500 * time.Millisecond
+	interval := 2 * time.Second
 
 	ticker := time.NewTicker(interval)
 	defer ticker.Stop()

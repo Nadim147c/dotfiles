@@ -5,10 +5,10 @@
 }
 
 $nerd: "JetBrainsMono Nerd Font Propo";
-$san: "Noto Sans";
+$sans: "Noto Sans";
 
 @mixin window {
-    font-family: $san, $nerd;
+    font-family: $sans, $nerd;
     border-radius: 1rem;
     background-color: $background;
     color: $primary;
