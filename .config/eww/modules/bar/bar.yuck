@@ -28,6 +28,7 @@
         (button :onclick "${EWW_CMD} open media --toggle"
             :onmiddleclick "playerctl --player=${lyrics.info.player} play-pause"
             (label
+                :show-truncated false
                 :text {lyrics.text != "" ? "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" : "" }
                 :tooltip "Click open the player"
             )
@@ -197,6 +198,10 @@
     )
 )
 
+(defwidget spacer []
+    (label :class "spacer" :unindent false :text `‎                                                                                                                        `)
+)
+
 (defwindow bar
     :monitor 0
     :stacking "bottom"
@@ -204,8 +209,9 @@
     :wm-ignore false
     :exclusive true
 	:geometry (geometry :x "0%" :y "0%" :height "35px" :width "100%" :anchor "center top")
-    (box :class "eww-bar" :orientation "h"
+    (box :class "eww-bar" :orientation "h" :space-evenly false
         (left)
+        (spacer)
         (right)
     )
 )
