@@ -21,6 +21,11 @@ tooltip .weather-tooltip {
     $highlightPaddingY: 3px;
     $highlightBorderRadius: 10px;
 
+    .spacer {
+        font-family: "JetBrainsMono Nerd Font";
+        color: transparent;
+    }
+
     .left,
     .right {
         background-color: $background;
