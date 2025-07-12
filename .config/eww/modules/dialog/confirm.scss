@@ -20,12 +20,12 @@
     .okay {
         padding: 0.5rem;
         border-radius: 1rem;
-        color: $onPrimary;
-        background-color: $primary;
+        color: $onPrimaryContainer;
+        background-color: $primaryContainer;
 
         &:hover {
-            color: $onPrimaryContainer;
-            background-color: $primaryContainer;
+            color: $onPrimary;
+            background-color: $primary;
         }
     }
 }
