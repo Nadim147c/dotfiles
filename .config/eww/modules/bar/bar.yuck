@@ -35,6 +35,28 @@
     )
 )
 
+(deflisten weather_text :initial "" "eww-weather -q")
+(defpoll weather_tooltip :interval "15m" :initial "" "eww-wttr.in.nu")
+(defwidget weather []
+    (tooltip
+        :class "weather"
+        (label :class "weather-tooltip" :text {weather_tooltip})
+        (label :text {weather_text})
+    )
+)
+
+(defwidget cpu []
+    (tooltip
+        (box
+            :orientation "v"
+            (for core in {EWW_CPU.cores}
+                (label :class "cpu" :text "${core.core}: ${round(core.usage, 0)}%")
+            )
+        )
+        (label :class "cpu" :text " ${round(EWW_CPU.avg, 0)}%")
+    )
+)
+
 (defwidget network []
     (tooltip :class "network"
         (box :orientation "v" :space-evenly false :spacing 15
@@ -164,7 +186,9 @@
 
 (defwidget right []
 	(box :class "right" :orientation "h" :halign "end" :space-evenly false :spacing 1
+        (weather)
         (network)
+        (cpu)
         (volume)
         (systray :class "systray" :spacing 5 :icon-size 17 :prepend-new true)
         (clock)
