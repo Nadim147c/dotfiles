@@ -12,6 +12,7 @@ pkgs=(
     hyprland hypridle hyprlock hyprcursor hyprshot hyprsunset
     swaync wlogout waybar-lyric-git hyprpolkitagent wofi
     adw-gtk-theme breeze nwg-look qt6ct bibata-cursor-theme
+    cava
     # Color
     python-pywalfox
     # Clipboard
