@@ -172,12 +172,29 @@
 (defwidget action_row []
     (eventbox :cursor "pointer"
         (box :class "action-row" :orientation "h" :space-evenly false :spacing 1
-            (button :class "wallpaper" :onclick "${EWW_CMD} open wallpaper --toggle"
-                (label :text "󰸉" :tooltip "Open wallpaper changer")
+            (button :class "drun" :onclick "fork wofi --show drun"
+                (label :text "" :tooltip "Open app launcher")
+            )
+            (button :class "screenshot"
+                :onclick "hyprshot -m region -o ~/Pictures/Screenshots"
+                :onmiddleclick "hyprshot -m window -o ~/Pictures/Screenshots"
+                :onrightclick "hyprshot -m output -o ~/Pictures/Screenshots"
+                (label
+                    :text "󰹑"
+                    :tooltip `Left Click: Capture a region
+Middle Click: Capture a window
+Right Click: Capture a the screen`
+                )
+            )
+            (button :class "clipboard" :onclick "fork kitty --class=clipboard ~/.local/bin/clipboard-history.sh"
+                (label :text "" :tooltip "Open clipboard history")
             )
             (button :class {caffeinated ? "caffeinated" : "coffee"}
                 :onclick "coffee.sh --toggle && ${EWW_CMD} update caffeinated=$(coffee.sh --check)"
                 (label :text "" :tooltip "Toggle coffee mode")
+            )
+            (button :class "wallpaper" :onclick "${EWW_CMD} open wallpaper --toggle"
+                (label :text "󰸉" :tooltip "Open wallpaper changer")
             )
         )
     )
