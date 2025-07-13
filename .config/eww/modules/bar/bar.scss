@@ -67,6 +67,7 @@ tooltip .weather-tooltip {
         }
     }
 
+    .cava,
     .weather label,
     .cpu,
     .network {
@@ -102,8 +103,8 @@ tooltip .weather-tooltip {
             }
         }
         .caffeinated {
-            color: $onPrimary;
-            background: $primary;
+            color: $onSecondary;
+            background: $secondary;
         }
     }
 

@@ -33,14 +33,14 @@ var iconMap = map[int64]string{
 	// Clear to cloudy (0–3)
 	0: "", 1: "",
 	// Cloudy
-	2: "", 3: "",
+	2: "", 3: "", 80: "",
 	// Fog etc.
 	45: "", 48: "",
 	// Drizzle (light)
 	51: "", 53: "", 55: "", 56: "", 57: "",
 	// Rain
 	61: "", 63: "", 65: "", 66: "", 67: "",
-	80: "", 81: "", 82: "",
+	81: "", 82: "",
 	// Snow
 	71: "󰖘", 73: "󰖘", 75: "󰖘", 77: "󰖘", 85: "󰖘",
 	86: "󰖘",
@@ -156,6 +156,7 @@ func CheckWeather(locationPath string) {
 		return
 	}
 
+	slog.Info("Weather", "code", weather.Current.WeatherCode, "temperature", weather.Current.Temperature)
 	icon, ok := iconMap[weather.Current.WeatherCode]
 	if ok {
 		fmt.Printf("%s %.1f%s\n", icon, weather.Current.Temperature, weather.Units.Temperature)

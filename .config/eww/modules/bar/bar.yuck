@@ -23,6 +23,11 @@
     )
 )
 
+(deflisten cava_value :initial "▁▁▁▁▁▁▁▁▁▁" `eww-cava -q`)
+(defwidget cava []
+    (label :class "cava" :text {cava_value})
+)
+
 (defwidget player []
     (eventbox :cursor "pointer" :class "player"
         (button :onclick "${EWW_CMD} open media --toggle"
@@ -42,7 +47,7 @@
     (tooltip
         :class "weather"
         (label :class "weather-tooltip" :text {weather_tooltip})
-        (label :text {weather_text})
+        (label :show-truncated false :text {weather_text})
     )
 )
 
@@ -54,7 +59,7 @@
                 (label :class "cpu" :text "${core.core}: ${round(core.usage, 0)}%")
             )
         )
-        (label :class "cpu" :text " ${round(EWW_CPU.avg, 0)}%")
+        (label :class "cpu" :show-truncated false :text " ${round(EWW_CPU.avg, 0)}%")
     )
 )
 
@@ -75,7 +80,7 @@
                     :line-style "round" :height 150 :width 150 :value {network.graph_change})
             )
         )
-        (label :text "${network.wireless ? " " : " "} ${network.change}")
+        (label :show-truncated false :text "${network.wireless ? " " : " "} ${network.change}")
     )
 )
 
@@ -115,6 +120,7 @@
         (eventbox :cursor "pointer"
             (button :onclick "${EWW_CMD} open calendar --toggle"
                 (label
+                    :show-truncated false
                     :text " ${formattime(EWW_TIME, "%I:%M%p")}"
                     :tooltip "${formattime(EWW_TIME, "%A, %d %B, %Y")}"
                 )
@@ -181,6 +187,7 @@
 (defwidget left []
 	(box :class "left" :orientation "h" :halign "start" :space-evenly false
         (hyprland)
+        ;; (cava)
         (player)
     )
 )
