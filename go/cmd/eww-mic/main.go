@@ -33,11 +33,18 @@ type Output struct {
 	Description string `json:"description"`
 }
 
+var (
+	Quiet  = false
+	Toggle = false
+)
+
 func init() {
-	quiet := pflag.BoolP("quiet", "q", false, "Suppress all logs")
+	pflag.BoolVarP(&Quiet, "quiet", "q", Quiet, "Suppress all logs")
+	pflag.BoolVarP(&Toggle, "toggle", "t", Toggle, "Toggle microphone mute state")
+
 	pflag.Parse()
 
-	if *quiet {
+	if Quiet {
 		log.Setup(slog.LevelError + 1)
 	} else {
 		log.Setup(slog.LevelDebug)
@@ -45,23 +52,55 @@ func init() {
 }
 
 func main() {
-	// Get all sound microphones
-	microphones, err := ListSources()
-	if err != nil {
-		slog.Error("Error getting microphones", "error", err)
-		os.Exit(1)
-	}
-
-	// Find first running microphone or fallback to default
-	microphone, err := SelectMicrophone(microphones)
+	microphone, err := GetMicrophone()
 	if err != nil {
 		slog.Error("No suitable microphone found", "error", err)
 		os.Exit(1)
 	}
 
+	if Toggle {
+		cmd := exec.Command("pactl", "set-source-mute", microphone.Name, "toggle")
+		err := cmd.Run()
+		if err != nil {
+			slog.Error("Failed to toggle microphone state", "error", err)
+			os.Exit(1)
+		}
+
+		microphone, err := GetMicrophone()
+		if err != nil {
+			slog.Error("No suitable microphone found", "error", err)
+			os.Exit(1)
+		}
+		output := GetOutput(microphone)
+		b, err := json.Marshal(output)
+		if err != nil {
+			slog.Error("Failed encode json", "error", err)
+			os.Exit(1)
+		}
+
+		ewwCmd := exec.Command("eww", "update", "microphone="+string(b))
+		if err := ewwCmd.Run(); err != nil {
+			slog.Error("Failed to update eww variable", "error", err)
+			os.Exit(1)
+		}
+
+		return
+	}
+
 	// Prepare and output result
 	output := GetOutput(microphone)
 	json.NewEncoder(os.Stdout).Encode(output)
+}
+
+func GetMicrophone() (*Microphone, error) {
+	// Get all sound microphones
+	microphones, err := ListSources()
+	if err != nil {
+		return nil, err
+	}
+
+	// Find first running microphone or fallback to default
+	return SelectMicrophone(microphones)
 }
 
 func ListSources() ([]Microphone, error) {
