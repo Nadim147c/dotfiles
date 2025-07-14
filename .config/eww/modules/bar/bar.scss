@@ -26,14 +26,11 @@ tooltip .weather-tooltip {
         color: transparent;
     }
 
-    .left,
-    .right {
-        background-color: $background;
-        color: $primary;
-        margin: $marginSm $marginMd;
-        padding: $paddingSm $paddingMd;
-        border-radius: $borderRadiusLg;
-    }
+    background-color: $background;
+    color: $primary;
+    margin: $marginSm $marginMd;
+    padding: $paddingSm $paddingMd;
+    border-radius: $borderRadiusLg;
 
     scale trough highlight {
         background-color: $primary;
@@ -97,12 +94,15 @@ tooltip .weather-tooltip {
             font-family: $sans, $nerd;
             border-radius: $borderRadiusMd;
             padding: 0 $paddingLg;
+            margin: 0 0.5px;
             &:hover {
                 color: $onPrimary;
                 background: $primary;
             }
         }
-        .caffeinated {
+
+        .caffeinated,
+        .recording {
             color: $onSecondary;
             background: $secondary;
         }

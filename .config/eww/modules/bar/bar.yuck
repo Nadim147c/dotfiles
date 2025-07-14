@@ -169,11 +169,18 @@
 
 ;; Check wheither stay awake mode is active or not
 (defpoll caffeinated :initial "false" :interval "1s" `coffee.sh --check`)
+(defpoll microphone :interval "0.5s"
+    :initial `{"class":"","display":false,"name":"","description":""}`
+    `eww-mic -q`
+)
 (defwidget action_row []
     (eventbox :cursor "pointer"
-        (box :class "action-row" :orientation "h" :space-evenly false :spacing 1
-            (button :class "drun" :onclick "fork wofi --show drun"
-                (label :text "" :tooltip "Open app launcher")
+        (box :class "action-row" :orientation "h" :space-evenly false :spacing 0
+            (revealer :reveal {microphone.display} :transition "none"
+                (button :class {microphone.class}
+                    :onclick "pactl set-source-mute ${microphone.name} toggle && ${EWW_CMD} update microphone=$(eww-mic -q)"
+                    (label :text {microphone.class == "muted" ? "" : ""} :tooltip {microphone.description})
+                )
             )
             (button :class "screenshot"
                 :onclick "hyprshot -m region -o ~/Pictures/Screenshots"
@@ -204,6 +211,7 @@ Right Click: Capture a the screen`
 (defwidget left []
 	(box :class "left" :orientation "h" :halign "start" :space-evenly false
         (hyprland)
+        (systray :class "systray" :spacing 5 :icon-size 17 :prepend-new true)
         ;; (cava)
         (player)
     )
@@ -211,11 +219,10 @@ Right Click: Capture a the screen`
 
 (defwidget right []
 	(box :class "right" :orientation "h" :halign "end" :space-evenly false :spacing 1
-        (weather)
+        ;; (weather)
         (network)
-        (cpu)
+        ;; (cpu)
         (volume)
-        (systray :class "systray" :spacing 5 :icon-size 17 :prepend-new true)
         (clock)
         (action_row)
         (power)
