@@ -12,6 +12,7 @@ post_hooks() {
     compile-scss.sh ~/.config/swayosd/style.scss && pkill swayosd-server && fork swayosd-server
     compile-scss.sh ~/.config/wofi/style.scss &
     touch ~/.config/alacritty/alacritty.toml &
+    dunstctl reload
 
     # Reload applications by sending signals
     killall -v -SIGUSR2 waybar &
@@ -74,7 +75,7 @@ set_wallpaper() {
     # Apply wallpaper with swww
     swww img \
         --transition-type "$rand_transition" \
-        --transition-duration 2 \
+        --transition-duration 1 \
         --transition-pos "$cursor_pos" \
         --transition-bezier ".09,.91,.52,.93" \
         --transition-fps 60 \

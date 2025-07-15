@@ -10,6 +10,7 @@ light = false
 "pywalfox.json" = "~/.cache/wal/colors.json"
 "rofi.rasi" = "~/.config/rofi/config.rasi"
 "ghostty" = "~/.config/ghostty/colors"
+"dunstrc" = "~/.config/dunst/dunstrc"
 
 "colors.scss" = [
     "~/.config/eww/colors.scss",
