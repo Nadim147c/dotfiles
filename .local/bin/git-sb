@@ -1,6 +1,10 @@
 #!/bin/sh
 
-git branch --color |
+set -e
+
+branch=$(git branch --color)
+
+echo "$branch" |
     sed 's|\*| |;s|  ||' |
     fzf --ansi |
     awk '{print $1}' |
