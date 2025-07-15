@@ -50,7 +50,7 @@ get_wallpaper() {
 generate_colors() {
     local image="$1"
     echo "Generating color for $image"
-    rong video -- "$image"
+    rong image -- "$image"
     post_hooks # Run post-processing after color generation
 }
 
