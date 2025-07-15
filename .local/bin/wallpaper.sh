@@ -88,12 +88,12 @@ main() {
     local wallpaper="$1"
 
     if [ -n "$wallpaper" ]; then
-        set_wallpaper "$wallpaper" &
+        set_wallpaper "$wallpaper"
         generate_colors "$wallpaper"
     else
         wallpaper=$(get_wallpaper)
         if [ -n "$wallpaper" ]; then
-            set_wallpaper "$wallpaper" &
+            set_wallpaper "$wallpaper"
             generate_colors "$wallpaper"
         else
             echo "Error: No suitable wallpaper found" >&2
