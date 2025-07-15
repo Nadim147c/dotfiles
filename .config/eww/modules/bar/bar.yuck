@@ -30,6 +30,7 @@
 
 (defwidget player []
     (eventbox :cursor "pointer" :class "player"
+        :onscroll "player-volume.sh ${lyrics.info.player} {}"
         (button :onclick "${EWW_CMD} open media --toggle"
             :onmiddleclick "playerctl --player=${lyrics.info.player} play-pause"
             (label
@@ -181,6 +182,9 @@
                     :onclick "eww-mic --toggle"
                     (label :text {microphone.class == "muted" ? "" : ""} :tooltip {microphone.description})
                 )
+            )
+            (button :class "drun" :onclick "fork wofi --show drun"
+                (label :text "" :tooltip "Open app launcher")
             )
             (button :class "screenshot"
                 :onclick "hyprshot -m region -o ~/Pictures/Screenshots"

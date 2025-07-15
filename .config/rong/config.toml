@@ -1,4 +1,8 @@
-[link]
+variant = "expressive"
+version = 2021
+light = false
+
+[links]
 "hyprland.conf" = "~/.config/hypr/colors.conf"
 "colors.lua" = "~/.config/wezterm/colors.lua"
 "spicetify-sleek.ini" = "~/.config/spicetify/Themes/Sleek/color.ini"
