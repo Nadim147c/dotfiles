@@ -12,6 +12,7 @@ alias du = ^du -h
 alias grep = ^grep --color
 alias less = ^less -r -F
 alias exe = chmod +x
+alias cat = bat
 
 # Cd
 alias rd = cd - # Return to previous directory
@@ -57,17 +58,6 @@ source ~/.config/nushell/modules/imagemagick.nu
 
 if ("ZELLIJ" not-in $env) and ("TMUX" not-in $env) {
     fastfetch
-}
-
-def disk [...p] {
-    ^df ...$p
-    | ^column -t
-    | from ssv
-    | rename filesystem size used available percent mounted
-    | upsert size { |it|$it.size | into int | $in * 1000 | into filesize}
-    | upsert used { |it|$it.used | into int | $in * 1000 | into filesize}
-    | upsert available { |it|$it.available | into int | $in * 1000 | into filesize}
-    | sort-by size
 }
 
 $env.config.show_banner = false
@@ -126,6 +116,7 @@ $env.config.completions = {
     use_ls_colors: true
 }
 $env.config.use_kitty_protocol = true
+$env.config.filesize.unit = 'binary'
 
 $env.config.hooks.command_not_found = {|cmd|
     findpkg $cmd
