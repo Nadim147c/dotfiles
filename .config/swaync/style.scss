@@ -9,7 +9,7 @@
 }
 
 .notification {
-    padding: 0.4em;
+    padding: 0.1em;
     border: 2px solid $outline;
     color: $onBackground;
     background-color: $background;
@@ -22,11 +22,17 @@
     }
 }
 
+image {
+    border-radius: calc(1rem - 6px);
+    margin: 0.1rem;
+}
+
 .close-button {
     border: none;
     color: $onPrimary;
     background-color: $primary;
 
+    padding: 0.1rem;
     &:hover {
         color: $onError;
         background-color: $error;
@@ -47,6 +53,10 @@ switch {
         border: none;
         background: $onPrimaryContainer;
     }
+}
+
+.text-box {
+    margin: 0 1rem;
 }
 
 .notification-group-collapse-button,
