@@ -3,7 +3,7 @@ tooltip .weather-tooltip {
 }
 .eww-bar {
     $borderRadiusSm: 0.2rem;
-    $borderRadiusMd: 0.4rem;
+    $borderRadiusMd: 0.5rem;
     $borderRadiusLg: 0.8rem;
     $borderRadiusFull: 3rem;
 
@@ -29,7 +29,7 @@ tooltip .weather-tooltip {
     background-color: $background;
     color: $primary;
     margin: $marginSm $marginMd;
-    padding: $paddingSm $paddingMd;
+    padding: $paddingSm;
     border-radius: $borderRadiusLg;
 
     scale trough highlight {
@@ -118,7 +118,6 @@ tooltip .weather-tooltip {
         .power,
         .sleep {
             margin: 0;
-
             button {
                 padding: 0 $paddingLg;
                 background-color: $background;
@@ -137,8 +136,16 @@ tooltip .weather-tooltip {
         .workspace {
             border-radius: $borderRadiusMd;
             padding: 0 $paddingLg;
+            margin: 0 1px;
 
-            &:hover {
+            &-active {
+                border-radius: $borderRadiusMd;
+                color: $onSecondary;
+                background-color: $secondary;
+            }
+
+            &:hover,
+            &-active:hover {
                 color: $onPrimary;
                 background-color: $primary;
             }
