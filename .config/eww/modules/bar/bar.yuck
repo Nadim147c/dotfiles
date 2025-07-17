@@ -14,9 +14,9 @@
         (for workspace in hyprland_ipc
             (eventbox :cursor "pointer"
                 (button
-                    :class {workspace.active ? "active-workspace" : "workspace"}
+                    :class {workspace.active ? "workspace-active" : "workspace"}
                     :onclick "hyprctl dispatch workspace ${workspace.id}"
-                    (label :text "${workspace.active ? "" : workspace.name }" :tooltip "${workspace.hover}")
+                    (label :text {workspace.name} :tooltip "${workspace.hover}")
                 )
             )
         )
