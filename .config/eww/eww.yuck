@@ -1,6 +1,11 @@
+(defwidget spacer []
+    (label :class "spacer" :unindent false :text `‎                                                                                                                        `)
+)
+
 ;; Bar
 (include "./modules/bar/bar.yuck")
 (include "./modules/dialog/confirm.yuck")
 (include "./modules/wallpaper/wallpaper.yuck")
 (include "./modules/calendar/calendar.yuck")
 (include "./modules/media/media.yuck")
+(include "./modules/notifications/notifications.yuck")

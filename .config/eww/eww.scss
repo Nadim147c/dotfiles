@@ -14,6 +14,11 @@ $sans: "Noto Sans";
     color: $primary;
 }
 
+.spacer {
+    font-family: "JetBrainsMono Nerd Font";
+    color: transparent;
+}
+
 tooltip {
     background-color: $background;
     color: $onBackground;
@@ -44,3 +49,4 @@ tooltip {
 @import "modules/wallpaper/wallpaper.scss";
 @import "modules/calendar/calendar.scss";
 @import "modules/media/media.scss";
+@import "modules/notifications/notifications.scss";
