@@ -1,0 +1,12 @@
+(deflisten notifications_markup :initial `""` "notified --eww")
+(defwidget notifications []
+    (literal :width 400 :content {notifications_markup.active})
+)
+(defwindow notifications []
+    :monitor 0
+    :stacking "overlay"
+    :windowtype "dialog"
+	:geometry (geometry :x "10px" :y "0" :anchor "top right")
+    (notifications)
+)
+

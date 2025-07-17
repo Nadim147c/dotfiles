@@ -21,11 +21,6 @@ tooltip .weather-tooltip {
     $highlightPaddingY: 3px;
     $highlightBorderRadius: 10px;
 
-    .spacer {
-        font-family: "JetBrainsMono Nerd Font";
-        color: transparent;
-    }
-
     background-color: $background;
     color: $primary;
     margin: $marginSm $marginMd;
@@ -136,16 +131,13 @@ tooltip .weather-tooltip {
         .workspace {
             border-radius: $borderRadiusMd;
             padding: 0 $paddingLg;
-            margin: 0 1px;
 
             &-active {
-                border-radius: $borderRadiusMd;
                 color: $onSecondary;
                 background-color: $secondary;
             }
 
-            &:hover,
-            &-active:hover {
+            &:hover {
                 color: $onPrimary;
                 background-color: $primary;
             }

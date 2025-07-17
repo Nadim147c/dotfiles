@@ -1,5 +1,5 @@
 ;; waybar-lyric: https://github.com/Nadim147c/waybar-lyric
-(deflisten lyrics :initial `{ "text": "" }` `waybar-lyric -qdm150 -b47 -fpartial`)
+(deflisten lyrics :initial `{ "text": "" }` `waybar-lyric -qdm150 -b47 -ffull`)
 (defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚", "no_lyric": " ", "": "" }`)
 
 ;; hyprland
@@ -10,11 +10,11 @@
 (defvar spacing 16)
 
 (defwidget hyprland []
-    (box :class "workspaces" :orientation "h" :space-evenly true :halign "start"
+    (box :class "workspaces" :orientation "h" :space-evenly true :spacing 1 :halign "start"
         (for workspace in hyprland_ipc
             (eventbox :cursor "pointer"
                 (button
-                    :class {workspace.active ? "workspace-active" : "workspace"}
+                    :class {workspace.active ? "workspace workspace-active" : "workspace"}
                     :onclick "hyprctl dispatch workspace ${workspace.id}"
                     (label :text {workspace.name} :tooltip "${workspace.hover}")
                 )
@@ -231,10 +231,6 @@ Right Click: Capture a the screen`
         (action_row)
         (power)
     )
-)
-
-(defwidget spacer []
-    (label :class "spacer" :unindent false :text `‎                                                                                                                        `)
 )
 
 (defwindow bar

@@ -1,0 +1,43 @@
+(box :class "notifications" :orientation "v" :space-evenly false :spacing 7 :width 400
+    {{ range .Notifications }}
+    (box :class "notification" :orientation "v" :space-evenly false :spacing 7
+        (box :class "header" :orientation "h" :space-evenly false :spacing 7
+            {{ if .AppIcon }}
+            (image :class "icon" :image-width 20 :icon "{{ .AppIcon}}")
+            {{ else if .Hints.IconPath }}
+            (box :class "icon" :style "background-image: url('{{ .Hints.IconPath }}');")
+            {{ end }}
+            (box :orientation "h"
+                (label :class "title" :show-truncated false :halign "start" :text {{ printf "%q" .AppName }})
+            )
+            (spacer)
+            (eventbox :class "close" :cursor "pointer" :halign "end"
+                (button :onclick "notified close {{ .ID }}" "")
+            )
+        )
+        (box :orientation "h" :space-evenly false :spacing 7
+            {{ if .Hints.ImagePath }}
+            (box :class "image" :style "background-image: url('{{ .Hints.ImagePath }}');")
+            {{ end }}
+            (box :orientation "v" :spacing 5
+                {{ if .Summary }}
+                (label :class "summary" :halign "start" :valign "end" :text {{ printf "%q" .Summary}})
+                {{ end }}
+                {{ if .Body }}
+                (label :class "body" :halign "start" :valign "start" :text {{ printf "%q" .Body }})
+                {{ end }}
+            )
+        )
+        {{ if (len .Actions) }}
+        (box :orientation "h" :space-evenly false :spacing 7
+        {{ $parentID := .ID }}
+        {{ range $index, $action := .Actions }}
+            (button :class "action" :onclick "notified action {{ $parentID }} {{ $action.ID }}"
+                (label :text {{ printf "%q" $action.Label }})
+            )
+        {{ end }}
+        )
+        {{ end }}
+    )
+    {{ end }}
+)
