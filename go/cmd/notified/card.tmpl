@@ -21,10 +21,14 @@
             {{ end }}
             (box :orientation "v" :spacing 5
                 {{ if .Summary }}
-                (label :class "summary" :halign "start" :valign "end" :text {{ printf "%q" .Summary}})
+                (label :class "summary" :show-truncated false :halign "start" :valign "end"
+                 :justify "left" :wrap true :wrap-mode "word" :text {{ printf "%q" .Summary }}
+                )
                 {{ end }}
                 {{ if .Body }}
-                (label :class "body" :halign "start" :valign "start" :text {{ printf "%q" .Body }})
+                (label :class "body" :show-truncated false :halign "start" :valign "start"
+                 :justify "left" :wrap true :wrap-mode "word" :text {{ printf "%q" .Body }}
+                )
                 {{ end }}
             )
         )

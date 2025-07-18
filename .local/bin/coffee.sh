@@ -11,7 +11,7 @@ NOTIFY_TIMEOUT=3000 # 3 second notification timeout
 # Show coffee-themed notification if possible
 brew_notification() {
     if command -v notify-send >/dev/null 2>&1; then
-        notify-send -t "$NOTIFY_TIMEOUT" "Coffee Mode" "$1"
+        notify-send -t "$NOTIFY_TIMEOUT" --app-name "Coffee.sh" "$1"
     fi
 }
 
