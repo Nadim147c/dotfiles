@@ -40,6 +40,7 @@ func Subscribe() {
 			time.Sleep(reconnectDelay)
 			continue
 		}
+		slog.Info("Connected to notified daemon")
 
 		scanner := bufio.NewScanner(conn)
 		connected := true
