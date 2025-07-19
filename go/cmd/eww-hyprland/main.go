@@ -44,15 +44,21 @@ type ActiveWorkspace struct {
 	ID int `json:"id"`
 }
 
+var (
+	Quiet = false
+	OSD   = false
+)
+
 func init() {
-	quite := pflag.BoolP("quite", "q", false, "Subpress all logs")
+	pflag.BoolVarP(&Quiet, "quiet", "q", Quiet, "Suppress all logs")
+	pflag.BoolVarP(&OSD, "osd", "o", OSD, "Show on screen display")
 
 	pflag.Parse()
 
-	if *quite {
+	if Quiet {
 		log.Setup(slog.LevelError + 1)
 	} else {
-		log.Setup(slog.LevelInfo)
+		log.Setup(slog.LevelDebug)
 	}
 }
 
@@ -64,7 +70,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := PrintWorkspaces(activeID); err != nil {
+	if err := PrintWorkspaces(activeID, false); err != nil {
 		slog.Error("Failed to print workspaces", "error", err)
 		os.Exit(1)
 	}
@@ -91,7 +97,7 @@ func main() {
 
 		switch event {
 		case "openwindow", "openlayer":
-			if err := PrintWorkspaces(id); err != nil {
+			if err := PrintWorkspaces(id, false); err != nil {
 				slog.Error("Failed to print workspaces after window event", "event", event, "error", err)
 			}
 		case "workspacev2":
@@ -103,7 +109,7 @@ func main() {
 			}
 			id = ws
 
-			if err := PrintWorkspaces(id); err != nil {
+			if err := PrintWorkspaces(id, true); err != nil {
 				slog.Error("Failed to print workspaces after workspace change", "workspace", id, "error", err)
 			}
 		}
@@ -140,7 +146,7 @@ func GetActiveWorkspaceID() (int, error) {
 }
 
 // PrintWorkspaces outputs the workspaces as JSON
-func PrintWorkspaces(id int) error {
+func PrintWorkspaces(id int, switched bool) error {
 	// Go code is too fast... Thus, when changing to workspace, the list of workspace
 	// gets printed before destroying of empty workspace. The hyprland ipc does send
 	// destroywindow event. But sleep is easier and requies less processing.
@@ -168,6 +174,9 @@ func PrintWorkspaces(id int) error {
 	workspaces := make([]Workspace, len(raw))
 	for i, r := range raw {
 		active := r.ID == id
+		if switched && active {
+			HandleWorkspace(r.Name)
+		}
 		workspaces[i] = Workspace{
 			ID:     r.ID,
 			Name:   r.Name,
