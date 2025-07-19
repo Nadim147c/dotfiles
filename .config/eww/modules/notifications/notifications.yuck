@@ -4,9 +4,9 @@
 )
 (defwindow notifications []
     :monitor 0
-    :stacking "overlay"
-    :windowtype "dialog"
-	:geometry (geometry :x "10px" :y "0" :width 400 :height 700 :anchor "top right")
+    :windowtype "normal"
+    :wm-ignore true
+	:geometry (geometry :x "10px" :y "0" :width 400 :anchor "top right")
     (notifications)
 )
 
