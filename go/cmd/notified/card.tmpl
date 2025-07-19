@@ -1,4 +1,4 @@
-(box :class "notifications" :orientation "v" :space-evenly false :spacing 7 :width 400
+(box :class "notifications" :orientation "v" :space-evenly false :spacing 7
     {{ range .Notifications }}
     (box :class "notification" :orientation "v" :space-evenly false :spacing 7
         (box :class "header" :orientation "h" :space-evenly false :spacing 7
@@ -22,7 +22,7 @@
             (box :orientation "v" :spacing 5
                 {{ if .Summary }}
                 (label :class "summary" :show-truncated false :halign "start" :valign "end"
-                 :justify "left" :wrap true :wrap-mode "word" :text {{ printf "%q" .Summary }}
+                 :text {{ printf "%q" .Summary }}
                 )
                 {{ end }}
                 {{ if .Body }}
@@ -43,5 +43,8 @@
         )
         {{ end }}
     )
+    {{ end }}
+    {{ if (gt (len .Notifications) 0)}}
+    (box)
     {{ end }}
 )
