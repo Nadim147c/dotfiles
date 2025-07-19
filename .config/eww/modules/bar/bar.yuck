@@ -3,7 +3,8 @@
 (defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚", "no_lyric": " ", "": "" }`)
 
 ;; hyprland
-(deflisten hyprland_ipc :initial "{}" `eww-hyprland -q`)
+(deflisten hyprland_ws :initial "{}" `eww-hyprland -oq`)
+
 ;; network
 (deflisten network :initial "{}" `eww-network -qfM`)
 
@@ -11,7 +12,7 @@
 
 (defwidget hyprland []
     (box :class "workspaces" :orientation "h" :space-evenly true :spacing 1 :halign "start"
-        (for workspace in hyprland_ipc
+        (for workspace in hyprland_ws
             (eventbox :cursor "pointer"
                 (button
                     :class {workspace.active ? "workspace workspace-active" : "workspace"}
