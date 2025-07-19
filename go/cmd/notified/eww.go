@@ -27,8 +27,17 @@ const (
 	reconnectDelay = 500 * time.Millisecond
 )
 
+var funcs = template.FuncMap{
+	"path": func(p string) bool {
+		if _, err := os.Stat(p); err == nil {
+			return true
+		}
+		return false
+	},
+}
+
 func Subscribe() {
-	tmpl, err := template.New("eww-markup").Parse(Template)
+	tmpl, err := template.New("eww-markup").Funcs(funcs).Parse(Template)
 	if err != nil {
 		panic(err)
 	}

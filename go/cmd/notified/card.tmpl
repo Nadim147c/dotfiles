@@ -3,7 +3,7 @@
     (box :class "notification" :orientation "v" :space-evenly false :spacing 7
         (box :class "header" :orientation "h" :space-evenly false :spacing 7
             {{ if .AppIcon }}
-            (image :class "icon" :image-width 20 :icon "{{ .AppIcon}}")
+            (image :class "icon" :image-width 20 :icon "{{ .AppIcon }}")
             {{ else if .Hints.IconPath }}
             (box :class "icon" :style "background-image: url('{{ .Hints.IconPath }}');")
             {{ end }}
@@ -17,17 +17,21 @@
         )
         (box :orientation "h" :space-evenly false :spacing 7
             {{ if .Hints.ImagePath }}
-            (box :class "image" :style "background-image: url('{{ .Hints.ImagePath }}');")
+            (box :orientation "v" :space-evenly false
+                (box :class "image" :style "background-image: url('{{ .Hints.ImagePath }}');"))
+            {{ else if path .AppIcon }}
+            (box :orientation "v" :space-evenly false
+                (box :class "image" :style "background-image: url('{{ .AppIcon }}');"))
             {{ end }}
-            (box :orientation "v" :spacing 5
+            (box :orientation "v" :spacing 5 :space-evenly false
                 {{ if .Summary }}
                 (label :class "summary" :show-truncated false :halign "start" :valign "end"
-                 :text {{ printf "%q" .Summary }}
+                 :markup {{ printf "%q" .Summary }}
                 )
                 {{ end }}
                 {{ if .Body }}
                 (label :class "body" :show-truncated false :halign "start" :valign "start"
-                 :justify "left" :wrap true :wrap-mode "word" :text {{ printf "%q" .Body }}
+                 :justify "left" :wrap true :wrap-mode "word" :markup {{ printf "%q" .Body }}
                 )
                 {{ end }}
             )
