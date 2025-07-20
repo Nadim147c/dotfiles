@@ -1,11 +1,13 @@
 @import "colors.scss";
 
+$nerd: "JetBrainsMono Nerd Font Propo";
+$mono: "JetBrainsMono Nerd Font";
+$sans: "Noto Sans";
+
 * {
     all: unset;
+    font-family: $sans, $nerd;
 }
-
-$nerd: "JetBrainsMono Nerd Font Propo";
-$sans: "Noto Sans";
 
 @mixin window {
     font-family: $sans, $nerd;
@@ -15,7 +17,7 @@ $sans: "Noto Sans";
 }
 
 .spacer {
-    font-family: "JetBrainsMono Nerd Font";
+    font-family: $mono;
     color: transparent;
 }
 

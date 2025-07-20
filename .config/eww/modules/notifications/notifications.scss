@@ -40,9 +40,10 @@
         }
         .image {
             $size: 75px;
-            background-size: $size;
             min-height: $size;
             min-width: $size;
+            background-repeat: no-repeat;
+            background-size: cover;
             border-radius: 8px;
         }
     }

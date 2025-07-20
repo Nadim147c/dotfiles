@@ -30,7 +30,7 @@ pkgs=(
 
     # Fonts
     noto-fonts noto-fonts-extra noto-fonts-emoji
-    ttf-jetbrains-mono-nerd
+    ttf-jetbrains-mono-nerd ttf-klee-one
 
     # Shell
     zsh fish nushell carapace-bin starship mise

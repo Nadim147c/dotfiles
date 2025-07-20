@@ -43,7 +43,7 @@ case "$1" in
         original=$(find_image "$WALLPAPER_DIR")
         if [[ -z "$original" ]]; then
             echo "Deleting orphaned cache file: $cache_file"
-            # rm -f "$cache_file"
+            rm -f "$cache_file"
         fi
     done
     ;;
