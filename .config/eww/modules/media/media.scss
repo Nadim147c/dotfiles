@@ -2,6 +2,7 @@
     $buttonRoundess: 0.4rem;
     $roundness: 1rem;
 
+    font-family: $sans, $nerd;
     background-color: $background;
     color: $onBackground;
     padding: 1rem;
@@ -41,6 +42,7 @@
     }
 
     .line {
+        font-family: $sans, $nerd;
         .active {
             font-size: 1.5rem;
             font-weight: 800;

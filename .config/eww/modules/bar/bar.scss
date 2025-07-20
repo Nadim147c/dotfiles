@@ -145,6 +145,7 @@ tooltip .weather-tooltip {
     }
 
     .player button {
+        font-family: $sans, $nerd;
         padding: $paddingXs $paddingXl;
         border-radius: $borderRadiusMd;
 
