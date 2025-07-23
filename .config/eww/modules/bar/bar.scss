@@ -2,25 +2,6 @@ tooltip .weather-tooltip {
     font-family: "JetBrainsMono Nerd Font";
 }
 .eww-bar {
-    $borderRadiusSm: 0.2rem;
-    $borderRadiusMd: 0.5rem;
-    $borderRadiusLg: 0.8rem;
-    $borderRadiusFull: 3rem;
-
-    $paddingXs: 0.2rem;
-    $paddingSm: 0.3rem;
-    $paddingMd: 0.4rem;
-    $paddingLg: 0.5rem;
-    $paddingXl: 0.6rem;
-
-    $marginXs: 0.3rem;
-    $marginSm: 0.5rem;
-    $marginMd: 0.6rem;
-    $marginLg: 0.8rem;
-
-    $highlightPaddingY: 3px;
-    $highlightBorderRadius: 10px;
-
     background-color: $background;
     color: $primary;
     margin: $marginSm $marginMd;
@@ -70,8 +51,7 @@ tooltip .weather-tooltip {
     }
 
     .volume,
-    .clock,
-    .power {
+    .clock {
         button {
             font-family: $sans, $nerd;
             margin: 0;
@@ -104,29 +84,6 @@ tooltip .weather-tooltip {
         .recording {
             color: $onSecondary;
             background: $secondary;
-        }
-    }
-
-    .power {
-        all: unset;
-        padding: 0 $paddingLg;
-
-        .lock,
-        .reboot,
-        .logout,
-        .power,
-        .sleep {
-            margin: 0;
-            button {
-                padding: 0 $paddingLg;
-                background-color: $background;
-                color: $primary;
-
-                &:hover {
-                    color: $onPrimary;
-                    background-color: $primary;
-                }
-            }
         }
     }
 
@@ -197,6 +154,17 @@ tooltip .weather-tooltip {
                     padding: unset;
                 }
             }
+        }
+    }
+
+    .menu-button {
+        font-family: $sans, $nerd;
+        margin: 0;
+        padding: 0 $paddingLg;
+        border-radius: $borderRadiusMd;
+        &:hover {
+            color: $onPrimary;
+            background: $primary;
         }
     }
 }
