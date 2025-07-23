@@ -66,7 +66,7 @@
 )
 
 (defwidget network []
-    (label :show-truncated false :text "${network.wireless ? " " : " "} ${network.change}")
+    (label :class "network" :show-truncated false :text "${network.wireless ? " " : " "} ${network.change}")
 )
 
 (defvar volume_show false)
