@@ -36,7 +36,7 @@
             :onmiddleclick "playerctl --player=${lyrics.info.player} play-pause"
             (label
                 :show-truncated false
-                :text {lyrics.text != "" ? "${lyrics_icons[lyrics.alt]}  ${lyrics.text}" : "" }
+                :text {lyrics.text != "" ? "${lyrics_icons[lyrics.alt]} ${lyrics.text}" : "" }
                 :tooltip "Click open the player"
             )
         )
@@ -66,24 +66,7 @@
 )
 
 (defwidget network []
-    (tooltip :class "network"
-        (box :orientation "v" :space-evenly false :spacing 15
-            (box :orientation "h"
-                (label :class "netspeed-ident-down" :text "  Down")
-                (label :class "netspeed-ident-up" :text "  Up")
-                (label :class "netspeed-ident-total" :text "  Total")
-            )
-            (box :class "graph"
-                (graph :class "netspeed-graph-down" :dynamic true :thickness 1 :time-range "200s"
-                    :line-style "round" :height 150 :width 150 :value {network.graph_down})
-                (graph :class "netspeed-graph-up" :dynamic true :thickness 1 :time-range "200s"
-                    :line-style "round" :height 150 :width 150 :value {network.graph_up})
-                (graph :class "netspeed-graph-change" :dynamic true :thickness 1 :time-range "200s"
-                    :line-style "round" :height 150 :width 150 :value {network.graph_change})
-            )
-        )
-        (label :show-truncated false :text "${network.wireless ? " " : " "} ${network.change}")
-    )
+    (label :show-truncated false :text "${network.wireless ? " " : " "} ${network.change}")
 )
 
 (defvar volume_show false)
@@ -214,9 +197,9 @@ Right Click: Capture a the screen`
 
 
 (defwidget left []
-	(box :class "left" :orientation "h" :halign "start" :space-evenly false
+	(box :class "left" :orientation "h" :halign "start" :space-evenly false :spacing 1
         (hyprland)
-        (systray :class "systray" :spacing 5 :icon-size 17 :prepend-new true)
+        (systray :class "systray" :spacing 1 :icon-size 17 :prepend-new true)
         ;; (cava)
         (player)
     )
