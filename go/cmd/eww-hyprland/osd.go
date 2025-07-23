@@ -12,6 +12,18 @@ var (
 	timer    = time.NewTimer(longTime)
 )
 
+func init() {
+	go func() {
+		for range timer.C {
+			err := exec.Command("eww", "close", "hyprland_ws_name").Run()
+			if err != nil {
+				slog.Error("Failed to close hyprland_ws_name")
+			}
+			timer.Reset(longTime)
+		}
+	}()
+}
+
 func HandleWorkspace(name string) {
 	// Open the workspace
 	openCmd := exec.Command("eww", "open", "hyprland_ws_name", "--arg", "name="+name)
@@ -23,14 +35,4 @@ func HandleWorkspace(name string) {
 	}
 	slog.Info("Workspace opened")
 	timer.Reset(time.Second)
-
-	go func() {
-		for range timer.C {
-			err := exec.Command("eww", "close", "hyprland_ws_name").Run()
-			if err != nil {
-				slog.Error("Failed to close hyprland_ws_name")
-			}
-			timer.Reset(longTime)
-		}
-	}()
 }

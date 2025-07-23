@@ -9,4 +9,3 @@
 (include "./modules/calendar/calendar.yuck")
 (include "./modules/media/media.yuck")
 (include "./modules/workspaces/workspace.yuck")
-(include "./modules/notifications/notifications.yuck")

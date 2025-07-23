@@ -85,6 +85,10 @@ tooltip .weather-tooltip {
     }
 
     .action-row {
+        background-color: $surfaceContainerHigh;
+        border-radius: $borderRadiusMd;
+        color: $onSurface;
+
         button {
             font-family: $sans, $nerd;
             border-radius: $borderRadiusMd;
@@ -128,7 +132,10 @@ tooltip .weather-tooltip {
 
     .workspaces {
         font-family: $sans, $nerd;
+        background-color: $surfaceContainerHigh;
+        border-radius: $borderRadiusMd;
         .workspace {
+            color: $onSurface;
             border-radius: $borderRadiusMd;
             padding: 0 $paddingLg;
 
@@ -156,9 +163,13 @@ tooltip .weather-tooltip {
     }
 
     .systray {
-        margin: 0 $marginSm;
+        image {
+            padding: 0 $paddingXs;
+        }
+
         menu {
             background-color: $background;
+            color: $onBackground;
             padding: $paddingXl;
             margin: $marginLg;
             border-radius: $borderRadiusLg;
