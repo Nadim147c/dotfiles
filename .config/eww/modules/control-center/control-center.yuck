@@ -56,7 +56,7 @@
             (box :spacing 2
                 (button :class "power-button lock"
                     :onclick `dunstctl history-clear`
-                    (label :text "" :tooltip "Clear All Notifications")
+                    (label :text "󰎟" :tooltip "Clear All Notifications")
                 )
                 (button :class "power-button lock"
                     :onclick `confirm.nu -c Cencel -o Lock -d "Lock your current sesssion?" "hyprctl dispatch exec -- hyprlock"`
