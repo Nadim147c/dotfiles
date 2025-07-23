@@ -4,6 +4,26 @@ $nerd: "JetBrainsMono Nerd Font Propo";
 $mono: "JetBrainsMono Nerd Font";
 $sans: "Noto Sans";
 
+$borderRadiusSm: 0.2rem;
+$borderRadiusMd: 0.5rem;
+$borderRadiusLg: 0.8rem;
+$borderRadiusFull: 3rem;
+
+$paddingXs: 0.2rem;
+$paddingSm: 0.3rem;
+$paddingMd: 0.4rem;
+$paddingLg: 0.5rem;
+$paddingXl: 0.6rem;
+
+$marginXs: 0.3rem;
+$marginSm: 0.5rem;
+$marginMd: 0.6rem;
+$marginLg: 0.8rem;
+$marginXl: 1rem;
+
+$highlightPaddingY: 3px;
+$highlightBorderRadius: 10px;
+
 * {
     all: unset;
     font-family: $sans, $nerd;
@@ -51,3 +71,4 @@ tooltip {
 @import "modules/calendar/calendar.scss";
 @import "modules/media/media.scss";
 @import "modules/workspaces/workspace.scss";
+@import "modules/control-center/control-center.scss";

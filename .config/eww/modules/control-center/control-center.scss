@@ -1,0 +1,49 @@
+.eww-control {
+    .main {
+        background-color: $background;
+        color: $onBackground;
+        border: 1px solid $outline;
+        padding: $paddingXl;
+        border-radius: 1rem;
+
+        .title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .username {
+            font-size: 2rem;
+        }
+
+        .user {
+            margin: $marginSm;
+            background-color: $surfaceContainer;
+            color: $onSurface;
+            border-radius: $highlightBorderRadius;
+            .power-button {
+                font-family: $sans, $nerd;
+                margin: 0;
+                padding: $paddingMd $paddingXl;
+                border-radius: $borderRadiusMd;
+                background-color: $surfaceContainerHigh;
+                &:hover {
+                    color: $onPrimary;
+                    background: $primary;
+                }
+            }
+        }
+    }
+
+    .notifications {
+        margin: $marginXl 0;
+        .notification {
+            border-radius: $borderRadiusLg;
+            background-color: $background;
+            color: $onBackground;
+            label {
+                padding: $paddingXl;
+            }
+            border: 1px solid $outline;
+        }
+    }
+}

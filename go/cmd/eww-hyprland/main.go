@@ -82,7 +82,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	var id int
+	id := activeID
 	// Listen for events
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {

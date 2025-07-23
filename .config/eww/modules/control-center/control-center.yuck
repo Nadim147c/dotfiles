@@ -1,0 +1,85 @@
+(defwindow control_center []
+    :monitor 0
+    :stacking "overlay"
+    :windowtype "dialog"
+	:geometry (geometry
+        :x "10px"
+        :y "0"
+        :width "400px"
+        :anchor "top right"
+    )
+    (control_center)
+)
+
+(defpoll uptime :initial "" :interval "1min" `uptime -p`)
+(defpoll pfp :initial "" :interval "1h" `pfp.sh`)
+(defpoll notifications :interval "300ms" `dunstctl history | jq '[.data[][] | {id: .id.data, message: .message.data}]'`)
+
+(defwidget control_center []
+    (box :class "eww-control" :orientation "v" :space-evenly false
+        (box :class "main" :orientation "v" :space-evenly false :spacing 7
+            (box :class "header section" :orientation "h"
+                (label :class "title" :halign "start" :text "Control Center")
+                (eventbox :class "close" :cursor "pointer" :halign "end"
+                    (button :onclick "${EWW_CMD} close control_center" "")
+                )
+            )
+            (box :class "user section" :orientation "v"
+                (box :orientation "h" :space-evenly false :spacing 10
+                    (image :class "pfp" :image-width 120 :image-height 120 :path {pfp})
+                    (box :orientation "v" :space-evenly false :spacing 5 :valign "center"
+                        (label :class "username" :text " ${get_env("USER")}")
+                        (label :halign "start" :text {uptime})
+                        (power)
+                    )
+                )
+            )
+        )
+        (scroll :height 500
+            (box :class "notifications section" :orientation "v" :spacing 7 :space-evenly false
+                (for data in {notifications}
+                    (eventbox :class "notification" :cursor "pointer"
+                        (button :onclick "dunstctl history-rm ${data.id}"
+                            (label :halign "start" :markup {data.message})
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+
+(defwidget power []
+    (eventbox :class "power" :cursor "pointer"
+        (box :orientation "h" :space-evenly false :spacing 1
+            (box :spacing 2
+                (button :class "power-button lock"
+                    :onclick `dunstctl history-clear`
+                    (label :text "" :tooltip "Clear All Notifications")
+                )
+                (button :class "power-button lock"
+                    :onclick `confirm.nu -c Cencel -o Lock -d "Lock your current sesssion?" "hyprctl dispatch exec -- hyprlock"`
+                    (label :text "" :tooltip "Lock")
+                )
+                (button :class "power-button logout"
+                    :onclick `confirm.nu -c Cencel -o Lock -d "Exit your current sesssion?" "hyprctl dispatch exit"`
+                    (label :text "󰍃" :tooltip "Logout")
+                )
+                (button :class "power-button sleep"
+                    :onclick `confirm.nu -c Cencel -o Sleep -d "Sleep your computer?" "systemctl suspend"`
+                    (label :text "󰒲" :tooltip "Sleep")
+                )
+                (button :class "power-button reboot"
+                    :onclick `confirm.nu -c Cencel -o Reboot -d "Reboot your computer?" "systemctl reboot"`
+                    (label :text "" :tooltip "Reboot")
+                )
+                (button :class "power-button power"
+                    :onclick `confirm.nu -c Cencel -o Shutdown -d "Shutdown your computer?" "systemctl poweroff"`
+                    (label :text "" :tooltip "Shutdown")
+                )
+            )
+        )
+    )
+)
+

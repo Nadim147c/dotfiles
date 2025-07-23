@@ -114,44 +114,6 @@
     )
 )
 
-(defvar power_show false)
-(defwidget power []
-    (eventbox :class "power" :cursor "pointer"
-        :onhover "${EWW_CMD} update power_show=true"
-        :onhoverlost "${EWW_CMD} update power_show=false"
-        (box :orientation "h" :space-evenly false :spacing 1
-            (revealer :class "revealer" :transition "slideleft" :reveal power_show :duration "400ms"
-                (box :spacing 1
-                    (button :class "lock"
-                        :onclick `confirm.nu -c Cencel -o Lock -d "Lock your current sesssion?" "hyprctl dispatch exec -- hyprlock"`
-                        (label :text "" :tooltip "Lock")
-                    )
-                    (button :class "logout"
-                        :onclick `confirm.nu -c Cencel -o Lock -d "Exit your current sesssion?" "hyprctl dispatch exit"`
-                        (label :text "󰍃" :tooltip "Logout")
-                    )
-                    (button :class "sleep"
-                        :onclick `confirm.nu -c Cencel -o Sleep -d "Sleep your computer?" "systemctl suspend"`
-                        (label :text "󰒲" :tooltip "Sleep")
-                    )
-                    (button :class "reboot"
-                        :onclick `confirm.nu -c Cencel -o Reboot -d "Reboot your computer?" "systemctl reboot"`
-                        (label :text "" :tooltip "Reboot")
-                    )
-                    (button :class "power"
-                        :onclick `confirm.nu -c Cencel -o Shutdown -d "Shutdown your computer?" "systemctl poweroff"`
-                        (label :text "" :tooltip "Shutdown")
-                    )
-                )
-            )
-            (button :onclick "swaync-client --open-panel"
-                (label :class "menu-button" :text "󰇙" :tooltip "Control Center")
-            )
-        )
-    )
-)
-
-
 ;; Check wheither stay awake mode is active or not
 (defpoll caffeinated :initial "false" :interval "1s" `coffee.sh --check`)
 (defpoll microphone :interval "1s"
@@ -196,6 +158,13 @@ Right Click: Capture a the screen`
 )
 
 
+(defwidget menu_button []
+    (button :class "menu-button" :onclick "${EWW_CMD} open control_center --toggle"
+        (label :tooltip "Control Center" :text "󰍜")
+    )
+)
+
+
 (defwidget left []
 	(box :class "left" :orientation "h" :halign "start" :space-evenly false :spacing 1
         (hyprland)
@@ -213,7 +182,7 @@ Right Click: Capture a the screen`
         (volume)
         (clock)
         (action_row)
-        (power)
+        (menu_button)
     )
 )
 
