@@ -7,6 +7,7 @@
     color: $onBackground;
     padding: 1rem;
     border-radius: $roundness;
+    border: 1px solid $outline;
 
     .cover {
         $size: 150px;

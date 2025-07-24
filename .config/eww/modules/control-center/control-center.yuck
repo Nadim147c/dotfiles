@@ -13,7 +13,9 @@
 
 (defpoll uptime :initial "" :interval "1min" `uptime -p`)
 (defpoll pfp :initial "" :interval "1h" `pfp.sh`)
-(defpoll notifications :interval "300ms" `dunstctl history | jq '[.data[][] | {id: .id.data, message: .message.data}]'`)
+(defpoll notifications :interval "300ms"
+    `dunstctl history | jq '[.data[][] | {id: .id.data, message: .message.data}]'`
+)
 
 (defwidget control_center []
     (box :class "eww-control" :orientation "v" :space-evenly false
@@ -26,9 +28,9 @@
             )
             (box :class "user section" :orientation "v"
                 (box :orientation "h" :space-evenly false :spacing 10
-                    (image :class "pfp" :image-width 120 :image-height 120 :path {pfp})
+                    (box :class "pfp" :style "background-image: url('${pfp}');")
                     (box :orientation "v" :space-evenly false :spacing 5 :valign "center"
-                        (label :class "username" :text " ${get_env("USER")}")
+                        (label :class "username" :halign "start" :text {get_env("USER")})
                         (label :halign "start" :text {uptime})
                         (power)
                     )
