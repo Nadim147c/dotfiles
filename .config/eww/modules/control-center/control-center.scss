@@ -20,6 +20,12 @@
             background-color: $surfaceContainer;
             color: $onSurface;
             border-radius: $highlightBorderRadius;
+            .pfp {
+                min-width: 150px;
+                min-height: 150px;
+                background-size: 150px;
+                border-radius: $highlightBorderRadius;
+            }
             .power-button {
                 font-family: $sans, $nerd;
                 margin: 0;
