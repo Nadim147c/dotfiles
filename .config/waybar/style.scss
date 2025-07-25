@@ -1,9 +1,10 @@
 @import "colors.scss";
 
+$font: "Noto Sans", "JetBrainsMono Nerd Font Propo";
 * {
     min-height: 0;
     min-width: 0;
-    font-family: "JetBrainsMono Nerd Font Propo";
+    font-family: $font;
     font-size: 12px;
     font-weight: 600;
     border-radius: 6px;
@@ -72,16 +73,15 @@ window#waybar {
 }
 
 #custom-lyrics {
-    font-family: "Noto Font";
-
-    &.paused {
+    font-family: $font;
+    .paused {
         font-style: italic;
         color: $secondary;
     }
 }
 
 tooltip {
-    font-family: "Noto Font";
+    font-family: $font;
     border-radius: 15px;
     background-color: $background;
     border: 2px solid $onPrimary;

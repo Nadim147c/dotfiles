@@ -1,9 +1,7 @@
 (defpoll wallpapers
-    :interval "3s"
-    `wallpaper-cache.sh list`
+    :interval "3s" `wallpaper-cache.sh list`
 )
 
-(defvar HEIGHT 650)
 (defwindow wallpaper []
     :monitor 0
     :stacking "overlay"
@@ -12,38 +10,27 @@
         :x "20px"
         :y "0"
         :height "90%"
-        :width "300px"
+        :width "350px"
         :anchor "top right"
     )
-    (box
-        :class "eww-wallpaper"
-        (box
-            :space-evenly false
-            :orientation "v"
-            :spacing 5
-            (box
-                :orientation "h"
-                (label :class "title" :halign "start" :text "Wallpapers")
-                (eventbox
-                    :class "close"
-                    :cursor "pointer"
-                    :halign "end"
+    (box :class "eww-wallpaper"
+        (box :space-evenly false :orientation "v" :spacing 5
+            (box :orientation "h" (label :class "title" :halign "start" :text "Wallpapers")
+                (eventbox :class "close" :cursor "pointer" :halign "end"
                     (button :onclick "${EWW_CMD} close wallpaper" "")
                 )
             )
-            (scroll
-                :height {HEIGHT}
-                (box
-                    :class "scroll"
-                    :space-evenly false
-                    :orientation "v"
+            (scroll :height 650
+                (box :class "scroll" :space-evenly false :orientation "v"
                     (for wall in wallpapers
-                        (eventbox
-                            :cursor "pointer"
-                            (button
-                                :timeout "10s"
-                                :onclick "wallpaper.sh $(wallpaper-cache.sh resolve '${wall}')"
-                                (image :path {wall} :image-width 270)
+                        (eventbox :cursor "pointer"
+                            (button :class "container" :timeout "10s"
+                                :onclick "wallpaper.sh $(wallpaper-cache.sh resolve '${wall.path}')"
+                                (box :class "image" :style "background-image: url('${wall.path}');"
+                                    (label :class "icon" :text "󰔶" :style "color: ${wall.primary};")
+                                    (label :class "icon" :text "" :style "color: ${wall.secondary};")
+                                    (label :class "icon" :text "" :style "color: ${wall.tertiary};")
+                                )
                             )
                         )
                     )
