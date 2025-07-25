@@ -8,8 +8,21 @@
         font-size: 16px;
         font-weight: 700;
     }
-    image {
+    .icon {
+        font-family: $nerd;
+        font-size: 2.5rem;
+        text-shadow:
+            2px 2px 4px black,
+            -2px -2px 4px black;
+    }
+    .image {
+        $size: 270px;
         margin: 0.6rem 0;
+        min-width: $size;
+        min-height: calc(($size / 16) * 9);
         border-radius: 1rem;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
 }

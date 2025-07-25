@@ -12,13 +12,17 @@ post_hooks() {
     compile-scss.sh ~/.config/swayosd/style.scss && pkill swayosd-server && fork swayosd-server
     compile-scss.sh ~/.config/wofi/style.scss &
     touch ~/.config/alacritty/alacritty.toml &
-    dunstctl reload
+
+    local dunst_level=$(dunstctl get-pause-level)
+    dunstctl reload && dunstctl set-pause-level "$dunst_level"
 
     # Reload applications by sending signals
-    killall -v -SIGUSR2 waybar &
     pywalfox --verbose update &
+    killall -v -SIGUSR2 waybar
 
-    hyprctl reload &
+    hyprctl reload
+    hyprctl keyword misc:disable_autoreload false
+
     sleep 1.5 # Ensure all the command finished running
 }
 
@@ -75,7 +79,7 @@ set_wallpaper() {
     # Apply wallpaper with swww
     swww img \
         --transition-type "$rand_transition" \
-        --transition-duration 1 \
+        --transition-duration 2 \
         --transition-pos "$cursor_pos" \
         --transition-bezier ".09,.91,.52,.93" \
         --transition-fps 60 \
@@ -86,6 +90,7 @@ set_wallpaper() {
 # Main function
 main() {
     local wallpaper="$1"
+    hyprctl keyword misc:disable_autoreload true
 
     if [ -n "$wallpaper" ]; then
         set_wallpaper "$wallpaper"

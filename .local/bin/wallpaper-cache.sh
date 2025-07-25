@@ -48,17 +48,25 @@ case "$1" in
     done
     ;;
 "list")
-    # Generate JSON array using jq for compact output
     list_image "$WALLPAPER_DIR" | while read -r img; do
         filename=$(basename "$img")
         cache_file="$CACHE_DIR/$filename"
 
         if [[ -f "$cache_file" ]]; then
-            echo "$cache_file"
+            target="$cache_file"
         else
-            echo "$img"
+            target="$img"
         fi
-    done | jq -R -n '[inputs]' -c
+
+        rong image --dry-run --json --quiet "$target" | jq --arg path "$target" '
+        {
+            path: $path,
+            primary: .material.primary.hex_rgb,
+            secondary: .material.secondary.hex_rgb,
+            tertiary: .material.tertiary.hex_rgb,
+        }
+    '
+    done | jq -s -c .
     ;;
 "resolve")
     if [[ -z "$2" ]]; then
