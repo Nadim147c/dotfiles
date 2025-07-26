@@ -8,3 +8,9 @@
 .config/nushell/history*
 .config/nushell/plugin.*
 .config/hypr/hyprpaper.conf
+
+.config/eww/colors.scss
+.config/waybar/colors.scss
+.config/swaync/colors.scss
+.config/wofi/colors.scss
+.config/swayosd/colors.scss

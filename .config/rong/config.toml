@@ -18,6 +18,16 @@ light = false
     "~/.config/swaync/colors.scss",
     "~/.config/wofi/colors.scss",
     "~/.config/swayosd/colors.scss",
+
+    "~/git/dotfiles/.config/eww/colors.scss",
+    "~/git/dotfiles/.config/waybar/colors.scss",
+    "~/git/dotfiles/.config/swaync/colors.scss",
+    "~/git/dotfiles/.config/wofi/colors.scss",
+    "~/git/dotfiles/.config/swayosd/colors.scss",
+]
+
+"colors.css" = [
+    "~/.config/waybar/colors.css"
 ]
 
 "qtct.colors" = [

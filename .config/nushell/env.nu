@@ -24,15 +24,15 @@ $env.Path = [
     "/usr/local/go/bin"
     $"($env.HOME)/.local/bin"
     $"($env.HOME)/.cargo/bin"
-    $"($env.HOME)/.bun/bin"
     $"($env.HOME)/.local/share/pnpm"
     $"($env.HOME)/.spicetify"
     $"($env.GOPATH)/bin"
+    $"($env.XDG_CACHE_HOME)/.bun/bin"
 ] ++ $env.Path
 
 $env.PATH = ($env.PATH | str replace --regex '/$' '' | uniq)
 
-$env.SKIM_DEFAULT_OPTIONS = $"($env | get SKIM_DEFAULT_OPTIONS --ignore-errors | default "")
+$env.SKIM_DEFAULT_OPTIONS = $"($env | get SKIM_DEFAULT_OPTIONS --optional | default "")
 --layout reverse --border
 --color=fg:#cdd6f4,bg:-1,gutter:-1,matched:#313244,matched_bg:#f2cdcd,current:#cdd6f4,current_bg:#45475a,current_match:#1e1e2e,current_match_bg:#f5e0dc,spinner:#a6e3a1,info:#cba6f7,prompt:#89b4fa,cursor:#f38ba8,selected:#eba0ac,header:#94e2d5,border:#6c7086
 "
