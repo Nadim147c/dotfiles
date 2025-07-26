@@ -1,6 +1,7 @@
-@import "colors.scss";
+@use "colors.scss" as *;
 
 $font: "Noto Sans", "JetBrainsMono Nerd Font Propo";
+
 * {
     min-height: 0;
     min-width: 0;

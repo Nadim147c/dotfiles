@@ -36,19 +36,7 @@ compile_scss() {
     local DIR="$(dirname "$INPUT")"
     local BASE="$(basename "$INPUT" .scss)"
     local OUTPUT="$DIR/$BASE.css"
-    local TMPFILE="$(mktemp "$DIR/$BASE.XXXXXX.css")"
-
-    # Compile SCSS to a temporary file
-    if sass --no-cache --sourcemap=none "$INPUT" "$TMPFILE"; then
-        # Use install to safely move the file (preserves permissions, atomic)
-        install -m 644 "$TMPFILE" "$OUTPUT"
-        echo "Compiled $INPUT -> $OUTPUT"
-        rm -f "$TMPFILE"
-    else
-        echo "SCSS compilation failed."
-        rm -f "$TMPFILE"
-        return 1
-    fi
+    sass --no-source-map --verbose "$INPUT":"$OUTPUT"
 }
 
 # Initial compilation
