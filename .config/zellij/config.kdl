@@ -198,7 +198,7 @@ plugins {
     }
 }
 
-default_shell "nu"
+default_shell "fish"
 session_serialization false
 support_kitty_keyboard_protocol true
 

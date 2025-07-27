@@ -1,4 +1,4 @@
-@import "colors.scss";
+@use "colors.scss" as *;
 
 window#osd {
     border-radius: 10rem;
@@ -25,6 +25,7 @@ window#osd {
         border-radius: 999px;
         background: transparent;
         border: none;
+        padding-right: 1rem;
     }
     trough {
         min-height: inherit;
