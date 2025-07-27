@@ -10,7 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/spf13/pflag"
+	"github.com/carapace-sh/carapace"
+	"github.com/spf13/cobra"
 )
 
 type Weather struct {
@@ -48,27 +49,43 @@ var iconMap = map[int64]string{
 	95: "", 96: "", 99: "",
 }
 
-func init() {
-	quiet := pflag.BoolP("quiet", "q", false, "Suppress all logs")
-	pflag.Parse()
+var (
+	quiet     bool
+	watch     bool
+	location  string
+	cacheFile string
+)
 
-	if *quiet {
-		log.Setup(slog.LevelError + 1)
-	} else {
-		log.Setup(slog.LevelDebug)
-	}
+func init() {
+	cmd.Flags().BoolVarP(&quiet, "quiet", "q", false, "Suppress all logs")
+	cmd.Flags().BoolVarP(&watch, "watch", "w", false, "Continuously check weather every 10 minutes")
+	cmd.Flags().StringVarP(&location, "location", "l", os.ExpandEnv("$HOME/.config/.location"), "Path to location file")
+	cmd.Flags().StringVar(&cacheFile, "cache-file", "/tmp/weather-cache", "Path to cache file")
 }
 
-func main() {
-	locationPath := os.ExpandEnv("$HOME/.config/.location")
+var cmd = &cobra.Command{
+	Use:   "eww-weather",
+	Short: "Fetch and display current weather information",
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if quiet {
+			log.Setup(slog.LevelError + 100)
+		} else {
+			log.Setup(slog.LevelDebug)
+		}
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		if watch {
+			ticker := time.NewTicker(10 * time.Minute)
+			defer ticker.Stop()
 
-	ticker := time.NewTicker(10 * time.Minute)
-	defer ticker.Stop()
-
-	CheckWeather(locationPath)
-	for range ticker.C {
-		CheckWeather(locationPath)
-	}
+			CheckWeather(location)
+			for range ticker.C {
+				CheckWeather(location)
+			}
+		} else {
+			CheckWeather(location)
+		}
+	},
 }
 
 func ReadLocation(path string) (string, string, error) {
@@ -86,10 +103,8 @@ func ReadLocation(path string) (string, string, error) {
 	return strings.TrimSpace(coords[0]), strings.TrimSpace(coords[1]), nil
 }
 
-const CacheFile = "/tmp/weather-cache"
-
 func CachedWeather() (*Weather, error) {
-	file, err := os.Open(CacheFile)
+	file, err := os.Open(cacheFile)
 	if err != nil {
 		return nil, err
 	}
@@ -130,7 +145,7 @@ func FetchWeather(latitude, longitude string) (*Weather, error) {
 
 	weather.Time = time.Now()
 
-	file, err := os.Create(CacheFile)
+	file, err := os.Create(cacheFile)
 	if err != nil {
 		return nil, err
 	}
@@ -163,5 +178,13 @@ func CheckWeather(locationPath string) {
 	} else {
 		slog.Error("Unknown weather code", "code", weather.Current.WeatherCode)
 		fmt.Printf("%.1f%s\n", weather.Current.Temperature, weather.Units.Temperature)
+	}
+}
+
+func main() {
+	carapace.Gen(cmd).Standalone()
+	if err := cmd.Execute(); err != nil {
+		slog.Error("Command execution failed", "error", err)
+		os.Exit(1)
 	}
 }

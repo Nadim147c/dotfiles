@@ -6,6 +6,7 @@
     :monitor 0
     :stacking "overlay"
     :windowtype "dialog"
+    :namespace "eww-wallpapers"
 	:geometry (geometry
         :x "20px"
         :y "0"

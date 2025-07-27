@@ -7,7 +7,8 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/spf13/pflag"
+	"github.com/carapace-sh/carapace"
+	"github.com/spf13/cobra"
 )
 
 type Microphone struct {
@@ -34,62 +35,65 @@ type Output struct {
 }
 
 var (
-	Quiet  = false
-	Toggle = false
+	quiet  bool
+	toggle bool
 )
 
 func init() {
-	pflag.BoolVarP(&Quiet, "quiet", "q", Quiet, "Suppress all logs")
-	pflag.BoolVarP(&Toggle, "toggle", "t", Toggle, "Toggle microphone mute state")
-
-	pflag.Parse()
-
-	if Quiet {
-		log.Setup(slog.LevelError + 1)
-	} else {
-		log.Setup(slog.LevelDebug)
-	}
+	cmd.Flags().BoolVarP(&quiet, "quiet", "q", false, "Suppress all logs")
+	cmd.Flags().BoolVarP(&toggle, "toggle", "t", false, "Toggle microphone mute state")
 }
 
-func main() {
-	microphone, err := GetMicrophone()
-	if err != nil {
-		slog.Error("No suitable microphone found", "error", err)
-		os.Exit(1)
-	}
-
-	if Toggle {
-		cmd := exec.Command("pactl", "set-source-mute", microphone.Name, "toggle")
-		err := cmd.Run()
-		if err != nil {
-			slog.Error("Failed to toggle microphone state", "error", err)
-			os.Exit(1)
+var cmd = &cobra.Command{
+	Use:   "eww-mic",
+	Short: "Manage microphone state and output information",
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if quiet {
+			log.Setup(slog.LevelError + 1)
+		} else {
+			log.Setup(slog.LevelDebug)
 		}
-
+	},
+	Run: func(cmd *cobra.Command, args []string) {
 		microphone, err := GetMicrophone()
 		if err != nil {
 			slog.Error("No suitable microphone found", "error", err)
 			os.Exit(1)
 		}
+
+		if toggle {
+			cmd := exec.Command("pactl", "set-source-mute", microphone.Name, "toggle")
+			err := cmd.Run()
+			if err != nil {
+				slog.Error("Failed to toggle microphone state", "error", err)
+				os.Exit(1)
+			}
+
+			microphone, err := GetMicrophone()
+			if err != nil {
+				slog.Error("No suitable microphone found", "error", err)
+				os.Exit(1)
+			}
+			output := GetOutput(microphone)
+			b, err := json.Marshal(output)
+			if err != nil {
+				slog.Error("Failed encode json", "error", err)
+				os.Exit(1)
+			}
+
+			ewwCmd := exec.Command("eww", "update", "microphone="+string(b))
+			if err := ewwCmd.Run(); err != nil {
+				slog.Error("Failed to update eww variable", "error", err)
+				os.Exit(1)
+			}
+
+			return
+		}
+
+		// Prepare and output result
 		output := GetOutput(microphone)
-		b, err := json.Marshal(output)
-		if err != nil {
-			slog.Error("Failed encode json", "error", err)
-			os.Exit(1)
-		}
-
-		ewwCmd := exec.Command("eww", "update", "microphone="+string(b))
-		if err := ewwCmd.Run(); err != nil {
-			slog.Error("Failed to update eww variable", "error", err)
-			os.Exit(1)
-		}
-
-		return
-	}
-
-	// Prepare and output result
-	output := GetOutput(microphone)
-	json.NewEncoder(os.Stdout).Encode(output)
+		json.NewEncoder(os.Stdout).Encode(output)
+	},
 }
 
 func GetMicrophone() (*Microphone, error) {
@@ -175,5 +179,13 @@ func GetOutput(mic *Microphone) Output {
 		Display:     recording || muted,
 		Name:        mic.Name,
 		Description: mic.Description,
+	}
+}
+
+func main() {
+	carapace.Gen(cmd).Standalone()
+	if err := cmd.Execute(); err != nil {
+		slog.Error("Command execution failed", "error", err)
+		os.Exit(1)
 	}
 }
