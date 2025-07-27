@@ -1,5 +1,5 @@
 (defpoll wallpapers
-    :interval "3s" `eww-wallcache list`
+    :interval "3s" `wallpaper-cache.sh list`
 )
 
 (defwindow wallpaper []
@@ -26,7 +26,7 @@
                     (for wall in wallpapers
                         (eventbox :cursor "pointer"
                             (button :class "container" :timeout "10s"
-                                :onclick "wallpaper.sh $(eww-wallcache resolve '${wall.path}')"
+                                :onclick "wallpaper.sh $(wallpaper-cache.sh resolve '${wall.path}')"
                                 (box :class "image" :style "background-image: url('${wall.path}');"
                                     (label :class "icon" :text "󰔶" :style "color: ${wall.primary};")
                                     (label :class "icon" :text "" :style "color: ${wall.secondary};")
