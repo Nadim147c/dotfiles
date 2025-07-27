@@ -12,7 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/spf13/pflag"
+	"github.com/carapace-sh/carapace"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -23,6 +24,9 @@ var (
 
 	GetActiveWorkspace = []byte("j/activeworkspace")
 	GetWorkspaces      = []byte("j/workspaces")
+
+	quiet bool
+	osd   bool
 )
 
 // RawWorkspace represents the workspace data from Hyprland
@@ -44,81 +48,79 @@ type ActiveWorkspace struct {
 	ID int `json:"id"`
 }
 
-var (
-	Quiet = false
-	OSD   = false
-)
-
 func init() {
-	pflag.BoolVarP(&Quiet, "quiet", "q", Quiet, "Suppress all logs")
-	pflag.BoolVarP(&OSD, "osd", "o", OSD, "Show on screen display")
-
-	pflag.Parse()
-
-	if Quiet {
-		log.Setup(slog.LevelError + 1)
-	} else {
-		log.Setup(slog.LevelDebug)
-	}
+	cmd.Flags().BoolVarP(&quiet, "quiet", "q", false, "Suppress all logs")
+	cmd.Flags().BoolVarP(&osd, "osd", "o", false, "Show on screen display")
 }
 
-func main() {
-	// Get and print initial workspace state
-	activeID, err := GetActiveWorkspaceID()
-	if err != nil {
-		slog.Error("Failed to get active workspace ID", "error", err)
-		os.Exit(1)
-	}
-
-	if err := PrintWorkspaces(activeID, false); err != nil {
-		slog.Error("Failed to print workspaces", "error", err)
-		os.Exit(1)
-	}
-
-	conn, err := net.Dial("unix", EventSocket)
-	if err != nil {
-		slog.Error("Failed to connect to event socket", "socket", EventSocket, "error", err)
-		panic(err)
-	}
-	defer conn.Close()
-
-	id := activeID
-	// Listen for events
-	scanner := bufio.NewScanner(conn)
-	for scanner.Scan() {
-		line := scanner.Text()
-		split := strings.SplitN(line, ">>", 2)
-
-		if len(split) != 2 {
-			slog.Debug("Received malformed event", "line", line)
-			continue
+var cmd = &cobra.Command{
+	Use:   "hypr-workspaces",
+	Short: "Monitor and display Hyprland workspaces",
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if quiet {
+			log.Setup(slog.LevelError + 100)
+		} else {
+			log.Setup(slog.LevelDebug)
 		}
-		event, meta := split[0], split[1]
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		// Get and print initial workspace state
+		activeID, err := GetActiveWorkspaceID()
+		if err != nil {
+			slog.Error("Failed to get active workspace ID", "error", err)
+			os.Exit(1)
+		}
 
-		switch event {
-		case "openwindow", "openlayer":
-			if err := PrintWorkspaces(id, false); err != nil {
-				slog.Error("Failed to print workspaces after window event", "event", event, "error", err)
-			}
-		case "workspacev2":
-			var ws int
-			_, err := fmt.Sscanf(meta, "%d,", &ws)
-			if err != nil {
-				slog.Error("Failed to parse workspace ID", "meta", meta, "error", err)
+		if err := PrintWorkspaces(activeID, false); err != nil {
+			slog.Error("Failed to print workspaces", "error", err)
+			os.Exit(1)
+		}
+
+		conn, err := net.Dial("unix", EventSocket)
+		if err != nil {
+			slog.Error("Failed to connect to event socket", "socket", EventSocket, "error", err)
+			panic(err)
+		}
+		defer conn.Close()
+
+		id := activeID
+		// Listen for events
+		scanner := bufio.NewScanner(conn)
+		for scanner.Scan() {
+			line := scanner.Text()
+			split := strings.SplitN(line, ">>", 2)
+
+			if len(split) != 2 {
+				slog.Debug("Received malformed event", "line", line)
 				continue
 			}
-			id = ws
+			event, meta := split[0], split[1]
 
-			if err := PrintWorkspaces(id, true); err != nil {
-				slog.Error("Failed to print workspaces after workspace change", "workspace", id, "error", err)
+			switch event {
+			case "openwindow", "openlayer":
+				if err := PrintWorkspaces(id, false); err != nil {
+					slog.Error("Failed to print workspaces after window event", "event", event, "error", err)
+				}
+			case "workspacev2":
+				var ws int
+				_, err := fmt.Sscanf(meta, "%d,", &ws)
+				if err != nil {
+					slog.Error("Failed to parse workspace ID", "meta", meta, "error", err)
+					continue
+				}
+				id = ws
+
+				if err := PrintWorkspaces(id, true); err != nil {
+					slog.Error("Failed to print workspaces after workspace change", "workspace", id, "error", err)
+				}
 			}
 		}
-	}
 
-	if err := scanner.Err(); err != nil {
-		slog.Error("Scanner error", "error", err)
-		panic(err)
-	}
+		if err := scanner.Err(); err != nil {
+			slog.Error("Scanner error", "error", err)
+			panic(err)
+		}
+	},
 }
 
 // GetActiveWorkspaceID gets the currently active workspace ID
@@ -196,4 +198,12 @@ func PrintWorkspaces(id int, switched bool) error {
 	}
 
 	return nil
+}
+
+func main() {
+	carapace.Gen(cmd).Standalone()
+	if err := cmd.Execute(); err != nil {
+		slog.Error("Command execution failed", "error", err)
+		os.Exit(1)
+	}
 }

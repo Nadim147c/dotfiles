@@ -9,7 +9,10 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 || slices.Contains(os.Args, "--help") || slices.Contains(os.Args, "-help") {
+	if len(os.Args) < 2 ||
+		slices.Contains(os.Args, "--help") ||
+		slices.Contains(os.Args, "-help") ||
+		slices.Contains(os.Args, "_carapace") {
 		log.Fatalf("Usage: fork <command> [args...]")
 	}
 

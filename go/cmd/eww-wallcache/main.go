@@ -1,6 +1,7 @@
 package main
 
 import (
+	"dotfiles/pkg/log"
 	"encoding/base64"
 	"encoding/binary"
 	"encoding/json"
@@ -13,9 +14,12 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/carapace-sh/carapace"
 	"github.com/cespare/xxhash"
-	"github.com/spf13/pflag"
+	"github.com/spf13/cobra"
 )
+
+var quiet bool
 
 type Index struct {
 	kv map[string]string
@@ -26,6 +30,66 @@ var (
 	_ json.Marshaler   = (*Index)(nil)
 	_ json.Unmarshaler = (*Index)(nil)
 )
+
+func init() {
+	rootCmd.AddCommand(cacheCmd, listCmd, resolveCmd)
+	rootCmd.PersistentFlags().BoolVarP(&quiet, "quiet", "q", false, "Suppress output")
+}
+
+var rootCmd = &cobra.Command{
+	Use:   "eww-wallcache",
+	Short: "Manage wallpaper cache and colors",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if quiet {
+			log.Setup(slog.LevelError + 100)
+		} else {
+			log.Setup(slog.LevelDebug)
+		}
+	},
+}
+
+var cacheCmd = &cobra.Command{
+	Use:   "cache",
+	Short: "Generate wallpaper cache",
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if !checkBinary("magick") {
+			slog.Error("Required binary not found: magick")
+			os.Exit(1)
+		}
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		cacheDir := getCacheDir()
+		os.MkdirAll(cacheDir, 0755)
+		runCache(cacheDir)
+	},
+}
+
+var listCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List wallpapers with their colors",
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if !checkBinary("rong") {
+			slog.Error("Required binary not found: rong")
+			os.Exit(1)
+		}
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		cacheDir := getCacheDir()
+		os.MkdirAll(cacheDir, 0755)
+		runList(cacheDir)
+	},
+}
+
+var resolveCmd = &cobra.Command{
+	Use:   "resolve [path]",
+	Short: "Resolve cached image to original path",
+	Args:  cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		cacheDir := getCacheDir()
+		os.MkdirAll(cacheDir, 0755)
+		runResolve(cacheDir, args[0])
+	},
+}
 
 func NewIndex() *Index {
 	return &Index{kv: make(map[string]string), vk: make(map[string]string)}
@@ -253,7 +317,6 @@ func generateColors(path string) (c Colors, err error) {
 }
 
 func runList(cacheDir string) {
-	runCache(cacheDir)
 	index, err := loadIndex(cacheDir)
 	if err != nil {
 		slog.Error("Error loading index", "error", err)
@@ -303,7 +366,6 @@ func runList(cacheDir string) {
 			Secondary: data.Material.Secondary.HexRGB,
 			Tertiary:  data.Material.Tertiary.HexRGB,
 		})
-
 	}
 
 	err = json.NewEncoder(os.Stdout).Encode(results)
@@ -325,41 +387,13 @@ func runResolve(cacheDir, path string) {
 		fmt.Println(original)
 		return
 	}
-	slog.Error("Unable to resoble original path")
+	slog.Error("Unable to resolve original path")
 }
 
 func main() {
-	pflag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s [cache|list|resolve]\n", os.Args[0])
-		pflag.PrintDefaults()
-	}
-	pflag.Parse()
-
-	cacheDir := getCacheDir()
-	os.MkdirAll(cacheDir, 0755)
-
-	switch cmd := pflag.Arg(0); cmd {
-	case "cache":
-		if !checkBinary("magick") {
-			slog.Error("Required binary not found: magick")
-			os.Exit(1)
-		}
-		runCache(cacheDir)
-	case "list":
-		if !checkBinary("rong") {
-			slog.Error("Required binary not found: rong")
-			os.Exit(1)
-		}
-		runList(cacheDir)
-	case "resolve":
-		path := pflag.Arg(1)
-		if path == "" {
-			slog.Error("resolve requires a path argument")
-			os.Exit(1)
-		}
-		runResolve(cacheDir, path)
-	default:
-		pflag.Usage()
+	carapace.Gen(rootCmd).Standalone()
+	if err := rootCmd.Execute(); err != nil {
+		slog.Error("Command execution failed", "error", err)
 		os.Exit(1)
 	}
 }

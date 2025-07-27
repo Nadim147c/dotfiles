@@ -15,8 +15,9 @@ build:
 	@mkdir -p $(BIN_DIR)
 	@for dir in $(COMMAND_DIRS); do \
 		name=$$(basename $$dir); \
-        echo "Building $$name: $(BIN_DIR)/$$name"; \
+		echo "Building $$name: $(BIN_DIR)/$$name"; \
 		go build -o $(BIN_DIR)/$$name ./$$dir; \
+		$(BIN_DIR)/$$name _carapace fish > ~/.config/fish/completions/$${name}.fish; \
 	done
 
 watch:
