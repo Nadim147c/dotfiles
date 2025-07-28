@@ -1,0 +1,29 @@
+--paths ~/Downloads/Videos
+
+# Default format selection (1080p or lower)
+--format "(bv[height<=1080]+ba)/(b[height<=1080])/b"
+
+# Merge into mp4 container by default
+--merge-output-format mp4
+
+# Concurrent fragments for faster downloads
+--concurrent-fragments 4
+
+# SponsorBlock and subtitle settings
+--sponsorblock-mark all
+--sub-langs all
+--embed-subs
+
+# Metadata embedding (can be disabled with --no-metadata)
+--embed-thumbnail
+--embed-metadata
+--embed-chapters
+
+# Output filename template
+--output "%(title)s-%(id)s.%(ext)s"
+
+# Always show colors in output
+--color always
+
+# Never simulate (always download)
+--no-simulate
