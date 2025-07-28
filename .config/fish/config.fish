@@ -80,7 +80,7 @@ if status is-interactive
     set -gx CHROMASHIFT_RULES "$HOME/git/ChromaShift/rules"
 
     # Aliases
-    alias ll="ls --long --du"
+    alias ll="ls -la"
     alias l="ls -lam"
     alias la="ls -a"
     alias fn="find"
