@@ -134,4 +134,5 @@ if status is-interactive
     zoxide init fish | source
     mise activate fish | source
     atuin init fish | source
+    cshift alias fish | source
 end
