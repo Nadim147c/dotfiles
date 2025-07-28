@@ -10,8 +10,8 @@ pkgs=(
     # Desktop env
     # Hyprland
     hyprland hypridle hyprlock hyprcursor hyprshot hyprsunset
-    swaync wlogout waybar-lyric-git hyprpolkitagent wofi
-    adw-gtk-theme breeze nwg-look qt6ct bibata-cursor-theme
+    dunst wlogout waybar-lyric-git hyprpolkitagent wofi
+    adw-gtk-theme breeze nwg-look qt6ct-kde bibata-cursor-theme
     cava
     # Color
     python-pywalfox
@@ -41,7 +41,7 @@ pkgs=(
 
     # Dev tools
     # Lang
-    rust go nodejs python3 ruby-sass
+    rust go nodejs python3 dart-sass
     # Tool
     neovim zellij base-devel sccache curl make wget
     # Git
