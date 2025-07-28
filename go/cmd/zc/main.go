@@ -36,7 +36,7 @@ var cmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		repos, err := findGitRepos(filepath.Join(home, "git"))
+		repos, err := findGitRepos(home, "git")
 		if err != nil {
 			slog.Error("Could not find git repositories", "error", err)
 			os.Exit(1)
@@ -59,6 +59,7 @@ var cmd = &cobra.Command{
 			os.Exit(1)
 		}
 
+		selected = filepath.Join(home, selected)
 		name := sanitizeName(filepath.Base(selected))
 		absPath, err := filepath.Abs(selected)
 		if err != nil {
@@ -96,8 +97,16 @@ func main() {
 	}
 }
 
-func findGitRepos(baseDir string) ([]string, error) {
-	cmd := exec.Command("fd", ".", baseDir, "--max-depth=1", "--min-depth=1", "--type=d")
+func findGitRepos(base string, dirs ...string) ([]string, error) {
+	cmd := exec.Command("fd", ".",
+		"--base-directory", base,
+		"--max-depth=1",
+		"--min-depth=1",
+		"--type=d",
+		"--color=always",
+	)
+	cmd.Args = append(cmd.Args, dirs...)
+
 	output, err := cmd.Output()
 	if err != nil {
 		return nil, fmt.Errorf("fd command failed: %w", err)
