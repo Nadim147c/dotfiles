@@ -11,7 +11,7 @@
         :x "20px"
         :y "0"
         :height "90%"
-        :width "350px"
+        :width "320px"
         :anchor "top right"
     )
     (box :class "eww-wallpaper"
@@ -27,10 +27,13 @@
                         (eventbox :cursor "pointer"
                             (button :class "container" :timeout "10s"
                                 :onclick "wallpaper.sh $(wallpaper-cache.sh resolve '${wall.path}')"
-                                (box :class "image" :style "background-image: url('${wall.path}');"
-                                    (label :class "icon" :text "󰔶" :style "color: ${wall.primary};")
-                                    (label :class "icon" :text "" :style "color: ${wall.secondary};")
-                                    (label :class "icon" :text "" :style "color: ${wall.tertiary};")
+                                (overlay
+                                    (image :path {wall.path} :image-width 300)
+                                    (box
+                                        (label :class "icon" :text "󰔶" :style "color: ${wall.primary};")
+                                        (label :class "icon" :text "" :style "color: ${wall.secondary};")
+                                        (label :class "icon" :text "" :style "color: ${wall.tertiary};")
+                                    )
                                 )
                             )
                         )
