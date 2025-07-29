@@ -120,13 +120,13 @@
     :initial `{"class":"","display":false,"name":"","description":""}`
     `eww-mic -q`
 )
-(defvar noti_icon `{ "0": "", "1": "", "2": "󰒲", "100": ""}`)
+(defvar noti_icon `{ "0": "", "1": "", "2": "󰒲", "3": ""}`)
 (defpoll notification_mode :initial "0" :interval "500ms" `dunstctl get-pause-level`)
 (defwidget action_row []
     (eventbox :cursor "pointer"
         (box :class "action-row" :orientation "h" :space-evenly false :spacing 0
             (button :class "notification-mode" :onclick "dunst-mode-cycle.sh"
-                (label :text {noti_icon[notification_mode] ?: ""} :tooltip "")
+                (label :text {noti_icon[notification_mode] ?: notification_mode} :tooltip "")
             )
             (revealer :reveal {microphone.display} :transition "none"
                 (button :class {microphone.class}

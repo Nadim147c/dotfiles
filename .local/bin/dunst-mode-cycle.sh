@@ -5,8 +5,8 @@ current=$(dunstctl get-pause-level)
 case "$current" in
   0) next=1 ;;
   1) next=2 ;;
-  2) next=100 ;;
-  100) next=0 ;;
+  2) next=3 ;;
+  3) next=0 ;;
   *) next=0 ;;
 esac
 
