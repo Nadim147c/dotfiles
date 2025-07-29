@@ -16,7 +16,7 @@ normal.family = "JetbrainsMono Nerd Font"
 save_to_clipboard = true
 
 [terminal]
-shell = "/bin/nu"
+shell = "/bin/fish"
 osc52 = "CopyPaste"
 
 [keyboard]
