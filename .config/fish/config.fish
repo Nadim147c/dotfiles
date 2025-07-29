@@ -125,11 +125,6 @@ if status is-interactive
     end
 
 
-    # Show fastfetch if not in zellij or tmux
-    if not set -q ZELLIJ && not set -q TMUX
-        fastfetch
-    end
-
     starship init fish | source
     zoxide init fish | source
     mise activate fish | source
