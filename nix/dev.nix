@@ -15,6 +15,7 @@ in {
         LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate catppuccin-mocha)";
     };
     home.packages = with pkgs; [
+        less
         nixd
         alejandra
         neovim
