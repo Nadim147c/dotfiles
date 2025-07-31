@@ -13,5 +13,6 @@
         # This kitty package doesn't work properly on non nixos distro
         # kitty
         nerd-fonts.jetbrains-mono
+        dunst
     ];
 }
