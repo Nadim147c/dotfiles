@@ -2,6 +2,7 @@
     imports = [
         ./programs/mpv.nix
         ./programs/alacritty.nix
+        ./programs/mime.nix
     ];
 
     home.file.".config/kitty" = {

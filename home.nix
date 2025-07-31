@@ -1,9 +1,12 @@
-{...}: {
+{pkgs, ...}: let
+    my-go-clis = pkgs.callPackage ./go {};
+in {
     imports = [
         ./nix/dev.nix
         ./nix/rice.nix
         ./nix/desktop.nix
     ];
+    home.packages = [my-go-clis];
 
     home.stateVersion = "25.05";
     home.username = "ephemeral";

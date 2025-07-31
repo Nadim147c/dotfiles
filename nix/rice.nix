@@ -8,6 +8,8 @@
         gtk4
         gtk4-layer-shell
         zellij
+        kdePackages.breeze-icons
+        kdePackages.qt6ct
     ];
 
     home.file.".config/eww" = {
