@@ -1,0 +1,206 @@
+;; waybar-lyric: https://github.com/Nadim147c/waybar-lyric
+(deflisten lyrics :initial `{ "text": "" }` `waybar-lyric -qdm150 -b47 -ffull`)
+(defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚", "no_lyric": " ", "": "" }`)
+
+;; hyprland
+(deflisten hyprland_ws :initial "{}" `eww-hyprland -oq`)
+
+;; network
+(deflisten network :initial "{}" `eww-network -qfM`)
+
+(defvar spacing 16)
+
+(defwidget hyprland []
+    (box :class "workspaces" :orientation "h" :space-evenly true :spacing 1 :halign "start"
+        (for workspace in hyprland_ws
+            (eventbox :cursor "pointer"
+                (button
+                    :class {workspace.active ? "workspace workspace-active" : "workspace"}
+                    :onclick "hyprctl dispatch workspace ${workspace.id}"
+                    (label :text {workspace.name} :tooltip "${workspace.hover}")
+                )
+            )
+        )
+    )
+)
+
+(deflisten cava_value :initial "▁▁▁▁▁▁▁▁▁▁" `eww-cava -q`)
+(defwidget cava []
+    (label :class "cava" :text {cava_value})
+)
+
+(defwidget player []
+    (eventbox :cursor "pointer" :class "player"
+        :onscroll "player-volume.sh ${lyrics.info.player} {}"
+        (button :onclick "${EWW_CMD} open media --toggle"
+            :onmiddleclick "playerctl --player=${lyrics.info.player} play-pause"
+            (label
+                :show-truncated false
+                :text {lyrics.text != "" ? "${lyrics_icons[lyrics.alt]} ${lyrics.text}" : "" }
+                :tooltip "Click open the player"
+            )
+        )
+    )
+)
+
+(deflisten weather_text :initial "" "eww-weather -q")
+(defpoll weather_tooltip :interval "15m" :initial "" "eww-wttr.in.nu")
+(defwidget weather []
+    (tooltip
+        :class "weather"
+        (label :class "weather-tooltip" :text {weather_tooltip})
+        (label :show-truncated false :text {weather_text})
+    )
+)
+
+(defwidget cpu []
+    (tooltip
+        (box
+            :orientation "v"
+            (for core in {EWW_CPU.cores}
+                (label :class "cpu" :text "${core.core}: ${round(core.usage, 0)}%")
+            )
+        )
+        (label :class "cpu" :show-truncated false :text " ${round(EWW_CPU.avg, 0)}%")
+    )
+)
+
+(defwidget network []
+    (label :class "network" :show-truncated false :text "${network.wireless ? " " : " "} ${network.change}")
+)
+
+(defvar volume_show false)
+(defpoll volume_value :interval "5s" `eww-audio.sh --volume`)
+(defpoll volume_muted :interval "5s" `eww-audio.sh --muted`)
+(defwidget volume []
+    (box :class "volume"
+        (eventbox
+            :cursor "pointer"
+            :onscroll "eww-audio.sh --scroll {}"
+            :onhover "${EWW_CMD} update volume_show=true"
+            :onhoverlost "${EWW_CMD} update volume_show=false"
+            (box
+                :orientation "h"
+                :space-evenly false
+                :spacing 0
+                (revealer
+                    :transition "slideleft"
+                    :reveal volume_show
+                    :duration "400ms"
+                    (scale :min 0 :max 100 :value {volume_value} :width 100 :orientation "h"
+                        :onchange `eww-audio.sh --set-volume {}%`
+                    )
+                )
+                (button
+                    :onclick `eww-audio.sh --toggle-mute`
+                    "${volume_muted ? "" : ""} ${volume_value}%"
+                )
+            )
+        )
+    )
+)
+
+(defwidget clock []
+    (box :class "clock"
+        (eventbox :cursor "pointer"
+            (button :onclick "${EWW_CMD} open calendar --toggle"
+                (label
+                    :show-truncated false
+                    :text " ${formattime(EWW_TIME, "%I:%M%p")}"
+                    :tooltip "${formattime(EWW_TIME, "%A, %d %B, %Y")}"
+                )
+            )
+        )
+    )
+)
+
+;; Check wheither stay awake mode is active or not
+(defpoll caffeinated :initial "false" :interval "1s" `coffee.sh --check`)
+(defpoll microphone :interval "1s"
+    :initial `{"class":"","display":false,"name":"","description":""}`
+    `eww-mic -q`
+)
+(defvar noti_icon `{ "0": "", "1": "", "2": "󰒲", "3": ""}`)
+(defpoll notification_mode :initial "0" :interval "500ms" `dunstctl get-pause-level`)
+(defwidget action_row []
+    (eventbox :cursor "pointer"
+        (box :class "action-row" :orientation "h" :space-evenly false :spacing 0
+            (button :class "notification-mode" :onclick "dunst-mode-cycle.sh"
+                (label :text {noti_icon[notification_mode] ?: notification_mode} :tooltip "")
+            )
+            (revealer :reveal {microphone.display} :transition "none"
+                (button :class {microphone.class}
+                    :onclick "eww-mic --toggle"
+                    (label :text {microphone.class == "muted" ? "" : ""} :tooltip {microphone.description})
+                )
+            )
+            (button :class "drun" :onclick "fork wofi --show drun"
+                (label :text "" :tooltip "Open app launcher")
+            )
+            (button :class "screenshot"
+                :onclick "hyprshot -m region -o ~/Pictures/Screenshots"
+                :onmiddleclick "hyprshot -m window -o ~/Pictures/Screenshots"
+                :onrightclick "hyprshot -m output -o ~/Pictures/Screenshots"
+                (label
+                    :text "󰹑"
+                    :tooltip `Left Click: Capture a region
+Middle Click: Capture a window
+Right Click: Capture a the screen`
+                )
+            )
+            (button :class "clipboard" :onclick "fork kitty --class=clipboard ~/.local/bin/clipboard-history.sh"
+                (label :text "" :tooltip "Open clipboard history")
+            )
+            (button :class {caffeinated ? "caffeinated" : "coffee"}
+                :onclick "coffee.sh --toggle && ${EWW_CMD} update caffeinated=$(coffee.sh --check)"
+                (label :text "" :tooltip "Toggle coffee mode")
+            )
+            (button :class "wallpaper" :onclick "${EWW_CMD} open wallpaper --toggle"
+                (label :text "󰸉" :tooltip "Open wallpaper changer")
+            )
+        )
+    )
+)
+
+
+(defwidget menu_button []
+    (button :class "menu-button" :onclick "${EWW_CMD} open control_center --toggle"
+        (label :tooltip "Control Center" :text "󰍜")
+    )
+)
+
+
+(defwidget left []
+	(box :class "left" :orientation "h" :halign "start" :space-evenly false :spacing 1
+        (hyprland)
+        (systray :class "systray" :spacing 1 :icon-size 17 :prepend-new true)
+        ;; (cava)
+        (player)
+    )
+)
+
+(defwidget right []
+	(box :class "right" :orientation "h" :halign "end" :space-evenly false :spacing 1
+        ;; (weather)
+        (network)
+        ;; (cpu)
+        (volume)
+        (clock)
+        (action_row)
+        (menu_button)
+    )
+)
+
+(defwindow bar
+    :monitor 0
+    :stacking "bottom"
+    :windowtype "dock"
+    :wm-ignore false
+    :exclusive true
+    :namespace "eww-bar"
+	:geometry (geometry :x "0%" :y "0%" :height "35px" :width "100%" :anchor "center top")
+    (box :class "eww-bar" :orientation "h"
+        (left)
+        (right)
+    )
+)
