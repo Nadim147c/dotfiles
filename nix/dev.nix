@@ -5,6 +5,8 @@
         enableZshIntegration = true;
         enableBashIntegration = false;
     };
+
+    chromashift = pkgs.callPackage ../pkgs/chromashift {};
 in {
     imports = [
         ./programs/git.nix
@@ -22,6 +24,7 @@ in {
         gnumake
         git
         git-extras
+        chromashift
     ];
 
     home.file.".config/npm/npmrc".text = ''
@@ -42,16 +45,24 @@ in {
     programs.fish = {
         enable = true;
         shellInit = builtins.readFile ../config/fish/config.fish;
+        interactiveShellInit = "${chromashift}/bin/cshift alias fish | source";
     };
 
     home.file.".config/starship.toml".source = ../config/starship/starship.toml;
     home.file.".config/atuin/config.toml".source = ../config/atuin/config.toml;
     programs.starship = commonShellIntegration;
-    programs.eza = commonShellIntegration;
     programs.zoxide = commonShellIntegration;
     programs.carapace = commonShellIntegration;
     programs.mise = commonShellIntegration;
     programs.atuin = commonShellIntegration;
+
+    programs.eza = {
+        enable = true;
+        enableFishIntegration = true;
+        enableZshIntegration = true;
+        enableBashIntegration = false;
+        icons = "auto";
+    };
 
     programs.bat = {
         enable = true;
