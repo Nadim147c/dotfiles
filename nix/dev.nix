@@ -13,9 +13,6 @@ in {
         ./programs/yt-dlp.nix
     ];
 
-    home.sessionVariables = {
-        LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate catppuccin-mocha)";
-    };
     home.packages = with pkgs; [
         less
         nixd
@@ -25,7 +22,12 @@ in {
         git
         git-extras
         chromashift
+        git-sb
     ];
+
+    home.sessionVariables = {
+        LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate catppuccin-mocha)";
+    };
 
     home.file.".config/npm/npmrc".text = ''
         prefix=$\{XDG_DATA_HOME}/npm
