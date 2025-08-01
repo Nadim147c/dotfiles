@@ -1,3 +1,6 @@
 {...}: {
-    imports = [./wallpaper.nix];
+    imports = [
+        ./wallpaper.nix
+        ./image-detect.nix
+    ];
 }
