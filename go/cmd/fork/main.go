@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -13,7 +14,8 @@ func main() {
 		slices.Contains(os.Args, "--help") ||
 		slices.Contains(os.Args, "-help") ||
 		slices.Contains(os.Args, "_carapace") {
-		log.Fatalf("Usage: fork <command> [args...]")
+		fmt.Println("Usage: fork <command> [args...]")
+		os.Exit(0)
 	}
 
 	cmd := exec.Command(os.Args[1], os.Args[2:]...)
