@@ -17,7 +17,10 @@
         system = "x86_64-linux";
         pkgs = import nixpkgs {
             inherit system;
-            overlays = [(import ./overlays/git-sb.nix)];
+            overlays = [
+                (import ./overlays/git-sb.nix)
+                (import ./overlays/image-detect.nix)
+            ];
         };
     in {
         homeConfigurations."ephemeral" = home-manager.lib.homeManagerConfiguration {
