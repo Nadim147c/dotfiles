@@ -1,5 +1,5 @@
 ;; waybar-lyric: https://github.com/Nadim147c/waybar-lyric
-(deflisten lyrics :initial `{ "text": "" }` `waybar-lyric -qdm150 -b47 -ffull`)
+(deflisten lyrics :initial `{ "text": "" }` `waybar-lyric -qd -b47 -ffull`)
 (defvar lyrics_icons `{ "playing": "", "paused": "", "lyric": "", "music": "󰝚", "no_lyric": " ", "": "" }`)
 
 ;; hyprland
