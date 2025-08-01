@@ -3,7 +3,8 @@
         fastfetch
         adw-gtk3
         adwaita-icon-theme
-        eww
+        # Eww doesn't work as intented. For now, I'm using native arch package
+        # eww
         gtk3
         gtk4
         gtk4-layer-shell
