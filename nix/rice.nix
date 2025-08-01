@@ -11,6 +11,8 @@
         zellij
         kdePackages.breeze-icons
         kdePackages.qt6ct
+        wallpaper-sh
+        compile-scss
     ];
 
     home.file.".config/eww" = {
