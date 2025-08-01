@@ -23,6 +23,7 @@ in {
         git-extras
         chromashift
         git-sb
+        image-detect
     ];
 
     home.sessionVariables = {

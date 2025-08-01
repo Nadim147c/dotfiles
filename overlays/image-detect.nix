@@ -1,8 +1,8 @@
-{pkgs, ...}: let
-    image-detect = pkgs.writeShellApplication {
+final: prev: {
+    image-detect = prev.writeShellApplication {
         name = "image-detect";
 
-        runtimeInputs = with pkgs; [file fd coreutils];
+        runtimeInputs = with final; [file fd coreutils];
 
         text = ''
             # Set the base directory (default to current if not provided)
@@ -49,6 +49,4 @@
             done
         '';
     };
-in {
-    home.packages = [image-detect];
 }
