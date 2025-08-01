@@ -18,6 +18,12 @@
         compile-scss
     ];
 
+    gtk.cursorTheme = {
+        name = "Bibata-Modern-Classic";
+        package = pkgs.bibata-cursors;
+        size = 22;
+    };
+
     home.file.".config/eww" = {
         source = ../config/eww;
         recursive = true;
