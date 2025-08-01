@@ -1,4 +1,7 @@
 {pkgs, ...}: {
+    imports = [
+        ./programs/fastfetch.nix
+    ];
     home.packages = with pkgs; [
         fastfetch
         adw-gtk3
@@ -20,7 +23,6 @@
         recursive = true;
     };
 
-    home.file.".config/fastfetch".source = ../config/fastfetch;
     home.file.".config/nushell".source = ../config/nushell;
     home.file.".config/rong".source = ../config/rong;
 
