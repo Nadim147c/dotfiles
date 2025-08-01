@@ -20,6 +20,8 @@
             overlays = [
                 (import ./overlays/git-sb.nix)
                 (import ./overlays/image-detect.nix)
+                (import ./overlays/wallpaper.nix)
+                (import ./overlays/compile-scss.nix)
             ];
         };
     in {

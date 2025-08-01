@@ -5,7 +5,6 @@ in {
         ./nix/dev.nix
         ./nix/rice.nix
         ./nix/desktop.nix
-        ./pkgs/scripts
     ];
     home.packages = [my-go-clis];
 

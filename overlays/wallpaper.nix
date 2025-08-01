@@ -1,16 +1,17 @@
-{pkgs, ...}: let
-    wallpaper-sh = pkgs.writeShellApplication {
+final: prev: {
+    wallpaper-sh = prev.writeShellApplication {
         name = "wallpaper.sh";
 
-        runtimeInputs = with pkgs; [
-            coreutils # For basic utilities (mkdir, sleep, etc.)
-            dunst # For dunstctl
-            fd # For find
-            gawk # For awk
-            gnugrep # For grep
-            hyprland # For hyprctl
-            procps # For killall, pgrep, pkill
-            swww # For wallpaper setting
+        runtimeInputs = with final; [
+            coreutils
+            dunst
+            fd
+            gawk
+            gnugrep
+            hyprland
+            procps
+            swww
+            compile-scss
         ];
 
         text = ''
@@ -21,10 +22,10 @@
             # Function to run post-processing hooks
             post_hooks() {
                 # Compile SCSS files for various components
-                compile-scss.sh ~/.config/waybar/style.scss && killall -v -SIGUSR2 waybar &
-                compile-scss.sh ~/.config/swaync/style.scss && pkill swaync && fork swaync &
-                compile-scss.sh ~/.config/swayosd/style.scss && pkill swayosd-server && fork swayosd-server
-                compile-scss.sh ~/.config/wofi/style.scss &
+                compile-scss ~/.config/waybar/style.scss && killall -v -SIGUSR2 waybar &
+                compile-scss ~/.config/swaync/style.scss && pkill swaync && fork swaync &
+                compile-scss ~/.config/swayosd/style.scss && pkill swayosd-server && fork swayosd-server
+                compile-scss ~/.config/wofi/style.scss &
 
                 dunst_level=$(dunstctl get-pause-level)
                 dunstctl reload && dunstctl set-pause-level "$dunst_level"
@@ -125,6 +126,4 @@
             main "$@"
         '';
     };
-in {
-    home.packages = [wallpaper-sh];
 }
