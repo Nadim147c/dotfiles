@@ -22,6 +22,7 @@
                 (import ./overlays/image-detect.nix)
                 (import ./overlays/wallpaper.nix)
                 (import ./overlays/compile-scss.nix)
+                (import ./overlays/dunst-mode-cycle.nix)
             ];
         };
     in {
