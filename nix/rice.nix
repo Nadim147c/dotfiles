@@ -30,6 +30,7 @@
     };
 
     home.file.".config/nushell".source = ../config/nushell;
+    home.file.".config/nushell".recursive = true;
     home.file.".config/rong".source = ../config/rong;
 
     home.file.".config/wofi/style.scss".source = ../config/wofi/style.scss;
