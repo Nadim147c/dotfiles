@@ -57,10 +57,17 @@ in {
     home.file.".config/starship.toml".source = ../config/starship/starship.toml;
     home.file.".config/atuin/config.toml".source = ../config/atuin/config.toml;
     programs.starship = commonShellIntegration;
-    programs.zoxide = commonShellIntegration;
     programs.carapace = commonShellIntegration;
     programs.mise = commonShellIntegration;
     programs.atuin = commonShellIntegration;
+
+    programs.zoxide = {
+        enable = true;
+        enableFishIntegration = true;
+        enableZshIntegration = true;
+        enableBashIntegration = false;
+        options = ["--cmd=cd"];
+    };
 
     programs.eza = {
         enable = true;
