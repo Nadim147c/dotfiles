@@ -12,6 +12,9 @@
         gtk4
         gtk4-layer-shell
         zellij
+        qt6ct
+        kdePackages.dolphin-plugins
+        kdePackages.dolphin
         kdePackages.breeze-icons
         kdePackages.qt6ct
         wallpaper-sh

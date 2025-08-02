@@ -5,6 +5,11 @@
         ./programs/mime.nix
     ];
 
+    services.kdeconnect = {
+        enable = true;
+        indicator = true;
+    };
+
     home.file.".config/kitty" = {
         source = ../config/kitty;
         recursive = true;
@@ -13,6 +18,9 @@
         # This kitty package doesn't work properly on non nixos distro
         # kitty
         nerd-fonts.jetbrains-mono
+        noto-fonts
+        noto-fonts-emoji-blob-bin
+        noto-fonts-color-emoji
         dunst
     ];
 }
