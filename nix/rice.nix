@@ -13,6 +13,7 @@
         gtk4-layer-shell
         zellij
         qt6ct
+        nwg-look
         kdePackages.dolphin-plugins
         kdePackages.dolphin
         kdePackages.breeze-icons
