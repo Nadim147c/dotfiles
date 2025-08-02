@@ -19,6 +19,7 @@
         kdePackages.qt6ct
         wallpaper-sh
         compile-scss
+        waybar-lyric
     ];
 
     xdg.portal = {
