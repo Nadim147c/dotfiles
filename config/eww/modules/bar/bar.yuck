@@ -125,7 +125,7 @@
 (defwidget action_row []
     (eventbox :cursor "pointer"
         (box :class "action-row" :orientation "h" :space-evenly false :spacing 0
-            (button :class "notification-mode" :onclick "dunst-mode-cycle.sh"
+            (button :class "notification-mode" :onclick "dunst-mode-cycle"
                 (label :text {noti_icon[notification_mode] ?: notification_mode} :tooltip "")
             )
             (revealer :reveal {microphone.display} :transition "none"

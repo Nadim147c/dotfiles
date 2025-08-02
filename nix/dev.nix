@@ -24,6 +24,7 @@ in {
         chromashift
         git-sb
         image-detect
+        dunst-mode-cycle
     ];
 
     home.sessionVariables = {
