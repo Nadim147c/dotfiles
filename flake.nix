@@ -23,6 +23,7 @@
                 (import ./overlays/wallpaper.nix)
                 (import ./overlays/compile-scss.nix)
                 (import ./overlays/dunst-mode-cycle.nix)
+                (import ./overlays/waybar-lyric.nix)
             ];
         };
     in {
