@@ -11,6 +11,7 @@ in {
     imports = [
         ./programs/git.nix
         ./programs/yt-dlp.nix
+        ./programs/tmux.nix
     ];
 
     home.packages = with pkgs; [
