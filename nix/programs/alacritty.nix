@@ -5,7 +5,6 @@
         package = null;
         settings = {
             general.live_config_reload = true;
-            history = 10000;
             window = {
                 padding.x = 4;
                 padding.y = 4;
@@ -18,13 +17,6 @@
                 shell = "${pkgs.fish}/bin/fish";
                 osc52 = "CopyPaste";
             };
-            keyboard.binding = [
-                {
-                    key = "v";
-                    mods = "Control";
-                    action = "Paste";
-                }
-            ];
         };
     };
 }
