@@ -18,6 +18,20 @@
         compile-scss
     ];
 
+    xdg.portal = {
+        enable = true;
+        xdgOpenUsePortal = true;
+        extraPortals = with pkgs; [
+            xdg-desktop-portal-hyprland
+            kdePackages.xdg-desktop-portal-kde
+        ];
+        config = {
+            common = {
+                default = ["hyprland" "kde"];
+            };
+        };
+    };
+
     gtk.cursorTheme = {
         name = "Bibata-Modern-Classic";
         package = pkgs.bibata-cursors;

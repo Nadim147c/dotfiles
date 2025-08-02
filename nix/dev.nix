@@ -21,6 +21,8 @@ in {
         gnumake
         git
         git-extras
+        gallery-dl
+
         chromashift
         git-sb
         image-detect
