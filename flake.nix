@@ -7,7 +7,7 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-
+        catppuccin.url = "github:catppuccin/nix";
         rong.url = "github:Nadim147c/rong";
         rong.inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -15,6 +15,7 @@
     outputs = {
         nixpkgs,
         home-manager,
+        catppuccin,
         rong,
         ...
     }: let
@@ -28,6 +29,7 @@
             inherit pkgs;
             modules = [
                 rong.homeModules.default
+                catppuccin.homeModules.catppuccin
                 ./home
             ];
         };

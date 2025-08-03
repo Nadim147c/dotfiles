@@ -3,6 +3,7 @@
         ./fastfetch.nix
         ./rong.nix
     ];
+
     home.packages = with pkgs; [
         fastfetch
         adw-gtk3
@@ -24,6 +25,10 @@
         waybar-lyric
         go-modules
     ];
+
+    catppuccin.flavor = "mocha";
+    catppuccin.bat.enable = true;
+    catppuccin.cava.enable = true;
 
     xdg.portal = {
         enable = true;
