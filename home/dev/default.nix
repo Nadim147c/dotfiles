@@ -79,7 +79,7 @@ in {
 
     programs.fzf = {
         enable = true;
-        defaultOptions = ["--border" "--ansi"];
+        defaultOptions = ["--border" "--ansi" "--layout=reverse"];
         defaultCommand = "fd --type f --color=always";
     };
 
