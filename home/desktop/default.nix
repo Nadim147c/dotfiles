@@ -1,8 +1,8 @@
 {pkgs, ...}: {
     imports = [
-        ./programs/mpv.nix
-        ./programs/alacritty.nix
-        ./programs/mime.nix
+        ./mpv.nix
+        ./mime.nix
+        ./yt-dlp.nix
     ];
 
     services.kdeconnect = {
@@ -11,7 +11,7 @@
     };
 
     home.file.".config/kitty" = {
-        source = ../config/kitty;
+        source = ../static/kitty;
         recursive = true;
     };
     home.packages = with pkgs; [

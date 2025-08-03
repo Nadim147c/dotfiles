@@ -6,7 +6,7 @@
     ...
 }:
 buildGoModule (finalAttr: {
-    pname = "my-go-clis";
+    pname = "go-modules";
     version = "1.0.0";
     src = ./.;
     proxyVendor = true;

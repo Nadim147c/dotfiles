@@ -1,12 +1,9 @@
-{pkgs, ...}: let
-    my-go-clis = pkgs.callPackage ./go {};
-in {
+{...}: {
     imports = [
-        ./nix/dev.nix
-        ./nix/rice.nix
-        ./nix/desktop.nix
+        ./dev
+        ./rice
+        ./desktop
     ];
-    home.packages = [my-go-clis];
 
     programs.nh.enable = true;
     home.stateVersion = "25.05";
