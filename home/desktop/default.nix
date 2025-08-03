@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+    ef = ../static/electron-flags.conf;
+in {
     imports = [
         ./mpv.nix
         ./mime.nix
@@ -8,6 +10,12 @@
     services.kdeconnect = {
         enable = true;
         indicator = true;
+    };
+
+    xdg.configFile = {
+        "electron-flags.conf".source = ef;
+        "equibop-flags.conf".source = ef;
+        "spotify-flags.conf".source = ef;
     };
 
     home.file.".config/kitty" = {

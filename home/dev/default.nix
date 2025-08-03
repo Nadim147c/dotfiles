@@ -48,28 +48,33 @@ in {
         LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate catppuccin-mocha)";
     };
 
-    home.file.".config/npm/npmrc".text = ''
-        prefix=$\{XDG_DATA_HOME}/npm
-        cache=$\{XDG_CACHE_HOME}/npm
-        init-module=$\{XDG_CONFIG_HOME}/npm/config/npm-init.js
-        logs-dir=$\{XDG_STATE_HOME}/npm/logs
+    xdg.configFile."wget/config".text = ''
+        hsts-file = ${config.xdg.cacheHome}/wget-hsts
+    '';
+
+    xdg.configFile."npm/npmrc".text = ''
+        prefix=${config.xdg.dataHome}/npm
+        cache=${config.xdg.cacheHome}/npm
+        init-module=${config.xdg.configHome}/npm/config/npm-init.js
+        logs-dir=${config.xdg.stateHome}/npm/logs
         color=true
     '';
 
-    home.file.".config/zellij".source = ../static/zellij;
+    xdg.configFile."zellij".source = ../static/zellij;
+    xdg.configFile."zellij".recursive = true;
 
     programs.zsh = {
         enable = true;
         enableCompletion = true;
         syntaxHighlighting.enable = true;
         autosuggestion.enable = true;
-        history.path = "${config.home.homeDirectory}/.local/share/zsh/history";
+        history.path = "${config.xdg.dataHome}/zsh/history";
         history.ignoreSpace = true;
     };
     programs.bash = {
         enable = true;
         enableCompletion = true;
-        historyFile = "${config.home.homeDirectory}/.local/share/bash/history";
+        historyFile = "${config.xdg.dataHome}/bash/history";
     };
     programs.fish = {
         enable = true;
