@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
     programs.gh = {
         enable = true;
         gitCredentialHelper.enable = true;
@@ -6,6 +6,7 @@
     };
 
     programs.git = {
+        package = pkgs.gitFull;
         enable = true;
         userName = "Ephemeral";
         userEmail = "theephemeral.txt@gmail.com";

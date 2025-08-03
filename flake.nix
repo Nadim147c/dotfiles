@@ -7,29 +7,29 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
+        rong.url = "github:Nadim147c/rong";
+        rong.inputs.nixpkgs.follows = "nixpkgs";
     };
 
     outputs = {
         nixpkgs,
         home-manager,
+        rong,
         ...
     }: let
         system = "x86_64-linux";
         pkgs = import nixpkgs {
             inherit system;
-            overlays = [
-                (import ./overlays/git-sb.nix)
-                (import ./overlays/image-detect.nix)
-                (import ./overlays/wallpaper.nix)
-                (import ./overlays/compile-scss.nix)
-                (import ./overlays/dunst-mode-cycle.nix)
-                (import ./overlays/waybar-lyric.nix)
-            ];
+            overlays = [(import ./overlays)];
         };
     in {
         homeConfigurations."ephemeral" = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
-            modules = [./home.nix];
+            modules = [
+                rong.homeModules.default
+                ./home
+            ];
         };
     };
 }

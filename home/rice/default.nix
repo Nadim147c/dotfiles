@@ -1,6 +1,7 @@
 {pkgs, ...}: {
     imports = [
-        ./programs/fastfetch.nix
+        ./fastfetch.nix
+        ./rong.nix
     ];
     home.packages = with pkgs; [
         fastfetch
@@ -21,6 +22,7 @@
         wallpaper-sh
         compile-scss
         waybar-lyric
+        go-modules
     ];
 
     xdg.portal = {
@@ -44,21 +46,20 @@
     };
 
     home.file.".config/eww" = {
-        source = ../config/eww;
+        source = ../static/eww;
         recursive = true;
     };
 
-    home.file.".config/nushell".source = ../config/nushell;
+    home.file.".config/nushell".source = ../static/nushell;
     home.file.".config/nushell".recursive = true;
-    home.file.".config/rong".source = ../config/rong;
 
-    home.file.".config/wofi/style.scss".source = ../config/wofi/style.scss;
-    home.file.".config/wofi/config".source = ../config/wofi/config;
-    home.file.".config/swayosd/style.scss".source = ../config/swayosd/style.scss;
+    home.file.".config/wofi/style.scss".source = ../static/wofi/style.scss;
+    home.file.".config/wofi/config".source = ../static/wofi/config;
+    home.file.".config/swayosd/style.scss".source = ../static/swayosd/style.scss;
 
-    home.file.".config/hypr/configs".source = ../config/hypr/configs;
-    home.file.".config/hypr/hyprland.conf".source = ../config/hypr/hyprland.conf;
-    home.file.".config/hypr/hypridle.conf".source = ../config/hypr/hypridle.conf;
-    home.file.".config/hypr/hyprlock.conf".source = ../config/hypr/hyprlock.conf;
-    home.file.".config/hypr/xdph.conf".source = ../config/hypr/xdph.conf;
+    home.file.".config/hypr/configs".source = ../static/hypr/configs;
+    home.file.".config/hypr/hyprland.conf".source = ../static/hypr/hyprland.conf;
+    home.file.".config/hypr/hypridle.conf".source = ../static/hypr/hypridle.conf;
+    home.file.".config/hypr/hyprlock.conf".source = ../static/hypr/hyprlock.conf;
+    home.file.".config/hypr/xdph.conf".source = ../static/hypr/xdph.conf;
 }

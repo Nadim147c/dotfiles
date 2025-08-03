@@ -1,28 +1,42 @@
-{pkgs, ...}: let
+{
+    pkgs,
+    config,
+    ...
+}: let
     commonShellIntegration = {
         enable = true;
         enableFishIntegration = true;
         enableZshIntegration = true;
-        enableBashIntegration = false;
+        enableBashIntegration = true;
     };
-
-    chromashift = pkgs.callPackage ../pkgs/chromashift {};
 in {
     imports = [
-        ./programs/git.nix
-        ./programs/yt-dlp.nix
-        ./programs/tmux.nix
+        ./git.nix
+        ./tmux.nix
+        ./alacritty.nix
     ];
 
     home.packages = with pkgs; [
-        less
-        nixd
         alejandra
-        neovim
-        gnumake
-        git
-        git-extras
+        aria2
+        cava
+        coreutils-full
+        fd
+        ffmpeg
+        ffmpegthumbnailer
+        findutils
+        fzf
         gallery-dl
+        git-extras
+        gnumake
+        less
+        neovim
+        nixd
+        ripgrep-all
+        ripgrep
+        sd
+        skim
+        yt-dlp
 
         chromashift
         git-sb
@@ -42,21 +56,35 @@ in {
         color=true
     '';
 
-    home.file.".config/zellij".source = ../config/zellij;
+    home.file.".config/zellij".source = ../static/zellij;
 
     programs.zsh = {
         enable = true;
         enableCompletion = true;
+        syntaxHighlighting.enable = true;
+        autosuggestion.enable = true;
+        history.path = "${config.home.homeDirectory}/.local/share/zsh/history";
+        history.ignoreSpace = true;
     };
-    programs.bash.enable = true;
+    programs.bash = {
+        enable = true;
+        enableCompletion = true;
+        historyFile = "${config.home.homeDirectory}/.local/share/bash/history";
+    };
     programs.fish = {
         enable = true;
-        shellInit = builtins.readFile ../config/fish/config.fish;
-        interactiveShellInit = "${chromashift}/bin/cshift alias fish | source";
+        shellInit = builtins.readFile ../static/fish/config.fish;
+        generateCompletions = false;
     };
 
-    home.file.".config/starship.toml".source = ../config/starship/starship.toml;
-    home.file.".config/atuin/config.toml".source = ../config/atuin/config.toml;
+    programs.fzf = {
+        enable = true;
+        defaultOptions = ["--border" "--ansi"];
+        defaultCommand = "fd --type f --color=always";
+    };
+
+    home.file.".config/starship.toml".source = ../static/starship/starship.toml;
+    home.file.".config/atuin/config.toml".source = ../static/atuin/config.toml;
     programs.starship = commonShellIntegration;
     programs.carapace = commonShellIntegration;
     programs.mise = commonShellIntegration;

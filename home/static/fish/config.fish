@@ -46,17 +46,6 @@ if status is-interactive
     set fish_pager_color_completion blue --bold
     set fish_pager_color_description white --bold
 
-    # Skim (fzf alternative) configuration
-    set -gx SKIM_DEFAULT_OPTIONS "$SKIM_DEFAULT_OPTIONS \
-    --layout reverse --border \
-    --color=fg:#cdd6f4,bg:-1,gutter:-1,matched:#313244,matched_bg:#f2cdcd,current:#cdd6f4,current_bg:#45475a,current_match:#1e1e2e,current_match_bg:#f5e0dc,spinner:#a6e3a1,info:#cba6f7,prompt:#89b4fa,cursor:#f38ba8,selected:#eba0ac,header:#94e2d5,border:#6c7086"
-
-    # FZF configuration
-    set -gx FZF_DEFAULT_OPTS "\
-    --color=fg:#cdd6f4,header:#f9e2af,info:#94e2d5,pointer:#f5e0dc \
-    --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#94e2d5,hl+:#a6e3a1 \
-    --layout reverse --border"
-
     # Editor settings
     set -gx EDITOR "nvim"
     set -gx VISUAL "nvim"
@@ -76,7 +65,6 @@ if status is-interactive
     set -gx CHROMASHIFT_RULES "$HOME/git/ChromaShift/rules"
 
     # Aliases
-    alias dotsync="stow -d ~/git/dotfiles/ -t ~/ --no-folding ."
     alias zk='zellij kill-all-sessions -y'
 
     # Core utils aliases
