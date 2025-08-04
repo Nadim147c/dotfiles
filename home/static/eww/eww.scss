@@ -4,28 +4,29 @@ $nerd: "JetBrainsMono Nerd Font Propo";
 $mono: "JetBrainsMono Nerd Font";
 $sans: "Noto Sans";
 
-$borderRadiusSm: 0.2rem;
-$borderRadiusMd: 0.5rem;
-$borderRadiusLg: 0.8rem;
-$borderRadiusFull: 3rem;
+$borderRadiusSm: 0.2em;
+$borderRadiusMd: 0.5em;
+$borderRadiusLg: 0.8em;
+$borderRadiusFull: 3em;
 
-$paddingXs: 0.2rem;
-$paddingSm: 0.3rem;
-$paddingMd: 0.4rem;
-$paddingLg: 0.5rem;
-$paddingXl: 0.6rem;
+$paddingXs: 0.2em;
+$paddingSm: 0.3em;
+$paddingMd: 0.4em;
+$paddingLg: 0.5em;
+$paddingXl: 0.6em;
 
-$marginXs: 0.3rem;
-$marginSm: 0.5rem;
-$marginMd: 0.6rem;
-$marginLg: 0.8rem;
-$marginXl: 1rem;
+$marginXs: 0.3em;
+$marginSm: 0.5em;
+$marginMd: 0.6em;
+$marginLg: 0.8em;
+$marginXl: 1em;
 
 $highlightPaddingY: 3px;
 $highlightBorderRadius: 10px;
 
 * {
     all: unset;
+    font-size: 14px;
     font-family: $sans, $nerd;
 }
 

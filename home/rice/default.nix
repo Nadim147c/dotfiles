@@ -29,6 +29,7 @@
     catppuccin.flavor = "mocha";
     catppuccin.bat.enable = true;
     catppuccin.cava.enable = true;
+    catppuccin.bottom.enable = true;
 
     xdg.portal = {
         enable = true;
@@ -50,21 +51,21 @@
         size = 22;
     };
 
-    home.file.".config/eww" = {
+    xdg.configFile."eww" = {
         source = ../static/eww;
         recursive = true;
     };
 
-    home.file.".config/nushell".source = ../static/nushell;
-    home.file.".config/nushell".recursive = true;
+    xdg.configFile."nushell".source = ../static/nushell;
+    xdg.configFile."nushell".recursive = true;
 
-    home.file.".config/wofi/style.scss".source = ../static/wofi/style.scss;
-    home.file.".config/wofi/config".source = ../static/wofi/config;
-    home.file.".config/swayosd/style.scss".source = ../static/swayosd/style.scss;
+    xdg.configFile."wofi/style.scss".source = ../static/wofi/style.scss;
+    xdg.configFile."wofi/config".source = ../static/wofi/config;
+    xdg.configFile."swayosd/style.scss".source = ../static/swayosd/style.scss;
 
-    home.file.".config/hypr/configs".source = ../static/hypr/configs;
-    home.file.".config/hypr/hyprland.conf".source = ../static/hypr/hyprland.conf;
-    home.file.".config/hypr/hypridle.conf".source = ../static/hypr/hypridle.conf;
-    home.file.".config/hypr/hyprlock.conf".source = ../static/hypr/hyprlock.conf;
-    home.file.".config/hypr/xdph.conf".source = ../static/hypr/xdph.conf;
+    xdg.configFile."hypr/configs".source = ../static/hypr/configs;
+    xdg.configFile."hypr/hyprland.conf".source = ../static/hypr/hyprland.conf;
+    xdg.configFile."hypr/hypridle.conf".source = ../static/hypr/hypridle.conf;
+    xdg.configFile."hypr/hyprlock.conf".source = ../static/hypr/hyprlock.conf;
+    xdg.configFile."hypr/xdph.conf".source = ../static/hypr/xdph.conf;
 }

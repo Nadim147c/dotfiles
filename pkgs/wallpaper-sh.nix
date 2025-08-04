@@ -48,6 +48,8 @@ writeShellApplication {
             hyprctl reload
             hyprctl keyword misc:disable_autoreload false
 
+            eww reload
+
             sleep 1.5 # Ensure all commands finish running
         }
 
