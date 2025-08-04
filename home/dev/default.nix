@@ -48,6 +48,13 @@ in {
         LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate catppuccin-mocha)";
     };
 
+    programs.go = {
+        enable = true;
+        telemetry.mode = "off";
+        goPath = "${config.xdg.dataHome}/go";
+        goBin = "${config.xdg.dataHome}/go/bin";
+    };
+
     xdg.configFile."wget/config".text = ''
         hsts-file = ${config.xdg.cacheHome}/wget-hsts
     '';
@@ -79,6 +86,9 @@ in {
     programs.fish = {
         enable = true;
         shellInit = builtins.readFile ../static/fish/config.fish;
+        interactiveShellInit = ''
+            ${pkgs.chromashift}/bin/cshift alias fish | source
+        '';
         generateCompletions = false;
     };
 
