@@ -1,5 +1,6 @@
 {pkgs, ...}: {
     imports = [
+        ./waybar
         ./fastfetch.nix
         ./rong.nix
     ];
@@ -28,7 +29,6 @@
 
     catppuccin.flavor = "mocha";
     catppuccin.bat.enable = true;
-    catppuccin.cava.enable = true;
     catppuccin.bottom.enable = true;
 
     xdg.portal = {

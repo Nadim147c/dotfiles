@@ -1,0 +1,158 @@
+@use "colors.scss" as *;
+
+$nerd: "JetBrainsMono Nerd Font Propo";
+$mono: "JetBrainsMono Nerd Font";
+$sans: "Noto Sans";
+
+$windowMargin: 5px;
+
+$roundingSmall: 3px;
+$roundingMiddle: 7px;
+$roundingLarge: 11.2px;
+$rounded: 42px;
+
+$extraSmall: 2.8px;
+$small: 4.5px;
+$middle: 7px;
+$large: 10px;
+$extraLarge: 12.5px;
+
+* {
+    font-size: 14px;
+}
+
+window#waybar {
+    margin: $windowMargin;
+    margin-bottom: 0;
+    font-family: $sans, $nerd;
+    border-radius: $roundingLarge;
+    background-color: $background;
+    color: $primary;
+}
+
+.module {
+    padding: 0 $small;
+    margin: $small;
+    border-radius: $roundingMiddle;
+    color: $primary;
+}
+
+.modules-left .module {
+    margin-right: 0;
+}
+.modules-right .module {
+    margin-left: 0;
+}
+
+#tray {
+    background-color: $surfaceContainerHigh;
+    menu {
+        background-color: $background;
+        color: $onBackground;
+        padding: $extraLarge;
+        margin: $extraLarge;
+        border-radius: $roundingLarge;
+
+        menuitem {
+            border-radius: $roundingSmall;
+            &:disabled label {
+                color: $outline;
+            }
+            &:hover {
+                color: $onPrimary;
+                background: $primary;
+            }
+        }
+
+        separator {
+            background-color: $outline;
+            padding-top: 1px;
+            margin: 2px 0;
+
+            &:last-child {
+                padding: unset;
+            }
+        }
+    }
+}
+#workspaces {
+    padding: 0;
+    background-color: $surfaceContainerHigh;
+    button {
+        font-size: 13px;
+        box-shadow: none;
+        text-shadow: none;
+        border: none;
+        border-radius: $roundingMiddle;
+        padding: 0 $small;
+        margin: 1px;
+        color: $onBackground;
+
+        &.active {
+            background: $secondary;
+            color: $onSecondary;
+        }
+
+        &.urgent {
+            background: $tertiary;
+            color: $onTertiary;
+        }
+
+        &:hover {
+            box-shadow: inherit;
+            text-shadow: inherit;
+            border: none;
+            background: $primary;
+            color: $onPrimary;
+        }
+    }
+}
+
+#actions {
+    background-color: $surfaceContainerHigh;
+    margin: $small;
+    border-radius: $roundingMiddle;
+
+    .module,
+    #privacy-item {
+        padding: 0 $middle;
+        margin: 1px;
+
+        &:hover {
+            background-color: $primary;
+            color: $onPrimary;
+        }
+    }
+
+    #custom-coffee.enabled {
+        background-color: $secondary;
+        color: $onSecondary;
+        border-radius: $roundingMiddle;
+    }
+}
+
+#custom-lyrics,
+#custom-menu,
+#clock,
+#wireplumber {
+    &:hover {
+        background-color: $primary;
+        color: $onPrimary;
+    }
+}
+#custom-lyrics {
+    .paused {
+        font-style: italic;
+        color: $secondary;
+    }
+}
+
+tooltip {
+    font-family: $sans, $nerd;
+    background-color: $background;
+    color: $onBackground;
+    padding: 1.5rem;
+    margin: 0.8rem;
+    border-radius: 0.6rem;
+    border: 1px solid $outline;
+}

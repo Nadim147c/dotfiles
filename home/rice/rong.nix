@@ -15,6 +15,7 @@
                 "rofi.rasi" = "~/.config/rofi/config.rasi";
                 "ghostty" = "~/.config/ghostty/colors";
                 "dunstrc" = "~/.config/dunst/dunstrc";
+                "cava.ini" = "~/.config/cava/themes/rong.ini";
 
                 "colors.scss" = [
                     "~/.config/eww/colors.scss"
@@ -23,7 +24,6 @@
                     "~/.config/wofi/colors.scss"
                     "~/.config/swayosd/colors.scss"
                     "~/git/dotfiles/home/static/eww/colors.scss"
-                    "~/git/dotfiles/home/static/waybar/colors.scss"
                     "~/git/dotfiles/home/static/swaync/colors.scss"
                     "~/git/dotfiles/home/static/wofi/colors.scss"
                     "~/git/dotfiles/home/static/swayosd/colors.scss"
