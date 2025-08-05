@@ -15,10 +15,12 @@
         gtk4
         gtk4-layer-shell
         zellij
-        qt6ct
         nwg-look
-        kdePackages.dolphin-plugins
-        kdePackages.dolphin
+        # These support packages doesn't work properly with dynamic theme
+        # I'm using these native arch packages for them
+        # qt6ct
+        # kdePackages.dolphin-plugins
+        # kdePackages.dolphin
         kdePackages.breeze-icons
         kdePackages.qt6ct
         wallpaper-sh
