@@ -27,6 +27,9 @@ case "$1" in
         exit 1
     fi
     ;;
+--waybar)
+    [ -e "$COFFEE_FILE" ] && echo '{"text": "", "class": "enabled"}' || echo '{"text": ""}'
+    ;;
 --toggle)
     if [ -e "$COFFEE_FILE" ]; then
         rm -f "$COFFEE_FILE"

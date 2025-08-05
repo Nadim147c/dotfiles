@@ -22,6 +22,9 @@ buildGoModule (finalAttr: {
     */
         ''
             for bin in $out/bin/*; do
+                if [[ "$(basename "$bin")" == "fork" ]]; then
+                    continue
+                fi
                 bashComp="$($bin _carapace bash)"
                 fishComp="$($bin _carapace fish)"
                 zshComp="$($bin _carapace zsh)"
