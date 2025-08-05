@@ -15,24 +15,21 @@ buildGoModule (finalAttr: {
 
     nativeBuildInputs = [installShellFiles];
 
-    postInstall =
-        lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform)
-        /*
-    bash
-    */
-        ''
-            for bin in $out/bin/*; do
-                if [[ "$(basename "$bin")" == "fork" ]]; then
-                    continue
-                fi
-                bashComp="$($bin _carapace bash)"
-                fishComp="$($bin _carapace fish)"
-                zshComp="$($bin _carapace zsh)"
+    postInstall = lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) # bash
 
-                installShellCompletion --cmd $(basename $bin) \
-                    --bash <(echo "$bashComp") \
-                    --fish <(echo "$fishComp") \
-                    --zsh <(echo "$zshComp")
-            done
-        '';
+    ''
+        for bin in $out/bin/*; do
+            if [[ "$(basename "$bin")" == "fork" ]]; then
+                continue
+            fi
+            bashComp="$($bin _carapace bash)"
+            fishComp="$($bin _carapace fish)"
+            zshComp="$($bin _carapace zsh)"
+
+            installShellCompletion --cmd $(basename $bin) \
+                --bash <(echo "$bashComp") \
+                --fish <(echo "$fishComp") \
+                --zsh <(echo "$zshComp")
+        done
+    '';
 })

@@ -26,6 +26,8 @@
 
         kdePackages.breeze-icons
         kdePackages.qt6ct
+
+        desktop-portal-starter
         wallpaper-sh
         compile-scss
         waybar-lyric
