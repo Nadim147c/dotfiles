@@ -9,6 +9,8 @@
         fastfetch
         adw-gtk3
         adwaita-icon-theme
+        dust
+
         # Eww doesn't work as intented. For now, I'm using native arch package
         # eww
         gtk3
@@ -21,6 +23,7 @@
         # qt6ct
         # kdePackages.dolphin-plugins
         # kdePackages.dolphin
+
         kdePackages.breeze-icons
         kdePackages.qt6ct
         wallpaper-sh
