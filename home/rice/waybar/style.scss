@@ -111,6 +111,7 @@ window#waybar {
 #actions {
     background-color: $surfaceContainerHigh;
     margin: $small;
+    margin-left: 0;
     border-radius: $roundingMiddle;
 
     .module,
