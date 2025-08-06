@@ -9,7 +9,7 @@
                 "hyprland.conf" = "~/.config/hypr/colors.conf";
                 "colors.lua" = "~/.config/wezterm/colors.lua";
                 "spicetify-sleek.ini" = "~/.config/spicetify/Themes/Sleek/color.ini";
-                "kitty.conf" = "~/.config/kitty/colors.conf";
+                "kitty-full.conf" = "~/.config/kitty/colors.conf";
                 "pywalfox.json" = "~/.cache/wal/colors.json";
                 "gtk-css.css" = "~/.config/wlogout/colors.css";
                 "rofi.rasi" = "~/.config/rofi/config.rasi";
@@ -51,10 +51,38 @@
         };
 
         templates = {
+            "cava.in" =
+                # gotmpl
+                ''
+                    {{/*
+                      This templates have been shamelessly stolen from
+                      https://github.com/InioX/matugen-themes/blob/main/templates/cava-colors.ini
+                    */}}
+
+                    [color]
+                    ; background = '{{ .Background }}'
+                    background = 'default'
+
+                    ; gradient = 0
+                    gradient = 1
+                    gradient_color_1 = '{{ .Color1 }}'
+                    gradient_color_2 = '{{ .Color2 }}'
+                    gradient_color_3 = '{{ .Color3 }}'
+                    gradient_color_4 = '{{ .Color4 }}'
+                    gradient_color_5 = '{{ .Color5 }}'
+                    gradient_color_6 = '{{ .Color6 }}'
+
+                    ; horizontal_gradient = 0
+                    horizontal_gradient = 1
+                    horizontal_gradient_color_1 = '{{ .Color1 }}'
+                    horizontal_gradient_color_2 = '{{ .Color2 }}'
+                    horizontal_gradient_color_3 = '{{ .Color3 }}'
+                    horizontal_gradient_color_4 = '{{ .Color4 }}'
+                    horizontal_gradient_color_5 = '{{ .Color5 }}'
+                    horizontal_gradient_color_6 = '{{ .Color6 }}'
+                '';
             "dunstrc.tmpl" =
-                /*
-        gotmpl
-        */
+                # gotmpl
                 ''
                     # vim: ft=cfg
 
