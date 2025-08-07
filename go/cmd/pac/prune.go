@@ -25,7 +25,7 @@ var pruneCmd = &cobra.Command{
 			return fmt.Errorf("no unused dependencies found")
 		}
 
-		return NewCommand("pacman").Args("-Rs").Args(orphans...).Execute()
+		return NewCommand("sudo").Args("pacman", "-Rs").Args(orphans...).Execute()
 	},
 }
 

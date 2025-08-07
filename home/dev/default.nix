@@ -34,6 +34,7 @@ in {
     home.packages = with pkgs; [
         alejandra
         aria2
+        bun
         cava
         chafa
         coreutils-full
@@ -48,12 +49,17 @@ in {
         less
         neovim
         nixd
-        ripgrep-all
+        nodejs
+        pnpm
         ripgrep
+        ripgrep-all
+        ruff
+        sccache
         sd
         skim
+        uv
+        yarn
         yt-dlp
-        sccache
 
         chromashift
         git-sb
@@ -203,7 +209,6 @@ in {
     home.file.".config/starship.toml".source = ../static/starship/starship.toml;
     programs.starship = commonShellIntegration;
     programs.carapace = commonShellIntegration;
-    programs.mise = commonShellIntegration;
 
     programs.yazi = {
         enable = true;
