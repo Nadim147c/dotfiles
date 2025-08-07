@@ -58,6 +58,7 @@ in {
         git-sb
         image-detect
         dunst-mode-cycle
+        crop-image
     ];
 
     home.sessionVariables = {
