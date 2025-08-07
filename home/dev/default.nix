@@ -35,6 +35,7 @@ in {
         alejandra
         aria2
         cava
+        chafa
         coreutils-full
         fd
         ffmpeg
@@ -203,6 +204,13 @@ in {
     programs.starship = commonShellIntegration;
     programs.carapace = commonShellIntegration;
     programs.mise = commonShellIntegration;
+
+    programs.yazi = {
+        enable = true;
+        enableFishIntegration = true;
+        enableZshIntegration = true;
+        enableBashIntegration = false;
+    };
 
     programs.zoxide = {
         enable = true;
