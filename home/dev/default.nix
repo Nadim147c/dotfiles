@@ -112,9 +112,9 @@ in {
         # Core utils aliases
         du = "du -h";
         grep = "grep --color";
-        less = "less -r -F";
         exe = "chmod +x";
-        cat = "bat";
+        cat = "${pkgs.bat}/bin/bat";
+        man = "${pkgs.bat-extras.batman}/bin/batman";
 
         # Cd aliases
         rd = "cd -";
@@ -124,8 +124,8 @@ in {
         "....." = "cd ../../../..";
 
         # Other aliases
-        delta = "delta --line-numbers --hunk-header-decoration-style none";
-        ffmpeg = "ffmpeg -hide_banner";
+        delta = "${pkgs.delta}/bin/delta --line-numbers --hunk-header-decoration-style none";
+        ffmpeg = "${pkgs.ffmpeg}/bin/ffmpeg -hide_banner";
 
         gaa = "git add -A";
     };
