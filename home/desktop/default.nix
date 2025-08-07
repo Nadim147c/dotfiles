@@ -1,5 +1,8 @@
 {pkgs, ...}: let
-    ef = ../static/electron-flags.conf;
+    electronWayland = ''
+        --enable-features=WaylandWindowDecorations
+        --ozone-platform-hint=auto
+    '';
 in {
     imports = [
         ./mpv.nix
@@ -33,9 +36,9 @@ in {
     };
 
     xdg.configFile = {
-        "electron-flags.conf".source = ef;
-        "equibop-flags.conf".source = ef;
-        "spotify-flags.conf".source = ef;
+        "electron-flags.conf".text = electronWayland;
+        "equibop-flags.conf".text = electronWayland;
+        "spotify-flags.conf".text = electronWayland;
     };
 
     xdg.configFile."kitty" = {
