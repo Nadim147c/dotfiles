@@ -30,11 +30,6 @@ in {
         };
     };
 
-    services.kdeconnect = {
-        enable = true;
-        indicator = true;
-    };
-
     xdg.configFile = {
         "electron-flags.conf".text = electronWayland;
         "equibop-flags.conf".text = electronWayland;
