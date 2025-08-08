@@ -4,7 +4,7 @@
         settings = {
             variant = "expressive";
             version = 2021;
-            light = false;
+            dark = true;
             links = {
                 "hyprland.conf" = "~/.config/hypr/colors.conf";
                 "colors.lua" = "~/.config/wezterm/colors.lua";
