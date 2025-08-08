@@ -60,6 +60,7 @@ in {
         uv
         yarn
         yt-dlp
+        yq
 
         chromashift
         git-sb
