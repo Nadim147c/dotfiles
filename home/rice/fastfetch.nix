@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
     programs.fastfetch = {
         enable = true;
         settings = {
@@ -23,14 +23,14 @@
                     keyColor = "green";
                 }
                 {
-                    type = "packages";
-                    key = "  PAC";
-                    keyColor = "red";
-                }
-                {
                     type = "shell";
                     key = "  SH ";
                     keyColor = "blue";
+                }
+                {
+                    type = "terminal";
+                    key = "  TRM";
+                    keyColor = "green";
                 }
                 {
                     type = "colors";
