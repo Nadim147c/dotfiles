@@ -82,6 +82,8 @@ in {
         PNPM_HOME = "${config.xdg.dataHome}/pnpm";
         CARGO_HOME = "${config.xdg.dataHome}/cargo";
         RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
+        GOPATH = "${config.xdg.dataHome}/go";
+        GOBIN = "${config.xdg.dataHome}/go/bin";
 
         # Cache paths
         STARSHIP_CACHE = "${config.xdg.cacheHome}/starship";
@@ -112,6 +114,7 @@ in {
         "${config.xdg.dataHome}/cargo/bin"
         "${config.xdg.dataHome}/pnpm"
         "${config.xdg.cacheHome}/.bun/bin"
+        "${config.xdg.dataHome}/go/bin"
     ];
 
     home.shellAliases = {
@@ -142,8 +145,8 @@ in {
     programs.go = {
         enable = true;
         telemetry.mode = "off";
-        goPath = "${config.xdg.dataHome}/go";
-        goBin = "${config.xdg.dataHome}/go/bin";
+        goPath = ".local/share/go";
+        goBin = ".local/share/go/bin";
     };
 
     xdg.configFile."wget/config".text = ''
