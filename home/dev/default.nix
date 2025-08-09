@@ -1,6 +1,7 @@
 {
     pkgs,
     config,
+    lib,
     ...
 }: let
     commonShellIntegration = {
@@ -176,10 +177,12 @@ in {
     programs.zsh = {
         enable = true;
         enableCompletion = true;
-        syntaxHighlighting.enable = true;
         autosuggestion.enable = true;
         history.path = "${config.xdg.dataHome}/zsh/history";
         history.ignoreSpace = true;
+        initContent = lib.mkOrder 1200 ''
+            source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
+        '';
     };
     programs.bash = {
         enable = true;
