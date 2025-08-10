@@ -9,4 +9,8 @@ final: prev: {
     crop-image = final.callPackage ../pkgs/crop-image.nix {};
     desktop-portal-starter = final.callPackage ../pkgs/desktop-portal-starter.nix {};
     go-modules = final.callPackage ../go {};
+
+    cmatrix = prev.cmatrix.overrideAttrs (old: {
+        NIX_CFLAGS_COMPILE = (old.NIX_CFLAGS_COMPILE or "") + " -DHAVE_USE_DEFAULT_COLORS";
+    });
 }
