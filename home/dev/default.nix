@@ -38,6 +38,7 @@ in {
         bun
         cava
         chafa
+        cmatrix
         coreutils-full
         fd
         ffmpeg
