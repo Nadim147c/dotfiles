@@ -9,6 +9,7 @@
         enableFishIntegration = true;
         enableZshIntegration = true;
         enableBashIntegration = true;
+        enableNushellIntegration = true;
     };
 
     editor = "${pkgs.neovim}/bin/nvim";
@@ -190,6 +191,10 @@ in {
         enableCompletion = true;
         historyFile = "${config.xdg.dataHome}/bash/history";
     };
+    programs.nushell = {
+        enable = true;
+        settings.show_banner = false;
+    };
     programs.fish = {
         enable = true;
         shellInit = builtins.readFile "${translatedSessionVariables}";
@@ -231,7 +236,8 @@ in {
         enable = true;
         enableFishIntegration = true;
         enableZshIntegration = true;
-        enableBashIntegration = false;
+        enableBashIntegration = true;
+        enableNushellIntegration = true;
     };
 
     programs.zoxide = {
@@ -239,6 +245,7 @@ in {
         enableFishIntegration = true;
         enableZshIntegration = true;
         enableBashIntegration = false;
+        enableNushellIntegration = true;
         options = ["--cmd=cd"];
     };
 

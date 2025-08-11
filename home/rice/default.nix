@@ -62,9 +62,6 @@
         recursive = true;
     };
 
-    xdg.configFile."nushell".source = ../static/nushell;
-    xdg.configFile."nushell".recursive = true;
-
     xdg.configFile."wofi/style.scss".source = ../static/wofi/style.scss;
     xdg.configFile."wofi/config".source = ../static/wofi/config;
     xdg.configFile."swayosd/style.scss".source = ../static/swayosd/style.scss;
