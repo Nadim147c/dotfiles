@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"dotfiles/pkg/log"
 	"fmt"
 	"log/slog"
 	"os"
@@ -24,6 +25,13 @@ func init() {
 var cmd = &cobra.Command{
 	Use:   "zc",
 	Short: "Create or attach to a zellij session for a git repository",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if quiet {
+			log.Setup(slog.LevelError + 100)
+		} else {
+			log.Setup(slog.LevelDebug)
+		}
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if err := zellijCheck(); err != nil {
 			slog.Error("Zellij check failed", "error", err)
