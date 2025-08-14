@@ -16,6 +16,7 @@
                 "ghostty" = "~/.config/ghostty/colors";
                 "dunstrc" = "~/.config/dunst/dunstrc";
                 "cava.ini" = "~/.config/cava/themes/rong.ini";
+                "btop.theme" = "~/.config/btop/themes/rong.theme";
 
                 "colors.scss" = [
                     "~/.config/eww/colors.scss"

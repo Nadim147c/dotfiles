@@ -70,19 +70,33 @@
         "type": "github"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1753694789,
+        "narHash": "sha256-cKgvtz6fKuK1Xr5LQW/zOUiAC0oSQoA9nOISB0pJZqM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "dc9637876d0dcc8c9e5e22986b857632effeb727",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "rong": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs_3",
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1754650289,
-        "narHash": "sha256-BBYDJdSX+FQUoc/O3GslH8llZ+QFKrttqoV5Syu/6bg=",
+        "lastModified": 1755144002,
+        "narHash": "sha256-VR7hcVc2LlTaxCflzOfDvKgDXScKPjRRTenJztU5G1g=",
         "owner": "Nadim147c",
         "repo": "rong",
-        "rev": "2da676d8f83e704526aa2c1d9dccd7731e1308b3",
+        "rev": "d59cd9a3c4056a73e63395f82fa16a88d5eca89c",
         "type": "github"
       },
       "original": {
