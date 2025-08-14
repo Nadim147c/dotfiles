@@ -9,7 +9,6 @@
         };
         catppuccin.url = "github:catppuccin/nix";
         rong.url = "github:Nadim147c/rong";
-        rong.inputs.nixpkgs.follows = "nixpkgs";
     };
 
     outputs = {
