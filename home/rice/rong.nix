@@ -46,6 +46,7 @@
                 "midnight-discord.css" = [
                     "~/.config/equibop/settings/quickCss.css"
                     "~/.config/vesktop/settings/quickCss.css"
+                    "~/.config/goofcord/GoofCord/assets/rong.css"
                 ];
             };
         };
