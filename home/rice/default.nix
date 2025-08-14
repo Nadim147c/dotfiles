@@ -30,6 +30,7 @@
         wallpaper-sh
         compile-scss
         waybar-lyric
+        waybar-reload
         go-modules
     ];
 
