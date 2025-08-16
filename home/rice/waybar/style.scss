@@ -1,4 +1,5 @@
 @use "colors.scss" as *;
+@use "sass:color";
 
 $nerd: "JetBrainsMono Nerd Font Propo";
 $mono: "JetBrainsMono Nerd Font";
@@ -17,6 +18,9 @@ $middle: 7px;
 $large: 10px;
 $extraLarge: 12.5px;
 
+$bg: rgba($background, 0.95);
+$container: rgba($surfaceContainerHigh, 0.5);
+
 * {
     font-size: 14px;
 }
@@ -26,7 +30,7 @@ window#waybar {
     margin-bottom: 0;
     font-family: $sans, $nerd;
     border-radius: $roundingLarge;
-    background-color: $background;
+    background-color: $bg;
     color: $primary;
 }
 
@@ -45,7 +49,7 @@ window#waybar {
 }
 
 #tray {
-    background-color: $surfaceContainerHigh;
+    background-color: $container;
     menu {
         background-color: $background;
         color: $onBackground;
@@ -77,7 +81,7 @@ window#waybar {
 }
 #workspaces {
     padding: 0;
-    background-color: $surfaceContainerHigh;
+    background-color: $container;
     button {
         font-size: 13px;
         box-shadow: none;
@@ -109,7 +113,7 @@ window#waybar {
 }
 
 #actions {
-    background-color: $surfaceContainerHigh;
+    background-color: $container;
     margin: $small;
     margin-left: 0;
     border-radius: $roundingMiddle;
