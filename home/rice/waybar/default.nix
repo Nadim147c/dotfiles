@@ -4,6 +4,7 @@
     config,
     ...
 }: let
+    fork = "${pkgs.hyprland}/bin/hyprctl dispatch exec --";
     notificationMode = pkgs.writeShellScript "notification-mode" ''
         mode=$(dunstctl get-pause-level)
         case "$mode" in
@@ -175,7 +176,7 @@ in {
                 "custom/wallpaper" = {
                     format = "󰸉";
                     tooltip-format = "Open wallpaper changer";
-                    on-click = "eww open wallpaper --toggle";
+                    on-click = "${fork} ${pkgs.waypaper}/bin/waypaper";
                 };
 
                 "custom/menu" = {

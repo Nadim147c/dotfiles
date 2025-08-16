@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+    pkgs,
+    config,
+    lib,
+    ...
+}: {
     imports = [
         ./waybar
         ./fastfetch.nix
@@ -10,6 +15,7 @@
         adw-gtk3
         adwaita-icon-theme
         dust
+        waypaper
 
         # Eww doesn't work as intented. For now, I'm using native arch package
         # eww
@@ -62,6 +68,24 @@
         source = ../static/eww;
         recursive = true;
     };
+
+    # Change waypaper config which can be modified by waypaper itself
+    home.activation.waypaperConfig = let
+        waypaperConfig = ''
+            [Settings]
+            language = en
+            folder = ${config.home.homeDirectory}/Pictures/Wallpapers/
+            monitors = All
+            post_command = ${pkgs.wallpaper-sh}/bin/wallpaper.sh \$wallpaper
+            show_path_in_tooltip = True
+            backend = none
+            use_xdg_state = True
+        '';
+    in
+        lib.hm.dag.entryAfter ["writeBoundary"] ''
+            mkdir -p "${config.xdg.configHome}/waypaper"
+            echo "${waypaperConfig}" > "${config.xdg.configHome}/waypaper/config.ini"
+        '';
 
     xdg.configFile."wofi/style.scss".source = ../static/wofi/style.scss;
     xdg.configFile."wofi/config".source = ../static/wofi/config;
