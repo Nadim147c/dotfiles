@@ -6,7 +6,7 @@
 }: let
     fork = "${pkgs.hyprland}/bin/hyprctl dispatch exec --";
     notificationMode = pkgs.writeShellScript "notification-mode" ''
-        mode=$(dunstctl get-pause-level)
+        mode=$(${pkgs.dunst}/bin/dunstctl get-pause-level)
         case "$mode" in
         0) echo "" ;;
         1) echo "" ;;
@@ -16,12 +16,13 @@
         esac
     '';
 in {
-    home.activation = {
-        compileWaybarSyle = lib.hm.dag.entryAfter ["writeBoundary"] ''
-            install -Dm466 ${./style.scss} ${config.xdg.configHome}/waybar/style.scss
-            ${pkgs.compile-scss}/bin/compile-scss ${config.xdg.configHome}/waybar/style.scss
-        '';
-    };
+    home.activation.compileWaybarSyle = lib.hm.dag.entryAfter ["writeBoundary"] # bash
+
+    ''
+        ${pkgs.coreutils}/bin/install -Dm466 ${./style.scss} ${config.xdg.configHome}/waybar/style.scss
+        ${pkgs.compile-scss}/bin/compile-scss ${config.xdg.configHome}/waybar/style.scss
+    '';
+
     programs.waybar = {
         enable = true;
         settings = {
