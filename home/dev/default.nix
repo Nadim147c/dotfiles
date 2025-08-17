@@ -134,6 +134,12 @@ in {
         gaa = "git add -A";
     };
 
+    manual.manpages.enable = true;
+    programs.man = {
+        enable = true;
+        generateCaches = true;
+    };
+
     programs.go = {
         enable = true;
         telemetry.mode = "off";
