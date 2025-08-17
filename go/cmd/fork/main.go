@@ -20,25 +20,11 @@ func main() {
 
 	cmd := exec.Command(os.Args[1], os.Args[2:]...)
 
-	// Detach the process from the terminal/session
+	// syscall for fork
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
 
-	// Redirect all stdio to /dev/null
-	devNull, err := os.OpenFile(os.DevNull, os.O_RDWR, 0)
-	if err != nil {
-		log.Fatalf("Failed to open /dev/null: %v", err)
-	}
-	defer devNull.Close()
-
-	cmd.Stdin = devNull
-	cmd.Stdout = devNull
-	cmd.Stderr = devNull
-
-	// Start the process (but do not wait)
 	if err := cmd.Start(); err != nil {
 		log.Fatalf("Failed to start process: %v", err)
 	}
-
-	// Exit immediately
 	os.Exit(0)
 }
