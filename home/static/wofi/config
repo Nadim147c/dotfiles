@@ -1,6 +1,0 @@
-allow_images=true
-show=drun
-term=kitty
-matching=fuzzy
-key_up=Ctrl-p
-key_down=Ctrl-n
