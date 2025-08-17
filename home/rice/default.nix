@@ -6,6 +6,7 @@
 }: {
     imports = [
         ./waybar
+        ./wofi
         ./fastfetch.nix
         ./rong.nix
     ];
@@ -87,8 +88,6 @@
             echo "${waypaperConfig}" > "${config.xdg.configHome}/waypaper/config.ini"
         '';
 
-    xdg.configFile."wofi/style.scss".source = ../static/wofi/style.scss;
-    xdg.configFile."wofi/config".source = ../static/wofi/config;
     xdg.configFile."swayosd/style.scss".source = ../static/swayosd/style.scss;
 
     xdg.configFile."hypr/configs".source = ../static/hypr/configs;
