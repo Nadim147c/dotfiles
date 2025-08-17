@@ -1,4 +1,60 @@
-{pkgs, ...}: {
+# Why this setup?
+# - By default Home Manager manages ~/.config/git/config. That file is
+#   symlinked into the Nix store, so Git cannot write to it. Commands
+#   like `git maintenance start` or `git config --global` will fail.
+#
+# - We want:
+#     1. Declarative config under Nix (immutable, reproducible).
+#     2. A writable config file for Git to mutate.
+#     3. XDG compliance (use ~/.config/git/, not legacy ~/.gitconfig).
+#
+# - Solution:
+#     * Home Manager writes immutable config to ~/.config/git/config.nix.
+#     * ~/.config/git/config stays writable and includes config.nix.
+#     * An activation script ensures migration and inclusion are correct.
+#
+# Effect:
+# - Git sees ~/.config/git/config as its main config.
+# - That file includes ~/.config/git/config.nix (Nix-managed).
+# - Git can safely write to ~/.config/git/config without breaking Nix.
+{
+    config,
+    pkgs,
+    lib,
+    ...
+}: let
+    gitConfigNix = "${config.xdg.configHome}/git/config.nix";
+    gitConfig = "${config.xdg.configHome}/git/config";
+in {
+    # Ignore the default config: redirect Home Manager’s output into config.nix
+    xdg.configFile."git/config".target = "git/config.nix";
+
+    # Ensure Git always includes the Nix config
+    home.activation.gitConfigInclude = lib.hm.dag.entryAfter ["writeBoundary"] # bash
+
+    ''
+        mkdir -p ${config.xdg.configHome}/git
+
+        # Migrate legacy ~/.gitconfig to XDG if present
+        if [ -f "$HOME/.gitconfig" ] && [ ! -f "${gitConfig}" ]; then
+          echo "Migrating ~/.gitconfig → ${gitConfig}"
+          mv -vf "$HOME/.gitconfig" "${gitConfig}"
+        fi
+
+        # If ~/.config/git/config doesn't exist, create it
+        if [ ! -f "${gitConfig}" ]; then
+          touch "${gitConfig}"
+        fi
+
+        # Check if config.nix is already included
+        if ! ${pkgs.gitFull}/bin/git config --file="${gitConfig}" --get-all include.path \
+            | grep -qx "${gitConfigNix}"; then
+          echo "Adding include for ${gitConfigNix} in ${gitConfig}"
+          ${pkgs.gitFull}/bin/git config --file="${gitConfig}" \
+            --add include.path "${gitConfigNix}"
+        fi
+    '';
+
     programs.gh = {
         enable = true;
         gitCredentialHelper.enable = true;
