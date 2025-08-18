@@ -24,10 +24,6 @@
                     "~/.config/swaync/colors.scss"
                     "~/.config/wofi/colors.scss"
                     "~/.config/swayosd/colors.scss"
-                    "~/git/dotfiles/home/static/eww/colors.scss"
-                    "~/git/dotfiles/home/static/swaync/colors.scss"
-                    "~/git/dotfiles/home/static/wofi/colors.scss"
-                    "~/git/dotfiles/home/static/swayosd/colors.scss"
                 ];
 
                 "qtct.colors" = [
