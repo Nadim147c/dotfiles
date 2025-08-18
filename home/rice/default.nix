@@ -39,6 +39,7 @@
         waybar-lyric
         waybar-reload
         go-modules
+        pfp
     ];
 
     catppuccin.flavor = "mocha";

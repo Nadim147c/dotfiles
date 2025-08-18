@@ -12,7 +12,7 @@
 )
 
 (defpoll uptime :initial "" :interval "1min" `uptime -p`)
-(defpoll pfp :initial "" :interval "1h" `pfp.sh`)
+(defpoll pfp :initial "" :interval "1h" `pfp get`)
 (defpoll notifications :interval "300ms"
     `dunstctl history | jq '[.data[][] | {id: .id.data, message: .message.data}]'`
 )
