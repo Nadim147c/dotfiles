@@ -64,7 +64,7 @@ in {
                 };
 
                 tray = {
-                    spacing = 5;
+                    spacing = 10;
                 };
 
                 privacy = {
@@ -124,13 +124,14 @@ in {
 
                 "custom/lyrics" = {
                     return-type = "json";
-                    format = "{icon}  {0}";
+                    format = "{icon} {0}";
                     hide-empty-text = true;
                     format-icons = {
                         playing = "";
                         paused = "";
                         lyric = "";
                         music = "󰝚";
+                        no_lyric = " ";
                     };
                     exec = "${pkgs.waybar-lyric}/bin/waybar-lyric -qm150 -ffull";
                     on-click = "eww open media --toggle";
