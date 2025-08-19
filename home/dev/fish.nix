@@ -3,9 +3,9 @@
     config,
     ...
 }: let
-    # fix: for some reason home-manager converts shell variable from sh and set global variable to
-    # __HM_SESS_VARS_SOURCED=1 and check this variable before sourcing which makes fish ignore the
-    # all there shell variable
+    # fix: home-manager converts shell variables from sh and sets a global variable
+    # __HM_SESS_VARS_SOURCED=1. It then checks this variable before sourcing,
+    # which makes fish ignore all other shell variables.
     translatedSessionVariables = pkgs.runCommandLocal "hm-session-vars-fixed.fish" {} ''
         (echo "set __HM_SESS_VARS_SOURCED" # reset __HM_SESS_VARS_SOURCED so that shell var is set
         ${pkgs.buildPackages.babelfish}/bin/babelfish \
