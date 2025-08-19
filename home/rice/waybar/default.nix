@@ -15,6 +15,15 @@
         *) echo "$mode" ;;
         esac
     '';
+    reload = pkgs.writeShellScript "waybar-reload" ''
+        if [ "$XDG_CURRENT_DESKTOP" == Hyprland ]; then
+            hyprctl layers -j |
+                jq -r 'to_entries[].value.levels | to_entries[].value.[] | select(.namespace == "waybar").pid' |
+                xargs kill
+            hyprctl dispatch exec waybar
+            exit
+        fi
+    '';
 in {
     home.activation.compileWaybarSyle = lib.hm.dag.entryAfter ["writeBoundary"] # bash
 
@@ -185,6 +194,7 @@ in {
                     format = "󰍜";
                     tooltip-format = "Open Control Center";
                     on-click = "eww open control_center --toggle";
+                    on-click-middle = "${pkgs.waybar-reload}/bin/waybar-reload";
                 };
             };
         };
