@@ -6,10 +6,10 @@
 }: let
     commonShellIntegration = {
         enable = true;
-        enableFishIntegration = true;
-        enableZshIntegration = true;
         enableBashIntegration = true;
+        enableFishIntegration = true;
         enableNushellIntegration = true;
+        enableZshIntegration = true;
     };
 
     editor = "${pkgs.neovim}/bin/nvim";
@@ -51,19 +51,19 @@ in {
         skim
         uv
         yarn
-        yt-dlp
         yq
+        yt-dlp
 
         chromashift
+        crop-image
+        dunst-mode-cycle
         git-sb
         image-detect
-        dunst-mode-cycle
-        crop-image
     ];
 
     home.sessionVariables = {
-        XDG_CONFIG_HOME = config.xdg.configHome;
         XDG_CACHE_HOME = config.xdg.cacheHome;
+        XDG_CONFIG_HOME = config.xdg.configHome;
         XDG_DATA_HOME = config.xdg.dataHome;
         XDG_STATE_HOME = config.xdg.stateHome;
 
@@ -71,11 +71,11 @@ in {
         WGETRC = "${config.xdg.configHome}/wget/config";
         NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
 
-        PNPM_HOME = "${config.xdg.dataHome}/pnpm";
         CARGO_HOME = "${config.xdg.dataHome}/cargo";
-        RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
-        GOPATH = "${config.xdg.dataHome}/go";
         GOBIN = "${config.xdg.dataHome}/go/bin";
+        GOPATH = "${config.xdg.dataHome}/go";
+        PNPM_HOME = "${config.xdg.dataHome}/pnpm";
+        RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
 
         # Cache paths
         STARSHIP_CACHE = "${config.xdg.cacheHome}/starship";
@@ -207,26 +207,26 @@ in {
 
     programs.yazi = {
         enable = true;
-        enableFishIntegration = true;
-        enableZshIntegration = true;
         enableBashIntegration = true;
+        enableFishIntegration = true;
         enableNushellIntegration = true;
+        enableZshIntegration = true;
     };
 
     programs.zoxide = {
         enable = true;
-        enableFishIntegration = true;
-        enableZshIntegration = true;
         enableBashIntegration = false;
+        enableFishIntegration = true;
         enableNushellIntegration = true;
+        enableZshIntegration = true;
         options = ["--cmd=cd"];
     };
 
     programs.eza = {
         enable = true;
+        enableBashIntegration = false;
         enableFishIntegration = true;
         enableZshIntegration = true;
-        enableBashIntegration = false;
         icons = "auto";
     };
 
