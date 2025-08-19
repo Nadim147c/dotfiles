@@ -85,18 +85,35 @@ in {
                 whitespace = "error";
             };
 
+            branch.sort = "-committerdate";
+            tag.sort = "version:refname";
+
             merge.conflictstyle = "diff3";
 
+            fetch.fsckObjects = true;
+            receive.fsckObjects = true;
+            transfer.fsckObjects = true;
+
+            interactive.singlekey = true;
+
+            pack = {
+                threads = 0; # use all available threads
+                windowMemory = "1g"; # use 1g of memory for pack window
+                packSizeLimit = "1g"; # max size of a packfile
+            };
+
             diff = {
+                algorithm = "histogram";
                 colorMoved = "default";
                 context = 3;
-                renames = "copies";
                 interHunkContext = 10;
+                mnemonicPrefix = true;
+                renames = "copies";
             };
 
             commit = {
-                verbose = true;
                 gpgSign = true;
+                verbose = true;
             };
 
             log = {
@@ -114,11 +131,29 @@ in {
             color = {
                 ui = true;
                 blame.highlightRecent = "black bold,1 year ago,white,1 month ago,default,7 days ago,blue";
-                branch.current = "magenta";
-                branch.local = "default";
-                branch.remote = "yellow";
-                branch.upstream = "green";
-                branch.plain = "blue";
+
+                branch = {
+                    current = "magenta";
+                    local = "default";
+                    remote = "yellow";
+                    upstream = "green";
+                    plain = "blue";
+                };
+
+                diff = {
+                    meta = "black bold";
+                    frag = "magenta";
+                    context = "white";
+                    whitespace = "yellow reverse";
+                    old = "red";
+                };
+
+                decorate = {
+                    HEAD = "red";
+                    branch = "blue";
+                    tag = "yellow";
+                    remoteBranch = "magenta";
+                };
             };
 
             push = {
@@ -128,9 +163,29 @@ in {
                 gpgSign = false;
             };
 
+            fetch.prune = true;
+
+            rerere = {
+                enabled = true;
+                autoupdate = true;
+            };
+
+            rebase = {
+                autoSquash = true;
+                autoStash = true;
+                updateRefs = true;
+                missingCommitsCheck = "warn";
+            };
+
+            url = {
+                "git@github.com:Nadim147c/".insteadOf = "me:";
+                "git@github.com:".insteadOf = "gh:";
+                "ssh://aur@aur.archlinux.org/".insteadOf = "aur:";
+            };
+
+            help.autocorrect = "prompt";
             pull.rebase = true;
             submodule.fetchJobs = 16;
-            rebase.autoStash = true;
         };
 
         aliases = {
