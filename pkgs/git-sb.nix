@@ -1,21 +1,21 @@
 {
-    writeShellApplication,
-    gitFull,
-    coreutils,
-    fzf,
+  writeShellApplication,
+  gitFull,
+  coreutils,
+  fzf,
 }:
 writeShellApplication {
-    name = "git-sb";
+  name = "git-sb";
 
-    runtimeInputs = [gitFull coreutils fzf];
+  runtimeInputs = [gitFull coreutils fzf];
 
-    text = ''
-        branch=$(git branch --color)
+  text = ''
+    branch=$(git branch --color)
 
-        echo "$branch" |
-            sed 's|\*| |;s|  ||' |
-            fzf --ansi |
-            awk '{print $1}' |
-            xargs git switch
-    '';
+    echo "$branch" |
+        sed 's|\*| |;s|  ||' |
+        fzf --ansi |
+        awk '{print $1}' |
+        xargs git switch
+  '';
 }
