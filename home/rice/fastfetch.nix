@@ -1,9 +1,8 @@
-{pkgs, ...}: {
+{...}: {
     programs.fastfetch = {
         enable = true;
         settings = {
             logo.type = "small";
-            general.multithreading = true;
             display.separator = " : ";
             modules = [
                 {
