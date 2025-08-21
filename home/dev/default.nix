@@ -18,7 +18,7 @@ in {
   imports = [
     ./fish.nix
     ./git.nix
-    ./tmux.nix
+    ./tmux
     ./alacritty.nix
   ];
 
@@ -28,8 +28,10 @@ in {
     bun
     cava
     chafa
+    cmake
     cmatrix
     coreutils-full
+    curlFull
     fd
     ffmpeg
     ffmpegthumbnailer
@@ -40,6 +42,7 @@ in {
     gnumake
     less
     neovim
+    ninja
     nixd
     nodejs
     pnpm
@@ -59,6 +62,7 @@ in {
     dunst-mode-cycle
     git-sb
     image-detect
+    tmux-sessionizer
   ];
 
   home.sessionVariables = {
@@ -132,6 +136,7 @@ in {
     ffmpeg = "${pkgs.ffmpeg}/bin/ffmpeg -hide_banner";
 
     gaa = "git add -A";
+    tk = "tmux ls | cut -d: -f1 | xargs -r -n1 tmux kill-session -t";
   };
 
   manual.manpages.enable = true;
