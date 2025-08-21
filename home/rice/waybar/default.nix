@@ -15,7 +15,7 @@
         *) echo "$mode" ;;
         esac
     '';
-    reload = pkgs.writeShellScript "waybar-reload" ''
+    reload-pkgs = pkgs.writeShellScriptBin "waybar-reload" ''
         if [ "$XDG_CURRENT_DESKTOP" == Hyprland ]; then
             hyprctl layers -j |
                 jq -r 'to_entries[].value.levels | to_entries[].value.[] | select(.namespace == "waybar").pid' |
@@ -24,13 +24,14 @@
             exit
         fi
     '';
+    reload = "${reload-pkgs}/bin/waybar-reload";
 in {
-    home.activation.compileWaybarSyle = lib.hm.dag.entryAfter ["writeBoundary"] # bash
-    
-    ''
+    home.activation.compileWaybarSyle = lib.hm.dag.entryAfter ["writeBoundary"] ''
         ${pkgs.coreutils}/bin/install -Dm466 ${./style.scss} ${config.xdg.configHome}/waybar/style.scss
         ${pkgs.compile-scss}/bin/compile-scss ${config.xdg.configHome}/waybar/style.scss
     '';
+
+    home.packages = [reload-pkgs];
 
     programs.waybar = {
         enable = true;
@@ -121,7 +122,7 @@ in {
                 network = {
                     format = " {bandwidthTotalBytes}";
                     format-wifi = "  {bandwidthTotalBytes}";
-                    format-ethernet = "󰊗 {bandwidthTotalBytes}";
+                    format-ethernet = "󰈀 {bandwidthTotalBytes}";
                     format-disconnected = ""; # An empty format will hide the module.
                     tooltip-format = "{ifname} via {gwaddr} 󰊗";
                     tooltip-format-wifi = " {essid} ({signalStrength}%) {bandwidthTotalBytes}";
@@ -194,7 +195,7 @@ in {
                     format = "󰍜";
                     tooltip-format = "Open Control Center";
                     on-click = "eww open control_center --toggle";
-                    on-click-middle = "${pkgs.waybar-reload}/bin/waybar-reload";
+                    on-click-middle = "${reload}";
                 };
             };
         };

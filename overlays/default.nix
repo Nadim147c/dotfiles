@@ -10,7 +10,6 @@ final: prev: {
     tmux-sessionizer = final.callPackage ../pkgs/tmux-sessionizer.nix {};
     wallpaper-sh = final.callPackage ../pkgs/wallpaper-sh.nix {};
     waybar-lyric = final.callPackage ../pkgs/waybar-lyric.nix {};
-    waybar-reload = final.callPackage ../pkgs/waybar-reload.nix {};
     go-modules = final.callPackage ../go {};
 
     cmatrix = prev.cmatrix.overrideAttrs (old: {
