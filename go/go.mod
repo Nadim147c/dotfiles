@@ -5,7 +5,6 @@ go 1.24.4
 require (
 	github.com/MatusOllah/slogcolor v1.6.0
 	github.com/carapace-sh/carapace v1.8.6
-	github.com/cespare/xxhash v1.1.0
 	github.com/fatih/color v1.16.0
 	github.com/spf13/cobra v1.9.1
 )
