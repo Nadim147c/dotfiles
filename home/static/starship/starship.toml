@@ -20,6 +20,9 @@ continuation_prompt = '[  => ](green bold)'
 success_symbol = '[ 󰁔](green bold)'
 error_symbol = '[ 󰁔](red bold)'
 vimcmd_symbol = '[ ](blue bold)'
+vimcmd_replace_one_symbol = '[ /](yellow bold)'
+vimcmd_replace_symbol = '[ /](yellow bold)'
+vimcmd_visual_symbol = '[ |](green bold)'
 
 [os]
 format = '$symbol'

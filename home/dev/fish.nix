@@ -25,6 +25,7 @@ in {
                 set fish_pager_color_prefix green --bold
                 set fish_pager_color_completion blue --bold
                 set fish_pager_color_description white --bold
+                fish_vi_key_bindings --no-erase
                 # Functions
                 function field -a n
                     awk "{ print \$$n }"
@@ -32,7 +33,9 @@ in {
 
                 ${pkgs.chromashift}/bin/cshift alias fish | source
 
-                bind \ep '${pkgs.tmux-sessionizer}/bin/tmux-sessionizer'
+                for mode in default insert visual normal
+                    bind -M $mode \ep '${pkgs.tmux-sessionizer}/bin/tmux-sessionizer'
+                end
             '';
         generateCompletions = false;
     };
