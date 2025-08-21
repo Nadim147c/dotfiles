@@ -7,6 +7,7 @@ final: prev: {
   git-sb = final.callPackage ../pkgs/git-sb.nix {};
   image-detect = final.callPackage ../pkgs/image-detect.nix {};
   pfp = final.callPackage ../pkgs/pfp.nix {};
+  tmux-sessionizer = final.callPackage ../pkgs/tmux-sessionizer.nix {};
   wallpaper-sh = final.callPackage ../pkgs/wallpaper-sh.nix {};
   waybar-lyric = final.callPackage ../pkgs/waybar-lyric.nix {};
   waybar-reload = final.callPackage ../pkgs/waybar-reload.nix {};

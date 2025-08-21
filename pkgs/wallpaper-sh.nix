@@ -1,5 +1,5 @@
 {
-  writeShellApplication,
+  compile-scss,
   coreutils,
   dunst,
   fd,
@@ -8,12 +8,14 @@
   hyprland,
   procps,
   swww,
-  compile-scss,
+  tmux,
+  writeShellApplication,
 }:
 writeShellApplication {
   name = "wallpaper.sh";
 
   runtimeInputs = [
+    compile-scss
     coreutils
     dunst
     fd
@@ -22,7 +24,7 @@ writeShellApplication {
     hyprland
     procps
     swww
-    compile-scss
+    tmux
   ];
 
   text = ''
@@ -48,11 +50,11 @@ writeShellApplication {
         hyprctl reload
         hyprctl keyword misc:disable_autoreload false
 
+        tmux source-file ~/.config/tmux/colors.conf
         eww reload
 
         sleep 1.5 # Ensure all commands finish running
     }
-
 
     # Function to get a random wallpaper path
     get_wallpaper() {
@@ -78,7 +80,6 @@ writeShellApplication {
 
         printf '%s\n' "''${candidates[@]}" | shuf -n1
     }
-
 
     # Function to generate color scheme from image
     generate_colors() {

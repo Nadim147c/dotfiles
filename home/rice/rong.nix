@@ -17,6 +17,7 @@
         "dunstrc" = "~/.config/dunst/dunstrc";
         "cava.ini" = "~/.config/cava/themes/rong.ini";
         "btop.theme" = "~/.config/btop/themes/rong.theme";
+        "colors.tmux" = "~/.config/tmux/colors.conf";
 
         "colors.scss" = [
           "~/.config/eww/colors.scss"
@@ -49,6 +50,7 @@
     };
 
     templates = {
+      "colors.tmux.tmpl" = ''set -g mode-style "bg={{ .Secondary }},fg={{ .OnSecondary }}"'';
       "dunstrc.tmpl" =
         # gotmpl
         ''

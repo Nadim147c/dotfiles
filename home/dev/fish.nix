@@ -31,6 +31,8 @@ in {
         end
 
         ${pkgs.chromashift}/bin/cshift alias fish | source
+
+        bind \ep '${pkgs.tmux-sessionizer}/bin/tmux-sessionizer'
       '';
     generateCompletions = false;
   };
