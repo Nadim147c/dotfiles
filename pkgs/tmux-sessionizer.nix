@@ -20,7 +20,7 @@ writeShellApplication {
 
         # Strip ANSI colors, get absolute path
         path="$HOME/$project"
-        name=$(basename "$path")
+        name=$(basename "$path" | tr : '|')
 
         # If session already exists, reuse it
         if tmux has-session -t "$name" 2>/dev/null; then
