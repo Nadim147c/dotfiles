@@ -92,11 +92,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1755698437,
-        "narHash": "sha256-mCK6il9eUgwtM15Ik6E3Qpz+n607OuYlRMc+0Dlb990=",
+        "lastModified": 1755801325,
+        "narHash": "sha256-6zE1aIWyYaxjPTCIuU1mQLDy41YyPK5B0cjjYja22rw=",
         "owner": "Nadim147c",
         "repo": "rong",
-        "rev": "fb9b88c055940a4b4b7b094c2e3ddc0735c8b03f",
+        "rev": "aba90b3a5d95f0d0566a935b2b805dd0ca638d60",
         "type": "github"
       },
       "original": {
