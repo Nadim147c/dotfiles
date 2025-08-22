@@ -114,9 +114,6 @@ in {
     ];
 
     home.shellAliases = {
-        # Aliases
-        zk = "zellij kill-all-sessions -y";
-
         # Core utils aliases
         du = "du -h";
         grep = "grep --color";
@@ -172,9 +169,6 @@ in {
             auto_update_interval_hours = 100;
         };
     };
-
-    xdg.configFile."zellij".source = ../static/zellij;
-    xdg.configFile."zellij".recursive = true;
 
     programs.zsh = {
         enable = true;
