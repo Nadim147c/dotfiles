@@ -1,6 +1,7 @@
 {...}: {
     programs.rong = {
         enable = true;
+        wallpaper = ./../../assets/wallpaper.jpg;
         settings = {
             variant = "expressive";
             version = 2021;
