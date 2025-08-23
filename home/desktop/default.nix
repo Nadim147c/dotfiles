@@ -19,6 +19,8 @@ in {
         noto-fonts-emoji-blob-bin
         noto-fonts-color-emoji
         noto-fonts-emoji
+
+        nixgl.nixGLIntel
     ];
 
     fonts.fontconfig = {
