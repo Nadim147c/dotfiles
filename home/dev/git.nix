@@ -31,7 +31,7 @@ in {
 
     # Ensure Git always includes the Nix config
     home.activation.gitConfigInclude = lib.hm.dag.entryAfter ["writeBoundary"] # bash
-    
+
     ''
         mkdir -p ${config.xdg.configHome}/git
 
@@ -54,6 +54,8 @@ in {
             --add include.path "${gitConfigNix}"
         fi
     '';
+
+    home.packages = with pkgs; [git-open];
 
     programs.gh = {
         enable = true;
@@ -203,7 +205,6 @@ in {
             amend = "commit --amend";
             fast-clone = "clone --depth=1";
             down = "pull --rebase";
-            open = "browse";
             dis = "diff --cached";
 
             lsignored = "ls-files . --ignored --exclude-standard --others";
