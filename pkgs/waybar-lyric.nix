@@ -1,20 +1,22 @@
 {
-    lib,
     buildGoModule,
     fetchFromGitHub,
+    installShellFiles,
+    lib,
+    stdenv,
 }:
 buildGoModule (finalAttrs: {
     pname = "waybar-lyric";
-    version = "unstable-2025-08-21";
+    version = "unstable-2025-08-25";
 
     src = fetchFromGitHub {
         owner = "Nadim147c";
         repo = "waybar-lyric";
-        rev = "4b69b0aa1fb72eb0250a8ea5bc6e523a82920aeb";
-        hash = "sha256-mPnI/Ey2O2ePNFwfCQH9Pxquuy9Q2huHqMhRj2Fj8oY=";
+        rev = "27abdd578edd3858309a22e02ded1cba8f2e43cf";
+        hash = "sha256-RIpSyQ8JSuB5QpZbmakX8aUgGoYJWQfVVo8415NlI8A=";
     };
 
-    vendorHash = "sha256-MH6uHfqL22juWBauNNW3PegXQ3U7jG/oOH7nJWH4WpM=";
+    vendorHash = "sha256-DfAB006ntyDCmfsuBpwKo3L372ezFd2q8AWTaeFBjOA=";
 
     doInstallCheck = true;
 
@@ -22,6 +24,14 @@ buildGoModule (finalAttrs: {
     preInstallCheck = ''
         # ERROR Failed to find cache directory
         export XDG_CACHE_HOME=$(mktemp -d)
+    '';
+
+    nativeBuildInputs = [installShellFiles];
+    postInstall = lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
+        installShellCompletion --cmd waybar-lyric \
+                --bash <($out/bin/waybar-lyric _carapace bash) \
+                --fish <($out/bin/waybar-lyric _carapace fish) \
+                --zsh <($out/bin/waybar-lyric _carapace zsh)
     '';
 
     meta = {
