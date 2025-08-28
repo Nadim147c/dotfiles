@@ -36,7 +36,6 @@
         desktop-portal-starter
         wallpaper-sh
         compile-scss
-        waybar-lyric
         go-modules
         pfp
     ];

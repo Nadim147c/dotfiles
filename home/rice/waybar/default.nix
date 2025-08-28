@@ -26,6 +26,16 @@
     '';
     reload = "${reload-pkgs}/bin/waybar-reload";
 
+    screenshot = pkgs.writeShellScript "screenshot" ''
+        pkill slurp || ${pkgs.hyprshot}/bin/hyprshot -m ''${1:-region} --raw |
+          nixGLIntel ${pkgs.satty}/bin/satty --filename - \
+            --output-filename "${config.xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
+            --early-exit \
+            --actions-on-enter save-to-clipboard \
+            --save-after-copy \
+            --copy-command "${pkgs.wl-clipboard}/bin/wl-copy"
+    '';
+
     lyric = pkgs.writeShellScript "waybar-lyric.sh" ''
         if [ -f "${config.home.homeDirectory}/.local/bin/waybar-lyric" ]; then
             ${config.home.homeDirectory}/.local/bin/waybar-lyric "$@"
@@ -173,9 +183,9 @@ in {
                 "custom/screenshot" = {
                     format = "󰹑";
                     tooltip-format = "Left Click: Capture a region\nMiddle Click: Capture a window\nRight Click: Capture the screen";
-                    on-click = "${pkgs.hyprshot}/bin/hyprshot -m region -o ~/Pictures/Screenshots";
-                    on-click-middle = "${pkgs.hyprshot}/bin/hyprshot -m window -o ~/Pictures/Screenshots";
-                    on-click-right = "${pkgs.hyprshot}/bin/hyprshot -m output -o ~/Pictures/Screenshots";
+                    on-click = "${screenshot} region";
+                    on-click-middle = "${screenshot} window";
+                    on-click-right = "${screenshot} output";
                 };
 
                 "custom/clipboard" = {
