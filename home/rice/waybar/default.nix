@@ -25,6 +25,14 @@
         fi
     '';
     reload = "${reload-pkgs}/bin/waybar-reload";
+
+    lyric = pkgs.writeShellScript "waybar-lyric.sh" ''
+        if [ -f "${config.home.homeDirectory}/.local/bin/waybar-lyric" ]; then
+            ${config.home.homeDirectory}/.local/bin/waybar-lyric "$@"
+        else
+            ${pkgs.waybar-lyric}/bin/waybar-lyric "$@"
+        fi
+    '';
 in {
     home.activation.compileWaybarSyle = lib.hm.dag.entryAfter ["writeBoundary"] ''
         ${pkgs.coreutils}/bin/install -Dm466 ${./style.scss} ${config.xdg.configHome}/waybar/style.scss
@@ -141,11 +149,12 @@ in {
                         paused = "";
                         lyric = "";
                         music = "󰝚";
-                        no_lyric = " ";
+                        no_lyric = "";
+                        getting = "";
                     };
-                    exec = "${pkgs.waybar-lyric}/bin/waybar-lyric -qm150 -ffull";
+                    exec = "${lyric} -qm150 -ffull";
                     on-click = "eww open media --toggle";
-                    on-click-middle = "${pkgs.waybar-lyric}/bin/waybar-lyric --toggle";
+                    on-click-middle = "${lyric} play-pause";
                 };
 
                 "custom/notification_mode" = {

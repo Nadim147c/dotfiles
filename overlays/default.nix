@@ -9,7 +9,6 @@ final: prev: {
     pfp = final.callPackage ../pkgs/pfp.nix {};
     tmux-sessionizer = final.callPackage ../pkgs/tmux-sessionizer.nix {};
     wallpaper-sh = final.callPackage ../pkgs/wallpaper-sh.nix {};
-    waybar-lyric = final.callPackage ../pkgs/waybar-lyric.nix {};
     go-modules = final.callPackage ../go {};
 
     cmatrix = prev.cmatrix.overrideAttrs (old: {
