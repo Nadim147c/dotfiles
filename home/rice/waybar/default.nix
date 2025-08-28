@@ -165,6 +165,9 @@ in {
                     exec = "${lyric} -qm150 -ffull";
                     on-click = "eww open media --toggle";
                     on-click-middle = "${lyric} play-pause";
+                    on-scroll-up = "${lyric} volume -- +8%";
+                    on-scroll-down = "${lyric} volume -- -8%";
+                    on-click-right = "${lyric} seek --lyric 1";
                 };
 
                 "custom/notification_mode" = {
