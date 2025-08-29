@@ -1,38 +1,53 @@
 {
-    description = "Home Manager configuration of ephemeral";
+    description = "Modular configuration of NixOS, Home Manager, and Nix-Darwin with Denix";
 
     inputs = {
-        nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+        nixpkgs.url = "github:nixos/nixpkgs/ae4cafd6d07334999cf06645201e041c7a1cfdda";
         home-manager = {
-            url = "github:nix-community/home-manager";
+            url = "github:nix-community/home-manager/master";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        nixgl.url = "github:nix-community/nixGL";
-        catppuccin.url = "github:catppuccin/nix";
+        nix-darwin = {
+            url = "github:nix-darwin/nix-darwin/master";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+        denix = {
+            url = "github:yunfachi/denix";
+            inputs.nixpkgs.follows = "nixpkgs";
+            inputs.home-manager.follows = "home-manager";
+            inputs.nix-darwin.follows = "nix-darwin";
+        };
+        zen-browser = {
+            url = "github:0xc000022070/zen-browser-flake";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
         rong.url = "github:Nadim147c/rong";
+        spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     };
 
-    outputs = {
-        catppuccin,
-        home-manager,
-        nixgl,
-        nixpkgs,
-        rong,
-        ...
-    }: let
-        system = "x86_64-linux";
-        pkgs = import nixpkgs {
-            inherit system;
-            overlays = [nixgl.overlay (import ./overlays)];
-        };
+    outputs = {denix, ...} @ inputs: let
+        mkConfigurations = moduleSystem:
+            denix.lib.configurations {
+                inherit moduleSystem;
+                homeManagerUser = "ephemeral";
+
+                paths = [./hosts ./modules ./overlays];
+
+                extensions = with denix.lib.extensions; [
+                    args
+                    (base.withConfig {
+                        args.enable = true;
+                    })
+                    (denix.lib.callExtension ./extensions/overlay.nix)
+                ];
+
+                specialArgs = {
+                    inherit inputs;
+                };
+            };
     in {
-        homeConfigurations."ephemeral" = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            modules = [
-                rong.homeModules.default
-                catppuccin.homeModules.catppuccin
-                ./home
-            ];
-        };
+        nixosConfigurations = mkConfigurations "nixos";
+        homeConfigurations = mkConfigurations "home";
+        darwinConfigurations = mkConfigurations "darwin";
     };
 }
