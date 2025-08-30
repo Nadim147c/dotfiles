@@ -7,7 +7,7 @@ delib.module {
     name = "user";
 
     home.always = {
-        home.packages = with pkgs; [fzf neovim gcc nixd alejandra];
+        nixpkgs.config.allowUnfree = true;
         programs.home-manager.enable = true;
     };
 

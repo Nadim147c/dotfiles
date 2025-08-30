@@ -11,9 +11,6 @@ delib.module {
         source = ["colors.conf"];
 
         exec = [
-            "hyprctl setcursor Bibata-Modern-Classic 22"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 22"
             "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface icon-theme 'Adwaita-dark'"
             "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'"
             "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"

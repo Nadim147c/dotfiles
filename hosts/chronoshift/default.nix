@@ -17,13 +17,7 @@ delib.host {
         boot.loader.systemd-boot.enable = true;
         boot.loader.efi.canTouchEfiVariables = true;
 
-        environment.systemPackages = with pkgs; [
-            gcc
-            neovim
-            git
-            nh
-        ];
-
+        environment.systemPackages = with pkgs; [gcc neovim git nh];
         nix.settings.experimental-features = ["nix-command" "flakes"];
 
         services.displayManager.sddm.enable = true;

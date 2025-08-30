@@ -22,6 +22,7 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
         rong.url = "github:Nadim147c/rong";
+        spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     };
 
     outputs = {denix, ...} @ inputs: let
@@ -36,7 +37,6 @@
                     args
                     (base.withConfig {
                         args.enable = true;
-                        hosts.type.types = ["desktop" "server" "laptop"];
                     })
                     (denix.lib.callExtension ./extensions/overlay.nix)
                 ];

@@ -9,14 +9,14 @@ delib.module {
     options = {myconfig, ...} @ args: delib.singleEnableOption myconfig.host.isDesktop args;
 
     home.ifEnabled = {
+        home.packages = with pkgs; [
+            gtk3
+            gtk4
+            gtk4-layer-shell
+        ];
+
         gtk = {
             enable = true;
-            cursorTheme = {
-                name = "Bibata-Modern-Classic";
-                package = pkgs.bibata-cursors;
-                size = 22;
-            };
-
             iconTheme = {
                 name = "Adwaita-dark";
                 package = pkgs.adwaita-icon-theme;
@@ -42,19 +42,15 @@ delib.module {
             };
         };
 
-        dconf.settings = {
-            "org/gnome/desktop/interface" = {
-                cursor-theme = "Bibata-Modern-Classic";
-                cursor-size = 22;
-                icon-theme = "Adwaita-dark";
-                gtk-theme = "adw-gtk3-dark";
-                color-scheme = "prefer-dark";
-                font-name = "Noto Sans 10";
-                document-font-name = "Noto Sans 10";
-                monospace-font-name = "JetBrainsMono Nerd Font mono 10";
-                font-antialiasing = "rgba";
-                font-hinting = "full";
-            };
+        dconf.settings."org/gnome/desktop/interface" = {
+            icon-theme = "Adwaita-dark";
+            gtk-theme = "adw-gtk3-dark";
+            color-scheme = "prefer-dark";
+            font-name = "Noto Sans 10";
+            document-font-name = "Noto Sans 10";
+            monospace-font-name = "JetBrainsMono Nerd Font mono 10";
+            font-antialiasing = "rgba";
+            font-hinting = "full";
         };
     };
 }
