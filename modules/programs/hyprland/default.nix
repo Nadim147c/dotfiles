@@ -10,6 +10,6 @@ delib.module {
 
     nixos.ifEnabled.programs.hyprland.enable = true;
     home.ifEnabled.wayland.windowManager.hyprland.enable = true;
-    home.ifEnabled.home.packages = with pkgs; [wl-clipboard];
+    home.ifEnabled.home.packages = with pkgs; [wl-clipboard hyprcursor];
     home.ifEnabled.services.hyprpolkitagent.enable = true;
 }
