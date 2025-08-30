@@ -16,6 +16,7 @@ delib.host {
         networking.hostName = "chronoshift";
         boot.loader.systemd-boot.enable = true;
         boot.loader.efi.canTouchEfiVariables = true;
+        boot.initrd.systemd.enable = true;
 
         environment.systemPackages = with pkgs; [gcc neovim git nh];
         nix.settings.experimental-features = ["nix-command" "flakes"];

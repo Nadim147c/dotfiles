@@ -1,12 +1,13 @@
 {
     delib,
     pkgs,
+    host,
     ...
 }:
 delib.module {
-    name = "programs.gtk";
+    name = "gtk";
 
-    options = {myconfig, ...} @ args: delib.singleEnableOption myconfig.host.isDesktop args;
+    options = delib.singleEnableOption host.isDesktop;
 
     home.ifEnabled = {
         home.packages = with pkgs; [

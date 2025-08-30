@@ -22,6 +22,7 @@ delib.host {
         boot.initrd.kernelModules = [];
         boot.kernelModules = ["kvm-intel"];
         boot.extraModulePackages = [];
+        boot.kernelParams = ["quiet"];
 
         fileSystems."/" = {
             device = "/dev/disk/by-uuid/87cc385e-3fc4-4498-8eea-68c3067eaec8";
