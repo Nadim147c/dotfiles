@@ -133,7 +133,6 @@ in
                 '';
 
                 plugins = with pkgs; [
-                    tmuxPlugins.cpu
                     tmuxPlugins.better-mouse-mode
                     tmuxPlugins.tmux-fzf
                     tmuxPlugins.yank
