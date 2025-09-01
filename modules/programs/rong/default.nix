@@ -30,7 +30,7 @@ delib.module {
                 "rofi.rasi" = "~/.config/rofi/config.rasi";
                 "ghostty" = "~/.config/ghostty/colors";
                 "dunstrc" = "~/.config/dunst/dunstrc";
-                "cava.ini" = "~/.config/cava/themes/rong.ini";
+                "cava.ini" = "~/.config/cava/config";
                 "btop.theme" = "~/.config/btop/themes/rong.theme";
                 "colors.tmux" = "~/.config/tmux/colors.conf";
 
