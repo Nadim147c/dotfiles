@@ -17,6 +17,7 @@ delib.module {
     in {
         home.packages = with pkgs; [
             aria2
+            btop
             cava
             chafa
             cmatrix
