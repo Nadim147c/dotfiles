@@ -14,7 +14,7 @@
     music = "${uwsm} ${lib.getExe pkgs.spotify}";
     terminal = "${uwsm} ${lib.getExe pkgs.kitty}";
 
-    files = "${pkgs.kdePackages.dolphin}/bin/dolphin";
+    files = "${uwsm} ${pkgs.xfce.thunar}/bin/thunar";
 in
     delib.module {
         name = "programs.hyprland";
