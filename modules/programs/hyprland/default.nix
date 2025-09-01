@@ -29,6 +29,6 @@ delib.module {
         XDG_SESSION_DESKTOP = "Hyprland";
     };
     home.ifEnabled.wayland.windowManager.hyprland.enable = true;
-    home.ifEnabled.home.packages = with pkgs; [wl-clipboard hyprcursor];
+    home.ifEnabled.home.packages = with pkgs; [wl-clipboard hyprcursor playerctl];
     home.ifEnabled.services.hyprpolkitagent.enable = true;
 }
