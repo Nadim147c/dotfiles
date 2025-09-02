@@ -34,6 +34,7 @@ delib.module {
             git-isb
             git-open
             lazygit
+            semver
         ];
 
         programs.gpg.enable = true;
