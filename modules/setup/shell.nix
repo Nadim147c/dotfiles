@@ -45,9 +45,6 @@ delib.module {
 
             WGETRC = "${xdg.configHome}/wget/config";
 
-            # Cache paths
-            STARSHIP_CACHE = "${xdg.cacheHome}/starship";
-
             # Editor settings
             EDITOR = editor;
             VISUAL = editor;
