@@ -7,13 +7,13 @@ delib.overlayModule {
         in
             buildGoModule (finalAttrs: {
                 pname = "waybar-lyric";
-                version = "unstable-2025-08-30";
+                version = "0.12.0";
 
                 src = fetchFromGitHub {
                     owner = "Nadim147c";
                     repo = "waybar-lyric";
-                    rev = "24e4b70be089a07c616a873b38463d737358ea42";
-                    hash = "sha256-ouxMuZBOOS4xe1EEBmAW0wdXT/Klr98K2qEUuyqPrgA=";
+                    rev = "v${finalAttrs.version}";
+                    hash = "sha256-UHz4eKHfwrvNMil5DYoSBFqIvhENYd075w86xRoYNCU=";
                 };
 
                 vendorHash = "sha256-49bK9SDNSsTYT4Mmkzn6kLs7CRozxCKEN/jr6QH0JmY=";
