@@ -22,7 +22,7 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
         rong.url = "github:Nadim147c/rong";
-        spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+        nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     };
 
     outputs = {denix, ...} @ inputs: let

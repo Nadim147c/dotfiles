@@ -11,7 +11,7 @@
     browser = "${uwsm} ${lib.getExe zen-browser}";
     discord = "${uwsm} ${lib.getExe pkgs.goofcord}";
     runner = "${uwsm} ${lib.getExe pkgs.wofi}";
-    music = "${uwsm} ${lib.getExe pkgs.spotify}";
+    music = "${uwsm} flatpak run com.spotify.Client";
     terminal = "${uwsm} ${lib.getExe pkgs.kitty}";
 
     files = "${uwsm} ${pkgs.xfce.thunar}/bin/thunar";
