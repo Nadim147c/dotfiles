@@ -24,7 +24,7 @@ delib.module {
                 "hyprland.conf" = "~/.config/hypr/colors.conf";
                 "colors.lua" = "~/.config/wezterm/colors.lua";
                 "spicetify-sleek.ini" = "~/.config/spicetify/Themes/Sleek/color.ini";
-                "kitty-full.conf" = "~/.config/kitty/colors.conf";
+                "kitty.conf" = "~/.config/kitty/colors.conf";
                 "pywalfox.json" = "~/.cache/wal/colors.json";
                 "gtk-css.css" = "~/.config/wlogout/colors.css";
                 "rofi.rasi" = "~/.config/rofi/config.rasi";

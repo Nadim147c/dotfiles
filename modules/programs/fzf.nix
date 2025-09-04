@@ -1,4 +1,8 @@
-{delib, ...}:
+{
+    delib,
+    lib,
+    ...
+}:
 delib.module {
     name = "programs.fzf";
 
@@ -12,5 +16,6 @@ delib.module {
         enableZshIntegration = true;
         defaultOptions = ["--border" "--ansi" "--layout=reverse"];
         defaultCommand = "fd --type f --color=always";
+        colors.bg = lib.mkForce "";
     };
 }

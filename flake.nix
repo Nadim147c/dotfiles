@@ -21,8 +21,9 @@
             url = "github:0xc000022070/zen-browser-flake";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        rong.url = "github:Nadim147c/rong";
+        catppuccin.url = "github:catppuccin/nix";
         nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+        rong.url = "github:Nadim147c/rong";
     };
 
     outputs = {denix, ...} @ inputs: let
