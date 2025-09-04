@@ -46,6 +46,9 @@ delib.module {
                 ${pkgs.chromashift}/bin/cshift alias fish | source
             '';
             generateCompletions = false;
+            functions.fish_command_not_found.body = ''
+                nix run nixpkgs#$argv[1] -- $argv[2..]
+            '';
         };
     };
 }
