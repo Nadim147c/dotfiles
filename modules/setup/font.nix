@@ -21,6 +21,8 @@ delib.module {
             # JetBrainsMono Nerd Font
             fontconfig
             nerd-fonts.jetbrains-mono
+
+            electroharmonix
         ];
 
         fonts.fontconfig = {
