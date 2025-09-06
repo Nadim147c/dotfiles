@@ -17,6 +17,7 @@ delib.module {
         gdb
         lldb
         ninja
+        pkg-config
         valgrind
     ];
 }
