@@ -34,6 +34,7 @@ delib.module {
             ripgrep
             ripgrep-all
             wtf
+            jq
             yq
         ];
 
