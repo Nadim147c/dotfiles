@@ -47,6 +47,7 @@ delib.overlayModule {
                     hyprctl reload
 
                     eww reload
+                    timeout 2s spicetify watch -s
                 }
 
                 # Function to get a random wallpaper path

@@ -9,20 +9,20 @@
 
     uwsm = "${pkgs.uwsm}/bin/uwsm app --";
     browser = "${uwsm} ${lib.getExe zen-browser}";
-    discord = "${uwsm} ${lib.getExe pkgs.goofcord}";
+    discord = "${uwsm} ${lib.getExe pkgs.equibop}";
     runner = "${uwsm} ${lib.getExe pkgs.wofi}";
-    music = "${uwsm} flatpak run com.spotify.Client";
     terminal = "${uwsm} ${lib.getExe pkgs.kitty}";
     clipboard = "${uwsm} ${lib.getExe pkgs.nwg-clipman}";
 
     files = "${uwsm} ${pkgs.xfce.thunar}/bin/thunar";
+    music = "${uwsm} flatpak run com.spotify.Client  --remote-debugging-port=9222 --remote-allow-origins='*'";
 in
     delib.module {
         name = "programs.hyprland";
 
         home.ifEnabled = {
             home.packages = with pkgs; [
-                goofcord
+                equibop
                 gtk3
                 gtk4
                 gtk4-layer-shell

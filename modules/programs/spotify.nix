@@ -25,14 +25,25 @@ delib.module {
 
         home.activation.configureSpicetify = let
             cli = "${lib.getExe pkgs.spicetify-cli}";
+            cfgFile = "${home.xdg.configHome}/spicetify/config-xpui.ini";
+            ini = "${lib.getExe pkgs.crudini} --set ${cfgFile}";
         in
-            inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-                ${cli} config spotify_path         /var/lib/flatpak/app/com.spotify.Client/x86_64/stable/active/files/extra/share/spotify/
-                ${cli} config prefs_path           ${home.xdg.configHome}/spotify/prefs
-                ${cli} config current_theme        Sleek
-                ${cli} config color_scheme         rong
-                ${cli} config sidebar_config       0
-                ${cli} config spotify_launch_flags '--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'
+            inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] # bash
+
+            ''
+                ${cli} apply || true
+
+                mkdir -p $(dirname ${cfgFile})
+                ${ini} Setting color_scheme  rong
+                ${ini} Setting current_theme Sleek
+                ${ini} Setting prefs_path    "$HOME/.var/app/com.spotify.Client/config/spotify/prefs"
+                ${ini} Setting spotify_path  /var/lib/flatpak/app/com.spotify.Client/x86_64/stable/active/files/extra/share/spotify
+
+                # For wayland
+                ${ini} Setting spotify_launch_flags ' --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto'
+
+                ${ini} AdditionalOptions sidebar_config 0
+
                 ${cli} apply || true
             '';
     };
