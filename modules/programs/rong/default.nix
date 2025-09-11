@@ -17,8 +17,8 @@ delib.module {
         enable = true;
         wallpaper = ./wallpaper.jpg;
         settings = {
-            variant = "expressive";
-            version = 2021;
+            variant = "tonal_spot";
+            version = 2025;
             dark = true;
             links = {
                 "hyprland.conf" = "~/.config/hypr/colors.conf";
