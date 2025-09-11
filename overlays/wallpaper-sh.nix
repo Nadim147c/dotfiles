@@ -30,8 +30,6 @@ delib.overlayModule {
                     compile-scss ~/.config/swayosd/style.scss
                     compile-scss ~/.config/wofi/style.scss
 
-                    tmux source-file ~/.config/tmux/colors.conf
-
                     dunst_level=$(dunstctl get-pause-level)
                     dunstctl reload && dunstctl set-pause-level "$dunst_level"
 

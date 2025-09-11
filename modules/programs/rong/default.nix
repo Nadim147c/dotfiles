@@ -63,9 +63,5 @@ delib.module {
                 ];
             };
         };
-
-        templates = {
-            "colors.tmux.tmpl" = ''set -g mode-style "bg={{ .Primary }},fg={{ .OnPrimary }}"'';
-        };
     };
 }
