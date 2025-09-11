@@ -22,7 +22,7 @@ delib.module {
                 shell = pkgs.zsh;
                 isNormalUser = true;
                 description = userfullname;
-                extraGroups = ["networkmanager" "wheel"];
+                extraGroups = ["networkmanager" "wheel" "docker"];
             };
         };
     };
