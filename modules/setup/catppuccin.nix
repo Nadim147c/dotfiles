@@ -19,7 +19,6 @@ delib.module {
     in {
         kitty = enabled;
         fzf = enabled;
-        delta = enabled;
         btop = enabled;
     };
 }
