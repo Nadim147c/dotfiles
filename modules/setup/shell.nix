@@ -23,18 +23,19 @@ delib.module {
             cmatrix
             coreutils-full
             crop-image
+            ffmpeg
             findutils
             fork
             fzf
             gallery-dl
             image-detect
+            jq
             killall
             less
             procps
             ripgrep
             ripgrep-all
             wtf
-            jq
             yq
         ];
 
