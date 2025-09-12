@@ -36,6 +36,7 @@ delib.module {
             ripgrep
             ripgrep-all
             wtf
+            xxHash
             yq
         ];
 
