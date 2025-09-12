@@ -14,9 +14,6 @@ delib.module {
         inherit (myconfig.constants) username;
         home = config.home-manager.users.${username};
 
-        fork = "${pkgs.fork}/bin/fork";
-        waypaper = "${fork} ${pkgs.waypaper}/bin/waypaper --folder ${home.xdg.userDirs.pictures}/Wallpapers";
-
         dunst-mode-cycle = pkgs.writeShellScript "dunst-mode-cycle" ''
             current=$(dunstctl get-pause-level)
 
@@ -74,7 +71,7 @@ delib.module {
             enable = true;
             systemd.enable = true;
             settings = {
-                mainBar = {
+                main = {
                     layer = "bottom";
                     position = "top";
                     height = 15;
@@ -213,12 +210,6 @@ delib.module {
                         format = "";
                         tooltip-format = "Open clipboard history";
                         on-click = "kitty --class=clipboard ~/.local/bin/clipboard-history.sh";
-                    };
-
-                    "custom/wallpaper" = {
-                        format = "󰸉";
-                        tooltip-format = "Open wallpaper changer";
-                        on-click = waypaper;
                     };
 
                     "custom/menu" = {
