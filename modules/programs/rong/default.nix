@@ -17,7 +17,7 @@ delib.module {
         enable = true;
         wallpaper = ./wallpaper.jpg;
         settings = {
-            variant = "tonal_spot";
+            variant = "expressive";
             version = 2025;
             dark = true;
             links = {
