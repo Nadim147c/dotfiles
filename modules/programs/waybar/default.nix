@@ -43,16 +43,6 @@ delib.module {
             ${pkgs.systemd}/bin/systemctl --user restart waybar.service
         '';
 
-        screenshot = pkgs.writeShellScript "screenshot" ''
-            pkill slurp || ${pkgs.hyprshot}/bin/hyprshot -m ''${1:-region} --raw |
-              ${pkgs.satty}/bin/satty --filename - \
-                --output-filename "${home.xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
-                --early-exit \
-                --actions-on-enter save-to-clipboard \
-                --save-after-copy \
-                --copy-command "${pkgs.wl-clipboard}/bin/wl-copy"
-        '';
-
         localLyric = "${home.home.homeDirectory}/.local/bin/waybar-lyric";
         lyric = pkgs.writeShellScript "waybar-lyric.sh" ''
             if [ -f "${localLyric}" ]; then
@@ -195,21 +185,7 @@ delib.module {
                     "custom/launcher" = {
                         format = "";
                         tooltip-format = "Open app launcher";
-                        on-click = "wofi --show drun";
-                    };
-
-                    "custom/screenshot" = {
-                        format = "󰹑";
-                        tooltip-format = "Left Click: Capture a region\nMiddle Click: Capture a window\nRight Click: Capture the screen";
-                        on-click = "${screenshot} region";
-                        on-click-middle = "${screenshot} window";
-                        on-click-right = "${screenshot} output";
-                    };
-
-                    "custom/clipboard" = {
-                        format = "";
-                        tooltip-format = "Open clipboard history";
-                        on-click = "kitty --class=clipboard ~/.local/bin/clipboard-history.sh";
+                        on-click = "${pkgs.wofi}/bin/wofi --show drun";
                     };
 
                     "custom/menu" = {

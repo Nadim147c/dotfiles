@@ -12,7 +12,6 @@
     discord = "${uwsm} ${lib.getExe pkgs.equibop}";
     runner = "${uwsm} ${lib.getExe pkgs.wofi}";
     terminal = "${uwsm} ${lib.getExe pkgs.kitty}";
-    clipboard = "${uwsm} ${lib.getExe pkgs.nwg-clipman}";
 
     files = "${uwsm} ${pkgs.xfce.thunar}/bin/thunar";
     music = "${uwsm} flatpak run com.spotify.Client  --remote-debugging-port=9222 --remote-allow-origins='*'";
@@ -44,7 +43,6 @@ in
                 "$runner" = runner;
                 "$terminal" = terminal;
                 "$music" = music;
-                "$clipboard" = clipboard;
 
                 exec-once = [
                     "[workspace 1 silent] $terminal"
@@ -59,7 +57,6 @@ in
                     "$mainMod, D,     exec, $discord"
                     "$mainMod, M,     exec, $music"
                     "$mainMod, E,     exec, $files"
-                    "$mainMod, V,     exec, $clipboard"
                     "ALT,      SPACE, exec, $runner"
                 ];
             };
