@@ -16,6 +16,7 @@ delib.module {
         gnugrep
         gnumake
         htop
+        httpie
         neovim
         ripgrep
         sd
@@ -24,5 +25,6 @@ delib.module {
         tree
         unzip
         wget
+        xh
     ];
 }
