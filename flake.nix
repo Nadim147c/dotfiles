@@ -2,7 +2,7 @@
     description = "Modular configuration of NixOS, Home Manager, and Nix-Darwin with Denix";
 
     inputs = {
-        nixpkgs.url = "github:nixos/nixpkgs/ae4cafd6d07334999cf06645201e041c7a1cfdda";
+        nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
         home-manager = {
             url = "github:nix-community/home-manager/master";
             inputs.nixpkgs.follows = "nixpkgs";

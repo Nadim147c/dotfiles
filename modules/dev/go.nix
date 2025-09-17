@@ -22,8 +22,8 @@ delib.module {
         programs.go = {
             enable = true;
             telemetry.mode = "off";
-            goPath = ".local/share/go";
-            goBin = ".local/share/go/bin";
+            env.GOPATH = ".local/share/go";
+            env.GOBIN = ".local/share/go/bin";
         };
     };
 }
