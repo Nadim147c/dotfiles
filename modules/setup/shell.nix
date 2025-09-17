@@ -32,6 +32,7 @@ delib.module {
             jq
             killall
             less
+            nitch
             procps
             ripgrep
             ripgrep-all
