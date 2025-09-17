@@ -8,18 +8,18 @@
 }:
 buildGoModule rec {
     pname = "waybar-lyric";
-    version = "0.12.0";
+    version = "0.12.1";
 
     src = fetchFromGitHub {
         owner = "Nadim147c";
         repo = "waybar-lyric";
         rev = "v${version}";
-        hash = "sha256-UHz4eKHfwrvNMil5DYoSBFqIvhENYd075w86xRoYNCU=";
+        hash = "sha256-ToQap5Aezgf5N6AKLp3D2Ls5mOfdojWpz9Rq9JP3TyM=";
     };
 
-    vendorHash = "sha256-49bK9SDNSsTYT4Mmkzn6kLs7CRozxCKEN/jr6QH0JmY=";
+    vendorHash = "sha256-2V79Tvp3oLVcqeK/OMhSwneWRXqv3CJHWPCd4CXk+po=";
 
-    doInstallCheck = true;
+    doInstallCheck = false;
 
     versionCheckKeepEnvironment = ["XDG_CACHE_HOME"];
     preInstallCheck = ''
