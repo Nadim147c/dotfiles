@@ -57,6 +57,8 @@ delib.module {
             ${pkgs.compile-scss}/bin/compile-scss ${home.xdg.configHome}/waybar/style.scss
         '';
 
+        home.packages = [pkgs.compile-scss];
+
         programs.waybar = {
             enable = true;
             systemd.enable = true;
