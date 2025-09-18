@@ -8,16 +8,14 @@ delib.module {
 
     options = delib.singleEnableOption host.isDesktop;
 
-    home.ifEnabled = let
+    home.ifEnabled.xdg.configFile = let
         electronWayland = ''
             --enable-features=WaylandWindowDecorations
             --ozone-platform-hint=auto
         '';
     in {
-        xdg.configFile = {
-            "electron-flags.conf".text = electronWayland;
-            "equibop-flags.conf".text = electronWayland;
-            "spotify-flags.conf".text = electronWayland;
-        };
+        "electron-flags.conf".text = electronWayland;
+        "equibop-flags.conf".text = electronWayland;
+        "spotify-flags.conf".text = electronWayland;
     };
 }
