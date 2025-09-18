@@ -17,7 +17,7 @@ delib.module {
         enable = true;
         wallpaper = ./wallpaper.jpg;
         settings = {
-            variant = "expressive";
+            variant = "tonal_spot";
             version = 2025;
             dark = true;
             links = {
@@ -26,7 +26,6 @@ delib.module {
                 "spicetify-sleek.ini" = "~/.config/spicetify/Themes/Sleek/color.ini";
                 "kitty.conf" = "~/.config/kitty/colors.conf";
                 "pywalfox.json" = "~/.cache/wal/colors.json";
-                "gtk-css.css" = "~/.config/wlogout/colors.css";
                 "rofi.rasi" = "~/.config/rofi/config.rasi";
                 "ghostty" = "~/.config/ghostty/colors";
                 "dunstrc" = "~/.config/dunst/dunstrc";
@@ -40,6 +39,7 @@ delib.module {
                     "~/.config/swaync/colors.scss"
                     "~/.config/wofi/colors.scss"
                     "~/.config/swayosd/colors.scss"
+                    "~/.config/wlogout/colors.scss"
                 ];
 
                 "qtct.colors" = [
