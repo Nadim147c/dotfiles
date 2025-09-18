@@ -193,6 +193,7 @@ delib.module {
                     "custom/menu" = {
                         format = "󰍜";
                         tooltip-format = "Open Control Center";
+                        on-click = "${pkgs.wlogout}/bin/wlogout -b 5";
                         on-click-middle = reload;
                     };
                 };
