@@ -16,7 +16,7 @@ delib.module {
         configHome = config.home-manager.users.${username}.xdg.configHome;
     in {
         home.activation.compileWofiSyle = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-            ${pkgs.coreutils}/bin/install -Dm466 ${./style.scss} ${configHome}/wofi/style.scss
+            ${pkgs.coreutils}/bin/install -Dm644 ${./style.scss} ${configHome}/wofi/style.scss
             ${pkgs.compile-scss}/bin/compile-scss ${configHome}/wofi/style.scss
         '';
 

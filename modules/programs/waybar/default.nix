@@ -53,7 +53,7 @@ delib.module {
         '';
     in {
         home.activation.compileWaybarSyle = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-            ${pkgs.coreutils}/bin/install -Dm466 ${./style.scss} ${home.xdg.configHome}/waybar/style.scss
+            ${pkgs.coreutils}/bin/install -Dm644 ${./style.scss} ${home.xdg.configHome}/waybar/style.scss
             ${pkgs.compile-scss}/bin/compile-scss ${home.xdg.configHome}/waybar/style.scss
         '';
 
