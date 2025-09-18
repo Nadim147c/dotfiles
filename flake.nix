@@ -21,6 +21,8 @@
             url = "github:0xc000022070/zen-browser-flake";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        hyprland.url = "github:hyprwm/Hyprland";
+        hyprqt6engine.url = "github:hyprwm/hyprqt6engine";
         catppuccin.url = "github:catppuccin/nix";
         nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
         rong.url = "github:Nadim147c/rong";

@@ -7,7 +7,6 @@ delib.module {
 
         master.new_status = "master";
         ecosystem.no_update_news = true;
-        gestures.workspace_swipe = false;
 
         input = {
             numlock_by_default = true;
