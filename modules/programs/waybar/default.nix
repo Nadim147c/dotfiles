@@ -72,7 +72,7 @@ delib.module {
                     passthrough = false;
                     fixed-center = true;
                     reload_style_on_change = true;
-                    margin = "5px 5px 0 5px";
+                    margin = "5px";
                     modules-left = [
                         "hyprland/workspaces"
                         "tray"

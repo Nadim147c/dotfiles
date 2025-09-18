@@ -45,7 +45,7 @@ in
                 "$music" = music;
 
                 exec-once = [
-                    "[workspace 1 silent] $terminal"
+                    "[workspace 1 silent] sleep 10 && $terminal"
                     "[workspace 2 silent] $browser"
                     "[workspace 3 silent] $discord"
                     "[workspace 4 silent] $music"

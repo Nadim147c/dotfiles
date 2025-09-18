@@ -25,7 +25,7 @@ delib.module {
 
         general = {
             gaps_in = 2;
-            gaps_out = 5;
+            gaps_out = "0,5,5,5";
             border_size = 2;
             "col.active_border" = "$primary $secondary 45deg";
             "col.inactive_border" = "$on_primary $on_secondary 45deg";
@@ -45,7 +45,7 @@ delib.module {
                 passes = 3;
                 new_optimizations = true;
                 ignore_opacity = true;
-                xray = false;
+                xray = true;
                 popups = true;
             };
 
