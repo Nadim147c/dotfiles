@@ -46,9 +46,9 @@ delib.module {
         localLyric = "${home.home.homeDirectory}/.local/bin/waybar-lyric";
         lyric = pkgs.writeShellScript "waybar-lyric.sh" ''
             if [ -f "${localLyric}" ]; then
-                ${localLyric} "$@"
+                exec setsid ${localLyric} "$@"
             else
-                ${pkgs.waybar-lyric}/bin/waybar-lyric "$@"
+                exec setsid ${pkgs.waybar-lyric}/bin/waybar-lyric "$@"
             fi
         '';
     in {
