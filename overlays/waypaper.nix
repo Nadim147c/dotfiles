@@ -12,7 +12,7 @@ delib.overlayModule {
                     # Write a bash wrapper that expands $HOME at runtime
                     cat > $out/bin/waypaper <<'EOF'
                     #!${prev.bash}/bin/bash
-                    exec "$(dirname "$0")/.waypaper-real" --folder "$HOME/Pictures/Wallpapers" "$@"
+                    exec setsid "$(dirname "$0")/.waypaper-real" --folder "$HOME/Videos/Wallpapers" "$@"
                     EOF
 
                     chmod +x $out/bin/waypaper

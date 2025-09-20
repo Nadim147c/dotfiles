@@ -1,6 +1,7 @@
 {
     compile-scss,
     coreutils,
+    crudini,
     dunst,
     fd,
     fork,
@@ -9,7 +10,7 @@
     hyprland,
     killall,
     procps,
-    swww,
+    socat,
     writeShellApplication,
     ...
 }:
@@ -18,6 +19,7 @@ writeShellApplication {
     runtimeInputs = [
         compile-scss
         coreutils
+        crudini
         dunst
         fd
         fork
@@ -26,7 +28,7 @@ writeShellApplication {
         hyprland
         killall
         procps
-        swww
+        socat
     ];
 
     text = ''
@@ -61,27 +63,8 @@ writeShellApplication {
 
         # Function to get a random wallpaper path
         get_wallpaper() {
-            # Create directory if missing
-            mkdir -p ~/Pictures/Wallpapers/
-
-            # Get currently loaded wallpapers (ignore errors)
-            current_wallpapers=$(hyprctl hyprpaper listloaded 2>/dev/null | awk '{$1=$1};1' || true)
-
-            # Find candidate wallpapers (images not currently loaded)
-            local candidates=()
-            while IFS= read -r file; do
-                # Skip if file is in current wallpapers
-                if echo "$current_wallpapers" | grep -qFx "$file"; then
-                    continue
-                fi
-                candidates+=("$file")
-            done < <(find ~/Pictures/Wallpapers/ -type f \( \
-                -iname "*.jpg" -o \
-                -iname "*.jpeg" -o \
-                -iname "*.png" -o \
-                -iname "*.webp" \))
-
-            printf '%s\n' "''${candidates[@]}" | shuf -n1
+            mkdir -p ~/Videos/Wallpapers
+            fd '\.(mp4|mkv|webm|gif)$' ~/Videos/Wallpapers | shuf -n1
         }
 
         rong() {
@@ -96,36 +79,18 @@ writeShellApplication {
         generate_colors() {
             image="$1"
             echo "Generating color scheme for $image"
-            rong image -- "$image"
+            rong video -- "$image"
             post_hooks # Run post-processing after color generation
         }
 
         # Function to set wallpaper with swww
         set_wallpaper() {
-            wallpaper="$1"
-            echo "Setting wallpaper: $wallpaper"
+            echo "Setting wallpaper: $1"
+            printf 'loadfile %q\n' "$1" | socat - /tmp/mpv-socket-All
 
-            # Start swww daemon if not running
-            if ! pgrep swww-daemon >/dev/null; then
-                fork swww-daemon
-            fi
-
-            # Get cursor position in required format
-            cursor_pos=$(hyprctl cursorpos | tr -d ' ')
-
-            # Random transition types
-            transitions=("grow" "outer")
-            rand_transition=''${transitions[$RANDOM % ''${#transitions[@]}]}
-
-            # Apply wallpaper with swww
-            swww img \
-                --transition-type "$rand_transition" \
-                --transition-duration 2 \
-                --transition-pos "$cursor_pos" \
-                --transition-bezier ".09,.91,.52,.93" \
-                --transition-fps 60 \
-                --invert-y \
-                "$wallpaper"
+            mkdir -p ~/.local/state
+            echo -n "$1" > ~/.local/state/wallpaper.state
+            crudini --set ~/.local/state/waypaper/state.ini State wallpaper "$1" || true
         }
 
         main() {
