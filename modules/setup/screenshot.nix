@@ -2,6 +2,7 @@
     config,
     delib,
     host,
+    lib,
     pkgs,
     ...
 }:
@@ -45,7 +46,7 @@ delib.module {
 
         programs.waybar.settings.main."custom/screenshot" = {
             format = "󰹑";
-            tooltip-format = desc;
+            tooltip-format = lib.strings.removeSuffix "\n" desc;
             on-click = "${screenshot} region";
             on-click-middle = "${screenshot} window";
             on-click-right = "${screenshot} output";
