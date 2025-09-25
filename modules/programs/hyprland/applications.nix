@@ -1,14 +1,10 @@
 {
     delib,
-    inputs,
     lib,
     pkgs,
     ...
 }: let
-    zen-browser = inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default;
-
     uwsm = "${pkgs.uwsm}/bin/uwsm app --";
-    browser = "${uwsm} ${lib.getExe zen-browser}";
     discord = "${uwsm} ${lib.getExe pkgs.equibop}";
     runner = "${uwsm} ${lib.getExe pkgs.wofi}";
     terminal = "${uwsm} ${lib.getExe pkgs.kitty}";
@@ -31,13 +27,11 @@ in
                 nwg-look
                 qt6ct
                 wofi
-                zen-browser
             ];
 
             wayland.windowManager.hyprland.settings = {
                 "$mainMod" = "SUPER";
 
-                "$browser" = browser;
                 "$discord" = discord;
                 "$files" = files;
                 "$runner" = runner;

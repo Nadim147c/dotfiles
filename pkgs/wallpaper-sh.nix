@@ -46,6 +46,10 @@ writeShellApplication {
             dunst_level=$(dunstctl get-pause-level)
             dunstctl reload && dunstctl set-pause-level "$dunst_level"
 
+            # Reload brave
+            tee /etc/brave/policies/managed/color.json < ~/.local/state/rong/chromium.json
+            brave --refresh-platform-policy --no-startup-window
+
             # Reload applications by sending signals
             pywalfox --verbose update
 

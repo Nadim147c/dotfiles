@@ -14,7 +14,6 @@ delib.module {
             enable = true;
             associations.added = {
                 "application/json" = ["org.kde.kwrite.desktop" "nvim.desktop"];
-                "application/pdf" = ["zen-beta.desktop"];
                 "application/x-docbook+xml" = ["org.kde.kwrite.desktop" "nvim.desktop"];
                 "application/x-matroska" = ["mpv.desktop"];
                 "application/x-yaml" = ["org.kde.kwrite.desktop" "nvim.desktop"];
@@ -72,15 +71,12 @@ delib.module {
                 "video/x-theora" = ["mpv.desktop"];
                 "video/x-theora+ogg" = ["mpv.desktop"];
                 "x-scheme-handler/geo" = ["qwant-maps-geo-handler.desktop"];
-                "x-scheme-handler/http" = ["xfce4-web-browser.desktop"];
-                "x-scheme-handler/https" = ["xfce4-web-browser.desktop"];
                 "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];
                 "x-scheme-handler/tonsite" = ["org.telegram.desktop.desktop"];
             };
 
             defaultApplications = {
                 "application/json" = ["org.kde.kwrite.desktop"];
-                "application/pdf" = ["zen-beta.desktop"];
                 "application/x-docbook+xml" = ["org.kde.kwrite.desktop"];
                 "application/x-matroska" = ["mpv.desktop"];
                 "application/x-yaml" = ["org.kde.kwrite.desktop"];
@@ -105,7 +101,7 @@ delib.module {
                 "image/jpeg" = ["org.gnome.Loupe.desktop"];
                 "image/png" = ["org.gnome.Loupe.desktop"];
                 "image/webp" = ["org.gnome.Loupe.desktop"];
-                "text/html" = ["zen-beta.desktop"];
+                "inode/directory" = ["org.kde.dolphin.desktop"];
                 "text/markdown" = ["org.kde.kwrite.desktop"];
                 "text/plain" = ["org.kde.kwrite.desktop"];
                 "text/x-cmake" = ["org.kde.kwrite.desktop"];
@@ -141,17 +137,11 @@ delib.module {
                 "video/x-ogm+ogg" = ["mpv.desktop"];
                 "video/x-theora" = ["mpv.desktop"];
                 "video/x-theora+ogg" = ["mpv.desktop"];
-                "x-scheme-handler/about" = ["zen-beta.desktop"];
+                "x-scheme-handler/discord" = ["equibop.desktop"];
                 "x-scheme-handler/geo" = ["qwant-maps-geo-handler.desktop"];
-                "x-scheme-handler/http" = ["zen-beta.desktop"];
-                "x-scheme-handler/https" = ["zen-beta.desktop"];
-                "x-scheme-handler/migu" = ["appimagekit_fb7b0853152e16b22effb25dd6497a54-Migu.desktop"];
+                "x-scheme-handler/postman" = ["Postman.desktop"];
                 "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];
                 "x-scheme-handler/tonsite" = ["org.telegram.desktop.desktop"];
-                "x-scheme-handler/unknown" = ["zen-beta.desktop"];
-                "inode/directory" = ["org.kde.dolphin.desktop"];
-                "x-scheme-handler/discord" = ["equibop.desktop"];
-                "x-scheme-handler/postman" = ["Postman.desktop"];
             };
         };
     };
