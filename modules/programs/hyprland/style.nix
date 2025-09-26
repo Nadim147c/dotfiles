@@ -45,7 +45,7 @@ delib.module {
                 passes = 3;
                 new_optimizations = true;
                 ignore_opacity = true;
-                xray = true;
+                xray = false;
                 popups = true;
             };
 
