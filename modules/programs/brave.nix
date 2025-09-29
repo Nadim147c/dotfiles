@@ -20,6 +20,7 @@ delib.module {
                 "dhdgffkkebhmkfjojejmpbldmpobfkfo" # Tampermonkey
                 "fpnmgdkabkmnadcjpehmlllkndpkmiak" # Wayback Machine
                 "gebbhagfogifgggkldgodflihgfeippi" # Return YouTube Dislike
+                "hkgfoiooedgoejojocmhlaklaeopbecg" # Picture-in-Picture
                 "hlkenndednhfkekhgcdicdfddnkalmdm" # Cookie-Editor
                 "kekjfbackdeiabghhcdklcdoekaanoel" # MAL-Sync
                 "mnjggcdmjocbbbhaepdhchncahnbgone" # SponsorBlock
