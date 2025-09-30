@@ -37,6 +37,18 @@
                     args
                     (base.withConfig {
                         args.enable = true;
+                        hosts.features = {
+                            features = [
+                                "cli"
+                                "gaming"
+                                "gui"
+                                "hacking"
+                            ];
+                            defaultByHostType = {
+                                desktop = ["cli" "gui" "hacking"];
+                                server = [];
+                            };
+                        };
                     })
                     (denix.lib.callExtension ./extensions/overlay.nix)
                 ];

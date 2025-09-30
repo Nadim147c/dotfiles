@@ -8,6 +8,8 @@ delib.host {
 
     type = "desktop";
 
+    features = ["cli" "gaming" "gui" "hacking"];
+
     nixos = {
         networking.hostName = "chronoshift";
         boot.loader.systemd-boot.enable = true;
