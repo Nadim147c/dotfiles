@@ -13,8 +13,6 @@
             url = "github:nix-community/home-manager/master";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        hyprland.url = "github:hyprwm/Hyprland";
-        hyprqt6engine.url = "github:hyprwm/hyprqt6engine";
         nix-darwin = {
             url = "github:nix-darwin/nix-darwin/master";
             inputs.nixpkgs.follows = "nixpkgs";
