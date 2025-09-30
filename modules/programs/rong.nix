@@ -15,7 +15,6 @@ delib.module {
 
     home.ifEnabled.programs.rong = {
         enable = true;
-        wallpaper = ./wallpaper.jpg;
         settings = {
             variant = "tonal_spot";
             version = 2025;
