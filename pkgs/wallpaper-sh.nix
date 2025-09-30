@@ -38,16 +38,17 @@ writeShellApplication {
             set +e pipefail
 
             # Compile SCSS files for various components
-            compile-scss ~/.config/waybar/style.scss
             compile-scss ~/.config/swaync/style.scss
             compile-scss ~/.config/swayosd/style.scss
+            compile-scss ~/.config/waybar/style.scss
+            compile-scss ~/.config/wlogout/style.scss
             compile-scss ~/.config/wofi/style.scss
 
             dunst_level=$(dunstctl get-pause-level)
             dunstctl reload && dunstctl set-pause-level "$dunst_level"
 
             # Reload brave
-            tee /etc/brave/policies/managed/color.json < ~/.local/state/rong/chromium.json
+            tee /etc/brave/policies/managed/color.json <~/.local/state/rong/chromium.json
             brave --refresh-platform-policy --no-startup-window
 
             # Reload applications by sending signals
@@ -93,7 +94,7 @@ writeShellApplication {
             printf 'loadfile %q\n' "$1" | socat - /tmp/mpv-socket-All
 
             mkdir -p ~/.local/state
-            echo -n "$1" > ~/.local/state/wallpaper.state
+            echo -n "$1" >~/.local/state/wallpaper.state
             crudini --set ~/.local/state/waypaper/state.ini State wallpaper "$1" || true
         }
 
