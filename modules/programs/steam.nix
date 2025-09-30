@@ -13,6 +13,7 @@ delib.module {
         enable = true;
         fontPackages = with pkgs; [noto-fonts];
         extraPackages = with pkgs; [mangohud];
+        extraCompatPackages = with pkgs; [proton-ge-bin];
         remotePlay.openFirewall = true;
         localNetworkGameTransfers.openFirewall = true;
 
