@@ -32,6 +32,7 @@ delib.module {
     };
     home.ifEnabled = {
         wayland.windowManager.hyprland.enable = true;
+        wayland.windowManager.hyprland.systemd.enable = false;
         home.packages = with pkgs; [wl-clipboard hyprcursor playerctl];
         services.hyprpolkitagent.enable = true;
     };
