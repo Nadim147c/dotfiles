@@ -19,8 +19,6 @@ delib.host {
         environment.systemPackages = with pkgs; [gcc neovim git nh];
         nix.settings.experimental-features = ["nix-command" "flakes"];
 
-        networking.networkmanager.enable = true;
-
         time.timeZone = "Asia/Dhaka";
         i18n.defaultLocale = "en_US.UTF-8";
         i18n.extraLocaleSettings.LC_ALL = "en_US.UTF-8";
