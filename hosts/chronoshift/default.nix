@@ -8,7 +8,7 @@ delib.host {
 
     type = "desktop";
 
-    features = ["cli" "gaming" "gui" "hacking"];
+    features = ["cli" "dev" "gaming" "gui" "hacking"];
 
     nixos = {
         networking.hostName = "chronoshift";

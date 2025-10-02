@@ -1,13 +1,14 @@
 {
     config,
     delib,
+    host,
     pkgs,
     ...
 }:
 delib.module {
     name = "dev.rust";
 
-    options = delib.singleEnableOption true;
+    options = delib.singleEnableOption host.devFeatured;
 
     home.ifEnabled = {myconfig, ...}: let
         inherit (myconfig.constants) username;

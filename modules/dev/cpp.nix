@@ -1,12 +1,13 @@
 {
     delib,
+    host,
     pkgs,
     ...
 }:
 delib.module {
     name = "dev.cpp";
 
-    options = delib.singleEnableOption true;
+    options = delib.singleEnableOption host.devFeatured;
 
     home.ifEnabled.home.packages = with pkgs; [
         bear
