@@ -74,8 +74,7 @@ delib.module {
 
         # Clipboard
         "tag +float, class:clipboard"
-        "size 715 90%, class:clipboard"
-        "move 100%-w-20 100%-w-20, class:clipboard"
+        "size 715 80%, class:clipboard"
 
         # Waypaper
         "tag +waypaper, class:waypaper"
