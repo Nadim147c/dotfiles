@@ -16,6 +16,7 @@ delib.module {
             package = pkgs.brave;
             dictionaries = [pkgs.hunspellDictsChromium.en_US];
             extensions = [
+                "bkijmpolkanhdehnlnabfooghjdokakc" # Double-click Image Downloader
                 "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
                 "dhdgffkkebhmkfjojejmpbldmpobfkfo" # Tampermonkey
                 "fpnmgdkabkmnadcjpehmlllkndpkmiak" # Wayback Machine
