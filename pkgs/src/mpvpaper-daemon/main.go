@@ -28,10 +28,9 @@ func (e *handler) Workspace(w event.WorkspaceName) {
 	workspace = string(w)
 	PlayPause()
 }
-
-func (e *handler) ActiveWindow(w event.ActiveWindow) {
-	PlayPause()
-}
+func (e *handler) ActiveWindow(event.ActiveWindow) { PlayPause() }
+func (e *handler) OpenWindow(event.OpenWindow)     { PlayPause() }
+func (e *handler) CloseWindow(event.CloseWindow)   { PlayPause() }
 
 func PlayPause() {
 	clients, err := hyprlandClient.Clients()
