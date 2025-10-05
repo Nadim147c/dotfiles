@@ -11,6 +11,7 @@ delib.module {
 
     home.ifEnabled.home.packages = with pkgs; [
         bat
+        crush
         curl
         fd
         fzf
