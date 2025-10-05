@@ -8,10 +8,9 @@ delib.module {
     name = "programs.mpvpaper";
     options = delib.singleEnableOption host.isDesktop;
     home.ifEnabled = {
-        home.packages = with pkgs; [mpvpaper mpvpaper-daemon];
+        home.packages = with pkgs; [mpvpaper mpvpaper-daemon wallpaper-sh];
         wayland.windowManager.hyprland.settings.exec-once = [
-            "${pkgs.waypaper}/bin/waypaper --restore"
-            "sleep 15 && ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.mpvpaper-daemon}/bin/mpvpaper-daemon"
+            "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.mpvpaper-daemon}/bin/mpvpaper-daemon"
         ];
     };
 }

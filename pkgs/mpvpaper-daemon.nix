@@ -9,7 +9,7 @@ buildGoModule {
 
     src = ./src/mpvpaper-daemon;
 
-    vendorHash = "sha256-uX+yvAalg7tcwO0yl09kFOK0eHDAtf5JtTiami+o2m0=";
+    vendorHash = "sha256-qWQM+DlW/9/JlAv9M7QBUch3wSeOQFVgGxmkIm29yAM=";
 
     subPackages = [];
 
