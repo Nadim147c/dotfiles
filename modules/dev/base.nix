@@ -26,6 +26,7 @@ delib.module {
         tmux
         tree
         unzip
+        vhs
         wget
         xh
     ];
