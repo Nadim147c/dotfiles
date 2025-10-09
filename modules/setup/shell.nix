@@ -28,6 +28,7 @@ delib.module {
             fork
             fzf
             gallery-dl
+            gum
             image-detect
             jq
             killall
