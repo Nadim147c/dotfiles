@@ -14,9 +14,9 @@ writeShellApplication {
     ];
     text = ''
         git branch --color |
-          sed 's|\*| |;s|  ||' |
-          fzf --ansi |
-          awk '{print $1}' |
-          xargs git switch
+            sed 's|\*| |;s|  ||' |
+            fzf --ansi |
+            awk '{print $1}' |
+            xargs git switch
     '';
 }
