@@ -33,6 +33,9 @@ var (
 )
 
 func main() {
+	ctx, cencel := context.WithCancel(context.Background())
+	defer cencel()
+
 	// Attempt wallpaper restore
 	wallpaperPath, err := GetWallpaperPath()
 	if err != nil {
@@ -40,7 +43,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := StartMpvPaper(wallpaperPath); err != nil {
+	if err := StartMpvPaper(ctx, wallpaperPath); err != nil {
 		fmt.Fprintln(os.Stderr, "Failed to start mpvpaper:", err)
 	}
 
@@ -50,9 +53,6 @@ func main() {
 		os.Exit(1)
 	}
 	defer conn.Close()
-
-	ctx, cencel := context.WithCancel(context.Background())
-	defer cencel()
 
 	go WatchWallpaper(ctx)
 
@@ -185,12 +185,12 @@ func handleFileChange(filename string) {
 	SendMpvPaperCommand(fmt.Sprintf("loadfile %q", path))
 }
 
-func StartMpvPaper(path string) error {
+func StartMpvPaper(ctx context.Context, path string) error {
 	args := []string{
 		"-o", "loop panscan=1.0 background-color='#222222' mute=yes config=no input-ipc-server=" + MpvSocket,
 		"*", path,
 	}
-	cmd := exec.Command("mpvpaper", args...)
+	cmd := exec.CommandContext(ctx, "mpvpaper", args...)
 	return cmd.Start()
 }
 
