@@ -30,9 +30,9 @@ buildGoModule rec {
     nativeBuildInputs = [installShellFiles];
     postInstall = lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
         installShellCompletion --cmd waybar-lyric \
-                --bash <($out/bin/waybar-lyric _carapace bash) \
-                --fish <($out/bin/waybar-lyric _carapace fish) \
-                --zsh <($out/bin/waybar-lyric _carapace zsh)
+            --bash <($out/bin/waybar-lyric _carapace bash) \
+            --fish <($out/bin/waybar-lyric _carapace fish) \
+            --zsh <($out/bin/waybar-lyric _carapace zsh)
     '';
 
     meta = {
