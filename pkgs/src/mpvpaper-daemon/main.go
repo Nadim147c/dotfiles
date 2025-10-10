@@ -176,7 +176,7 @@ func handleFileChange(filename string) {
 		return
 	}
 
-	path := string(b)
+	path := strings.TrimSpace(string(b))
 	if path == "" {
 		log.Println("wallpaper file is empty; ignoring")
 		return
