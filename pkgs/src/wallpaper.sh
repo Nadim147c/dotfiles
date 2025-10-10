@@ -32,6 +32,7 @@ post_hooks() {
 
     eww reload
     timeout 2s spicetify watch -s
+    exit 0
 }
 
 # Function to get a random wallpaper path
@@ -52,7 +53,7 @@ rong() {
 generate_colors() {
     image="$1"
     gum format "# Generating color scheme for $image"
-    gum spin --title "Generating colors" -- rong video -- "$image"
+    rong video -- "$image"
     post_hooks # Run post-processing after color generation
 }
 
