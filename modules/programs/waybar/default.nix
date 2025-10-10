@@ -81,6 +81,8 @@ delib.module {
                     modules-center = [];
                     modules-right = [
                         "network"
+                        "cpu"
+                        "memory"
                         "wireplumber"
                         "clock"
                         "group/actions"
@@ -157,6 +159,9 @@ delib.module {
                         interval = 1;
                         max-length = 50;
                     };
+
+                    cpu.format = " {}%";
+                    memory.format = " {}%";
 
                     "custom/lyrics" = {
                         return-type = "json";
