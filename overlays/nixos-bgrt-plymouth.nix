@@ -9,8 +9,8 @@ delib.overlayModule {
                 mkdir -p $out/share/plymouth/themes/nixos-bgrt
                 cp -r $src/{*.plymouth,images} $out/share/plymouth/themes/nixos-bgrt/
                 substituteInPlace $out/share/plymouth/themes/nixos-bgrt/*.plymouth \
-                  --replace '@IMAGES@' "$out/share/plymouth/themes/nixos-bgrt/images" \
-                  --replace "Cantarell 20" "Cantarell 16"
+                    --replace '@IMAGES@' "$out/share/plymouth/themes/nixos-bgrt/images" \
+                    --replace "Cantarell 20" "Cantarell 16"
 
                 runHook postInstall
             '';
