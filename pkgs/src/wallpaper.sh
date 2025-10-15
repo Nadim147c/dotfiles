@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+WALLPAPER_DIR="${XDG_VIDEOS_DIR:-$HOME/media/videos}/wallpapers"
+STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/wallpaper.state"
+
 # Function to run post-processing hooks
 post_hooks() {
     # allow one or more commands to fails without exit
@@ -37,15 +40,15 @@ post_hooks() {
 
 # Function to get a random wallpaper path
 get_wallpaper() {
-    mkdir -p ~/Videos/Wallpapers
-    fd '\.(mp4|mkv|webm|gif)$' ~/Videos/Wallpapers | shuf -n1
+    mkdir -p "$WALLPAPER_DIR"
+    fd '\.(mp4|mkv|webm|gif)$' "$WALLPAPER_DIR" | shuf -n1
 }
 
 rong() {
     if [ -f "$HOME/.local/bin/rong" ]; then
         "$HOME/.local/bin/rong" "$@"
     else
-        command rong "$@"
+        env rong "$@"
     fi
 }
 
@@ -60,8 +63,8 @@ generate_colors() {
 # Function to set wallpaper with swww
 set_wallpaper() {
     gum format "# Setting wallpaper: $1"
-    mkdir -p ~/.local/state
-    echo -n "$1" >~/.local/state/wallpaper.state
+    mkdir -p "$(dirname "$STATE_FILE")"
+    echo -n "$1" >"$STATE_FILE"
 }
 
 main() {
