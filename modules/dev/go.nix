@@ -1,8 +1,8 @@
 {
-    config,
     delib,
     host,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
@@ -10,11 +10,13 @@ delib.module {
 
     options = delib.singleEnableOption host.devFeatured;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        xdg = config.home-manager.users.${username}.xdg;
-    in {
-        home.packages = with pkgs; [gopls gofumpt revive gnumake];
+    home.ifEnabled = {
+        home.packages = with pkgs; [
+            gnumake
+            gofumpt
+            gopls
+            revive
+        ];
         home.sessionVariables = {
             GOMODCACHE = "${xdg.cacheHome}/go/mod";
             GOBIN = "${xdg.dataHome}/go/bin";

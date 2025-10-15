@@ -1,6 +1,6 @@
 {
-    config,
     delib,
+    home,
     host,
     lib,
     pkgs,
@@ -11,14 +11,15 @@ delib.module {
 
     options = delib.singleEnableOption host.isDesktop;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
+    home.ifEnabled = let
         inherit (lib) mkIf;
-        home = config.home-manager.users.${username};
         rong = home.programs.rong.enable;
     in {
         xdg.configFile."dunst/dunstrc".target = "rong/templates/dunstrc.tmpl";
-        home.packages = with pkgs; [dunst noto-fonts];
+        home.packages = with pkgs; [
+            dunst
+            noto-fonts
+        ];
         services.dunst.enable = true;
         services.dunst.settings = {
             global = {

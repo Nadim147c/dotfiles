@@ -1,7 +1,7 @@
 {
-    config,
     delib,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
@@ -9,10 +9,7 @@ delib.module {
 
     options = delib.singleEnableOption true;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        xdg = config.home-manager.users.${username}.xdg;
-    in {
+    home.ifEnabled = {
         home.packages = with pkgs; [nodejs];
         xdg.configFile."npm/npmrc".text = ''
             prefix=${xdg.dataHome}/npm

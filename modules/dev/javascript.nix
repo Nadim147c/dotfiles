@@ -1,8 +1,8 @@
 {
-    config,
     delib,
     host,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
@@ -10,10 +10,7 @@ delib.module {
 
     options = delib.singleEnableOption host.devFeatured;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        xdg = config.home-manager.users.${username}.xdg;
-    in {
+    home.ifEnabled = {
         home.sessionVariables = {
             NPM_CONFIG_USERCONFIG = "${xdg.configHome}/npm/npmrc";
             PNPM_HOME = "${xdg.dataHome}/pnpm";

@@ -1,8 +1,8 @@
 {
-    config,
     delib,
     inputs,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
@@ -19,11 +19,9 @@ delib.module {
         };
     };
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        home = config.home-manager.users.${username};
-        gitConfigNix = "${home.xdg.configHome}/git/config.nix";
-        gitConfig = "${home.xdg.configHome}/git/config";
+    home.ifEnabled = let
+        gitConfigNix = "${xdg.configHome}/git/config.nix";
+        gitConfig = "${xdg.configHome}/git/config";
     in {
         # Ignore the default config: redirect Home Manager’s output into config.nix
         xdg.configFile."git/config".target = "git/config.nix";
@@ -200,7 +198,7 @@ delib.module {
         };
 
         home.activation.gitConfigInclude = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-            mkdir -p ${home.xdg.configHome}/git
+            mkdir -p ${xdg.configHome}/git
 
             # Migrate legacy ~/.gitconfig to XDG if present
             if [ -f "$HOME/.gitconfig" ] && [ ! -f "${gitConfig}" ]; then

@@ -1,9 +1,9 @@
 {
-    config,
     delib,
     host,
     inputs,
     pkgs,
+    xdg,
     ...
 }: let
     tmuxSmartRight = pkgs.writeShellScript "tmux-right.sh" ''
@@ -87,8 +87,8 @@ in
         options = delib.singleEnableOption host.isDesktop;
 
         home.ifEnabled = {myconfig, ...}: let
-            inherit (myconfig.constants) shell username;
-            configHome = config.home-manager.users.${username}.xdg.configHome;
+            inherit (myconfig.constants) shell;
+            configHome = xdg.configHome;
         in {
             home.activation.reloadTmux = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
                 ${pkgs.tmux}/bin/tmux source-file ${configHome}/tmux/tmux.conf || true

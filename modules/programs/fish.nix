@@ -1,7 +1,6 @@
 {
     delib,
     pkgs,
-    config,
     ...
 }:
 delib.module {
@@ -9,21 +8,11 @@ delib.module {
 
     options = delib.singleEnableOption true;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        home = config.home-manager.users.${username}.home;
-        translatedSessionVariables = pkgs.runCommandLocal "hm-session-vars-fixed.fish" {} ''
-            (echo "set __HM_SESS_VARS_SOURCED" # reset __HM_SESS_VARS_SOURCED so that shell var is set
-            ${pkgs.buildPackages.babelfish}/bin/babelfish \
-            <${home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh) > $out
-        '';
-    in {
+    home.ifEnabled = {
         home.packages = with pkgs; [chromashift];
         programs.fish = {
             enable = true;
-            shellInit = "source ${translatedSessionVariables}";
             interactiveShellInit = ''
-                set -gx __HM_SESS_VARS_SOURCED
                 set -U fish_greeting
                 set fish_color_command blue --bold
                 set fish_color_redirection yellow --bold

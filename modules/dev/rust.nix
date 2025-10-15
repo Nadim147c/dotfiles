@@ -1,8 +1,8 @@
 {
-    config,
     delib,
     host,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
@@ -10,10 +10,7 @@ delib.module {
 
     options = delib.singleEnableOption host.devFeatured;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        xdg = config.home-manager.users.${username}.xdg;
-    in {
+    home.ifEnabled = {
         home.sessionVariables = {
             CARGO_HOME = "${xdg.dataHome}/cargo";
             RUSTUP_HOME = "${xdg.dataHome}/rustup";
@@ -21,13 +18,13 @@ delib.module {
         };
         home.packages = with pkgs; [
             cargo
-            rust-analyzer
-            clippy
-            rustfmt
-            cargo-edit
-            cargo-watch
             cargo-audit
+            cargo-edit
             cargo-outdated
+            cargo-watch
+            clippy
+            rust-analyzer
+            rustfmt
         ];
     };
 }

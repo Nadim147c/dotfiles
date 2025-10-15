@@ -45,11 +45,6 @@ delib.module {
         ];
 
         home.sessionVariables = {
-            XDG_CACHE_HOME = xdg.cacheHome;
-            XDG_CONFIG_HOME = xdg.configHome;
-            XDG_DATA_HOME = xdg.dataHome;
-            XDG_STATE_HOME = xdg.stateHome;
-
             WGETRC = "${xdg.configHome}/wget/config";
 
             # Editor settings

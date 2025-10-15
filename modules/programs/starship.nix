@@ -1,6 +1,6 @@
 {
-    config,
     delib,
+    xdg,
     ...
 }:
 delib.module {
@@ -8,13 +8,9 @@ delib.module {
 
     options = delib.singleEnableOption true;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        xdg = config.home-manager.users.${username}.xdg;
-    in {
+    home.ifEnabled = {
         # Cache paths
         home.sessionVariables.STARSHIP_CACHE = "${xdg.cacheHome}/starship";
-
         programs.starship = {
             enable = true;
             enableBashIntegration = true;

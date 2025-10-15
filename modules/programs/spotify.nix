@@ -1,10 +1,10 @@
 {
-    config,
     delib,
     host,
     inputs,
     lib,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
@@ -13,10 +13,7 @@ delib.module {
     options = delib.singleEnableOption host.isDesktop;
 
     nixos.ifEnabled.services.flatpak.packages = ["com.spotify.Client"];
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        home = config.home-manager.users.${username};
-    in {
+    home.ifEnabled = {
         home.packages = [pkgs.spicetify-cli];
         xdg.configFile."spicetify/Themes/Sleek/user.css".source = pkgs.fetchurl {
             url = "https://raw.githubusercontent.com/spicetify/spicetify-themes/refs/heads/master/Sleek/user.css";
@@ -25,7 +22,7 @@ delib.module {
 
         home.activation.configureSpicetify = let
             cli = "${lib.getExe pkgs.spicetify-cli}";
-            cfgFile = "${home.xdg.configHome}/spicetify/config-xpui.ini";
+            cfgFile = "${xdg.configHome}/spicetify/config-xpui.ini";
             ini = "${lib.getExe pkgs.crudini} --set ${cfgFile}";
         in
             inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] # bash
