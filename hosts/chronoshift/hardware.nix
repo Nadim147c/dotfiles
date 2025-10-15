@@ -1,6 +1,7 @@
 {
-    delib,
     config,
+    delib,
+    inputs,
     lib,
     modulesPath,
     ...
@@ -16,6 +17,7 @@ delib.host {
 
         imports = [
             (modulesPath + "/installer/scan/not-detected.nix")
+            "${inputs.nixos-hardware}/common/cpu/intel/skylake"
         ];
 
         boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
