@@ -8,7 +8,14 @@ delib.host {
 
     type = "desktop";
 
-    features = ["cli" "dev" "gaming" "gui" "hacking"];
+    features = [
+        "cli"
+        "dev"
+        "gaming"
+        "gui"
+        "hacking"
+        "wireless"
+    ];
 
     nixos = {
         networking.hostName = "chronoshift";
@@ -16,7 +23,12 @@ delib.host {
         boot.loader.efi.canTouchEfiVariables = true;
         boot.initrd.systemd.enable = true;
 
-        environment.systemPackages = with pkgs; [gcc neovim git nh];
+        environment.systemPackages = with pkgs; [
+            gcc
+            git
+            neovim
+            nh
+        ];
         nix.settings.experimental-features = ["nix-command" "flakes"];
 
         time.timeZone = "Asia/Dhaka";

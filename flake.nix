@@ -39,7 +39,7 @@
                     (base.withConfig {
                         args.enable = true;
                         hosts.features = {
-                            features = ["cli" "dev" "gaming" "gui" "hacking"];
+                            features = ["cli" "dev" "gaming" "gui" "hacking" "wireless"];
                             defaultByHostType = {
                                 desktop = ["cli" "gui" "hacking"];
                                 server = [];
@@ -49,9 +49,7 @@
                     (denix.lib.callExtension ./extensions/overlay.nix)
                 ];
 
-                specialArgs = {
-                    inherit inputs;
-                };
+                specialArgs = {inherit inputs moduleSystem;};
             };
     in {
         nixosConfigurations = mkConfigurations "nixos";
