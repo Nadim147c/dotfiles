@@ -1,8 +1,6 @@
 {
-    config,
     delib,
     inputs,
-    lib,
     modulesPath,
     ...
 }:
@@ -14,6 +12,7 @@ delib.host {
     home.home.stateVersion = "25.11";
     nixos = {
         system.stateVersion = "25.05";
+        nixpkgs.hostPlatform = "x86_64-linux";
 
         imports = [
             (modulesPath + "/installer/scan/not-detected.nix")
@@ -43,9 +42,5 @@ delib.host {
         swapDevices = [
             {device = "/dev/disk/by-uuid/744be771-1a45-4a01-a168-d165b4e79eb3";}
         ];
-
-        networking.useDHCP = lib.mkDefault true;
-        nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-        hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     };
 }
