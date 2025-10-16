@@ -23,7 +23,18 @@ delib.host {
         boot.initrd.kernelModules = [];
         boot.kernelModules = ["kvm-intel"];
         boot.extraModulePackages = [];
-        boot.kernelParams = ["quiet" "video=eDP-1:d"];
+        boot.kernelParams = [
+            "quiet"
+            "splash"
+
+            "boot.shell_on_fail"
+            "rd.systemd.show_status=false"
+            "rd.udev.log_level=3"
+            "udev.log_priority=3"
+
+            # Display damaged built-in display
+            "video=eDP-1:d"
+        ];
 
         fileSystems."/" = {
             device = "/dev/disk/by-uuid/87cc385e-3fc4-4498-8eea-68c3067eaec8";

@@ -19,9 +19,17 @@ delib.host {
 
     nixos = {
         networking.hostName = "chronoshift";
-        boot.loader.systemd-boot.enable = true;
-        boot.loader.efi.canTouchEfiVariables = true;
-        boot.initrd.systemd.enable = true;
+        boot = {
+            loader.systemd-boot = {
+                enable = true;
+                configurationLimit = 10;
+                consoleMode = "max";
+            };
+            loader.efi.canTouchEfiVariables = true;
+            initrd.systemd.enable = true;
+            initrd.verbose = false;
+            consoleLogLevel = 0;
+        };
 
         environment.systemPackages = with pkgs; [
             gcc
@@ -29,7 +37,6 @@ delib.host {
             neovim
             nh
         ];
-        nix.settings.experimental-features = ["nix-command" "flakes"];
 
         time.timeZone = "Asia/Dhaka";
         i18n.defaultLocale = "en_US.UTF-8";
@@ -40,8 +47,5 @@ delib.host {
             layout = "us";
             variant = "";
         };
-
-        # Allow unfree packages
-        nixpkgs.config.allowUnfree = true;
     };
 }
