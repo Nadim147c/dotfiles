@@ -32,9 +32,8 @@ delib.host {
         };
 
         environment.systemPackages = with pkgs; [
-            gcc
-            git
-            neovim
+            libva
+            libva-utils
             nh
         ];
 
