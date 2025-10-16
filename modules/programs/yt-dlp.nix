@@ -1,4 +1,8 @@
-{delib, ...}:
+{
+    delib,
+    xdg,
+    ...
+}:
 delib.module {
     name = "programs.yt-dlp";
 
@@ -7,7 +11,7 @@ delib.module {
     home.ifEnabled.programs.yt-dlp = {
         enable = true;
         settings = {
-            paths = "~/Downloads/Videos";
+            paths = "${xdg.userDirs.download}";
             format = "(bv[height<=1080]+ba)/(b[height<=1080])/b";
             output = "%(title)s-%(id)s.%(ext)s";
             merge-output-format = "mp4";
