@@ -43,8 +43,6 @@ delib.module {
         ];
 
         home.sessionVariables = {
-            WGETRC = "${xdg.configHome}/wget/config";
-
             # Editor settings
             EDITOR = editor;
             VISUAL = editor;

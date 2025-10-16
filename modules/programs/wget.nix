@@ -1,7 +1,7 @@
 {
-    config,
     delib,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
@@ -9,13 +9,11 @@ delib.module {
 
     options = delib.singleEnableOption true;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        home = config.home-manager.users.${username};
-    in {
+    home.ifEnabled = {
         home.packages = [pkgs.wget];
+        home.sessionVariables.WGETRC = "${xdg.configHome}/wget/config";
         xdg.configFile."wget/config".text = ''
-            hsts-file = ${home.xdg.cacheHome}/wget-hsts
+            hsts-file = ${xdg.cacheHome}/wget-hsts
         '';
     };
 }
