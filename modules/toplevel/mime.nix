@@ -4,7 +4,7 @@
     ...
 }:
 delib.module {
-    name = "setup.mime";
+    name = "mime";
 
     options = delib.singleEnableOption host.isDesktop;
 

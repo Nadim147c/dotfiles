@@ -1,6 +1,6 @@
 {delib, ...}:
 delib.module {
-    name = "setup.audio";
+    name = "audio";
 
     options = delib.singleEnableOption true;
 

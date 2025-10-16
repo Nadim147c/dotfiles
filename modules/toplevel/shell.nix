@@ -1,17 +1,15 @@
 {
-    config,
+    home,
+    xdg,
     delib,
     pkgs,
     ...
 }:
 delib.module {
-    name = "setup.shell";
+    name = "shell";
     options = delib.singleEnableOption true;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        xdg = config.home-manager.users.${username}.xdg;
-        home = config.home-manager.users.${username}.home;
+    home.ifEnabled = let
         editor = "${pkgs.neovim}/bin/nvim";
         lessCmd = "${pkgs.less}/bin/less -r -F";
     in {
@@ -64,7 +62,7 @@ delib.module {
         };
 
         home.sessionPath = [
-            "${home.homeDirectory}/.local/bin"
+            "${home.home.homeDirectory}/.local/bin"
             "${xdg.dataHome}/cargo/bin"
             "${xdg.dataHome}/pnpm"
             "${xdg.cacheHome}/.bun/bin"

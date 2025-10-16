@@ -4,7 +4,7 @@
     ...
 }:
 delib.module {
-    name = "setup.catppuccin";
+    name = "catppuccin";
 
     options = delib.singleEnableOption true;
 

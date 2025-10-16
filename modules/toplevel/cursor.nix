@@ -5,9 +5,9 @@
     ...
 }:
 delib.module {
-    name = "setup.cursor";
+    name = "cursor";
 
-    options.setup.cursor = {
+    options.cursor = {
         enable = delib.boolOption host.isDesktop;
         name = delib.strOption "Bibata-Modern-Classic";
         package = delib.packageOption pkgs.bibata-cursors;

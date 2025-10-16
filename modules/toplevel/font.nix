@@ -5,24 +5,20 @@
     ...
 }:
 delib.module {
-    name = "setup.font";
+    name = "font";
 
     options = delib.singleEnableOption host.isDesktop;
 
     home.ifEnabled = {
         home.packages = with pkgs; [
-            # Noto Sans Fonts
-            noto-fonts
-            noto-fonts-emoji
-            noto-fonts-cjk-sans
-            noto-fonts-cjk-serif
-            noto-fonts-extra
-
-            # JetBrainsMono Nerd Font
+            electroharmonix
             fontconfig
             nerd-fonts.jetbrains-mono
-
-            electroharmonix
+            noto-fonts
+            noto-fonts-cjk-sans
+            noto-fonts-cjk-serif
+            noto-fonts-emoji
+            noto-fonts-extra
         ];
 
         fonts.fontconfig = {

@@ -1,24 +1,21 @@
 {
-    config,
     delib,
     host,
     lib,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
-    name = "setup.screenshot";
+    name = "screenshot";
 
     options = delib.singleEnableOption host.isDesktop;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        home = config.home-manager.users.${username};
-
+    home.ifEnabled = let
         screenshot-bin = pkgs.writeShellScriptBin "screenshot" ''
             pkill slurp || ${pkgs.hyprshot}/bin/hyprshot -m ''${1:-region} --raw |
-              ${pkgs.satty}/bin/satty --filename - \
-                --output-filename "${home.xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
+                ${pkgs.satty}/bin/satty --filename - \
+                --output-filename "${xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
                 --early-exit \
                 --actions-on-enter save-to-clipboard \
                 --save-after-copy \
@@ -32,9 +29,9 @@ delib.module {
         '';
     in {
         home.packages = with pkgs; [
-            screenshot-bin
             hyprshot
             satty
+            screenshot-bin
             slurp
         ];
 

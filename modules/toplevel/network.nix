@@ -1,6 +1,6 @@
 {delib, ...}:
 delib.module {
-    name = "setup.network";
+    name = "network";
 
     options = delib.singleEnableOption true;
 

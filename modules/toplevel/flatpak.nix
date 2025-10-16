@@ -5,7 +5,7 @@
     ...
 }:
 delib.module {
-    name = "setup.flatpak";
+    name = "flatpak";
     options = delib.singleEnableOption host.isDesktop;
     nixos.always.imports = [inputs.nix-flatpak.nixosModules.nix-flatpak];
     nixos.ifEnabled.services.flatpak = {

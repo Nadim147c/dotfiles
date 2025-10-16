@@ -7,7 +7,7 @@
     clipboard-history = "${pkgs.kitty}/bin/kitty --class=clipboard  ${pkgs.clipse}/bin/clipse";
 in
     delib.module {
-        name = "setup.clipboard";
+        name = "clipboard";
 
         options = delib.singleEnableOption host.isDesktop;
 

@@ -1,6 +1,6 @@
 {delib, ...}:
 delib.module {
-    name = "setup.console";
+    name = "console";
 
     options = delib.singleEnableOption true;
 
