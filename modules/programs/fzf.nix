@@ -10,10 +10,10 @@ delib.module {
 
     home.ifEnabled.programs.fzf = {
         enable = true;
-        enableBashIntegration = true;
-        enableFishIntegration = true;
+        enableBashIntegration = false;
+        enableFishIntegration = false;
         # enableNushellIntegration = true;
-        enableZshIntegration = true;
+        enableZshIntegration = false;
         defaultOptions = ["--border" "--ansi" "--layout=reverse"];
         defaultCommand = "fd --type f --color=always";
         colors.bg = lib.mkForce "";
