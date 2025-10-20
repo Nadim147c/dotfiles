@@ -1,8 +1,6 @@
 {
     delib,
-    inputs,
     pkgs,
-    xdg,
     ...
 }:
 delib.module {
@@ -19,14 +17,7 @@ delib.module {
         };
     };
 
-    home.ifEnabled = let
-        gitConfigNix = "${xdg.configHome}/git/config.nix";
-        gitConfig = "${xdg.configHome}/git/config";
-    in {
-        # Ignore the default config: redirect Home Manager’s output into config.nix
-        xdg.configFile."git/config".target = "git/config.nix";
-
-        # Ensure Git always includes the Nix config
+    home.ifEnabled = {
         home.packages = with pkgs; [
             git-extras
             git-isb
@@ -43,22 +34,26 @@ delib.module {
             settings.git_protocol = "ssh";
         };
 
+        home.shellAliases.delta = "${pkgs.delta}/bin/delta --line-numbers --hunk-header-decoration-style none";
+        programs.delta = {
+            enable = true;
+            enableGitIntegration = true;
+            options = {
+                navigate = true;
+                hunk-header-style = "omit";
+                line-numbers = true;
+            };
+        };
+
         programs.git = {
             package = pkgs.gitFull;
             enable = true;
-            userName = "Ephemeral";
-            userEmail = "theephemeral.txt@gmail.com";
 
-            delta = {
-                enable = true;
-                options = {
-                    navigate = true;
-                    hunk-header-style = "omit";
-                    line-numbers = true;
+            settings = {
+                user = {
+                    name = "Ephemeral";
+                    email = "theephemeral.txt@gmail.com";
                 };
-            };
-
-            extraConfig = {
                 init.defaultBranch = "main";
 
                 core = {
@@ -168,56 +163,31 @@ delib.module {
                 help.autocorrect = "prompt";
                 pull.rebase = true;
                 submodule.fetchJobs = 16;
-            };
 
-            aliases = {
-                tag-latest = "!f() { git tag -a \"$1\" -m \"Release: $1\"; } f";
-                grep = "!rg --color=always --hidden --glob=!.git";
-                fork = "!gh repo fork";
-                find = "!fd --hidden --exclude=.git";
-                acm = "!git add -A && git commit";
+                git-extras.feature.prefix = "feat";
 
-                st = "status";
-                co = "checkout";
-                cm = "commit";
-                aa = "add -A";
-                hard = "reset --hard";
-                amend = "commit --amend";
-                fast-clone = "clone --depth=1";
-                down = "pull --rebase";
-                dis = "diff --cached";
+                alias = {
+                    tag-latest = "!f() { git tag -a \"$1\" -m \"Release: $1\"; } f";
+                    grep = "!rg --color=always --hidden --glob=!.git";
+                    fork = "!gh repo fork";
+                    find = "!fd --hidden --exclude=.git";
+                    acm = "!git add -A && git commit";
 
-                lsignored = "ls-files . --ignored --exclude-standard --others";
-                graph = "log --graph --all --pretty=format:'%C(magenta)%h %C(white) %an  %ar%C(blue)  %D%n   %C(bold)%C(green)%s%C(reset)'";
-                vtag = "!git tag | sort -V";
-            };
+                    st = "status";
+                    co = "checkout";
+                    cm = "commit";
+                    aa = "add -A";
+                    hard = "reset --hard";
+                    amend = "commit --amend";
+                    fast-clone = "clone --depth=1";
+                    down = "pull --rebase";
+                    dis = "diff --cached";
 
-            extraConfig."git-extras" = {
-                feature.prefix = "feat";
+                    lsignored = "ls-files . --ignored --exclude-standard --others";
+                    graph = "log --graph --all --pretty=format:'%C(magenta)%h %C(white) %an  %ar%C(blue)  %D%n   %C(bold)%C(green)%s%C(reset)'";
+                    vtag = "!git tag | sort -V";
+                };
             };
         };
-
-        home.activation.gitConfigInclude = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-            mkdir -p ${xdg.configHome}/git
-
-            # Migrate legacy ~/.gitconfig to XDG if present
-            if [ -f "$HOME/.gitconfig" ] && [ ! -f "${gitConfig}" ]; then
-              echo "Migrating ~/.gitconfig → ${gitConfig}"
-              mv -vf "$HOME/.gitconfig" "${gitConfig}"
-            fi
-
-            # If ~/.config/git/config doesn't exist, create it
-            if [ ! -f "${gitConfig}" ]; then
-              touch "${gitConfig}"
-            fi
-
-            # Check if config.nix is already included
-            if ! ${pkgs.gitFull}/bin/git config --file="${gitConfig}" --get-all include.path \
-                | grep -qx "${gitConfigNix}"; then
-              echo "Adding include for ${gitConfigNix} in ${gitConfig}"
-              ${pkgs.gitFull}/bin/git config --file="${gitConfig}" \
-                --add include.path "${gitConfigNix}"
-            fi
-        '';
     };
 }
