@@ -14,7 +14,6 @@ delib.module {
         lessCmd = "${pkgs.less}/bin/less -r -F";
     in {
         home.packages = with pkgs; [
-            aria2
             btop
             cava
             chafa
