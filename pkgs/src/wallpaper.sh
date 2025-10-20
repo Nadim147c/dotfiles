@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 WALLPAPER_DIR="${XDG_VIDEOS_DIR:-$HOME/media/videos}/wallpapers"
-STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/wallpaper.state"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}"
+STATE_FILE="$STATE_DIR/wallpaper.state"
 
 # Function to run post-processing hooks
 post_hooks() {
@@ -19,7 +20,8 @@ post_hooks() {
     dunstctl reload && dunstctl set-pause-level "$dunst_level"
 
     # Reload brave
-    tee /etc/brave/policies/managed/color.json <~/.local/state/rong/chromium.json
+    install -Dm644 "$STATE_DIR/rong/chromium.json" /etc/brave/policies/managed/color.json
+
     brave --refresh-platform-policy --no-startup-window
 
     # Reload applications by sending signals
