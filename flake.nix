@@ -36,6 +36,7 @@
 
                 extensions = with denix.lib.extensions; [
                     args
+                    overlays
                     (base.withConfig {
                         args.enable = true;
                         hosts.features = {
@@ -46,7 +47,6 @@
                             };
                         };
                     })
-                    (denix.lib.callExtension ./extensions/overlay.nix)
                 ];
 
                 specialArgs = {inherit inputs moduleSystem;};
