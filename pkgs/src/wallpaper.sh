@@ -19,11 +19,6 @@ post_hooks() {
     dunst_level=$(dunstctl get-pause-level)
     dunstctl reload && dunstctl set-pause-level "$dunst_level"
 
-    # Reload brave
-    install -Dm644 "$STATE_DIR/rong/chromium.json" /etc/brave/policies/managed/color.json
-
-    brave --refresh-platform-policy --no-startup-window
-
     # Reload applications by sending signals
     pywalfox --verbose update
 
