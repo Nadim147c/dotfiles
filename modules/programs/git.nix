@@ -1,4 +1,5 @@
 {
+    constants,
     delib,
     pkgs,
     ...
@@ -51,8 +52,8 @@ delib.module {
 
             settings = {
                 user = {
-                    name = "Ephemeral";
-                    email = "theephemeral.txt@gmail.com";
+                    name = constants.fullname;
+                    email = constants.email;
                 };
                 init.defaultBranch = "main";
 

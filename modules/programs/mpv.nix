@@ -13,8 +13,8 @@ delib.module {
     home.ifEnabled.programs.mpv = {
         enable = true;
         scripts = with pkgs; [
-            mpvScripts.mpris
             mpvScripts.modernx
+            mpvScripts.mpris
             mpvScripts.quality-menu
             mpvScripts.sponsorblock
             mpvScripts.thumbfast

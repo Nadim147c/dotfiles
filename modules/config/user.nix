@@ -1,4 +1,5 @@
 {
+    constants,
     delib,
     pkgs,
     ...
@@ -11,17 +12,14 @@ delib.module {
         programs.home-manager.enable = true;
     };
 
-    nixos.always = {myconfig, ...}: let
-        inherit (myconfig.constants) username userfullname;
-    in {
+    nixos.always = {
         programs.zsh.enable = true;
         users = {
-            groups.${username} = {};
-
-            users.${username} = {
+            groups.${constants.username} = {};
+            users.${constants.username} = {
                 shell = pkgs.zsh;
                 isNormalUser = true;
-                description = userfullname;
+                description = constants.fullname;
                 extraGroups = ["networkmanager" "wheel" "docker"];
             };
         };

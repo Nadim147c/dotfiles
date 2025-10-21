@@ -1,4 +1,5 @@
 {
+    constants,
     delib,
     pkgs,
     host,
@@ -10,8 +11,7 @@ delib.module {
     options = delib.singleEnableOption host.isDesktop;
 
     nixos.ifEnabled.security.pam.services.hyprlock.enable = true;
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) userfullname;
+    home.ifEnabled = let
         player = pkgs.writers.writeNu "hyprlock-player" # nu
 
         ''
@@ -129,7 +129,7 @@ delib.module {
                     # Greeting label
                     {
                         monitor = "";
-                        text = "Hi, ${userfullname}";
+                        text = "Hi, ${constants.fullname}";
                         color = "$on_background";
                         font_size = 14;
                         font_family = "$font";

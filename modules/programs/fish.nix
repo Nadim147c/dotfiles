@@ -1,12 +1,13 @@
 {
     delib,
+    host,
     pkgs,
     ...
 }:
 delib.module {
     name = "programs.fish";
 
-    options = delib.singleEnableOption true;
+    options = delib.singleEnableOption host.cliFeatured;
 
     home.ifEnabled = {
         home.packages = with pkgs; [chromashift];

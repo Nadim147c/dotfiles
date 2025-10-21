@@ -8,8 +8,12 @@ delib.module {
 
     options.constants = with delib; {
         username = readOnly (strOption "ephemeral");
-        userfullname = readOnly (strOption "Ephemeral");
-        useremail = readOnly (strOption "theephemeral.txt@gmail.com");
+        fullname = readOnly (strOption "Ephemeral");
+        email = readOnly (strOption "theephemeral.txt@gmail.com");
         shell = readOnly (strOption "${pkgs.fish}/bin/fish");
+    };
+
+    myconfig.always = {cfg, ...}: {
+        args.shared.constants = cfg;
     };
 }

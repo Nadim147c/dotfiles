@@ -1,5 +1,6 @@
 {
     delib,
+    host,
     pkgs,
     xdg,
     ...
@@ -7,7 +8,7 @@
 delib.module {
     name = "programs.npm";
 
-    options = delib.singleEnableOption true;
+    options = delib.singleEnableOption (host.cliFeatured && host.devFeatured);
 
     home.ifEnabled = {
         home.packages = with pkgs; [nodejs];

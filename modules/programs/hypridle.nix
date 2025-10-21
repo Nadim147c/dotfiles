@@ -9,7 +9,10 @@ delib.module {
 
     options = delib.singleEnableOption host.isDesktop;
 
-    home.ifEnabled.home.packages = with pkgs; [hyprlock libnotify];
+    home.ifEnabled.home.packages = with pkgs; [
+        hyprlock
+        libnotify
+    ];
     home.ifEnabled.services.hypridle = {
         enable = true;
         settings = {

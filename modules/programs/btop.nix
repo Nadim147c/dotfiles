@@ -1,7 +1,11 @@
-{delib, ...}:
+{
+    delib,
+    host,
+    ...
+}:
 delib.module {
     name = "programs.btop";
-    options = delib.singleEnableOption true;
+    options = delib.singleEnableOption host.cliFeatured;
     home.ifEnabled.programs.btop = {
         enable = true;
         settings = {
