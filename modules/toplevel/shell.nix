@@ -72,6 +72,8 @@ delib.module {
             exe = "chmod +x";
             cat = "${pkgs.bat}/bin/bat";
 
+            x = "xargs";
+
             # Cd aliases
             rd = "cd -";
             ".." = "cd ..";
