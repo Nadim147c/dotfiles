@@ -9,15 +9,6 @@ delib.module {
 
     options = delib.singleEnableOption true;
 
-    nixos.ifEnabled = {
-        services.pcscd.enable = true;
-        programs.gnupg.agent = {
-            enable = true;
-            pinentryPackage = pkgs.pinentry-gnome3;
-            enableSSHSupport = true;
-        };
-    };
-
     home.ifEnabled = {
         home.packages = with pkgs; [
             git-extras
@@ -26,8 +17,6 @@ delib.module {
             lazygit
             semver
         ];
-
-        programs.gpg.enable = true;
 
         programs.gh = {
             enable = true;
