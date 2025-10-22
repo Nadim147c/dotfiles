@@ -13,8 +13,9 @@ delib.module {
             mpvpaper-daemon
             wallpaper-sh
         ];
-        wayland.windowManager.hyprland.settings.exec-once = [
-            "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.mpvpaper-daemon}/bin/mpvpaper-daemon"
-        ];
+        wayland.windowManager.hyprland.settings = {
+            exec-once = ["${pkgs.uwsm}/bin/uwsm app -- ${pkgs.mpvpaper-daemon}/bin/mpvpaper-daemon"];
+            bind = ["$mainMod, W, exec, ${pkgs.wallpaper-sh}/bin/wallpaper.sh"];
+        };
     };
 }
