@@ -73,6 +73,7 @@ delib.module {
             cat = "${pkgs.bat}/bin/bat";
 
             x = "xargs";
+            xn = "xargs -d'\n'";
 
             # Cd aliases
             rd = "cd -";
