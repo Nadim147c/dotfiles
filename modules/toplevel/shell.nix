@@ -49,6 +49,7 @@ delib.module {
             # Pager settings
             LESS = "-r -F";
             BAT_PAGER = lessCmd;
+            DELTA_PAGER = lessCmd;
             PAGER = lessCmd;
             MANPAGER = "${editor} +Man!";
 
@@ -82,6 +83,8 @@ delib.module {
             "...." = "cd ../../..";
             "....." = "cd ../../../..";
 
+            # Other aliases
+            delta = "${pkgs.delta}/bin/delta --line-numbers --hunk-header-decoration-style none";
             ffmpeg = "${pkgs.ffmpeg}/bin/ffmpeg -hide_banner";
 
             gaa = "git add -A";

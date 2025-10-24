@@ -1,12 +1,16 @@
 {
+    inputs,
     delib,
     host,
+    edge,
     ...
 }:
 delib.module {
     name = "programs.rong";
 
     options = delib.singleEnableOption host.isDesktop;
+
+    home.always.imports = [inputs.rong.homeModules.default];
 
     # Redirect
     home.ifEnabled.xdg.configFile = {
@@ -15,6 +19,9 @@ delib.module {
 
     home.ifEnabled.programs.rong = {
         enable = true;
+        # since rong use go 1.25 but nixpkgs stable has go 1.24 use the unstable
+        # nixpkgs to build the package
+        package = edge.callPackage "${inputs.rong}/default.nix" {};
         settings = {
             variant = "tonal_spot";
             version = 2025;

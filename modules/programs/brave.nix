@@ -1,5 +1,6 @@
 {
     delib,
+    edge,
     lib,
     host,
     pkgs,
@@ -13,7 +14,7 @@ delib.module {
     home.ifEnabled = {
         programs.brave = {
             enable = true;
-            package = pkgs.brave;
+            package = edge.brave;
             dictionaries = [pkgs.hunspellDictsChromium.en_US];
             extensions = [
                 "bkijmpolkanhdehnlnabfooghjdokakc" # Double-click Image Downloader
@@ -31,13 +32,17 @@ delib.module {
         };
 
         xdg.configFile."brave-flags.conf".text = ''
+            --password-store=gnome
             --ozone-platform=wayland
             --ozone-platform-hint=wayland
             --enable-features=TouchpadOverscrollHistoryNavigation
         '';
 
-        wayland.windowManager.hyprland.settings = {
-            "$browser" = "${pkgs.uwsm}/bin/uwsm app -- ${lib.getExe pkgs.brave}";
+        wayland.windowManager.hyprland.settings = let
+            uwsm = "${lib.getExe pkgs.uwsm} app";
+            brave = "${lib.getExe pkgs.brave} --password-store=gnome";
+        in {
+            "$browser" = "${uwsm} -- ${brave}";
         };
 
         xdg.mimeApps = let

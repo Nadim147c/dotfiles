@@ -1,6 +1,5 @@
 {
     delib,
-    inputs,
     pkgs,
     ...
 }:
@@ -10,7 +9,6 @@ delib.module {
     home.always = {myconfig, ...}: let
         inherit (myconfig.constants) username;
     in {
-        imports = [inputs.rong.homeModules.default];
         home = {
             inherit username;
             homeDirectory =

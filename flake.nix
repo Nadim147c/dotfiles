@@ -2,7 +2,7 @@
     description = "Modular configuration of NixOS, Home Manager, and Nix-Darwin with Denix";
 
     inputs = {
-        catppuccin.url = "github:catppuccin/nix";
+        catppuccin.url = "github:catppuccin/nix/release-25.05";
         denix = {
             url = "github:yunfachi/denix";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -10,19 +10,20 @@
             inputs.nix-darwin.follows = "nix-darwin";
         };
         home-manager = {
-            url = "github:nix-community/home-manager/master";
+            url = "github:nix-community/home-manager/release-25.05";
             inputs.nixpkgs.follows = "nixpkgs";
         };
         nix-darwin = {
-            url = "github:nix-darwin/nix-darwin/master";
+            url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
             inputs.nixpkgs.follows = "nixpkgs";
         };
         nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
         nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-        nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+        nixpkgs.url = "nixpkgs/nixos-25.05";
+        unstable.url = "nixpkgs/nixos-unstable";
         rong = {
             url = "github:Nadim147c/rong";
-            inputs.nixpkgs.follows = "nixpkgs";
+            inputs.nixpkgs.follows = "unstable";
         };
     };
 

@@ -1,4 +1,9 @@
-{delib, ...}: let
+{
+    delib,
+    inputs,
+    pkgs,
+    ...
+}: let
     shared.nixpkgs.config = {
         allowUnfree = true;
     };
@@ -11,6 +16,10 @@
 in
     delib.module {
         name = "nixpkgs";
+        myconfig.always.args.shared = let
+        in {
+            edge = inputs.unstable.legacyPackages.${pkgs.system};
+        };
 
         nixos.always =
             shared

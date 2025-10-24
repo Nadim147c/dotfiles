@@ -17,6 +17,9 @@ delib.host {
         "wireless"
     ];
 
+    home.home.stateVersion = "25.05";
+    nixos.system.stateVersion = "25.05";
+
     nixos = {
         networking.hostName = "chronoshift";
         boot = {

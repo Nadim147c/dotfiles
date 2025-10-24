@@ -8,10 +8,7 @@ delib.host {
     name = "chronoshift";
 
     system = "x86_64-linux";
-
-    home.home.stateVersion = "25.11";
     nixos = {
-        system.stateVersion = "25.05";
         nixpkgs.hostPlatform = "x86_64-linux";
 
         imports = [

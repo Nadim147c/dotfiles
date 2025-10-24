@@ -1,5 +1,6 @@
 {
     delib,
+    edge,
     pkgs,
     config,
     inputs,
@@ -48,7 +49,7 @@ delib.module {
             if [ -f "${localLyric}" ]; then
                 exec ${localLyric} "$@"
             else
-                exec ${pkgs.waybar-lyric}/bin/waybar-lyric "$@"
+                exec ${edge.waybar-lyric}/bin/waybar-lyric "$@"
             fi
         '';
     in {
