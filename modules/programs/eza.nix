@@ -8,7 +8,7 @@ delib.module {
         enable = true;
         enableBashIntegration = true;
         enableFishIntegration = true;
-        enableNushellIntegration = true;
+        enableNushellIntegration = false;
         enableZshIntegration = true;
         icons = "auto";
     };
