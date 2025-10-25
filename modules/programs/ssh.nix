@@ -16,7 +16,7 @@
             chmod 700 ~/.ssh
 
             # Main menu
-            ACTION=$(gum choose "Import Private Key" "Export Public Key" "Generate New Key Pair" "Exit")
+            ACTION=$(gum choose "Import Private Key" "Export Public Key" "Generate New Key Pair" "Change Key Passphrase" "Exit")
 
             case "$ACTION" in
             "Import Private Key")
@@ -174,19 +174,23 @@
 
                 COMMENT=$(gum input --placeholder "Enter comment/email (optional)" --value "")
 
+                # Get passphrase
+                gum style "Enter passphrase for new key (press Enter for no passphrase):"
+                PASSPHRASE=$(gum input --placeholder "Passphrase" --password)
+
                 # Generate the key
                 if [ "$KEY_TYPE" = "rsa" ]; then
                     KEY_SIZE=$(gum choose --header "Select key size:" "4096" "2048")
                     if [ -n "$COMMENT" ]; then
-                        ssh-keygen -t "$KEY_TYPE" -b "$KEY_SIZE" -f "$KEYPATH" -C "$COMMENT" -N ""
+                        echo "$PASSPHRASE" | ssh-keygen -t "$KEY_TYPE" -b "$KEY_SIZE" -f "$KEYPATH" -C "$COMMENT" -N "$PASSPHRASE" -P "" >/dev/null 2>&1
                     else
-                        ssh-keygen -t "$KEY_TYPE" -b "$KEY_SIZE" -f "$KEYPATH" -N ""
+                        echo "$PASSPHRASE" | ssh-keygen -t "$KEY_TYPE" -b "$KEY_SIZE" -f "$KEYPATH" -N "$PASSPHRASE" -P "" >/dev/null 2>&1
                     fi
                 else
                     if [ -n "$COMMENT" ]; then
-                        ssh-keygen -t "$KEY_TYPE" -f "$KEYPATH" -C "$COMMENT" -N ""
+                        echo "$PASSPHRASE" | ssh-keygen -t "$KEY_TYPE" -f "$KEYPATH" -C "$COMMENT" -N "$PASSPHRASE" -P "" >/dev/null 2>&1
                     else
-                        ssh-keygen -t "$KEY_TYPE" -f "$KEYPATH" -N ""
+                        echo "$PASSPHRASE" | ssh-keygen -t "$KEY_TYPE" -f "$KEYPATH" -N "$PASSPHRASE" -P "" >/dev/null 2>&1
                     fi
                 fi
 
@@ -202,6 +206,60 @@
                     gum style "💡 Public key: $KEYPATH.pub"
                 else
                     gum style --foreground 196 "❌ Failed to generate key pair."
+                    exit 1
+                fi
+                ;;
+
+            "Change Key Passphrase")
+                echo "🔐 Changing SSH Key Passphrase"
+                echo ""
+
+                # Find all private keys in ~/.ssh
+                PRIVATE_KEYS=$(find ~/.ssh -type f -name "id_*" ! -name "*.pub" 2>/dev/null || true)
+
+                if [ -z "$PRIVATE_KEYS" ]; then
+                    gum style --foreground 196 "❌ No SSH private keys found in ~/.ssh/"
+                    exit 1
+                fi
+
+                # Let user choose a key
+                SELECTED_KEY=$(echo "$PRIVATE_KEYS" | gum choose --header "Select a key to change passphrase:")
+
+                if [ -z "$SELECTED_KEY" ]; then
+                    gum style --foreground 196 "❌ No key selected. Aborting."
+                    exit 1
+                fi
+
+                echo ""
+                gum style --bold "Selected key: $(basename "$SELECTED_KEY")"
+                echo ""
+
+                # Get current passphrase
+                gum style "Enter current passphrase (leave empty if no passphrase):"
+                OLD_PASSPHRASE=$(gum input --placeholder "Current passphrase" --password)
+
+                # Get new passphrase
+                gum style "Enter new passphrase (leave empty for no passphrase):"
+                NEW_PASSPHRASE=$(gum input --placeholder "New passphrase" --password)
+
+                # Confirm new passphrase
+                gum style "Confirm new passphrase:"
+                CONFIRM_PASSPHRASE=$(gum input --placeholder "Confirm new passphrase" --password)
+
+                # Verify new passphrases match
+                if [ "$NEW_PASSPHRASE" != "$CONFIRM_PASSPHRASE" ]; then
+                    gum style --foreground 196 "❌ Passphrases do not match. Aborting."
+                    exit 1
+                fi
+
+                # Change the passphrase
+                if ssh-keygen -p -f "$SELECTED_KEY" -P "$OLD_PASSPHRASE" -N "$NEW_PASSPHRASE" >/dev/null 2>&1; then
+                    gum style --foreground 46 "✅ Passphrase changed successfully!"
+                    echo ""
+                    gum style --bold "Key details:"
+                    ssh-keygen -l -f "$SELECTED_KEY"
+                else
+                    gum style --foreground 196 "❌ Failed to change passphrase. (Incorrect current passphrase?)"
                     exit 1
                 fi
                 ;;
