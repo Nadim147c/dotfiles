@@ -151,6 +151,6 @@ delib.module {
         "size 80% 80%, tag:float-large"
         "float, tag:float"
         "center, tag:center"
-        "noscreenshare, tag:noscreenshare"
+        # "noscreenshare, tag:noscreenshare"
     ];
 }
