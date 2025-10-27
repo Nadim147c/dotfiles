@@ -5,9 +5,13 @@
         catppuccin.url = "github:catppuccin/nix/release-25.05";
         denix = {
             url = "github:yunfachi/denix";
-            inputs.nixpkgs.follows = "nixpkgs";
             inputs.home-manager.follows = "home-manager";
             inputs.nix-darwin.follows = "nix-darwin";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+        elephant = {
+            url = "github:abenz1267/elephant";
+            inputs.nixpkgs.follows = "nixpkgs";
         };
         home-manager = {
             url = "github:nix-community/home-manager/release-25.05";
@@ -20,10 +24,15 @@
         nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
         nixos-hardware.url = "github:NixOS/nixos-hardware/master";
         nixpkgs.url = "nixpkgs/nixos-25.05";
-        unstable.url = "nixpkgs/nixos-unstable";
         rong = {
             url = "github:Nadim147c/rong";
             inputs.nixpkgs.follows = "unstable";
+        };
+        unstable.url = "nixpkgs/nixos-unstable";
+        walker = {
+            url = "github:abenz1267/walker";
+            inputs.elephant.follows = "elephant";
+            inputs.nixpkgs.follows = "nixpkgs";
         };
     };
 
