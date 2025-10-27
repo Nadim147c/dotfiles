@@ -5,7 +5,7 @@
 }:
 stdenvNoCC.mkDerivation {
     pname = "electroharmonix";
-    version = "1.0";
+    version = "1.0.0";
     src = ./src/electroharmonix;
 
     installPhase = ''
@@ -18,7 +18,7 @@ stdenvNoCC.mkDerivation {
     meta = with lib; {
         description = "Electroharmonix font installed from local file";
         homepage = "https://www.dafont.com/electroharmonix.font";
-        license = licenses.unfreeRedistributable;
+        license = licenses.publicDomain;
         platforms = platforms.all;
     };
 }
