@@ -1,36 +1,28 @@
 {
+    constants,
     delib,
     host,
-    pkgs,
     ...
 }:
 delib.module {
     name = "programs.alacritty";
 
-    options = delib.singleEnableOption host.isDesktop;
+    options = delib.singleEnableOption host.guiFeatured;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) shell;
-    in {
-        programs.alacritty = {
-            enable = true;
-            # This alacritty package doesn't work properly on non nixos distro
-            package = null;
-            settings = {
-                general.live_config_reload = true;
-                window = {
-                    padding.x = 4;
-                    padding.y = 4;
-                };
-                font = {
-                    size = 9.5;
-                    normal.family = "JetbrainsMono Nerd Font";
-                    package = pkgs.nerd-fonts.jetbrains-mono;
-                };
-                termial = {
-                    shell = shell;
-                    osc52 = "CopyPaste";
-                };
+    home.ifEnabled.programs.alacritty = {
+        enable = true;
+        settings = {
+            window.padding = {
+                x = 5;
+                y = 5;
+            };
+            font = {
+                size = 10;
+                normal.family = "JetbrainsMono Nerd Font";
+            };
+            terminal = {
+                shell.program = constants.shell;
+                osc52 = "CopyPaste";
             };
         };
     };
