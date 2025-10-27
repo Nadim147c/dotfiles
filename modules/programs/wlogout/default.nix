@@ -1,22 +1,20 @@
 {
     delib,
-    pkgs,
-    config,
+    host,
     inputs,
+    pkgs,
+    xdg,
     ...
 }:
 delib.module {
     name = "programs.wlogout";
 
-    options = delib.singleEnableOption true;
+    options = delib.singleEnableOption host.guiFeatured;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        home = config.home-manager.users.${username};
-    in {
+    home.ifEnabled = {
         home.activation.compileWlogoutSyle = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-            ${pkgs.coreutils}/bin/install -Dm644 ${./style.scss} ${home.xdg.configHome}/wlogout/style.scss
-            ${pkgs.compile-scss}/bin/compile-scss ${home.xdg.configHome}/wlogout/style.scss
+            ${pkgs.coreutils}/bin/install -Dm644 ${./style.scss} ${xdg.configHome}/wlogout/style.scss
+            ${pkgs.compile-scss}/bin/compile-scss ${xdg.configHome}/wlogout/style.scss
         '';
 
         xdg.configFile."wlogout/icons.scss".text = ''

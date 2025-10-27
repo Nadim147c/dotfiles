@@ -1,23 +1,20 @@
 {
-    config,
     delib,
     inputs,
     pkgs,
     host,
+    xdg,
     ...
 }:
 delib.module {
     name = "programs.wofi";
 
-    options = delib.singleEnableOption host.isDesktop;
+    options = delib.singleEnableOption host.guiFeatured;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        configHome = config.home-manager.users.${username}.xdg.configHome;
-    in {
+    home.ifEnabled = {
         home.activation.compileWofiSyle = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-            ${pkgs.coreutils}/bin/install -Dm644 ${./style.scss} ${configHome}/wofi/style.scss
-            ${pkgs.compile-scss}/bin/compile-scss ${configHome}/wofi/style.scss
+            ${pkgs.coreutils}/bin/install -Dm644 ${./style.scss} ${xdg.configHome}/wofi/style.scss
+            ${pkgs.compile-scss}/bin/compile-scss ${xdg.configHome}/wofi/style.scss
         '';
 
         programs.wofi = {

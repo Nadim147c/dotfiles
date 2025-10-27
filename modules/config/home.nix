@@ -1,20 +1,19 @@
 {
     delib,
+    constants,
     pkgs,
     ...
 }:
 delib.module {
     name = "home";
 
-    home.always = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
+    home.always. home = let
+        inherit (constants) username;
     in {
-        home = {
-            inherit username;
-            homeDirectory =
-                if pkgs.stdenv.isDarwin
-                then "/Users/${username}"
-                else "/home/${username}";
-        };
+        inherit username;
+        homeDirectory =
+            if pkgs.stdenv.isDarwin
+            then "/Users/${username}"
+            else "/home/${username}";
     };
 }

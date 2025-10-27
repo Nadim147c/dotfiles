@@ -1,6 +1,6 @@
 {
-    config,
     delib,
+    xdg,
     ...
 }:
 delib.module {
@@ -8,14 +8,9 @@ delib.module {
 
     options = delib.singleEnableOption true;
 
-    home.ifEnabled = {myconfig, ...}: let
-        inherit (myconfig.constants) username;
-        xdg = config.home-manager.users.${username}.xdg;
-    in {
-        programs.bash = {
-            enable = true;
-            enableCompletion = true;
-            historyFile = "${xdg.dataHome}/bash/history";
-        };
+    home.ifEnabled.programs.bash = {
+        enable = true;
+        enableCompletion = true;
+        historyFile = "${xdg.dataHome}/bash/history";
     };
 }

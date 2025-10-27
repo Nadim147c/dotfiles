@@ -1,4 +1,5 @@
 {
+    constants,
     delib,
     host,
     inputs,
@@ -84,14 +85,11 @@ in
     delib.module {
         name = "programs.tmux";
 
-        options = delib.singleEnableOption host.isDesktop;
+        options = delib.singleEnableOption host.guiFeatured;
 
-        home.ifEnabled = {myconfig, ...}: let
-            inherit (myconfig.constants) shell;
-            configHome = xdg.configHome;
-        in {
+        home.ifEnabled = {
             home.activation.reloadTmux = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-                ${pkgs.tmux}/bin/tmux source-file ${configHome}/tmux/tmux.conf || true
+                ${pkgs.tmux}/bin/tmux source-file ${xdg.configHome}/tmux/tmux.conf || true
             '';
 
             home.packages = [pkgs.tmux-sessionizer];
@@ -104,7 +102,7 @@ in
                 mouse = true;
                 prefix = "C-o";
                 sensibleOnTop = true;
-                shell = shell;
+                shell = constants.shell;
                 terminal = "xterm-256color";
 
                 extraConfig = ''
@@ -129,7 +127,7 @@ in
                     set -g status-left-length 100
                     set -sg escape-time 10
 
-                    source ${configHome}/tmux/colors.conf
+                    source ${xdg.configHome}/tmux/colors.conf
                 '';
 
                 plugins = with pkgs; [
