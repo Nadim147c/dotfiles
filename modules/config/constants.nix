@@ -10,7 +10,7 @@ delib.module {
         username = readOnly (strOption "ephemeral");
         fullname = readOnly (strOption "Ephemeral");
         email = readOnly (strOption "theephemeral.txt@gmail.com");
-        shell = readOnly (strOption "${pkgs.zsh}/bin/zsh");
+        shell = readOnly (strOption "${pkgs.fish}/bin/fish");
     };
 
     myconfig.always = {cfg, ...}: {
