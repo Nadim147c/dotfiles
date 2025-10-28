@@ -24,7 +24,7 @@ delib.module {
             git-isb
             git-open
             lazygit
-            semver
+            svu
         ];
 
         programs.gh = {
