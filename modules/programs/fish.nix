@@ -10,7 +10,6 @@ delib.module {
     options = delib.singleEnableOption host.cliFeatured;
 
     home.ifEnabled = {
-        home.packages = with pkgs; [chromashift];
         programs.fish = {
             enable = true;
             interactiveShellInit = ''
@@ -27,8 +26,6 @@ delib.module {
                 for mode in default insert visual normal
                     bind -M $mode \ep '${pkgs.tmux-sessionizer}/bin/tmux-sessionizer'
                 end
-
-                ${pkgs.chromashift}/bin/cshift alias fish | source
             '';
             generateCompletions = false;
             functions.fish_command_not_found.body = ''
@@ -36,4 +33,10 @@ delib.module {
             '';
         };
     };
+
+    nixos.ifEnabled.environment.pathsToLink = [
+        "/share/fish/vendor_conf.d"
+        "/share/fish/vendor_completions.d"
+        "/share/fish/vendor_functions.d"
+    ];
 }
