@@ -128,6 +128,9 @@ in
                     set -sg escape-time 10
 
                     source ${xdg.configHome}/tmux/colors.conf
+
+                    set -g popup-border-style "fg=black"
+                    set -g popup-border-lines "rounded"
                 '';
 
                 plugins = with pkgs; [
