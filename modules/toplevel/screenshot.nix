@@ -1,5 +1,6 @@
 {
     delib,
+    edge,
     host,
     lib,
     pkgs,
@@ -14,7 +15,7 @@ delib.module {
     home.ifEnabled = let
         screenshot-bin = pkgs.writeShellScriptBin "screenshot" ''
             pkill slurp || ${pkgs.hyprshot}/bin/hyprshot -m ''${1:-region} --raw |
-                ${pkgs.satty}/bin/satty --filename - \
+                ${edge.satty}/bin/satty --filename - \
                 --output-filename "${xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
                 --early-exit \
                 --actions-on-enter save-to-clipboard \
