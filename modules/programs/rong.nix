@@ -30,7 +30,7 @@ delib.module {
                 "hyprland.conf" = "~/.config/hypr/colors.conf";
                 "colors.lua" = "~/.config/wezterm/colors.lua";
                 "spicetify-sleek.ini" = "~/.config/spicetify/Themes/Sleek/color.ini";
-                "kitty.conf" = "~/.config/kitty/colors.conf";
+                "kitty-full.conf" = "~/.config/kitty/colors.conf";
                 "pywalfox.json" = "~/.cache/wal/colors.json";
                 "rofi.rasi" = "~/.config/rofi/config.rasi";
                 "ghostty" = "~/.config/ghostty/colors";
