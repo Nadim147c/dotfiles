@@ -1,4 +1,5 @@
 {
+    edge,
     delib,
     host,
     pkgs,
@@ -11,12 +12,13 @@ delib.module {
     options = delib.singleEnableOption host.devFeatured;
 
     home.ifEnabled = {
-        home.packages = with pkgs; [
-            gnumake
-            gofumpt
-            gopls
-            revive
-        ];
+        home.packages =
+            (with pkgs; [
+                gnumake
+                gofumpt
+                gopls
+            ])
+            ++ [edge.revive];
         home.sessionVariables = {
             GOMODCACHE = "${xdg.cacheHome}/go/mod";
             GOBIN = "${xdg.dataHome}/go/bin";
