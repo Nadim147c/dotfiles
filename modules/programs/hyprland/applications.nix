@@ -1,11 +1,12 @@
 {
     delib,
+    edge,
     lib,
     pkgs,
     ...
 }: let
     uwsm = "${pkgs.uwsm}/bin/uwsm app --";
-    discord = "${uwsm} ${lib.getExe pkgs.equibop}";
+    discord = "${uwsm} ${lib.getExe edge.equibop}";
     runner = "${uwsm} ${lib.getExe pkgs.wofi}";
     terminal = "${uwsm} ${lib.getExe pkgs.kitty}";
 
