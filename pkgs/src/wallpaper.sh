@@ -25,7 +25,7 @@ post_hooks() {
     pkill swaync && fork swaync
     pkill swayosd-server && fork swayosd-server
 
-    kill -SIGUSR1 "$(pidof kitty)"
+    pidof kitty | xargs kill -SIGUSR1
 
     hyprctl reload
 
