@@ -17,18 +17,17 @@ in
         name = "programs.hyprland";
 
         home.ifEnabled = {
-            home.packages = with pkgs; [
-                equibop
-                gtk3
-                gtk4
-                gtk4-layer-shell
-                kdePackages.breeze-icons
-                kdePackages.dolphin
-                kitty
-                nwg-look
-                qt6ct
-                wofi
-            ];
+            home.packages =
+                (with pkgs; [
+                    gtk3
+                    gtk4
+                    gtk4-layer-shell
+                    kdePackages.breeze-icons
+                    kdePackages.dolphin
+                    nwg-look
+                    qt6ct
+                ])
+                ++ (with edge; [equibop]);
 
             wayland.windowManager.hyprland.settings = {
                 "$mainMod" = "SUPER";
