@@ -23,9 +23,17 @@ delib.module {
         # nixpkgs to build the package
         package = edge.callPackage "${inputs.rong}/default.nix" {};
         settings = {
-            variant = "tonal_spot";
-            version = 2025;
             dark = true;
+            base16 = {
+                blend = 0.5;
+                method = "static";
+            };
+            material = {
+                contrast = 0.0;
+                platform = "phone";
+                variant = "tonal_spot";
+                version = "2025";
+            };
             links = {
                 "hyprland.conf" = "~/.config/hypr/colors.conf";
                 "colors.lua" = "~/.config/wezterm/colors.lua";
