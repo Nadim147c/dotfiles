@@ -23,12 +23,12 @@ delib.module {
                 {
                     type = "os";
                     key = "  OS ";
-                    keyColor = "blue";
+                    keyColor = "green";
                 }
                 {
                     type = "kernel";
                     key = "  KER";
-                    keyColor = "green";
+                    keyColor = "yellow";
                 }
                 {
                     type = "shell";
@@ -38,10 +38,16 @@ delib.module {
                 {
                     type = "terminal";
                     key = "  TRM";
-                    keyColor = "green";
+                    keyColor = "magenta";
+                }
+                {
+                    type = "packages";
+                    key = "  PKG";
+                    keyColor = "cyan";
                 }
                 {
                     type = "colors";
+                    symbol = "circle";
                 }
             ];
         };
