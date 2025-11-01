@@ -3,7 +3,10 @@
 
     inputs = {
         catppuccin.url = "github:catppuccin/nix/release-25.05";
-        chromashift.url = "github:Nadim147c/ChromaShift";
+        chromashift = {
+            url = "github:Nadim147c/ChromaShift";
+            inputs.nixpkgs.follows = "unstable";
+        };
         denix = {
             url = "github:yunfachi/denix";
             inputs.home-manager.follows = "home-manager";
