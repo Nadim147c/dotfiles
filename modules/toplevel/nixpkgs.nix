@@ -1,4 +1,5 @@
 {
+    home,
     delib,
     inputs,
     pkgs,
@@ -16,9 +17,9 @@
 in
     delib.module {
         name = "nixpkgs";
-        myconfig.always.args.shared = let
-        in {
-            edge = inputs.unstable.legacyPackages.${pkgs.system};
+        myconfig.always.args.shared.edge = import inputs.unstable {
+            system = pkgs.system;
+            overlays = home.nixpkgs.overlays;
         };
 
         nixos.always =
