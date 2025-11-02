@@ -41,7 +41,7 @@ delib.module {
                 "kitty-full.conf" = "~/.config/kitty/colors.conf";
                 "pywalfox.json" = "~/.cache/wal/colors.json";
                 "rofi.rasi" = "~/.config/rofi/config.rasi";
-                "ghostty" = "~/.config/ghostty/colors";
+                "ghostty-full" = "~/.config/ghostty/themes/rong";
                 "dunstrc" = "~/.config/dunst/dunstrc";
                 "cava.ini" = "~/.config/cava/config";
                 "btop.theme" = "~/.config/btop/themes/rong.theme";
