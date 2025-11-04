@@ -13,10 +13,6 @@
             inputs.nix-darwin.follows = "nix-darwin";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        elephant = {
-            url = "github:abenz1267/elephant";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
         home-manager = {
             url = "github:nix-community/home-manager/release-25.05";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -33,11 +29,6 @@
             inputs.nixpkgs.follows = "unstable";
         };
         unstable.url = "nixpkgs/nixos-unstable";
-        walker = {
-            url = "github:abenz1267/walker";
-            inputs.elephant.follows = "elephant";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
     };
 
     outputs = {denix, ...} @ inputs: let

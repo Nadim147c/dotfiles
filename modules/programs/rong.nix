@@ -54,6 +54,7 @@ delib.module {
                     "~/.config/wofi/colors.scss"
                     "~/.config/swayosd/colors.scss"
                     "~/.config/wlogout/colors.scss"
+                    "~/.config/walker/themes/colors.scss"
                 ];
 
                 "qtct.colors" = [
