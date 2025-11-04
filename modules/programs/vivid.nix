@@ -2,6 +2,7 @@
     delib,
     host,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
@@ -10,7 +11,7 @@ delib.module {
     options = delib.singleEnableOption host.cliFeatured;
 
     home.ifEnabled = let
-        vividCommand = "vivid generate catppuccin-mocha";
+        vividCommand = "vivid generate ${xdg.stateHome}/rong/vivid.yml";
     in {
         home.packages = with pkgs; [vivid];
         programs.bash.initExtra = ''
