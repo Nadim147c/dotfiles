@@ -1,5 +1,6 @@
 {
     delib,
+    edge,
     host,
     pkgs,
     ...
@@ -7,25 +8,33 @@
 delib.module {
     name = "programs.steam";
 
-    options = delib.singleEnableOption (host.isDesktop && host.gamingFeatured);
+    options = delib.singleEnableOption host.gamingFeatured;
 
     nixos.ifEnabled.programs.steam = {
         enable = true;
-        fontPackages = with pkgs; [noto-fonts];
-        extraPackages = with pkgs; [mangohud];
-        extraCompatPackages = with pkgs; [proton-ge-bin];
+        fontPackages = with pkgs; [
+            noto-fonts
+            nerd-fonts.jetbrains-mono
+        ];
+        extraPackages = with edge; [
+            gamemode
+            gamescope
+            mangohud
+            wine
+            wine-staging
+            winetricks
+        ];
+        extraCompatPackages = [edge.proton-ge-bin];
         remotePlay.openFirewall = true;
         localNetworkGameTransfers.openFirewall = true;
 
         protontricks.enable = true;
-        protontricks.package = pkgs.protontricks;
+        protontricks.package = edge.protontricks;
 
         gamescopeSession = {
             enable = true;
             args = ["--adaptive-sync" "--rt"];
-            env = {
-                DXVK_HUD = "fps,gpuload";
-            };
+            env.DXVK_HUD = "fps,gpuload";
             steamArgs = ["-tenfoot"];
         };
     };
