@@ -1,13 +1,17 @@
 {
     delib,
+    edge,
     host,
-    pkgs,
     ...
 }:
 delib.module {
     name = "programs.heroic";
 
-    options = delib.singleEnableOption (host.isDesktop && host.gamingFeatured);
+    options = delib.singleEnableOption host.gamingFeatured;
 
-    home.ifEnabled.home.packages = with pkgs; [heroic];
+    home.ifEnabled.home.packages = with edge; [
+        cabextract
+        p7zip
+        heroic
+    ];
 }
