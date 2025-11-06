@@ -40,15 +40,7 @@ delib.module {
                     key = "  TRM";
                     keyColor = "magenta";
                 }
-                {
-                    type = "packages";
-                    key = "  PKG";
-                    keyColor = "cyan";
-                }
-                {
-                    type = "colors";
-                    symbol = "circle";
-                }
+                {type = "colors";}
             ];
         };
     };
