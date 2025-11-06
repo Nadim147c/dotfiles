@@ -20,6 +20,7 @@ delib.module {
 
         # Ensure Git always includes the Nix config
         home.packages = with pkgs; [
+            git-cliff
             git-extras
             git-isb
             git-open
