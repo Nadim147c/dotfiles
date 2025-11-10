@@ -11,29 +11,37 @@ import (
 	"net"
 	"os"
 	"os/exec"
+	"os/signal"
 	"slices"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/fsnotify/fsnotify"
 )
 
+type Workspace struct {
+	ID int `json:"id"`
+}
+
 type Client struct {
-	Workspace struct {
-		ID int `json:"id"`
-	} `json:"workspace"`
-	Floating bool `json:"floating"`
+	Workspace Workspace `json:"workspace"`
+	Float     bool      `json:"floating"`
 }
 
 var (
 	MpvSocket                 = "/tmp/mpvpaper.sock"
 	XdgRuntime                = os.Getenv("XDG_RUNTIME_DIR")
 	HyprlandInstanceSignature = os.Getenv("HYPRLAND_INSTANCE_SIGNATURE")
-	HyprlandSocket            = fmt.Sprintf("%s/hypr/%s/.socket2.sock", XdgRuntime, HyprlandInstanceSignature)
+	HyprlandSocket            = fmt.Sprintf(
+		"%s/hypr/%s/.socket2.sock",
+		XdgRuntime,
+		HyprlandInstanceSignature,
+	)
 )
 
 func main() {
-	ctx, cencel := context.WithCancel(context.Background())
+	ctx, cencel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cencel()
 
 	// Attempt wallpaper restore
@@ -194,18 +202,19 @@ func StartMpvPaper(ctx context.Context, path string) error {
 	return cmd.Start()
 }
 
-var GetHyprlandClients = []byte("j/clients")
-
 func GetWorkspaceClients(workspace int) (bool, error) {
-	socket := fmt.Sprintf("%s/hypr/%s/.socket.sock", os.Getenv("XDG_RUNTIME_DIR"), os.Getenv("HYPRLAND_INSTANCE_SIGNATURE"))
+	socket := fmt.Sprintf(
+		"%s/hypr/%s/.socket.sock",
+		os.Getenv("XDG_RUNTIME_DIR"),
+		os.Getenv("HYPRLAND_INSTANCE_SIGNATURE"),
+	)
 	conn, err := net.Dial("unix", socket) // ignore the err
 	if err != nil {
 		return false, err
 	}
 	defer conn.Close()
 
-	_, err = conn.Write(GetHyprlandClients)
-	if err != nil {
+	if _, err := fmt.Fprint(conn, "j/clients"); err != nil {
 		return false, err
 	}
 
@@ -215,8 +224,8 @@ func GetWorkspaceClients(workspace int) (bool, error) {
 	}
 
 	// Check if there are no non-floating clients in the workspace
-	for _, c := range clients {
-		if c.Workspace.ID == workspace && !c.Floating {
+	for client := range slices.Values(clients) {
+		if client.Workspace.ID == workspace && !client.Float {
 			return false, nil
 		}
 	}
