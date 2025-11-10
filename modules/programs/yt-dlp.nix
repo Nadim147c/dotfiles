@@ -1,5 +1,6 @@
 {
     delib,
+    edge,
     xdg,
     ...
 }:
@@ -10,8 +11,9 @@ delib.module {
 
     home.ifEnabled.programs.yt-dlp = {
         enable = true;
+        package = edge.yt-dlp;
         settings = {
-            paths = "${xdg.userDirs.download}";
+            paths = xdg.userDirs.download;
             format = "(bv[height<=1080]+ba)/(b[height<=1080])/b";
             output = "%(title)s-%(id)s.%(ext)s";
             merge-output-format = "mp4";
