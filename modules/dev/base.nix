@@ -10,8 +10,8 @@ delib.module {
 
     options = delib.singleEnableOption host.devFeatured;
 
-    home.ifEnabled.home.packages =
-        (with pkgs; [
+    home.ifEnabled.home.packages = let
+        stable = with pkgs; [
             bat
             curl
             fd
@@ -26,9 +26,14 @@ delib.module {
             tmux
             tree
             unzip
-            vhs
             wget
             xh
-        ])
-        ++ (with edge; [neovim]);
+        ];
+        latest = with edge; [
+            vhs
+            neovim
+            charm-freeze
+        ];
+    in
+        stable ++ latest;
 }
