@@ -35,7 +35,6 @@ delib.module {
             procps
             ripgrep
             ripgrep-all
-            wtf
             xxHash
             xxd
             yq
@@ -89,12 +88,6 @@ delib.module {
 
             gaa = "git add -A";
             tk = "tmux ls | cut -d: -f1 | xargs -r -n1 tmux kill-session -t";
-        };
-
-        manual.manpages.enable = true;
-        programs.man = {
-            enable = true;
-            generateCaches = true;
         };
     };
 }
