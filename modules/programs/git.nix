@@ -1,9 +1,8 @@
 {
     constants,
     delib,
-    inputs,
+    edge,
     pkgs,
-    xdg,
     ...
 }:
 delib.module {
@@ -11,22 +10,17 @@ delib.module {
 
     options = delib.singleEnableOption true;
 
-    home.ifEnabled = let
-        gitConfigNix = "${xdg.configHome}/git/config.nix";
-        gitConfig = "${xdg.configHome}/git/config";
-    in {
-        # Ignore the default config: redirect Home Manager’s output into config.nix
-        xdg.configFile."git/config".target = "git/config.nix";
-
-        # Ensure Git always includes the Nix config
-        home.packages = with pkgs; [
-            git-cliff
-            git-extras
-            git-isb
-            git-open
-            lazygit
-            svu
-        ];
+    home.ifEnabled = {
+        home.packages =
+            (with pkgs; [
+                git-open
+                lazygit
+            ])
+            ++ (with edge; [
+                git-cliff
+                git-extras
+                svu
+            ]);
 
         programs.gh = {
             enable = true;
@@ -187,28 +181,5 @@ delib.module {
                 feature.prefix = "feat";
             };
         };
-
-        home.activation.gitConfigInclude = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-            mkdir -p ${xdg.configHome}/git
-
-            # Migrate legacy ~/.gitconfig to XDG if present
-            if [ -f "$HOME/.gitconfig" ] && [ ! -f "${gitConfig}" ]; then
-              echo "Migrating ~/.gitconfig → ${gitConfig}"
-              mv -vf "$HOME/.gitconfig" "${gitConfig}"
-            fi
-
-            # If ~/.config/git/config doesn't exist, create it
-            if [ ! -f "${gitConfig}" ]; then
-              touch "${gitConfig}"
-            fi
-
-            # Check if config.nix is already included
-            if ! ${pkgs.gitFull}/bin/git config --file="${gitConfig}" --get-all include.path \
-                | grep -qx "${gitConfigNix}"; then
-              echo "Adding include for ${gitConfigNix} in ${gitConfig}"
-              ${pkgs.gitFull}/bin/git config --file="${gitConfig}" \
-                --add include.path "${gitConfigNix}"
-            fi
-        '';
     };
 }
