@@ -2,7 +2,6 @@
     edge,
     delib,
     host,
-    pkgs,
     xdg,
     ...
 }:
@@ -12,20 +11,18 @@ delib.module {
     options = delib.singleEnableOption host.devFeatured;
 
     home.ifEnabled = {
-        home.packages =
-            (with pkgs; [
-                bun
-                deno
-                eslint
-                nodejs
-                pnpm
-                typescript
-                yarn
-            ])
-            ++ (with edge; [
-                prettier
-                prettierd
-            ]);
+        home.packages = with edge; [
+            bun
+            deno
+            eslint
+            nodejs
+            pnpm
+            prettier
+            prettierd
+            typescript
+            typescript-language-server
+            yarn
+        ];
         home.sessionVariables = {
             NPM_CONFIG_USERCONFIG = "${xdg.configHome}/npm/npmrc";
             PNPM_HOME = "${xdg.dataHome}/pnpm";
