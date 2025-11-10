@@ -1,6 +1,7 @@
 {
     delib,
     host,
+    xdg,
     ...
 }:
 delib.module {
@@ -17,7 +18,7 @@ delib.module {
         enableZshIntegration = true;
         flags = ["--disable-up-arrow"];
         settings = {
-            db_path = "~/.local/share/shell-history.db";
+            db_path = "${xdg.dataHome}/atuin/history.db";
             inline_height = 20;
             invert = true;
             style = "compact";
