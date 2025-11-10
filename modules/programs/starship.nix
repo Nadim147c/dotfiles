@@ -20,7 +20,7 @@ delib.module {
             settings = {
                 add_newline = false;
 
-                format = "$os$hostname$shell$directory( [\\[](red bold)$git_branch$hg_branch([:](green)$git_state$git_status)[\\]](red bold))$sudo$character";
+                format = "$os$hostname$shell$directory( [\\[](red bold)$git_branch$hg_branch([:](green)$git_state$git_status)[\\]](red bold))$nix_shell$sudo$character";
 
                 continuation_prompt = "[  => ](green bold)";
 
@@ -47,6 +47,14 @@ delib.module {
                 hostname = {
                     format = "[\\($hostname\\)]($style) ";
                     style = "yellow";
+                };
+
+                nix_shell = {
+                    disabled = false;
+                    format = " $state[( ($name))](bold blue)";
+                    impure_msg = "[](bold red)";
+                    pure_msg = "[](bold green)";
+                    unknown_msg = "[](bold yellow)";
                 };
 
                 shell = {
