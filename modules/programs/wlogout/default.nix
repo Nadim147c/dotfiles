@@ -48,13 +48,25 @@ delib.module {
                 }
                 {
                     label = "reboot";
-                    action = "systemctl reboot";
+                    action = pkgs.writeShellScript "graceful-reboot.sh" ''
+                        hyprctl clients -j |
+                            ${pkgs.jq}/bin/jq -r '.[] | "address:\(.address)"' |
+                            ${pkgs.findutils}/bin/xargs -n1 hyprctl dispatch closewindow &&
+                            sleep 2.5
+                        systemctl reboot
+                    '';
                     text = "Reboot";
                     keybind = "r";
                 }
                 {
                     label = "shutdown";
-                    action = "systemctl poweroff";
+                    action = pkgs.writeShellScript "graceful-shutdown.sh" ''
+                        hyprctl clients -j |
+                            ${pkgs.jq}/bin/jq -r '.[] | "address:\(.address)"' |
+                            ${pkgs.findutils}/bin/xargs -n1 hyprctl dispatch closewindow &&
+                            sleep 2.5
+                        systemctl poweroff
+                    '';
                     text = "Shutdown";
                     keybind = "s";
                 }
