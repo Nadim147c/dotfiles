@@ -1,7 +1,7 @@
 {
     delib,
+    edge,
     host,
-    pkgs,
     ...
 }:
 delib.module {
@@ -9,7 +9,7 @@ delib.module {
 
     options = delib.singleEnableOption host.devFeatured;
 
-    home.ifEnabled.home.packages = with pkgs; [
+    home.ifEnabled.home.packages = with edge; [
         lua-language-server
         stylua
     ];
