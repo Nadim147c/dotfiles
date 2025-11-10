@@ -131,6 +131,8 @@ in
 
                     set -g popup-border-style "fg=black"
                     set -g popup-border-lines "rounded"
+
+                    set -as terminal-features ",*:hyperlinks"
                 '';
 
                 plugins = with pkgs; [
