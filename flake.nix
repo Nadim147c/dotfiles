@@ -1,8 +1,7 @@
 {
-    description = "Modular configuration of NixOS, Home Manager, and Nix-Darwin with Denix";
+    description = "Modular configuration of NixOS and Home Manager with Denix";
 
     inputs = {
-        catppuccin.url = "github:catppuccin/nix/release-25.05";
         chromashift = {
             url = "github:Nadim147c/ChromaShift";
             inputs.nixpkgs.follows = "unstable";
@@ -10,15 +9,10 @@
         denix = {
             url = "github:yunfachi/denix";
             inputs.home-manager.follows = "home-manager";
-            inputs.nix-darwin.follows = "nix-darwin";
             inputs.nixpkgs.follows = "nixpkgs";
         };
         home-manager = {
             url = "github:nix-community/home-manager/release-25.05";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-        nix-darwin = {
-            url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
             inputs.nixpkgs.follows = "nixpkgs";
         };
         nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
@@ -29,6 +23,10 @@
             inputs.nixpkgs.follows = "unstable";
         };
         unstable.url = "nixpkgs/nixos-unstable";
+        quickshell = {
+            url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+            inputs.nixpkgs.follows = "unstable";
+        };
     };
 
     outputs = {denix, ...} @ inputs: let
@@ -59,6 +57,5 @@
     in {
         nixosConfigurations = mkConfigurations "nixos";
         homeConfigurations = mkConfigurations "home";
-        darwinConfigurations = mkConfigurations "darwin";
     };
 }

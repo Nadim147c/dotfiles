@@ -5,14 +5,8 @@
     pkgs,
     ...
 }: let
-    shared.nixpkgs.config = {
-        allowUnfree = true;
-    };
-    files."nixpkgs/config.nix".text = ''
-        {
-          allowUnfree = true;
-        }
-    '';
+    shared.nixpkgs.config.allowUnfree = true;
+    files."nixpkgs/config.nix".text = "{ allowUnfree = true; }";
     variables."NIXPKGS_ALLOW_UNFREE" = 1;
 in
     delib.module {
