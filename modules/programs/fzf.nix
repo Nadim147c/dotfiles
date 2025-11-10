@@ -2,6 +2,7 @@
     delib,
     host,
     lib,
+    pkgs,
     ...
 }:
 delib.module {
@@ -16,7 +17,7 @@ delib.module {
         # enableNushellIntegration = true;
         enableZshIntegration = false;
         defaultOptions = ["--border" "--ansi" "--layout=reverse"];
-        defaultCommand = "fd --type f --color=always";
+        defaultCommand = "${pkgs.fd}/bin/fd --type f --color=always";
         colors.bg = lib.mkForce "";
     };
 }
