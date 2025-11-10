@@ -17,6 +17,12 @@ delib.module {
             "$mainMod, W, exec, ${pkgs.wallpaper-sh}/bin/wallpaper.sh"
         ];
 
+        programs.waybar.settings.main."custom/wallpaper" = {
+            format = "󰸉";
+            tooltip-format = "Change wallpaper";
+            on-click = "${pkgs.wallpaper-sh}/bin/wallpaper.sh";
+        };
+
         systemd.user.services.mpvpaper-daemon = {
             Unit = {
                 Description = "mpvpaper wallpaper control daemon";
