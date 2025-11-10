@@ -30,9 +30,9 @@ delib.module {
             xh
         ];
         latest = with edge; [
-            vhs
-            neovim
             charm-freeze
+            neovim
+            vhs
         ];
     in
         stable ++ latest;
