@@ -11,7 +11,6 @@ delib.host {
     features = [
         "cli"
         "dev"
-        "gaming"
         "gui"
         "hacking"
         "wireless"
@@ -19,6 +18,10 @@ delib.host {
 
     home.home.stateVersion = "25.05";
     nixos.system.stateVersion = "25.05";
+
+    myconfig = {
+        dev.cpp.enable = false;
+    };
 
     nixos = {
         networking.hostName = "chronoshift";
