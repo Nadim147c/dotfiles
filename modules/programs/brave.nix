@@ -11,7 +11,14 @@ delib.module {
 
     options = delib.singleEnableOption host.isDesktop;
 
-    home.ifEnabled = {
+    home.ifEnabled = let
+        braveFlags = ''
+            --password-store=basic
+            --ozone-platform=wayland
+            --ozone-platform-hint=wayland
+            --enable-features=TouchpadOverscrollHistoryNavigation
+        '';
+    in {
         programs.brave = {
             enable = true;
             package = edge.brave;
@@ -31,16 +38,11 @@ delib.module {
             ];
         };
 
-        xdg.configFile."brave-flags.conf".text = ''
-            --password-store=gnome
-            --ozone-platform=wayland
-            --ozone-platform-hint=wayland
-            --enable-features=TouchpadOverscrollHistoryNavigation
-        '';
+        xdg.configFile."brave-flags.conf".text = braveFlags;
 
         wayland.windowManager.hyprland.settings = let
             uwsm = "${lib.getExe pkgs.uwsm} app";
-            brave = "${lib.getExe pkgs.brave} --password-store=gnome";
+            brave = "${lib.getExe pkgs.brave} ${builtins.replaceStrings ["\n"] [" "] braveFlags}";
         in {
             "$browser" = "${uwsm} -- ${brave}";
         };
