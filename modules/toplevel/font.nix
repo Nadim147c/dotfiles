@@ -12,6 +12,11 @@ delib.module {
     home.ifEnabled = {
         home.packages = with pkgs; [
             electroharmonix
+            roboto
+            roboto-flex
+            roboto-mono
+            roboto-serif
+            roboto-slab
             fontconfig
             nerd-fonts.jetbrains-mono
             noto-fonts
@@ -26,16 +31,19 @@ delib.module {
 
             defaultFonts = {
                 sansSerif = [
+                    "Roboto"
                     "Noto Sans"
                     "Noto Sans Bengali"
                 ];
 
                 monospace = [
                     "JetBrainsMono Nerd Font"
+                    "Roboto Mono"
                     "monospace"
                 ];
 
                 serif = [
+                    "Roboto Serif"
                     "Noto Serif"
                     "Noto Serif Bengali"
                 ];
