@@ -9,5 +9,5 @@
 writeShellApplication {
     name = "compile-scss";
     runtimeInputs = [dart-sass inotify-tools coreutils gum];
-    text = builtins.readFile ./src/compile-scss.sh;
+    text = builtins.readFile ../src/compile-scss.sh;
 }

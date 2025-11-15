@@ -6,7 +6,7 @@
 stdenvNoCC.mkDerivation {
     pname = "electroharmonix";
     version = "1.0.0";
-    src = ./src/electroharmonix;
+    src = ../src/electroharmonix;
 
     installPhase = ''
         runHook preInstall

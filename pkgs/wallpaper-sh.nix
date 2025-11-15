@@ -31,5 +31,5 @@ writeShellApplication {
         procps
     ];
 
-    text = builtins.readFile ./src/wallpaper.sh;
+    text = builtins.readFile ../src/wallpaper.sh;
 }
