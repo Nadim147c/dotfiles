@@ -8,7 +8,7 @@ import Quickshell.Services.Pipewire
 Rectangle {
     id: root
 
-    implicitWidth: volume.width + Appearance.space.little * 2
+    implicitWidth: volume.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
     color: {
         if (mouseArea.containsMouse) {
@@ -18,12 +18,13 @@ Rectangle {
         }
     }
 
-    radius: Appearance.round.medium
+    radius: Appearance.round.big
 
     RowLayout {
         id: volume
         y: (parent.height - volume.implicitHeight) / 2
-        x: Appearance.space.little
+        x: Appearance.space.medium
+
         spacing: Appearance.space.little
         Text {
             text: {
@@ -59,6 +60,7 @@ Rectangle {
             }
             font {
                 family: Appearance.font.main
+                bold: true
                 pixelSize: 14
             }
         }

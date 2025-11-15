@@ -8,7 +8,7 @@ import Quickshell.Services.Pipewire
 Rectangle {
     id: root
 
-    implicitWidth: volume.width + Appearance.space.little * 2
+    implicitWidth: volume.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
 
     readonly property real high: 1024 * 1024 * 10 // 10MB/s
@@ -17,9 +17,10 @@ Rectangle {
 
     Behavior on color {
         ColorAnimation {
-            duration: 200
+            duration: Appearance.time.quick
         }
     }
+
     color: {
         if (mouseArea.containsMouse) {
             return Appearance.material.myPrimary;
@@ -50,7 +51,8 @@ Rectangle {
     RowLayout {
         id: volume
         y: (parent.height - volume.implicitHeight) / 2
-        x: Appearance.space.little
+        x: Appearance.space.medium
+
         spacing: Appearance.space.tiny
         Text {
             text: SystemUsage.netUp > SystemUsage.netDown ? "" : ""

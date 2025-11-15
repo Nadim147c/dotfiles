@@ -7,8 +7,11 @@ import Quickshell
 Rectangle {
     id: root
 
-    implicitWidth: clock.width + Appearance.space.little * 2
+    implicitWidth: clock.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
+
+    radius: Appearance.round.big
+
     color: {
         if (mouseArea.containsMouse) {
             return Appearance.material.myPrimary;
@@ -17,7 +20,24 @@ Rectangle {
         }
     }
 
-    radius: Appearance.round.big
+    property color fg: {
+        if (mouseArea.containsMouse) {
+            return Appearance.material.myOnPrimary;
+        } else {
+            return Appearance.material.myPrimary;
+        }
+    }
+
+    Behavior on color {
+        ColorAnimation {
+            duration: Appearance.time.quick
+        }
+    }
+    Behavior on fg {
+        ColorAnimation {
+            duration: Appearance.time.quick
+        }
+    }
 
     SystemClock {
         id: clockData
@@ -27,19 +47,14 @@ Rectangle {
     RowLayout {
         id: clock
         y: (parent.height - clock.implicitHeight) / 2
-        x: Appearance.space.little
+        x: Appearance.space.medium
         spacing: Appearance.space.little
         Text {
             text: Qt.formatDateTime(clockData.date, "hh:mm AP")
-            color: {
-                if (mouseArea.containsMouse) {
-                    return Appearance.material.myOnPrimary;
-                } else {
-                    return Appearance.material.myPrimary;
-                }
-            }
+            color: root.fg
             font {
-                family: Appearance.font.bold
+                family: Appearance.font.main
+                bold: true
                 pixelSize: 15
             }
         }

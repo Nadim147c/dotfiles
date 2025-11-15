@@ -16,6 +16,7 @@ PanelWindow {
         right: Appearance.space.medium
         bottom: Appearance.space.medium
     }
+    aboveWindows: false
 
     color: "transparent"
     implicitHeight: 32
@@ -39,6 +40,7 @@ PanelWindow {
                 RowLayout {
                     id: leftModule
                     anchors.fill: parent
+                    spacing: Appearance.space.tiny
                     Workspace {}
                     Lyrics {}
                 }
@@ -55,6 +57,7 @@ PanelWindow {
                 implicitWidth: rightModule.implicitWidth
                 RowLayout {
                     id: rightModule
+                    spacing: Appearance.space.tiny
                     anchors.fill: parent
                     Network {}
                     Volume {}

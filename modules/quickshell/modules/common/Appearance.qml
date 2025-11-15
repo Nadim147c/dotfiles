@@ -10,6 +10,8 @@ Singleton {
     property QtObject font  // default empty object
     property QtObject round  // default empty object
     property QtObject space  // default empty object
+    property QtObject time  // default empty object
+    property QtObject anim  // default empty object
 
     round: QtObject {
         property double large: 15
@@ -33,13 +35,23 @@ Singleton {
         property double none: 0
     }
 
+    time: QtObject {
+        property double instant: 0
+        property double swift: 100
+        property double quick: 250
+        property double normal: 400
+        property double slow: 1500
+        property double lazy: 2500
+        property double linger: 4000
+    }
+
     font: QtObject {
         property string icon: "JetBrainsMono Nerd Font Propo"
         property string mono: "JetBrainsMono Nerd Font"
-        property string mono2: "Roboto Mono"
-        property string main: "Roboto" // TODO: change this thing
-        property string bold: "Roboto Black" // TODO: change this thing
+        property string main: "Roboto"
+        property string bold: "Roboto Black"
     }
+
     material: QtObject {
         property string myBackground: "#141317"
         property string myColor0: "#27242F"

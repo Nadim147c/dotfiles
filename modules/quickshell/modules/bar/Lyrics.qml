@@ -6,22 +6,37 @@ import Quickshell
 
 Rectangle {
     id: root
-    implicitWidth: lyrics.implicitWidth + (Appearance.space.little * 2)
+    implicitWidth: lyrics.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
-    radius: Appearance.round.medium
+    radius: Appearance.round.big
 
-    color: {
+    color: lyricArea.containsMouse ? Appearance.material.myPrimary : "transparent"
+
+    property color fg: {
         if (lyricArea.containsMouse) {
-            return Appearance.material.myPrimary;
+            return Appearance.material.myOnPrimary;
+        } else if (WaybarLyric.lyrics.info.status == "Paused") {
+            return Appearance.material.myOutline;
         } else {
-            return "transparent";
+            return Appearance.material.myPrimary;
+        }
+    }
+
+    Behavior on color {
+        ColorAnimation {
+            duration: Appearance.time.quick
+        }
+    }
+    Behavior on fg {
+        ColorAnimation {
+            duration: Appearance.time.quick
         }
     }
 
     MouseArea {
         id: lyricArea
         y: (parent.height - lyrics.implicitHeight) / 2
-        x: Appearance.space.little
+        x: Appearance.space.medium
 
         implicitWidth: lyrics.implicitWidth + (Appearance.space.little * 2)
         implicitHeight: parent.height
@@ -42,15 +57,7 @@ Rectangle {
             Text {
                 text: WaybarLyric.lyrics.icon
                 visible: WaybarLyric.lyrics.icon.length != 0
-                color: {
-                    if (lyricArea.containsMouse) {
-                        return Appearance.material.myOnPrimary;
-                    } else if (WaybarLyric.lyrics.info.status == "Paused") {
-                        return Appearance.material.myOutline;
-                    } else {
-                        return Appearance.material.myPrimary;
-                    }
-                }
+                color: root.fg
                 font {
                     family: Appearance.font.icon
                     pixelSize: 14
@@ -58,15 +65,7 @@ Rectangle {
             }
             Text {
                 text: WaybarLyric.lyrics.text
-                color: {
-                    if (lyricArea.containsMouse) {
-                        return Appearance.material.myOnPrimary;
-                    } else if (WaybarLyric.lyrics.info.status == "Paused") {
-                        return Appearance.material.myOutline;
-                    } else {
-                        return Appearance.material.myPrimary;
-                    }
-                }
+                color: root.fg
                 font {
                     family: Appearance.font.main
                     bold: WaybarLyric.lyrics.info.status != "Paused"
