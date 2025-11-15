@@ -7,79 +7,50 @@
     xdg,
     ...
 }: let
-    tmuxSmartRight = pkgs.writeShellScript "tmux-right.sh" ''
-        right=$(tmux list-panes -F '#{pane_index} #{pane_active} #{pane_at_right}' \
-                | awk '$2=="0" && $3=="1" {print $1}' | head -n1)
-
-        if [ -n "$right" ]; then
-            tmux select-pane -t "$right"
-            exit 0
+    tmux-navigate = pkgs.writeShellScript "tmux-navigate.sh" ''
+        if [ $# -lt 1 ]; then
+            echo "Usage: $0 <left|right|up|down>" >&2
+            exit 2
         fi
 
-        windows=($(tmux list-windows -F '#{window_active} #{window_index}' \
-                    | awk '{print $1":"$2}'))
+        direction="''${1,,}"
 
-        for w in "''${windows[@]}"; do
-            IFS=':' read -r active idx <<< "$w"
-            if [ "$active" -eq 1 ]; then
-                current=$idx
-                break
-            fi
-        done
+        case "$direction" in
+        left | h)
+            check="#{pane_at_left}"
+            select_flag="-L"
+            fallback="-p"
+            ;;
+        right | l)
+            check="#{pane_at_right}"
+            select_flag="-R"
+            fallback="-n"
+            ;;
+        up | k)
+            check="#{pane_at_top}"
+            select_flag="-U"
+            fallback="-p"
+            ;;
+        down | j)
+            check="#{pane_at_bottom}"
+            select_flag="-D"
+            fallback="-n"
+            ;;
+        *)
+            echo "Unknown direction: $direction" >&2
+            echo "Usage: $0 <left|right|up|down>" >&2
+            exit 3
+            ;;
+        esac
 
-        # Base index starts at 1, wrap-around
-        indices=()
-        for w in "''${windows[@]}"; do
-            idx=''${w#*:}
-            indices+=("$idx")
-        done
+        # Ask tmux whether a pane exists in that direction for the current pane
+        on_edge=$(tmux display-message -p -F "$check" 2>/dev/null || echo 0)
 
-        # Find position of current in indices
-        for i in "''${!indices[@]}"; do
-            if [ "''${indices[$i]}" -eq "$current" ]; then
-                pos=$i
-                break
-            fi
-        done
-
-        next=$(( (pos + 1) % ''${#indices[@]} ))
-        tmux select-window -t "''${indices[$next]}"
-    '';
-    tmuxSmartLeft = pkgs.writeShellScript "tmux-left.sh" ''
-        left=$(tmux list-panes -F '#{pane_index} #{pane_active} #{pane_at_left}' \
-               | awk '$2=="0" && $3=="1" {print $1}' | head -n1)
-
-        if [ -n "$left" ]; then
-            tmux select-pane -t "$left"
-            exit 0
+        if [[ "$on_edge" != "1" ]]; then
+            tmux select-pane "$select_flag"
+        else
+            tmux select-window "$fallback" || true
         fi
-
-        windows=($(tmux list-windows -F '#{window_active} #{window_index}' \
-                    | awk '{print $1":"$2}'))
-
-        for w in "''${windows[@]}"; do
-            IFS=':' read -r active idx <<< "$w"
-            if [ "$active" -eq 1 ]; then
-                current=$idx
-                break
-            fi
-        done
-
-        indices=()
-        for w in "''${windows[@]}"; do
-            idx=''${w#*:}
-            indices+=("$idx")
-        done
-
-        for i in "''${!indices[@]}"; do
-            if [ "''${indices[$i]}" -eq "$current" ]; then
-                pos=$i
-                break
-            fi
-        done
-
-        prev=$(( (pos - 1 + ''${#indices[@]}) % ''${#indices[@]} ))
-        tmux select-window -t "''${indices[$prev]}"
     '';
 in
     delib.module {
@@ -89,7 +60,7 @@ in
 
         home.ifEnabled = {
             home.activation.reloadTmux = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-                ${pkgs.tmux}/bin/tmux source-file ${xdg.configHome}/tmux/tmux.conf || true
+                tmux source-file ${xdg.configHome}/tmux/tmux.conf || true
             '';
 
             home.packages = [pkgs.tmux-sessionizer];
@@ -107,8 +78,10 @@ in
 
                 extraConfig = ''
                     # Smart Alt+h/l navigation
-                    bind -n M-l run-shell "${tmuxSmartRight}"
-                    bind -n M-h run-shell "${tmuxSmartLeft}"
+                    bind -n M-h run-shell "${tmux-navigate} h"
+                    bind -n M-j run-shell "${tmux-navigate} j"
+                    bind -n M-k run-shell "${tmux-navigate} k"
+                    bind -n M-l run-shell "${tmux-navigate} l"
                     bind -n M-p run-shell "tmux neww ${pkgs.tmux-sessionizer}/bin/tmux-sessionizer"
 
                     # Vertical pane movement
