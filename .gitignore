@@ -14,3 +14,5 @@ home/static/waybar/colors.scss
 home/static/swaync/colors.scss
 home/static/wofi/colors.scss
 home/static/swayosd/colors.scss
+modules/quickshell/.qmlls.ini
+src/netspeed/netspeed
