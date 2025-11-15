@@ -13,6 +13,7 @@ delib.host {
         "dev"
         "gui"
         "hacking"
+        "media"
         "wireless"
     ];
 

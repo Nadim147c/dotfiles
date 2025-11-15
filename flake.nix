@@ -43,7 +43,7 @@
                     (base.withConfig {
                         args.enable = true;
                         hosts.features = {
-                            features = ["cli" "dev" "gaming" "gui" "hacking" "wireless"];
+                            features = ["cli" "dev" "gaming" "gui" "hacking" "media" "wireless"];
                             defaultByHostType = {
                                 desktop = ["cli" "gui" "hacking"];
                                 server = [];
