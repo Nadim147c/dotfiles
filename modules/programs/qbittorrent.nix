@@ -1,15 +1,31 @@
 {
     delib,
     host,
-    lib,
     pkgs,
     ...
 }:
 delib.module {
     name = "programs.qbittorrent";
-    options = delib.singleEnableOption (host.isDesktop && host.guiFeatured);
+    options = delib.singleEnableOption host.guiFeatured;
     home.ifEnabled = {
         home.packages = with pkgs; [qbittorrent];
-        wayland.windowManager.hyprland.settings.exec-once = [(lib.getExe pkgs.qbittorrent)];
+        systemd.user.services.qbittorrent = {
+            Unit = {
+                Description = "qBittorrent client";
+                After = [
+                    "graphical-session.target"
+                    "tray.target"
+                ];
+                PartOf = ["graphical-session.target"];
+                Requires = ["tray.target"];
+            };
+
+            Install.WantedBy = ["graphical-session.target"];
+
+            Service = {
+                ExecStart = "${pkgs.qbittorrent}/bin/qbittorrent";
+                Restart = "no"; # do not restart when closed manually
+            };
+        };
     };
 }
