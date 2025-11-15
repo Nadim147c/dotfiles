@@ -27,7 +27,7 @@ delib.module {
             material = {
                 contrast = 0.0;
                 platform = "phone";
-                variant = "tonal_spot";
+                variant = "expressive";
                 version = "2025";
             };
             links = {
