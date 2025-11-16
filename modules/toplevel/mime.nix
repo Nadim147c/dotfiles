@@ -137,7 +137,6 @@ delib.module {
                 "video/x-ogm+ogg" = ["mpv.desktop"];
                 "video/x-theora" = ["mpv.desktop"];
                 "video/x-theora+ogg" = ["mpv.desktop"];
-                "x-scheme-handler/discord" = ["equibop.desktop"];
                 "x-scheme-handler/geo" = ["qwant-maps-geo-handler.desktop"];
                 "x-scheme-handler/postman" = ["Postman.desktop"];
                 "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];

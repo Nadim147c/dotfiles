@@ -67,11 +67,6 @@ delib.module {
                     "~/.config/gtk-3.0/gtk.css"
                     "~/.config/gtk-4.0/gtk.css"
                 ];
-                "midnight-discord.css" = [
-                    "~/.config/equibop/settings/quickCss.css"
-                    "~/.config/vesktop/settings/quickCss.css"
-                    "~/.config/goofcord/GoofCord/assets/rong.css"
-                ];
             };
         };
     };

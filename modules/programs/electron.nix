@@ -16,6 +16,7 @@ delib.module {
     in {
         "electron-flags.conf".text = electronWayland;
         "equibop-flags.conf".text = electronWayland;
+        "discord-flags.conf".text = electronWayland;
         "spotify-flags.conf".text = electronWayland;
     };
 }

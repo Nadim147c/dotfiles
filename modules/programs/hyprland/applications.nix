@@ -6,7 +6,6 @@
     ...
 }: let
     uwsm = "${pkgs.uwsm}/bin/uwsm app --";
-    discord = "${uwsm} ${lib.getExe edge.equibop}";
     runner = "${uwsm} ${lib.getExe pkgs.wofi}";
     terminal = "${uwsm} ${lib.getExe pkgs.kitty}";
 
@@ -32,7 +31,6 @@ in
             wayland.windowManager.hyprland.settings = {
                 "$mainMod" = "SUPER";
 
-                "$discord" = discord;
                 "$files" = files;
                 "$runner" = runner;
                 "$terminal" = terminal;

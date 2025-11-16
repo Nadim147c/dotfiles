@@ -14,6 +14,7 @@ in
         myconfig.always.args.shared.edge = import inputs.unstable {
             system = pkgs.system;
             overlays = home.nixpkgs.overlays;
+            config.allowUnfree = true;
         };
 
         nixos.always =
