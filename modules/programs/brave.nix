@@ -9,7 +9,7 @@
 delib.module {
     name = "programs.brave";
 
-    options = delib.singleEnableOption host.isDesktop;
+    options = delib.singleEnableOption host.guiFeatured;
 
     home.ifEnabled = let
         braveFlags = ''
