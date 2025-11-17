@@ -7,7 +7,7 @@
 delib.module {
     name = "programs.plymouth";
 
-    options = delib.singleEnableOption host.isDesktop;
+    options = delib.singleEnableOption host.isPC;
 
     nixos.ifEnabled.boot.plymouth = {
         enable = true;
