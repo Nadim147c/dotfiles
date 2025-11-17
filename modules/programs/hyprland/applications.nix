@@ -1,6 +1,5 @@
 {
     delib,
-    edge,
     lib,
     pkgs,
     ...
@@ -9,29 +8,24 @@
     runner = "${uwsm} ${lib.getExe pkgs.wofi}";
     terminal = "${uwsm} ${lib.getExe pkgs.kitty}";
 
-    files = "${uwsm} ${pkgs.xfce.thunar}/bin/thunar";
     music = "${uwsm} flatpak run com.spotify.Client  --remote-debugging-port=9222 --remote-allow-origins='*'";
 in
     delib.module {
         name = "programs.hyprland";
 
         home.ifEnabled = {
-            home.packages =
-                (with pkgs; [
-                    gtk3
-                    gtk4
-                    gtk4-layer-shell
-                    kdePackages.breeze-icons
-                    kdePackages.dolphin
-                    nwg-look
-                    qt6ct
-                ])
-                ++ (with edge; [equibop]);
+            home.packages = with pkgs; [
+                gtk3
+                gtk4
+                gtk4-layer-shell
+                kdePackages.breeze-icons
+                nwg-look
+                qt6ct
+            ];
 
             wayland.windowManager.hyprland.settings = {
                 "$mainMod" = "SUPER";
 
-                "$files" = files;
                 "$runner" = runner;
                 "$terminal" = terminal;
                 "$music" = music;
