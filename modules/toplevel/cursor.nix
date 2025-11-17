@@ -7,12 +7,12 @@
 delib.module {
     name = "cursor";
 
-    options.cursor = {
-        enable = delib.boolOption host.isDesktop;
-        name = delib.strOption "Bibata-Modern-Classic";
-        package = delib.packageOption pkgs.bibata-cursors;
-        size = delib.intOption 22;
-    };
+    options = delib.moduleOptions (with delib; {
+        enable = boolOption host.isDesktop;
+        name = strOption "Bibata-Modern-Classic";
+        package = packageOption pkgs.bibata-cursors;
+        size = intOption 22;
+    });
 
     home.ifEnabled = {cfg, ...}: {
         home.pointerCursor = {
