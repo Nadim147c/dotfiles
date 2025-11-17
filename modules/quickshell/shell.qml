@@ -1,6 +1,7 @@
 import qs.modules.common
 import qs.modules.osd
 import qs.modules.bar
+import qs.modules.record
 
 import QtQuick
 import QtQuick.Layouts
@@ -12,7 +13,9 @@ import Quickshell.Widgets
 ShellRoot {
     property bool shouldShowOsd: false
 
-    Component.onCompleted: Appearance.reloadTheme()
+    Component.onCompleted: {
+        Appearance.reloadTheme();
+    }
 
     LazyLoader {
         active: true
@@ -21,5 +24,9 @@ ShellRoot {
     LazyLoader {
         active: true
         component: Bar {}
+    }
+    LazyLoader {
+        active: false
+        component: Record {}
     }
 }
