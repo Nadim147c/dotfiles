@@ -21,7 +21,6 @@ delib.host {
     nixos.system.stateVersion = "25.05";
 
     myconfig = {
-        programs.waybar.enable = false;
         dev.cpp.enable = false;
         dev.python.enable = false;
     };
