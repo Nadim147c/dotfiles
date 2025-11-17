@@ -46,8 +46,14 @@ Rectangle {
         hoverEnabled: true
         enabled: true
 
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: {
-            onClicked: Quickshell.execDetached(["waybar-lyric", "play-pause"]);
+            if (mouse.button === Qt.LeftButton) {
+                return Quickshell.execDetached(["waybar-lyric", "play-pause"]);
+            }
+            if (mouse.button === Qt.RightButton) {
+                return Quickshell.execDetached(["waybar-lyric", "seek", "--lyric", "1"]);
+            }
         }
 
         RowLayout {
