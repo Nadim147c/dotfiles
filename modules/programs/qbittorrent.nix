@@ -6,7 +6,7 @@
 }:
 delib.module {
     name = "programs.qbittorrent";
-    options = delib.singleEnableOption host.guiFeatured;
+    options = delib.singleEnableOption false;
     home.ifEnabled = {
         home.packages = with pkgs; [qbittorrent];
         systemd.user.services.qbittorrent = {
