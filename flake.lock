@@ -8,11 +8,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1761668141,
-        "narHash": "sha256-ExBeOdpQsTsqIezNZl54HW8qzXaG5DVghyhFRwj3nmc=",
+        "lastModified": 1763536378,
+        "narHash": "sha256-1G1MCjjn0J5tk2rMlcUQcSsR+rKcW+Cy+n9CZqFfrEg=",
         "owner": "Nadim147c",
         "repo": "ChromaShift",
-        "rev": "87f6008d67770336b72182e74ad50642fa51c83f",
+        "rev": "d43d13d38442d4673c1d2e96772ac4c8bd029b90",
         "type": "github"
       },
       "original": {
