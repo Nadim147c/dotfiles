@@ -9,7 +9,7 @@ delib.module {
 
     options = delib.moduleOptions (with delib; {
         enable = boolOption true;
-        sans = strOption "Roboto";
+        sans = strOption "Roboto Flex";
         serif = strOption "Roboto Serif";
         mono = strOption "JetBrainsMono Nerd Font";
         size = intOption 10;
@@ -23,10 +23,13 @@ delib.module {
             noto-fonts-emoji
             noto-fonts-extra
             roboto
+            rubik
             roboto-flex
             roboto-mono
             roboto-serif
             roboto-slab
+            material-symbols
+            (google-fonts.override {fonts = ["Gabarito" "Space Grotesk"];})
         ]);
     });
 
@@ -37,6 +40,7 @@ delib.module {
             defaultFonts = {
                 sansSerif = lib.lists.unique [
                     cfg.sans
+                    "Rubik"
                     "Roboto"
                     "Noto Sans"
                     "Noto Sans Bengali"

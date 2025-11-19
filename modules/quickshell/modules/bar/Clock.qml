@@ -53,9 +53,8 @@ Rectangle {
             text: Qt.formatDateTime(clockData.date, "hh:mm AP")
             color: root.fg
             font {
-                family: Appearance.font.main
-                bold: true
-                pixelSize: 15
+                family: Appearance.font.family.main
+                pixelSize: Appearance.font.pixelSize.small
             }
         }
     }

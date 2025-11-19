@@ -30,11 +30,11 @@ Rectangle {
             text: {
                 const vol = Pipewire.defaultAudioSink?.audio.volume;
                 if (vol === 0) {
-                    return "";
+                    return "volume_mute";
                 } else if (vol <= 0.5) {
-                    return "";
+                    return "volume_down";
                 } else {
-                    return "";
+                    return "volume_up";
                 }
             }
             color: {
@@ -45,8 +45,8 @@ Rectangle {
                 }
             }
             font {
-                family: Appearance.font.icon
-                pixelSize: 14
+                family: Appearance.font.family.iconMaterial
+                pixelSize: Appearance.font.pixelSize.normal
             }
         }
         Text {
@@ -58,10 +58,10 @@ Rectangle {
                     return Appearance.material.myPrimary;
                 }
             }
+
             font {
-                family: Appearance.font.main
-                bold: true
-                pixelSize: 14
+                family: Appearance.font.family.main
+                pixelSize: Appearance.font.pixelSize.small
             }
         }
     }

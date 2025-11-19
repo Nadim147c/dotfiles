@@ -41,8 +41,56 @@ Singleton {
         property string icon: ""
         property string tooltip: ""
         property int percentage: 0
+        property int lineIndex: 0
         property QtObject info: infoSchema
         property list<QtObject> context: []
+    }
+
+    function cleanMusicTitle(title) {
+        if (!title)
+            return "";
+        // Brackets
+        title = title.replace(/^ *\([^)]*\) */g, " "); // Round brackets
+        title = title.replace(/^ *\[[^\]]*\] */g, " "); // Square brackets
+        title = title.replace(/^ *\{[^\}]*\} */g, " "); // Curly brackets
+        // Japenis brackets
+        title = title.replace(/^ *【[^】]*】/, ""); // Touhou
+        title = title.replace(/^ *《[^》]*》/, ""); // ??
+        title = title.replace(/^ *「[^」]*」/, ""); // OP/ED thingie
+        title = title.replace(/^ *『[^』]*』/, ""); // OP/ED thingie
+
+        return title.trim();
+    }
+
+    function setPositionPerc(pos) {
+        root.lyrics.info.position = (pos * root.lyrics.info.length) / 100;
+        return Quickshell.execDetached(["waybar-lyric", "position", `${pos}%`]);
+    }
+    function setPosition(pos) {
+        root.lyrics.info.position = pos;
+        return Quickshell.execDetached(["waybar-lyric", "position", `${pos}`]);
+    }
+
+    function playpause(pos) {
+        return Quickshell.execDetached(["waybar-lyric", "play-pause"]);
+    }
+
+    function next(pos) {
+        return Quickshell.execDetached(["waybar-lyric", "next"]);
+    }
+
+    function previous(pos) {
+        return Quickshell.execDetached(["waybar-lyric", "previous"]);
+    }
+
+    Component.onCompleted: {
+        // full rebuild of context only when track changes
+        for (let i = 0; i < lyricsObj.context?.length; i++) {
+            if (lyricsObj.context[i].time > lyricsObj.info.position) {
+                break;
+            }
+            lyricsObj.lineIndex = i;
+        }
     }
 
     Process {
@@ -67,14 +115,16 @@ Singleton {
                     lyricsObj.percentage = parsed.percentage ?? 0;
 
                     const icons = {
-                        playing: "",
-                        paused: "",
-                        lyric: "",
-                        music: "󰝚",
-                        no_lyric: "",
-                        getting: ""
+                        playing: "play_arrow",
+                        paused: "pause",
+                        lyric: "lyrics",
+                        music: "music_note",
+                        no_lyric: "mic_off",
+                        getting: "downloading"
                     };
                     lyricsObj.icon = icons[parsed.alt] ?? "";
+
+                    const oldID = infoSchema.id;
 
                     const info = parsed.info ?? {};
                     infoSchema.player = info.player ?? "";
@@ -90,17 +140,25 @@ Singleton {
                     infoSchema.length = info.length ?? 0;
                     infoSchema.url = info.url ?? "";
 
-                    // Rebuild context list
-                    const ctx = [];
-                    for (const c of parsed.context ?? []) {
-                        const obj = contextComponent.createObject(root, {
-                            line: c.line ?? "",
-                            active: c.active ?? false,
-                            time: c.time ?? 0
-                        });
-                        ctx.push(obj);
+                    if (oldID !== info.id || lyricsObj.context.length != parsed.context.length) {
+                        const ctx = [];
+                        for (const c of parsed.context ?? []) {
+                            const obj = contextComponent.createObject(root, {
+                                line: c.line ?? "",
+                                time: c.time ?? 0
+                            });
+                            ctx.push(obj);
+                        }
+                        lyricsObj.context = ctx;
                     }
-                    lyricsObj.context = ctx;
+
+                    // full rebuild of context only when track changes
+                    for (let i = 0; i < parsed.context?.length; i++) {
+                        if (parsed.context[i].time > info.position) {
+                            break;
+                        }
+                        lyricsObj.lineIndex = i;
+                    }
                 } catch (e) {
                     console.error("Failed to parse JSON:", e);
                 }

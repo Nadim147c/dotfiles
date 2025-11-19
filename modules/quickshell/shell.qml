@@ -1,7 +1,7 @@
 import qs.modules.common
 import qs.modules.osd
 import qs.modules.bar
-import qs.modules.record
+import qs.modules.player
 
 import QtQuick
 import QtQuick.Layouts
@@ -26,7 +26,7 @@ ShellRoot {
         component: Bar {}
     }
     LazyLoader {
-        active: false
-        component: Record {}
+        active: Toggle.player
+        component: Player {}
     }
 }

@@ -55,12 +55,11 @@ Rectangle {
 
         spacing: Appearance.space.tiny
         Text {
-            text: SystemUsage.netUp > SystemUsage.netDown ? "" : ""
+            text: SystemUsage.netUp > SystemUsage.netDown ? "arrow_upward" : "arrow_downward"
             color: root.fg
             font {
-                family: Appearance.font.icon
-                bold: true
-                pixelSize: 14
+                family: Appearance.font.family.iconMaterial
+                pixelSize: Appearance.font.pixelSize.small
             }
             Behavior on color {
                 ColorAnimation {
@@ -72,9 +71,8 @@ Rectangle {
             text: SystemUsage.netTotalString
             color: root.fg
             font {
-                family: Appearance.font.main
-                bold: true
-                pixelSize: 14
+                family: Appearance.font.family.main
+                pixelSize: Appearance.font.pixelSize.small
             }
             Behavior on color {
                 ColorAnimation {

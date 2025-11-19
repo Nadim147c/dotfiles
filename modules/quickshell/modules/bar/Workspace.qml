@@ -37,7 +37,7 @@ ClippingRectangle {
 
                 Behavior on width {
                     SpringAnimation {
-                        duration: 200
+                        duration: Appearance.time.quick
                         spring: 4     // stiffness
                         damping: 0.2    // lower = more overshoot
                         mass: 1
@@ -71,11 +71,8 @@ ClippingRectangle {
                         }
                     }
                     Behavior on radius {
-                        SpringAnimation {
-                            duration: 200
-                            spring: 4     // stiffness
-                            damping: 0.2    // lower = more overshoot
-                            mass: 1
+                        NumberAnimation {
+                            duration: Appearance.time.quick
                         }
                     }
                 }
@@ -84,9 +81,10 @@ ClippingRectangle {
                     id: workspaceName
                     anchors.centerIn: workspaceRect
                     text: workspace.modelData.name
-                    font.family: Appearance.font.main
-                    font.bold: true
-                    font.pixelSize: 13
+                    font {
+                        family: Appearance.font.family.main
+                        pixelSize: Appearance.font.pixelSize.normal
+                    }
                     color: {
                         if (workspace.containsMouse || workspace.modelData.urgent) {
                             return Appearance.material.myOnSecondary;

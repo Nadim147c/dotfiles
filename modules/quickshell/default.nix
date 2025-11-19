@@ -1,6 +1,6 @@
 {
     delib,
-    inputs,
+    edge,
     host,
     pkgs,
     ...
@@ -11,7 +11,6 @@ delib.module {
     options = delib.singleEnableOption host.devFeatured;
 
     home.ifEnabled = let
-        quickshell = inputs.quickshell.packages.${pkgs.system}.default;
         netspeed = pkgs.buildGoModule {
             pname = "netspeed";
             version = "0.0.1";
@@ -20,10 +19,10 @@ delib.module {
             subPackages = [];
         };
     in {
-        home.packages = [
-            quickshell
+        home.packages = with edge; [
+            kdePackages.qtdeclarative
             netspeed
-            pkgs.kdePackages.qtdeclarative
+            quickshell
         ];
         systemd.user.services.quickshell = {
             Unit = {
@@ -35,7 +34,7 @@ delib.module {
             Install.WantedBy = ["graphical-session.target"];
 
             Service = {
-                ExecStart = "${quickshell}/bin/qs -p ${./.}/shell.qml";
+                ExecStart = "${edge.quickshell}/bin/qs -p ${./.}/shell.qml";
             };
         };
     };

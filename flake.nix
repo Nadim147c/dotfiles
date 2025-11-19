@@ -23,10 +23,6 @@
             inputs.nixpkgs.follows = "unstable";
         };
         unstable.url = "nixpkgs/nixos-unstable";
-        quickshell = {
-            url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-            inputs.nixpkgs.follows = "unstable";
-        };
     };
 
     outputs = {denix, ...} @ inputs: let

@@ -47,12 +47,13 @@ Rectangle {
         enabled: true
 
         acceptedButtons: Qt.LeftButton | Qt.RightButton
+
         onClicked: {
             if (mouse.button === Qt.LeftButton) {
-                return Quickshell.execDetached(["waybar-lyric", "play-pause"]);
+                Toggle.player = true;
             }
             if (mouse.button === Qt.RightButton) {
-                return Quickshell.execDetached(["waybar-lyric", "seek", "--lyric", "1"]);
+                return Quickshell.execDetached(["waybar-lyric", "play-pause"]);
             }
         }
 
@@ -65,18 +66,17 @@ Rectangle {
                 visible: WaybarLyric.lyrics.icon.length != 0
                 color: root.fg
                 font {
-                    family: Appearance.font.icon
-                    pixelSize: 14
+                    family: Appearance.font.family.iconMaterial
+                    pixelSize: Appearance.font.pixelSize.small
                 }
             }
             Text {
-                text: WaybarLyric.lyrics.text
+                text: WaybarLyric.cleanMusicTitle(WaybarLyric.lyrics.text)
                 color: root.fg
                 font {
-                    family: Appearance.font.main
-                    bold: WaybarLyric.lyrics.info.status != "Paused"
+                    family: Appearance.font.family.main
                     italic: WaybarLyric.lyrics.info.status == "Paused"
-                    pixelSize: 14
+                    pixelSize: Appearance.font.pixelSize.small
                 }
             }
         }
