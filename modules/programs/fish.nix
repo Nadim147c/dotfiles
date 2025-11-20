@@ -21,11 +21,11 @@ delib.module {
                 set fish_pager_color_completion blue --bold
                 set fish_pager_color_description white --bold
 
-                fish_vi_key_bindings --no-erase
-
                 for mode in default insert visual normal
                     bind -M $mode \ep '${pkgs.tmux-sessionizer}/bin/tmux-sessionizer'
                 end
+
+                fish_vi_key_bindings --no-erase
             '';
             generateCompletions = false;
             functions.fish_command_not_found.body = ''
@@ -35,8 +35,6 @@ delib.module {
     };
 
     nixos.ifEnabled.environment.pathsToLink = [
-        "/share/fish/vendor_conf.d"
         "/share/fish/vendor_completions.d"
-        "/share/fish/vendor_functions.d"
     ];
 }
