@@ -38,7 +38,6 @@ Singleton {
         property list<string> className: []
         property string alt: ""
         property string icon: ""
-        property string tooltip: ""
         property int percentage: 0
         property int lineIndex: 0
         property QtObject info: infoSchema
@@ -110,7 +109,6 @@ Singleton {
                     lyricsObj.text = parsed.text ?? "";
                     lyricsObj.className = parsed.class ?? [];
                     lyricsObj.alt = parsed.alt ?? "";
-                    lyricsObj.tooltip = parsed.tooltip ?? "";
                     lyricsObj.percentage = parsed.percentage ?? 0;
 
                     const icons = {
