@@ -19,7 +19,7 @@ PanelWindow {
     }
 
     implicitWidth: body.width
-    implicitHeight: body.height
+    implicitHeight: Math.max(500, body.height)
 
     aboveWindows: true
 
@@ -28,9 +28,7 @@ PanelWindow {
     HyprlandFocusGrab {
         windows: [player]
         active: Toggle.player
-        onCleared: () => {
-            Toggle.player = false;
-        }
+        onCleared: Toggle.player = false
     }
 
     Rectangle {
@@ -54,9 +52,10 @@ PanelWindow {
                     ClippingRectangle {
                         anchors.fill: parent
                         radius: Appearance.round.large
+                        color: Appearance.material.mySurfaceContainerHigh
 
                         // The image (just a normal Image)
-                        Image {
+                        StyledImage {
                             id: coverArt
                             anchors.fill: parent
                             source: WaybarLyric.lyrics.info.cover
@@ -100,12 +99,10 @@ PanelWindow {
                     }
 
                     RowLayout {
-
                         Item {
                             Layout.fillWidth: true
                         }
                         PlayerButtons {}
-
                         Item {
                             Layout.fillWidth: true
                         }
@@ -134,7 +131,20 @@ PanelWindow {
                 }
             }
 
-            PlayerLyric {}
+            Revealer {
+                reveal: WaybarLyric.lyrics.lines.length !== 0
+                vertical: true
+                PlayerLyrics {
+                    id: lyrics
+                    implicitWidth: content.width
+                }
+            }
         }
+    }
+    MouseArea {
+        anchors.bottom: parent.bottom
+        implicitWidth: parent.width
+        implicitHeight: parent.height - body.height
+        onClicked: Toggle.player = false
     }
 }

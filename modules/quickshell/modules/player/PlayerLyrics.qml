@@ -10,7 +10,6 @@ import Quickshell.Widgets
 
 MouseArea {
     id: root
-    visible: WaybarLyric.lyrics.lines.length !== 0
     implicitWidth: parent.width
     implicitHeight: 200
     hoverEnabled: true
