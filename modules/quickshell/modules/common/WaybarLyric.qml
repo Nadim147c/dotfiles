@@ -25,10 +25,9 @@ Singleton {
     }
 
     Component {
-        id: contextComponent
+        id: linesComponent
         QtObject {
             property string line: ""
-            property bool active: false
             property real time: 0
         }
     }
@@ -43,7 +42,7 @@ Singleton {
         property int percentage: 0
         property int lineIndex: 0
         property QtObject info: infoSchema
-        property list<QtObject> context: []
+        property list<QtObject> lines: []
     }
 
     function cleanMusicTitle(title) {
@@ -84,9 +83,9 @@ Singleton {
     }
 
     Component.onCompleted: {
-        // full rebuild of context only when track changes
-        for (let i = 0; i < lyricsObj.context?.length; i++) {
-            if (lyricsObj.context[i].time > lyricsObj.info.position) {
+        // full rebuild of lines only when track changes
+        for (let i = 0; i < lyricsObj.lines?.length; i++) {
+            if (lyricsObj.lines[i].time > lyricsObj.info.position) {
                 break;
             }
             lyricsObj.lineIndex = i;
@@ -140,21 +139,21 @@ Singleton {
                     infoSchema.length = info.length ?? 0;
                     infoSchema.url = info.url ?? "";
 
-                    if (oldID !== info.id || lyricsObj.context.length != parsed.context.length) {
-                        const ctx = [];
-                        for (const c of parsed.context ?? []) {
-                            const obj = contextComponent.createObject(root, {
+                    if (oldID !== info.id || lyricsObj.lines.length != parsed.lines.length) {
+                        const lines = [];
+                        for (const c of parsed.lines ?? []) {
+                            const obj = linesComponent.createObject(root, {
                                 line: c.line ?? "",
                                 time: c.time ?? 0
                             });
-                            ctx.push(obj);
+                            lines.push(obj);
                         }
-                        lyricsObj.context = ctx;
+                        lyricsObj.lines = lines;
                     }
 
-                    // full rebuild of context only when track changes
-                    for (let i = 0; i < parsed.context?.length; i++) {
-                        if (parsed.context[i].time > info.position) {
+                    // full rebuild of lines only when track changes
+                    for (let i = 0; i < parsed.lines?.length; i++) {
+                        if (parsed.lines[i].time > info.position) {
                             break;
                         }
                         lyricsObj.lineIndex = i;

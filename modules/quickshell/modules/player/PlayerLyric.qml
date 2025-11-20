@@ -10,7 +10,7 @@ import Quickshell.Widgets
 
 MouseArea {
     id: root
-    visible: WaybarLyric.lyrics.context.length !== 0
+    visible: WaybarLyric.lyrics.lines.length !== 0
     implicitWidth: parent.width
     implicitHeight: 200
     hoverEnabled: true
@@ -39,7 +39,7 @@ MouseArea {
             width: parent.width
 
             Repeater {
-                model: WaybarLyric.lyrics.context
+                model: WaybarLyric.lyrics.lines
                 MouseArea {
                     id: lyricLine
                     implicitHeight: lyricLineText.height
@@ -66,7 +66,7 @@ MouseArea {
                         onActiveChanged: {
                             if (!active || root.containsMouse)
                                 return;
-                            const linePos = lyricLine.y - (view.height / 2);
+                            const linePos = lyricLine.y + lyricLine.height - (view.height / 2);
                             let pos;
                             if (lyricColumn.height - linePos < view.height) {
                                 pos = (lyricColumn.height - view.height) / lyricColumn.height;

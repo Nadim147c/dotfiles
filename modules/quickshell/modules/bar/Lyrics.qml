@@ -71,7 +71,7 @@ Rectangle {
                 }
             }
             Text {
-                text: WaybarLyric.cleanMusicTitle(WaybarLyric.lyrics.text)
+                text: WaybarLyric.lyrics.text
                 color: root.fg
                 font {
                     family: Appearance.font.family.main
