@@ -46,6 +46,7 @@
                             };
                         };
                     })
+                    (denix.lib.callExtension ./extensions/script.nix)
                 ];
 
                 specialArgs = {inherit inputs moduleSystem;};
