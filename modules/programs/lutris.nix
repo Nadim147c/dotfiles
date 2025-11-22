@@ -1,7 +1,7 @@
 {
     delib,
-    edge,
     host,
+    pkgs,
     ...
 }:
 delib.module {
@@ -11,12 +11,12 @@ delib.module {
 
     home.ifEnabled.programs.lutris = {
         enable = true;
-        winePackages = with edge; [
+        winePackages = with pkgs; [
             wine
             wine-staging
         ];
-        protonPackages = [edge.proton-ge-bin];
-        extraPackages = with edge; [
+        protonPackages = [pkgs.proton-ge-bin];
+        extraPackages = with pkgs; [
             gamemode
             gamescope
             mangohud

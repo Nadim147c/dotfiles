@@ -26,7 +26,7 @@ delib.module {
             ini = "${lib.getExe pkgs.crudini} --set ${cfgFile}";
         in
             inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] # bash
-
+            
             ''
                 ${cli} apply || true
 

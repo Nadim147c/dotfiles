@@ -3,7 +3,7 @@
     pkgs,
     ...
 }: let
-    hyprsunset-temperature = pkgs.writers.writePython3 "hyprsunset-temperature" {} #python
+    hyprsunset-temperature = pkgs.writers.writePython3 "hyprsunset-temperature" {} # python
 
     ''
         from datetime import datetime

@@ -1,14 +1,14 @@
 {
     delib,
-    edge,
+    pkgs,
     lib,
     ...
 }: let
     shared.nix = {
-        package = lib.mkForce edge.nixVersions.latest;
+        package = lib.mkForce pkgs.nixVersions.latest;
         settings = {
             eval-cache = true;
-            experimental-features = ["nix-command" "flakes"];
+            experimental-features = ["nix-command" "flakes" "pipe-operators"];
             trusted-users = ["root" "@wheel"];
             warn-dirty = false;
             substituters = ["https://cache.nixos.org/"];

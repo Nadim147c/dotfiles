@@ -1,6 +1,6 @@
 {
     delib,
-    edge,
+    pkgs,
     xdg,
     ...
 }:
@@ -11,7 +11,7 @@ delib.module {
 
     home.ifEnabled.programs.yt-dlp = {
         enable = true;
-        package = edge.yt-dlp;
+        package = pkgs.yt-dlp;
         settings = {
             paths = xdg.userDirs.download;
             format = "(bv[height<=1080]+ba)/(b[height<=1080])/b";

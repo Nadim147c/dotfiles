@@ -4,7 +4,7 @@
     inputs = {
         chromashift = {
             url = "github:Nadim147c/ChromaShift";
-            inputs.nixpkgs.follows = "unstable";
+            inputs.nixpkgs.follows = "nixpkgs";
         };
         denix = {
             url = "github:yunfachi/denix";
@@ -12,17 +12,16 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
         home-manager = {
-            url = "github:nix-community/home-manager/release-25.05";
+            url = "github:nix-community/home-manager/master";
             inputs.nixpkgs.follows = "nixpkgs";
         };
         nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
         nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-        nixpkgs.url = "nixpkgs/nixos-25.05";
+        nixpkgs.url = "nixpkgs/nixos-unstable";
         rong = {
             url = "github:Nadim147c/rong";
-            inputs.nixpkgs.follows = "unstable";
+            inputs.nixpkgs.follows = "nixpkgs";
         };
-        unstable.url = "nixpkgs/nixos-unstable";
     };
 
     outputs = {denix, ...} @ inputs: let

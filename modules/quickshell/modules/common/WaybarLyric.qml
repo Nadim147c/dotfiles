@@ -96,7 +96,7 @@ Singleton {
     Process {
         id: commandProcess
         running: true
-        command: ["waybar-lyric", "--detailed"]
+        command: ["waybar-lyric", "--detailed", "--no-tooltip", "--quiet"]
 
         stdout: SplitParser {
             onRead: data => {

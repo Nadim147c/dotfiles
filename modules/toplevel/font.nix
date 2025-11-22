@@ -16,19 +16,18 @@ delib.module {
         packages = listOfOption package (with pkgs; [
             electroharmonix
             fontconfig
+            material-symbols
             nerd-fonts.jetbrains-mono
             noto-fonts
             noto-fonts-cjk-sans
             noto-fonts-cjk-serif
-            noto-fonts-emoji
-            noto-fonts-extra
+            noto-fonts-color-emoji
             roboto
-            rubik
             roboto-flex
             roboto-mono
             roboto-serif
             roboto-slab
-            material-symbols
+            rubik
             (google-fonts.override {fonts = ["Gabarito" "Space Grotesk"];})
         ]);
     });

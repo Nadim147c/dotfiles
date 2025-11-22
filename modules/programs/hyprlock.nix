@@ -13,7 +13,7 @@ delib.module {
     nixos.ifEnabled.security.pam.services.hyprlock.enable = true;
     home.ifEnabled = let
         player = pkgs.writers.writeNu "hyprlock-player" # nu
-
+        
         ''
             let infos = (
                 playerctl -a metadata --format="{{playerName}}»¦«{{title}}»¦«{{artist}}" |

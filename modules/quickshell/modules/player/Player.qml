@@ -7,6 +7,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Hyprland
+import Quickshell.Wayland
 
 PanelWindow {
     id: player
@@ -22,6 +23,8 @@ PanelWindow {
     implicitWidth: body.width
     implicitHeight: Math.max(500, body.height)
 
+    WlrLayershell.namespace: "quickshell:player"
+
     aboveWindows: true
 
     color: "transparent"
@@ -35,21 +38,14 @@ PanelWindow {
     ClippingRectangle {
         id: body
         implicitWidth: content.width + (Appearance.space.large * 2)
-        implicitHeight: opend ? content.height + (Appearance.space.large * 2) : 0
-        property bool opend: false
-        Behavior on implicitHeight {
-            animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
-        }
-        Component.onCompleted: {
-            opend = true;
-        }
+        implicitHeight: content.height + (Appearance.space.large * 2)
 
         radius: Appearance.round.larger
         color: Appearance.player.mySurface
 
         Item {
             width: parent.width
-            height: control.height
+            height: control.height + (Appearance.space.large * 2)
             StyledImage {
                 id: coverArt
                 anchors.fill: parent
@@ -76,7 +72,7 @@ PanelWindow {
             Rectangle {
                 anchors.bottom: parent.bottom
                 width: parent.width
-                height: 40
+                height: 100
                 gradient: Gradient {
                     GradientStop {
                         position: 0
@@ -94,7 +90,7 @@ PanelWindow {
             id: content
             x: Appearance.space.large
             y: Appearance.space.large
-            spacing: Appearance.space.large
+            spacing: 0
 
             ColumnLayout {
                 id: control
@@ -166,6 +162,12 @@ PanelWindow {
                         }
                     }
                 }
+            }
+
+            Item {
+                visible: WaybarLyric.lines.length !== 0
+                Layout.fillWidth: true
+                height: Appearance.space.large
             }
 
             Revealer {

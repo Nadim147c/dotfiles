@@ -20,6 +20,7 @@ delib.module {
         home.packages = with pkgs; [
             libsForQt5.qt5ct
             qt6Packages.qt6ct
+            kdePackages.breeze-icons
         ];
 
         qt = {

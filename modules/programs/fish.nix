@@ -9,10 +9,11 @@ delib.module {
 
     options = delib.singleEnableOption host.cliFeatured;
 
-    home.ifEnabled = {
-        programs.fish = {
-            enable = true;
-            interactiveShellInit = ''
+    home.ifEnabled.programs.fish = {
+        enable = true;
+        interactiveShellInit =
+            # fish
+            ''
                 set -U fish_greeting
                 set fish_color_command blue --bold
                 set fish_color_redirection yellow --bold
@@ -27,11 +28,10 @@ delib.module {
 
                 fish_vi_key_bindings --no-erase
             '';
-            generateCompletions = false;
-            functions.fish_command_not_found.body = ''
-                nix run nixpkgs#$argv[1] -- $argv[2..]
-            '';
-        };
+        generateCompletions = false;
+        functions.fish_command_not_found.body = ''
+            nix run nixpkgs#$argv[1] -- $argv[2..]
+        '';
     };
 
     nixos.ifEnabled.environment.pathsToLink = [

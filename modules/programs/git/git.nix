@@ -1,7 +1,6 @@
 {
     constants,
     delib,
-    edge,
     pkgs,
     ...
 }:
@@ -11,16 +10,13 @@ delib.module {
     options = delib.singleEnableOption true;
 
     home.ifEnabled = {
-        home.packages =
-            (with pkgs; [
-                git-open
-                lazygit
-            ])
-            ++ (with edge; [
-                git-cliff
-                git-extras
-                svu
-            ]);
+        home.packages = with pkgs; [
+            git-cliff
+            git-extras
+            git-open
+            lazygit
+            svu
+        ];
 
         programs.gh = {
             enable = true;
@@ -28,22 +24,45 @@ delib.module {
             settings.git_protocol = "ssh";
         };
 
-        programs.git = {
-            package = pkgs.gitFull;
+        programs.delta = {
             enable = true;
-            userName = constants.fullname;
-            userEmail = constants.email;
-
-            delta = {
-                enable = true;
-                options = {
-                    navigate = true;
-                    hunk-header-style = "omit";
-                    line-numbers = true;
-                };
+            enableGitIntegration = true; # now required
+            options = {
+                navigate = true;
+                hunk-header-style = "omit";
+                line-numbers = true;
             };
+        };
 
-            extraConfig = {
+        programs.git = {
+            enable = true;
+            settings = {
+                user.name = constants.fullname;
+                user.email = constants.email;
+
+                alias = {
+                    tag-latest = "!f() { git tag -a \"$1\" -m \"Release: $1\"; } f";
+                    grep = "!rg --color=always --hidden --glob=!.git";
+                    fork = "!gh repo fork";
+                    find = "!fd --hidden --exclude=.git";
+                    acm = "!git add -A && git commit";
+
+                    st = "status";
+                    co = "checkout";
+                    cm = "commit";
+                    aa = "add -A";
+                    hard = "reset --hard";
+                    amend = "commit --amend";
+                    fast-clone = "clone --depth=1";
+                    down = "pull --rebase";
+                    dis = "diff --cached";
+
+                    lsignored = "ls-files . --ignored --exclude-standard --others";
+                    graph = "log --graph --all --pretty=format:'%C(magenta)%h %C(white) %an  %ar%C(blue)  %D%n   %C(bold)%C(green)%s%C(reset)'";
+                    vtag = "!git tag | sort -V";
+                };
+
+                # ---- normal git config ----
                 init.defaultBranch = "main";
 
                 core = {
@@ -64,9 +83,9 @@ delib.module {
                 interactive.singlekey = true;
 
                 pack = {
-                    threads = 0; # use all available threads
-                    windowMemory = "1g"; # use 1g of memory for pack window
-                    packSizeLimit = "1g"; # max size of a packfile
+                    threads = 0;
+                    windowMemory = "1g";
+                    packSizeLimit = "1g";
                 };
 
                 diff = {
@@ -153,32 +172,8 @@ delib.module {
                 help.autocorrect = "prompt";
                 pull.rebase = true;
                 submodule.fetchJobs = 16;
-            };
 
-            aliases = {
-                tag-latest = "!f() { git tag -a \"$1\" -m \"Release: $1\"; } f";
-                grep = "!rg --color=always --hidden --glob=!.git";
-                fork = "!gh repo fork";
-                find = "!fd --hidden --exclude=.git";
-                acm = "!git add -A && git commit";
-
-                st = "status";
-                co = "checkout";
-                cm = "commit";
-                aa = "add -A";
-                hard = "reset --hard";
-                amend = "commit --amend";
-                fast-clone = "clone --depth=1";
-                down = "pull --rebase";
-                dis = "diff --cached";
-
-                lsignored = "ls-files . --ignored --exclude-standard --others";
-                graph = "log --graph --all --pretty=format:'%C(magenta)%h %C(white) %an  %ar%C(blue)  %D%n   %C(bold)%C(green)%s%C(reset)'";
-                vtag = "!git tag | sort -V";
-            };
-
-            extraConfig."git-extras" = {
-                feature.prefix = "feat";
+                "git-extras".feature.prefix = "feat";
             };
         };
     };

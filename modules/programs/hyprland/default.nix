@@ -7,7 +7,18 @@
 delib.module {
     name = "programs.hyprland";
 
-    options = delib.singleEnableOption host.isDesktop;
+    options = delib.singleEnableOption host.guiFeatured;
+
+    home.ifEnabled = {
+        wayland.windowManager.hyprland.enable = true;
+        wayland.windowManager.hyprland.systemd.enable = false;
+        home.packages = with pkgs; [
+            hyprcursor
+            playerctl
+            wl-clipboard
+        ];
+        services.hyprpolkitagent.enable = true;
+    };
 
     nixos.ifEnabled = {
         programs.hyprland.withUWSM = true;
@@ -20,11 +31,5 @@ delib.module {
             XDG_SESSION_TYPE = "wayland";
             XDG_SESSION_DESKTOP = "Hyprland";
         };
-    };
-    home.ifEnabled = {
-        wayland.windowManager.hyprland.enable = true;
-        wayland.windowManager.hyprland.systemd.enable = false;
-        home.packages = with pkgs; [wl-clipboard hyprcursor playerctl];
-        services.hyprpolkitagent.enable = true;
     };
 }

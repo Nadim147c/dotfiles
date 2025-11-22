@@ -1,6 +1,5 @@
 {
     delib,
-    edge,
     lib,
     host,
     pkgs,
@@ -21,7 +20,7 @@ delib.module {
     in {
         programs.brave = {
             enable = true;
-            package = edge.brave;
+            package = pkgs.brave;
             dictionaries = [pkgs.hunspellDictsChromium.en_US];
             extensions = [
                 "bkijmpolkanhdehnlnabfooghjdokakc" # Double-click Image Downloader

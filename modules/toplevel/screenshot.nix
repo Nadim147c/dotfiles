@@ -1,6 +1,5 @@
 {
     delib,
-    edge,
     host,
     lib,
     pkgs,
@@ -31,7 +30,7 @@ delib.module {
             pkill slurp || true
 
             ${pkgs.hyprshot}/bin/hyprshot -z ''${HYPRSHOT_MODES} --raw |
-                ${edge.satty}/bin/satty --filename - \
+                ${pkgs.satty}/bin/satty --filename - \
                 --output-filename "${xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
                 --early-exit \
                 --actions-on-enter save-to-clipboard \

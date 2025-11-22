@@ -14,14 +14,13 @@ in
             script = {
                 name,
                 targets ? ["home"],
-                enabled ? true,
+                enable ? true,
                 package ? null,
-            }: let
-            in
+            }:
                 final.module {
                     name = "scripts.${name}";
 
-                    options = singleEnableOption enabled;
+                    options = singleEnableOption enable;
 
                     nixos.ifEnabled = mkIf (elem "nixos" targets) {
                         environment.systemPackages = [package];

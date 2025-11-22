@@ -11,7 +11,7 @@ delib.module {
             dns = "none";
         };
     };
-    nixos.ifEnabled.services.dnscrypt-proxy2 = {
+    nixos.ifEnabled.services.dnscrypt-proxy = {
         enable = true;
         # Settings reference:
         # https://github.com/DNSCrypt/dnscrypt-proxy/blob/master/dnscrypt-proxy/example-dnscrypt-proxy.toml

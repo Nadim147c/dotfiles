@@ -34,15 +34,8 @@ PanelWindow {
     Rectangle {
         id: body
         anchors.bottom: parent.bottom
-        implicitHeight: opend ? content.height + (Appearance.space.small * 2) : 0
+        implicitHeight: content.height + (Appearance.space.small * 2)
         implicitWidth: content.width + (Appearance.space.small * 2)
-        property bool opend: false
-        Behavior on implicitHeight {
-            animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
-        }
-        Component.onCompleted: {
-            opend = true;
-        }
         radius: Appearance.round.large
         color: Appearance.material.mySurface
 
@@ -67,6 +60,7 @@ PanelWindow {
                 onClicked: Hyprland.dispatch("exec screenshot active-output")
             }
 
+            // Temporally
             DockButton {
                 icon: "power_settings_new"
                 onClicked: Hyprland.dispatch("exec systemctl poweroff")

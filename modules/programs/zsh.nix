@@ -26,7 +26,7 @@ delib.module {
             joinedPlugins = lib.concatStringsSep " " plugins;
         in
             lib.mkOrder 500 # bash
-
+            
             ''
                 source ${pkgs.zinit}/share/zinit/zinit.zsh
                 zinit light-mode lucid wait for ${joinedPlugins}

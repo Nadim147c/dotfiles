@@ -1,7 +1,7 @@
 {
-    edge,
     delib,
     host,
+    pkgs,
     xdg,
     ...
 }:
@@ -11,7 +11,7 @@ delib.module {
     options = delib.singleEnableOption host.devFeatured;
 
     home.ifEnabled = {
-        home.packages = with edge; [
+        home.packages = with pkgs; [
             gofumpt
             gopls
             gopls
@@ -25,8 +25,10 @@ delib.module {
         programs.go = {
             enable = true;
             telemetry.mode = "off";
-            goPath = ".local/share/go";
-            goBin = ".local/share/go/bin";
+            env = {
+                GOPATH = "${xdg.dataHome}/go";
+                GOBIN = "${xdg.dataHome}/go/bin";
+            };
         };
     };
 }

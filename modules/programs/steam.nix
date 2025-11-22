@@ -1,6 +1,5 @@
 {
     delib,
-    edge,
     host,
     pkgs,
     ...
@@ -16,7 +15,7 @@ delib.module {
             noto-fonts
             nerd-fonts.jetbrains-mono
         ];
-        extraPackages = with edge; [
+        extraPackages = with pkgs; [
             gamemode
             gamescope
             mangohud
@@ -24,12 +23,12 @@ delib.module {
             wine-staging
             winetricks
         ];
-        extraCompatPackages = [edge.proton-ge-bin];
+        extraCompatPackages = [pkgs.proton-ge-bin];
         remotePlay.openFirewall = true;
         localNetworkGameTransfers.openFirewall = true;
 
         protontricks.enable = true;
-        protontricks.package = edge.protontricks;
+        protontricks.package = pkgs.protontricks;
 
         gamescopeSession = {
             enable = true;

@@ -13,38 +13,27 @@ in
     delib.module {
         name = "programs.hyprland";
 
-        home.ifEnabled = {
-            home.packages = with pkgs; [
-                gtk3
-                gtk4
-                gtk4-layer-shell
-                kdePackages.breeze-icons
-                nwg-look
-                qt6ct
+        home.ifEnabled.wayland.windowManager.hyprland.settings = {
+            "$mainMod" = "SUPER";
+
+            "$runner" = runner;
+            "$terminal" = terminal;
+            "$music" = music;
+
+            exec-once = [
+                "[workspace 1 silent] sleep 10 && $terminal"
+                "[workspace 2 silent] $browser"
+                "[workspace 3 silent] $discord"
+                "[workspace 4 silent] $music"
             ];
 
-            wayland.windowManager.hyprland.settings = {
-                "$mainMod" = "SUPER";
-
-                "$runner" = runner;
-                "$terminal" = terminal;
-                "$music" = music;
-
-                exec-once = [
-                    "[workspace 1 silent] sleep 10 && $terminal"
-                    "[workspace 2 silent] $browser"
-                    "[workspace 3 silent] $discord"
-                    "[workspace 4 silent] $music"
-                ];
-
-                bind = [
-                    "$mainMod, Q,     exec, $terminal"
-                    "$mainMod, B,     exec, $browser"
-                    "$mainMod, D,     exec, $discord"
-                    "$mainMod, M,     exec, $music"
-                    "$mainMod, E,     exec, $files"
-                    "ALT,      SPACE, exec, $runner"
-                ];
-            };
+            bind = [
+                "$mainMod, Q,     exec, $terminal"
+                "$mainMod, B,     exec, $browser"
+                "$mainMod, D,     exec, $discord"
+                "$mainMod, M,     exec, $music"
+                "$mainMod, E,     exec, $files"
+                "ALT,      SPACE, exec, $runner"
+            ];
         };
     }

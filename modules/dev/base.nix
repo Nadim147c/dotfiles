@@ -1,6 +1,5 @@
 {
     delib,
-    edge,
     host,
     pkgs,
     ...
@@ -10,30 +9,25 @@ delib.module {
 
     options = delib.singleEnableOption host.devFeatured;
 
-    home.ifEnabled.home.packages = let
-        stable = with pkgs; [
-            bat
-            curl
-            fd
-            fzf
-            gnugrep
-            gnumake
-            htop
-            httpie
-            ripgrep
-            sd
-            skim
-            tmux
-            tree
-            unzip
-            wget
-            xh
-        ];
-        latest = with edge; [
-            charm-freeze
-            neovim
-            vhs
-        ];
-    in
-        stable ++ latest;
+    home.ifEnabled.home.packages = with pkgs; [
+        bat
+        charm-freeze
+        curl
+        fd
+        fzf
+        gnugrep
+        gnumake
+        htop
+        httpie
+        neovim
+        ripgrep
+        sd
+        skim
+        tmux
+        tree
+        unzip
+        vhs
+        wget
+        xh
+    ];
 }

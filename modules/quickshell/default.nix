@@ -1,6 +1,5 @@
 {
     delib,
-    edge,
     host,
     pkgs,
     ...
@@ -19,7 +18,7 @@ delib.module {
             subPackages = [];
         };
     in {
-        home.packages = with edge; [
+        home.packages = with pkgs; [
             kdePackages.qtdeclarative
             netspeed
             quickshell
@@ -34,7 +33,7 @@ delib.module {
             Install.WantedBy = ["graphical-session.target"];
 
             Service = {
-                ExecStart = "${edge.quickshell}/bin/qs -p ${./.}/shell.qml";
+                ExecStart = "${pkgs.quickshell}/bin/qs -p ${./.}/shell.qml";
             };
         };
     };

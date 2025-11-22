@@ -6,7 +6,7 @@ delib.overlayModule {
             nativeBuildInputs = old.nativeBuildInputs ++ [prev.installShellFiles];
             postInstall = prev.lib.optionalString (prev.stdenv.buildPlatform.canExecute
                 prev.stdenv.hostPlatform) #bash
-
+            
             ''
                 installShellCompletion --cmd svu \
                   --bash <($out/bin/svu completion bash) \

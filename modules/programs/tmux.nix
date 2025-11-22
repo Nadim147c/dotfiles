@@ -44,9 +44,9 @@
         esac
 
         # Ask tmux whether a pane exists in that direction for the current pane
-        on_edge=$(tmux display-message -p -F "$check" 2>/dev/null || echo 0)
+        on_pkgs=$(tmux display-message -p -F "$check" 2>/dev/null || echo 0)
 
-        if [[ "$on_edge" != "1" ]]; then
+        if [[ "$on_pkgs" != "1" ]]; then
             tmux select-pane "$select_flag"
         else
             tmux select-window "$fallback" || true
