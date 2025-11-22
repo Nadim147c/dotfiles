@@ -2,7 +2,6 @@ import qs.modules.common
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
 import Quickshell.Services.Pipewire
 
 Rectangle {

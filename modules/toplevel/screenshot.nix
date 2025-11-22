@@ -14,7 +14,23 @@ delib.module {
 
     home.ifEnabled = let
         screenshot-bin = pkgs.writeShellScriptBin "screenshot" ''
-            pkill slurp || ${pkgs.hyprshot}/bin/hyprshot -m ''${1:-region} --raw |
+            MODE="''${1:-region}"
+
+            case "$MODE" in
+                active-window)
+                    HYPRSHOT_MODES="-m active -m window"
+                    ;;
+                active-output)
+                    HYPRSHOT_MODES="-m active -m output"
+                    ;;
+                *)
+                    HYPRSHOT_MODES="-m $MODE"
+                    ;;
+            esac
+
+            pkill slurp || true
+
+            ${pkgs.hyprshot}/bin/hyprshot -z ''${HYPRSHOT_MODES} --raw |
                 ${edge.satty}/bin/satty --filename - \
                 --output-filename "${xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
                 --early-exit \

@@ -1,5 +1,4 @@
 import qs.modules.common
-import qs.modules.player
 
 import QtQuick
 import QtQuick.Layouts

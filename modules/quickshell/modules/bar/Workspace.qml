@@ -77,21 +77,25 @@ ClippingRectangle {
                     }
                 }
 
-                Text {
+                Item {
                     id: workspaceName
-                    anchors.centerIn: workspaceRect
-                    text: workspace.modelData.name
-                    font {
-                        family: Appearance.font.family.main
-                        pixelSize: Appearance.font.pixelSize.normal
-                    }
-                    color: {
-                        if (workspace.containsMouse || workspace.modelData.urgent) {
-                            return Appearance.material.myOnSecondary;
-                        } else if (workspace.modelData.active) {
-                            return Appearance.material.myOnPrimary;
-                        } else {
-                            return Appearance.material.myOnSurface;
+                    anchors.fill: parent
+                    Text {
+                        x: (parent.width - width) / 2
+                        y: (parent.height - height) / 2
+                        text: workspace.modelData.name
+                        font {
+                            family: Appearance.font.family.main
+                            pixelSize: Appearance.font.pixelSize.normal
+                        }
+                        color: {
+                            if (workspace.containsMouse || workspace.modelData.urgent) {
+                                return Appearance.material.myOnSecondary;
+                            } else if (workspace.modelData.active) {
+                                return Appearance.material.myOnPrimary;
+                            } else {
+                                return Appearance.material.myOnSurface;
+                            }
                         }
                     }
                 }

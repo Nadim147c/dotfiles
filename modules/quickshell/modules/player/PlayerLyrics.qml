@@ -1,12 +1,8 @@
 import qs.modules.common
-import qs.modules.end4
 
 import QtQuick
-import QtQuick.Effects
 import QtQuick.Controls
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Widgets
 
 MouseArea {
     id: root
@@ -28,7 +24,8 @@ MouseArea {
             Behavior on position {
                 NumberAnimation {
                     duration: Appearance.time.normal
-                    easing.type: Easing.InOutQuad
+                    easing.type: Appearance?.animation.elementMoveFast.type ?? Easing.BezierSpline
+                    easing.bezierCurve: Appearance?.animation.elementMoveFast.bezierCurve ?? [0.34, 0.80, 0.34, 1.00, 1, 1]
                 }
             }
         }
@@ -38,7 +35,7 @@ MouseArea {
             width: parent.width
 
             Repeater {
-                model: WaybarLyric.lyrics.lines
+                model: WaybarLyric.lines
                 MouseArea {
                     id: lyricLine
                     implicitHeight: lyricLineText.height
@@ -52,11 +49,11 @@ MouseArea {
 
                     Text {
                         id: lyricLineText
-                        property bool active: lyricLine.index === WaybarLyric.lyrics.lineIndex
+                        property bool active: lyricLine.index === WaybarLyric.lineIndex
                         width: parent.width
                         wrapMode: Text.WordWrap
                         text: lyricLine.modelData.line || "󰎇"
-                        color: active ? Appearance.material.myOnSurface : Appearance.material.myOutline
+                        color: active ? Appearance.player.myOnSurface : Appearance.player.myOutline
                         Behavior on color {
                             ColorAnimation {
                                 duration: Appearance.time.quick
@@ -98,11 +95,11 @@ MouseArea {
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: Appearance.material.mySurface
+                color: Appearance.player.mySurface
             }
             GradientStop {
-                position: 1
-                color: Appearance.material.mySurface + "00"
+                position: 0.95
+                color: Appearance.player.mySurface + "00"
             }
         }
     }
@@ -121,11 +118,11 @@ MouseArea {
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: Appearance.material.mySurface + "00"
+                color: Appearance.player.mySurface + "00"
             }
             GradientStop {
-                position: 1
-                color: Appearance.material.mySurface
+                position: 0.95
+                color: Appearance.player.mySurface
             }
         }
     }

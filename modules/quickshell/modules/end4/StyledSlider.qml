@@ -123,10 +123,11 @@ Slider {
                 id: wavyFill
                 frequency: root.waveFrequency
                 fullLength: root.width
+                lineWidth: 4
                 color: root.highlightColor
-                amplitudeMultiplier: root.wavy ? 0.5 : 0
+                amplitudeMultiplier: root.wavy ? 0.7 : 0
                 width: root.handleMargins + (root.visualPosition * root.effectiveDraggingWidth) - (root.handleWidth / 2 + root.handleMargins)
-                height: root.trackWidth
+                height: root.trackWidth * 1.5
                 Connections {
                     target: root
                     function onValueChanged() {

@@ -1,10 +1,5 @@
 import qs.modules.common
 import QtQuick
-import QtQuick.Layouts
-import Quickshell
-import Quickshell.Widgets
-import Quickshell.Hyprland
-import Quickshell.Services.SystemTray
 
 Rectangle {
     id: panel

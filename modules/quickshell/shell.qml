@@ -2,6 +2,7 @@ import qs.modules.common
 import qs.modules.osd
 import qs.modules.bar
 import qs.modules.player
+import qs.modules.dock
 
 import QtQuick
 import QtQuick.Layouts
@@ -28,5 +29,13 @@ ShellRoot {
     LazyLoader {
         active: Toggle.player
         component: Player {}
+    }
+    LazyLoader {
+        active: Toggle.dock
+        component: Dock {}
+    }
+    LazyLoader {
+        active: true
+        component: DockSpawner {}
     }
 }

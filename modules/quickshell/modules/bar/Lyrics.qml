@@ -15,7 +15,7 @@ Rectangle {
     property color fg: {
         if (lyricArea.containsMouse) {
             return Appearance.material.myOnPrimary;
-        } else if (WaybarLyric.lyrics.info.status == "Paused") {
+        } else if (!WaybarLyric.isPlaying) {
             return Appearance.material.myOutline;
         } else {
             return Appearance.material.myPrimary;
@@ -48,12 +48,12 @@ Rectangle {
 
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        onClicked: {
+        onClicked: mouse => {
             if (mouse.button === Qt.LeftButton) {
                 Toggle.player = true;
             }
             if (mouse.button === Qt.RightButton) {
-                return Quickshell.execDetached(["waybar-lyric", "play-pause"]);
+                WaybarLyric.player.togglePlaying();
             }
         }
 
@@ -62,8 +62,8 @@ Rectangle {
 
             spacing: Appearance.space.little
             Text {
-                text: WaybarLyric.lyrics.icon
-                visible: WaybarLyric.lyrics.icon.length != 0
+                text: WaybarLyric.icon
+                visible: WaybarLyric.icon.length != 0
                 color: root.fg
                 font {
                     family: Appearance.font.family.iconMaterial
@@ -71,11 +71,11 @@ Rectangle {
                 }
             }
             Text {
-                text: WaybarLyric.lyrics.text
+                text: WaybarLyric.text
                 color: root.fg
                 font {
                     family: Appearance.font.family.main
-                    italic: WaybarLyric.lyrics.info.status == "Paused"
+                    italic: !WaybarLyric.isPlaying
                     pixelSize: Appearance.font.pixelSize.small
                 }
             }
