@@ -85,5 +85,6 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        onClicked: Toggle.netspeed = true
     }
 }

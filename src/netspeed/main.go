@@ -14,6 +14,10 @@ import (
 
 const NetDev = "/proc/net/dev"
 
+const Time = time.Second / 4
+
+const SpeedMultipler = Datasize(time.Second / Time)
+
 type Transmitted struct {
 	Up, Down Datasize
 }
@@ -144,11 +148,11 @@ func (sc *SpeedCalculator) updateDeltas(currentStats Stats) {
 
 		du := max(transmitted.Up-stats.LastUpBytes, 0)
 		stats.UpDeltas = append(stats.UpDeltas[1:], du)
-		stats.AvgUp = average(stats.UpDeltas)
+		stats.AvgUp = average(stats.UpDeltas) * SpeedMultipler
 
 		dd := max(transmitted.Down-stats.LastDownBytes, 0)
 		stats.DownDeltas = append(stats.DownDeltas[1:], dd)
-		stats.AvgDown = average(stats.DownDeltas)
+		stats.AvgDown = average(stats.DownDeltas) * SpeedMultipler
 
 		stats.LastUpBytes = transmitted.Up
 		stats.LastDownBytes = transmitted.Down
@@ -163,7 +167,7 @@ func (sc *SpeedCalculator) updateDeltas(currentStats Stats) {
 
 func main() {
 	calculator := NewSpeedCalculator()
-	ticker := time.NewTicker(time.Second / 4)
+	ticker := time.NewTicker(Time)
 	defer ticker.Stop()
 
 	encoder := json.NewEncoder(os.Stdout)

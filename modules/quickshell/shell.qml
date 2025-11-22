@@ -3,13 +3,10 @@ import qs.modules.osd
 import qs.modules.bar
 import qs.modules.player
 import qs.modules.dock
+import qs.modules.netspeed
 
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
-import Quickshell.Io
-import Quickshell.Services.Pipewire
-import Quickshell.Widgets
 
 ShellRoot {
     property bool shouldShowOsd: false
@@ -29,6 +26,10 @@ ShellRoot {
     LazyLoader {
         active: Toggle.player
         component: Player {}
+    }
+    LazyLoader {
+        active: Toggle.netspeed
+        component: Netspeed {}
     }
     LazyLoader {
         active: Toggle.dock
