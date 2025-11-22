@@ -1,27 +1,10 @@
-{
-    delib,
-    pkgs,
-    ...
-}:
+{delib, ...}:
 delib.module {
     name = "programs.hyprland";
 
     home.ifEnabled.wayland.windowManager.hyprland.sourceFirst = true;
     home.ifEnabled.wayland.windowManager.hyprland.settings = {
         source = ["colors.conf"];
-
-        exec = [
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 22"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface icon-theme 'Adwaita-dark'"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface font-name 'Noto Sans 10'"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans 10'"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font mono 10'"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'"
-            "${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface font-hinting 'full'"
-        ];
 
         general = {
             gaps_in = 2;
