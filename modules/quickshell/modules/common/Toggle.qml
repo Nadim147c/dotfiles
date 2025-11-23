@@ -8,4 +8,5 @@ Singleton {
     property bool player: false
     property bool dock: false
     property bool netspeed: false
+    property bool wallpaper: false
 }

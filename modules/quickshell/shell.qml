@@ -4,6 +4,7 @@ import qs.modules.bar
 import qs.modules.player
 import qs.modules.dock
 import qs.modules.netspeed
+import qs.modules.wallpaper
 
 import QtQuick
 import Quickshell
@@ -38,5 +39,9 @@ ShellRoot {
     LazyLoader {
         active: true
         component: DockSpawner {}
+    }
+    LazyLoader {
+        active: Toggle.wallpaper
+        component: Wallpaper {}
     }
 }

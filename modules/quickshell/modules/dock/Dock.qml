@@ -60,6 +60,11 @@ PanelWindow {
                 onClicked: Hyprland.dispatch("exec screenshot active-output")
             }
 
+            DockButton {
+                icon: "wallpaper"
+                onClicked: Toggle.wallpaper = true
+            }
+
             // Temporally
             DockButton {
                 icon: "power_settings_new"
