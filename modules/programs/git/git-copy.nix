@@ -14,14 +14,15 @@ delib.script {
             ...params: string # extra git options
         ] {
             let u = $url | url parse
-            if $u.host != "github.com" {
+            let p = $u | get path | path split
+            let user = $p | get 1
+            let repo = $p | get 2
+
+            if $u.host != "github.com" || $user == "Nadim147c" {
                 git clone $url ...$params
                 return
             }
 
-            let p = $u | get path | path split
-            let user = $p | get 1
-            let repo = $p | get 2
             git clone $"git@github.com:($user)/($repo)" ...$params $"($user):($repo)"
         }
     '';
