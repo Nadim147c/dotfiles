@@ -1,6 +1,7 @@
 import qs.modules.common
 
 import QtQuick
+import QtQuick.Shapes
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
@@ -8,9 +9,8 @@ import Quickshell.Hyprland
 PanelWindow {
     id: root
     anchors.bottom: true
-    margins.bottom: Appearance.space.little
 
-    implicitWidth: body.width
+    implicitWidth: body.width + (borderRadius * 2)
     implicitHeight: 200
 
     aboveWindows: true
@@ -31,13 +31,47 @@ PanelWindow {
         onClicked: Toggle.dock = false
     }
 
+    property real borderRadius: Appearance.round.large
+    property color bg: Appearance.material.mySurface
+
+    Shape {
+        anchors.fill: parent
+        preferredRendererType: Shape.CurveRenderer
+
+        ShapePath {
+            strokeWidth: 0
+            fillColor: root.bg
+            startX: 0
+            startY: root.height
+            PathArc {
+                x: root.borderRadius
+                y: root.height - root.borderRadius
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+                direction: PathArc.Counterclockwise
+            }
+            PathLine {
+                x: root.width - root.borderRadius
+                y: root.height - root.borderRadius
+            }
+            PathArc {
+                x: root.width
+                y: root.height
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+                direction: PathArc.Counterclockwise
+            }
+        }
+    }
+
     Rectangle {
         id: body
         anchors.bottom: parent.bottom
+        x: root.borderRadius
         implicitHeight: content.height + (Appearance.space.small * 2)
         implicitWidth: content.width + (Appearance.space.small * 2)
-        radius: Appearance.round.large
-        color: Appearance.material.mySurface
+        radius: root.borderRadius
+        color: root.bg
 
         RowLayout {
             id: content
@@ -58,6 +92,11 @@ PanelWindow {
             DockButton {
                 icon: "screenshot_frame"
                 onClicked: Hyprland.dispatch("exec screenshot active-output")
+            }
+
+            DockButton {
+                icon: "document_scanner"
+                onClicked: Hyprland.dispatch("exec hyprocr.sh")
             }
 
             DockButton {
