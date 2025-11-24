@@ -299,11 +299,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762922884,
-        "narHash": "sha256-aDEcbciB/y6Nghnf4LjbzCz8vhWP4bh0FhZNWP/1e+I=",
+        "lastModified": 1763965432,
+        "narHash": "sha256-/uyZAlfaqBATqN5A7tcJKz9n43WzD6A9Ylgz3hBrqsI=",
         "owner": "Nadim147c",
         "repo": "rong",
-        "rev": "7779f1c8c27a0227e73b1a8201959de2da7a04aa",
+        "rev": "c7c65ed0b968667c619da30fd4658df32a25cc67",
         "type": "github"
       },
       "original": {

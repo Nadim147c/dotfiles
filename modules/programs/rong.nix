@@ -20,6 +20,7 @@ delib.module {
         enable = true;
         settings = {
             dark = true;
+            preview-format = "jpg";
             base16 = {
                 blend = 0.5;
                 method = "static";
