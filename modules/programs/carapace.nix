@@ -8,11 +8,16 @@ delib.module {
 
     options = delib.singleEnableOption host.cliFeatured;
 
-    home.ifEnabled.programs.carapace = {
-        enable = true;
-        enableBashIntegration = true;
-        enableFishIntegration = true;
-        enableNushellIntegration = true;
-        enableZshIntegration = true;
+    home.ifEnabled = {
+        home.sessionVariables = {
+            CARAPACE_BRIDGES = "carapace,zsh,fish,bash";
+        };
+        programs.carapace = {
+            enable = true;
+            enableBashIntegration = true;
+            enableFishIntegration = true;
+            enableNushellIntegration = true;
+            enableZshIntegration = true;
+        };
     };
 }
