@@ -59,6 +59,7 @@ generate_colors() {
 # Function to set wallpaper with swww
 set_wallpaper() {
     gum format "# Setting wallpaper: $1"
+    touch "$1"
     mkdir -p "$(dirname "$STATE_FILE")"
     echo -n "$1" >"$STATE_FILE"
 }
