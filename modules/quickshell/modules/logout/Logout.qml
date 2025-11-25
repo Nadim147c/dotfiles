@@ -6,34 +6,34 @@ import QtQuick.Shapes
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Wayland
 
 PanelWindow {
     id: root
+
+    property real borderRadius: Appearance.round.larger
+    property color bg: Appearance.material.mySurface
+
     anchors.bottom: true
+    margins.bottom: 0
 
     implicitWidth: body.width + (borderRadius * 2)
-    implicitHeight: 200
+    implicitHeight: body.height
 
+    WlrLayershell.namespace: "quickshell:logout"
     aboveWindows: true
-    exclusionMode: ExclusionMode.Ignore
-
+    exclusiveZone: 0
     color: "transparent"
+
+    mask: Region {
+        item: body
+    }
 
     HyprlandFocusGrab {
         windows: [root]
-        active: Toggle.dock
-        onCleared: Toggle.dock = false
+        active: Toggle.logout
+        onCleared: Toggle.logout = false
     }
-
-    MouseArea {
-        anchors.top: parent.top
-        implicitWidth: parent.width
-        implicitHeight: parent.height - body.height
-        onClicked: Toggle.dock = false
-    }
-
-    property real borderRadius: Appearance.round.large
-    property color bg: Appearance.material.mySurface
 
     Shape {
         anchors.fill: parent
@@ -67,48 +67,47 @@ PanelWindow {
 
     Rectangle {
         id: body
-        anchors.bottom: parent.bottom
         x: root.borderRadius
-        implicitHeight: content.height + (Appearance.space.small * 2)
-        implicitWidth: content.width + (Appearance.space.small * 2)
+        implicitHeight: content.height + (Appearance.space.big * 2)
+        implicitWidth: content.width + (Appearance.space.big * 2)
         radius: root.borderRadius
         color: root.bg
 
         RowLayout {
             id: content
-            x: Appearance.space.small
-            y: Appearance.space.small
-            spacing: Appearance.space.small
+            x: Appearance.space.big
+            y: Appearance.space.big
+
+            property real iconSize: 50
 
             MaterialButton {
-                icon: "qr_code"
-                onClicked: Hyprland.dispatch("exec hyprqr-decode.sh")
+                icon: "bedtime"
+                size: parent.iconSize
+                onClicked: Quickshell.execDetached(["systemctl", "suspend"])
             }
 
             MaterialButton {
-                icon: "screenshot_region"
-                onClicked: Hyprland.dispatch("exec screenshot")
+                icon: "lock"
+                size: parent.iconSize
+                onClicked: Quickshell.execDetached(["loginctl", "lock-session"])
             }
 
             MaterialButton {
-                icon: "screenshot_frame"
-                onClicked: Hyprland.dispatch("exec screenshot active-output")
+                icon: "logout"
+                size: parent.iconSize
+                onClicked: Quickshell.execDetached(["hyprshutdown.sh", "logout"])
             }
 
             MaterialButton {
-                icon: "document_scanner"
-                onClicked: Hyprland.dispatch("exec hyprocr.sh")
+                icon: "replay"
+                size: parent.iconSize
+                onClicked: Quickshell.execDetached(["hyprshutdown.sh", "reboot"])
             }
 
-            MaterialButton {
-                icon: "wallpaper"
-                onClicked: Toggle.wallpaper = true
-            }
-
-            // Temporally
             MaterialButton {
                 icon: "power_settings_new"
-                onClicked: Toggle.logout = true
+                size: parent.iconSize
+                onClicked: Quickshell.execDetached(["hyprshutdown.sh", "shutdown"])
             }
         }
     }

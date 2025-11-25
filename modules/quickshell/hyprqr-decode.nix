@@ -5,7 +5,7 @@
 }:
 delib.script {
     name = "hyprqr-decode";
-    package = pkgs.writeShellScriptBin "hyprqr-decode" ''
+    package = pkgs.writeShellScriptBin "hyprqr-decode.sh" ''
         pkill slurp || true
 
         TEXT=$(${pkgs.hyprshot}/bin/hyprshot -m region --raw | ${pkgs.qrtool}/bin/qrtool decode 2>/dev/null)

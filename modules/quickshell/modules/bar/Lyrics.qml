@@ -2,7 +2,6 @@ import qs.modules.common
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
 
 Rectangle {
     id: root
@@ -16,7 +15,7 @@ Rectangle {
         if (lyricArea.containsMouse) {
             return Appearance.material.myOnPrimary;
         } else if (!WaybarLyric.isPlaying) {
-            return Appearance.material.myOutline;
+            return Appearance.material.myOnSurfaceVariant;
         } else {
             return Appearance.material.myPrimary;
         }

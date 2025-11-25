@@ -5,6 +5,7 @@ import qs.modules.player
 import qs.modules.dock
 import qs.modules.netspeed
 import qs.modules.wallpaper
+import qs.modules.logout
 
 import QtQuick
 import Quickshell
@@ -43,5 +44,9 @@ ShellRoot {
     LazyLoader {
         active: Toggle.wallpaper
         component: Wallpaper {}
+    }
+    LazyLoader {
+        active: Toggle.logout
+        component: Logout {}
     }
 }

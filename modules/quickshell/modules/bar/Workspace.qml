@@ -37,7 +37,7 @@ ClippingRectangle {
 
                 Behavior on width {
                     SpringAnimation {
-                        duration: Appearance.time.quick
+                        duration: Appearance.time.swift
                         spring: 4     // stiffness
                         damping: 0.2    // lower = more overshoot
                         mass: 1
@@ -56,11 +56,11 @@ ClippingRectangle {
                     anchors.fill: parent
                     color: {
                         if (workspace.containsMouse || workspace.modelData.urgent) {
-                            return Appearance.material.mySecondary;
+                            return Appearance.material.myTertiary;
                         } else if (workspace.modelData.active) {
                             return Appearance.material.myPrimary;
                         } else {
-                            return Appearance.material.mySurfaceContainerHighest;
+                            return Appearance.material.mySurfaceVariant;
                         }
                     }
                     radius: {
@@ -72,7 +72,7 @@ ClippingRectangle {
                     }
                     Behavior on radius {
                         NumberAnimation {
-                            duration: Appearance.time.quick
+                            duration: Appearance.time.swift
                         }
                     }
                 }
@@ -90,7 +90,7 @@ ClippingRectangle {
                         }
                         color: {
                             if (workspace.containsMouse || workspace.modelData.urgent) {
-                                return Appearance.material.myOnSecondary;
+                                return Appearance.material.myOnTertiary;
                             } else if (workspace.modelData.active) {
                                 return Appearance.material.myOnPrimary;
                             } else {

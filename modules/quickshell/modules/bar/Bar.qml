@@ -24,7 +24,7 @@ PanelWindow {
     Rectangle {
         anchors.fill: parent
         radius: Appearance.round.large
-        color: Appearance.material.myBackground
+        color: Appearance.material.mySurface
 
         RowLayout {
             id: rootRow
