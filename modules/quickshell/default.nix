@@ -22,6 +22,7 @@ delib.module {
             kdePackages.qtdeclarative
             netspeed
             quickshell
+            waybar-lyric
         ];
         systemd.user.services.quickshell = {
             Unit = {
