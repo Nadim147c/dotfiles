@@ -39,11 +39,7 @@ delib.host {
             consoleLogLevel = 0;
         };
 
-        environment.systemPackages = with pkgs; [
-            libva
-            libva-utils
-            nh
-        ];
+        environment.systemPackages = with pkgs; [libva libva-utils];
 
         time.timeZone = "Asia/Dhaka";
         i18n.defaultLocale = "en_US.UTF-8";
