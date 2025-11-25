@@ -11,6 +11,7 @@
             inputs.home-manager.follows = "home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        flake-parts.url = "github:hercules-ci/flake-parts";
         home-manager = {
             url = "github:nix-community/home-manager/master";
             inputs.nixpkgs.follows = "nixpkgs";
