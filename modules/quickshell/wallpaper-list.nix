@@ -5,6 +5,7 @@
 }:
 delib.script {
     name = "wallpaper-list";
+    partof = "programs.quickshell";
     package = pkgs.writers.writeNuBin "wallpaper-list.sh" # nu
 
     ''

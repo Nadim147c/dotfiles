@@ -5,6 +5,7 @@
 }:
 delib.script {
     name = "hyprocr";
+    partof = "programs.quickshell";
     package = pkgs.writeShellScriptBin "hyprocr.sh" ''
         pkill slurp || true
 

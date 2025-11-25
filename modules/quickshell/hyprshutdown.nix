@@ -5,6 +5,7 @@
 }:
 delib.script {
     name = "hyprshutdown";
+    partof = "programs.quickshell";
     package = pkgs.writeShellApplication {
         name = "hyprshutdown.sh";
 

@@ -5,6 +5,7 @@
 }:
 delib.script {
     name = "hyprqr-decode";
+    partof = "programs.quickshell";
     package = pkgs.writeShellScriptBin "hyprqr-decode.sh" ''
         pkill slurp || true
 

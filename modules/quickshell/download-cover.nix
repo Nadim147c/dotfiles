@@ -5,6 +5,7 @@
 }:
 delib.script {
     name = "download-cover";
+    partof = "programs.quickshell";
     package = pkgs.writeShellApplication {
         name = "download-cover.sh";
         runtimeInputs = with pkgs; [coreutils curl systemd];
