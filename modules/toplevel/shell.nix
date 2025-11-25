@@ -33,8 +33,6 @@ delib.module {
             nitch
             openssl
             procps
-            ripgrep
-            ripgrep-all
             xxHash
             xxd
             yq
