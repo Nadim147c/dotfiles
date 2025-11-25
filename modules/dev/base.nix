@@ -10,7 +10,6 @@ delib.module {
     options = delib.singleEnableOption host.devFeatured;
 
     home.ifEnabled.home.packages = with pkgs; [
-        bat
         charm-freeze
         curl
         fd

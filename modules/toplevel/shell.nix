@@ -45,10 +45,8 @@ delib.module {
 
             # Pager settings
             LESS = "-r -F";
-            BAT_PAGER = lessCmd;
             DELTA_PAGER = lessCmd;
             PAGER = lessCmd;
-            MANPAGER = "${editor} +Man!";
 
             # Color settings
             GCC_COLORS = "error=1;31:warning=1;33:note=1;47;107:caret=1;47;107:locus=40;1;35:quote=1;33";
@@ -68,7 +66,6 @@ delib.module {
             du = "du -h";
             grep = "grep --color";
             exe = "chmod +x";
-            cat = "${pkgs.bat}/bin/bat";
 
             x = "xargs";
 
