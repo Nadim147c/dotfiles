@@ -28,6 +28,7 @@ delib.module {
             sync_to_monitor = "no";
             window_margin_width = "5";
             cursor_trail = "1";
+            confirm_os_window_close = "0";
         };
         keybindings = {
             "ctrl+minus" = "change_font_size all -0.5";
