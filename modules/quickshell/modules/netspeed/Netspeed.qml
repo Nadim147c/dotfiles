@@ -50,7 +50,8 @@ PanelWindow {
                 gapAngle: 10
                 colPrimary: Appearance.material.myPrimary
                 colSecondary: Appearance.material.mySurfaceContainerHigh
-                value: SystemUsage.netDown / (1024 * 1024 * 50)
+                value: SystemUsage.netDown / (1024 * 1024 * 100)
+                wavy: value > 0.1
                 Text {
                     anchors.centerIn: parent
                     color: Appearance.material.myPrimary
@@ -66,7 +67,8 @@ PanelWindow {
                 gapAngle: 10
                 colPrimary: Appearance.material.myPrimary
                 colSecondary: Appearance.material.mySurfaceContainerHigh
-                value: SystemUsage.netUp / (1024 * 1024 * 50)
+                value: SystemUsage.netUp / (1024 * 1024 * 100)
+                wavy: value > 0.1
                 Text {
                     anchors.centerIn: parent
                     color: Appearance.material.myPrimary

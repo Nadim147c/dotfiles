@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Shapes
 import qs.modules.common
+import qs.modules.widgets
 
 /**
  * Material 3 circular progress. See https://m3.material.io/components/progress-indicators/specs
@@ -19,6 +20,11 @@ Item {
     property bool enableAnimation: true
     property int animationDuration: 800
     property var easingType: Easing.OutCubic
+
+    property bool wavy: true
+    property bool animateWave: true
+    property real waveFrequency: 13
+    property real waveHeight: lineWidth
 
     implicitWidth: implicitSize
     implicitHeight: implicitSize
@@ -48,6 +54,65 @@ Item {
     }
 
     Shape {
+        visible: root.wavy
+        anchors.fill: parent
+        layer.enabled: true
+        layer.smooth: true
+        preferredRendererType: Shape.CurveRenderer
+        ShapePath {
+            id: wavySecondaryPath
+            strokeColor: root.colSecondary
+            strokeWidth: root.lineWidth
+            capStyle: ShapePath.RoundCap
+            fillColor: "transparent"
+            PathAngleArc {
+                centerX: root.centerX
+                centerY: root.centerY
+                radiusX: root.arcRadius
+                radiusY: root.arcRadius
+                startAngle: root.startAngle - root.gapAngle
+                sweepAngle: -(360 - root.degree - 2 * root.gapAngle)
+            }
+        }
+    }
+
+    Loader {
+        active: root.wavy
+        anchors.fill: parent
+        WavyCircle {
+            id: wavyCircle
+            visible: root.wavy
+            anchors.fill: parent
+            waveHeight: root.waveHeight
+            lineWidth: root.lineWidth
+            frequency: root.waveFrequency
+            degree: root.degree
+            startDegree: root.startAngle
+            color: Appearance.material.myPrimary
+
+            Connections {
+                target: root
+                function onValueChanged() {
+                    wavyCircle.requestPaint();
+                }
+                function onDegreeChanged() {
+                    wavyCircle.requestPaint();
+                }
+                function onHighlightColorChanged() {
+                    wavyCircle.requestPaint();
+                }
+            }
+            FrameAnimation {
+                running: root.animateWave
+                onTriggered: {
+                    wavyCircle.requestPaint();
+                }
+            }
+        }
+    }
+
+    Shape {
+        visible: !root.wavy
         anchors.fill: parent
         layer.enabled: true
         layer.smooth: true

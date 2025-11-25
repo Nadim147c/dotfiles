@@ -23,7 +23,7 @@ Singleton {
         running: root.isPlaying
         interval: 1000
         repeat: true
-        onTriggered: root.player.positionChanged()
+        onTriggered: root.player?.positionChanged()
     }
 
     property bool isPlaying: true
@@ -74,10 +74,6 @@ Singleton {
         }
     }
 
-    // function setPositionPerc(pos) {
-    //     root.lyrics.info.position = (pos * root.lyrics.info.length) / 100;
-    //     return Quickshell.execDetached(["waybar-lyric", "position", `${pos}%`]);
-    // }
     function setPosition(pos) {
         return Quickshell.execDetached(["waybar-lyric", "position", `${pos}`]);
     }
