@@ -25,7 +25,6 @@ delib.module {
                 "layersIn,    1, 5,  layerIn,  slide"
                 "layersOut,   1, 5,  layerOut,  slide"
                 "fade,        1, 10, default"
-                "border,      0, 1,  liner"
                 "fadeLayers,  1, 5,  default"
                 "workspaces,  1, 5,  wind"
             ];

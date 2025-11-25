@@ -10,8 +10,8 @@ delib.module {
             gaps_in = 2;
             gaps_out = "0,5,5,5";
             border_size = 2;
-            "col.active_border" = "$primary $secondary 45deg";
-            "col.inactive_border" = "$on_primary $on_secondary 45deg";
+            "col.active_border" = "$primary";
+            "col.inactive_border" = "$outline";
             layout = "dwindle";
             resize_on_border = true;
         };
