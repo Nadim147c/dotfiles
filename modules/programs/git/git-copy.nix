@@ -5,6 +5,7 @@
 }:
 delib.script {
     name = "git-copy";
+    partof = "programs.git";
     package = pkgs.writers.writeNuBin "git-copy" # nu
 
     ''
@@ -18,7 +19,7 @@ delib.script {
             let user = $p | get 1
             let repo = $p | get 2
 
-            if $u.host != "github.com" || $user == "Nadim147c" {
+            if ($u.host != "github.com" or $user == "Nadim147c") {
                 git clone $url ...$params
                 return
             }
