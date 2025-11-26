@@ -122,7 +122,11 @@ Scope {
 
                 Row {
                     id: row
-                    width: 600 + (Appearance.space.big * 2)
+                    x: -(secondaryWidth + Appearance.space.big)
+                    width: primaryWidth + (secondaryWidth * 2) + (Appearance.space.big * 2)
+
+                    property real secondaryWidth: 150
+                    property real primaryWidth: 300
 
                     height: 200
                     spacing: Appearance.space.big
@@ -151,7 +155,7 @@ Scope {
                                 if (realIndex === scope.index)
                                     return 300;
 
-                                if (Math.abs(realIndex - scope.index) === 1)
+                                if (Math.abs(realIndex - scope.index) <= 2)
                                     return 150;
 
                                 return 0;
