@@ -71,7 +71,7 @@ PanelWindow {
         onRunningChanged: {
             if (running)
                 return;
-            if (tempClipboard.length) {
+            if (root.tempClipboard.length) {
                 root.clipboard = root.tempClipboard;
                 root.index = 0;
             }
@@ -259,6 +259,16 @@ PanelWindow {
                                 pixelAligned: false
                                 Behavior on width {
                                     animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
+                                }
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: {
+                                    root.index = clip.index;
+                                    root.select();
                                 }
                             }
 
