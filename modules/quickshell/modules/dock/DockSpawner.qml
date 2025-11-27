@@ -1,9 +1,7 @@
 import qs.modules.common
-
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
-import Quickshell.Hyprland
+import Quickshell.Wayland
 
 PanelWindow {
     id: root
@@ -14,12 +12,24 @@ PanelWindow {
 
     aboveWindows: true
     exclusionMode: ExclusionMode.Ignore
+    WlrLayershell.namespace: "quickshell:dock-spawner"
 
     color: "transparent"
 
     MouseArea {
+        id: mouse
         anchors.fill: parent
         hoverEnabled: true
-        onHoveredChanged: Toggle.dock = true
+        onHoveredChanged: timer.start()
+    }
+
+    Timer {
+        id: timer
+        interval: 200
+        repeat: false
+        onTriggered: {
+            if (mouse.containsMouse)
+                Toggle.dock = true;
+        }
     }
 }
