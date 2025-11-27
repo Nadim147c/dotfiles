@@ -13,6 +13,7 @@ delib.module {
         charm-freeze
         curl
         fd
+        field
         fzf
         gnugrep
         gnumake
