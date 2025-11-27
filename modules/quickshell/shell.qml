@@ -6,6 +6,7 @@ import qs.modules.dock
 import qs.modules.netspeed
 import qs.modules.wallpaper
 import qs.modules.logout
+import qs.modules.clipboard
 
 import QtQuick
 import Quickshell
@@ -48,5 +49,9 @@ ShellRoot {
     LazyLoader {
         active: Toggle.logout
         component: Logout {}
+    }
+    LazyLoader {
+        active: Toggle.clipboard
+        component: Clipboard {}
     }
 }

@@ -101,6 +101,11 @@ PanelWindow {
             }
 
             MaterialButton {
+                icon: "content_paste_search"
+                onClicked: Toggle.clipboard = true
+            }
+
+            MaterialButton {
                 icon: "wallpaper"
                 onClicked: Toggle.wallpaper = true
             }

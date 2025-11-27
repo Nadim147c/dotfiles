@@ -24,6 +24,11 @@ delib.module {
             quickshell
             waybar-lyric
         ];
+
+        wayland.windowManager.hyprland.settings.bind = [
+            "$mainMod, V, global, quickshell:toggle-clipboard"
+        ];
+
         systemd.user.services.quickshell = {
             Unit = {
                 Description = "QuickShell config";

@@ -10,6 +10,6 @@ delib.module {
 
     home.ifEnabled.services.cliphist = {
         enable = true; # Enable clipse
-        allowImages = false; # Don't allow duplicate entries
+        allowImages = true;
     };
 }
