@@ -10,6 +10,8 @@ delib.module {
     options = delib.singleEnableOption true;
 
     home.ifEnabled = {
+        home.preferXdgDirectories = true;
+
         xdg = {
             enable = true;
             userDirs = let
