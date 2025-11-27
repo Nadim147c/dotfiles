@@ -27,6 +27,7 @@ Rectangle {
         PlayerButton {
             iconName: WaybarLyric.isPlaying ? "pause" : "play_arrow"
             buttonRadius: WaybarLyric.isPlaying ? Appearance.round.larger * 2 : Appearance.round.large
+            toggled: !WaybarLyric.isPlaying
             onReleased: WaybarLyric.player.togglePlaying()
             buttonHeight: root.buttonHeight
             buttonWidth: root.buttonHeight

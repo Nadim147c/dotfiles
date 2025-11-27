@@ -12,14 +12,14 @@ GroupButton {
     colBackground: Appearance?.player.myPrimary
     colBackgroundHover: Appearance?.player.myTertiary
     colBackgroundActive: Appearance?.player.myPrimary
-    colBackgroundToggled: Appearance?.player.myTertiary
-    colBackgroundToggledHover: Appearance?.player.myPrimary
+    colBackgroundToggled: Appearance?.player.mySecondary
+    colBackgroundToggledHover: Appearance?.player.myTertiary
     colBackgroundToggledActive: Appearance?.player.myTertiary
     colOnBackground: Appearance?.player.myOnPrimary
     colOnBackgroundHover: Appearance?.player.myOnTertiary
     colOnBackgroundActive: Appearance?.player.myOnPrimary
-    colOnBackgroundToggled: Appearance?.player.myOnTertiary
-    colOnBackgroundToggledHover: Appearance?.player.myOnPrimary
+    colOnBackgroundToggled: Appearance?.player.myOnSecondary
+    colOnBackgroundToggledHover: Appearance?.player.myOnTertiary
     colOnBackgroundToggledActive: Appearance?.player.myOnTertiary
 
     contentItem: Item {
