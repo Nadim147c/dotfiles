@@ -13,7 +13,7 @@ delib.module {
     nixos.ifEnabled.security.pam.services.hyprlock.enable = true;
     home.ifEnabled = let
         player = pkgs.writers.writeNu "hyprlock-player" # nu
-        
+
         ''
             let infos = (
                 playerctl -a metadata --format="{{playerName}}»¦«{{title}}»¦«{{artist}}" |
@@ -42,14 +42,22 @@ delib.module {
 
         '';
     in {
+        home.packages = with pkgs; [
+            electroharmonix
+            nerd-fonts.jetbrains-mono
+            roboto-flex
+        ];
+
         programs.hyprlock = {
             enable = true;
 
             sourceFirst = true;
-            settings = {
+            settings = let
+                fancy = "Electroharmonix";
+                icon = "JetBrainsMono Nerd Font Propo";
+                main = "Roboto Flex";
+            in {
                 source = ["colors.conf"];
-
-                "$font" = "Electroharmonix, JetBrainsMono Nerd Font Propo";
 
                 background = {
                     monitor = "";
@@ -96,7 +104,7 @@ delib.module {
                         text = "cmd[update:1000] date +\"%-I:%M%p\"";
                         color = "$on_background";
                         font_size = 95;
-                        font_family = "$font";
+                        font_family = fancy;
                         position = "0, 120";
                         halign = "center";
                         valign = "center";
@@ -108,7 +116,7 @@ delib.module {
                         text = "cmd[update:1000] date +\"%A, %B %d\"";
                         color = "$primary";
                         font_size = 16;
-                        font_family = "$font";
+                        font_family = main;
                         position = "0, 50";
                         halign = "center";
                         valign = "center";
@@ -120,7 +128,7 @@ delib.module {
                         text = "cmd[update:1000] ${player}";
                         color = "$on_background";
                         font_size = 12;
-                        font_family = "$font";
+                        font_family = "${main}, ${icon}";
                         position = "0, 50";
                         halign = "center";
                         valign = "bottom";
@@ -132,7 +140,7 @@ delib.module {
                         text = "Hi, ${constants.fullname}";
                         color = "$on_background";
                         font_size = 14;
-                        font_family = "$font";
+                        font_family = main;
                         position = "0, -10";
                         halign = "center";
                         valign = "center";
