@@ -12,7 +12,6 @@ delib.module {
     home.ifEnabled.home.packages = with pkgs; [
         charm-freeze
         curl
-        fd
         field
         fzf
         gnugrep
