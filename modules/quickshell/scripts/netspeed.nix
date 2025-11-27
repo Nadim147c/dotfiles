@@ -4,13 +4,13 @@
     ...
 }:
 delib.script {
-    name = "cliphist-query";
+    name = "netspeed";
     partof = "programs.quickshell";
     package = pkgs.buildGoModule {
-        pname = "cliphist-query";
+        pname = "netspeed";
         version = "0.0.1";
-        src = ../../src/cliphist-query;
-        vendorHash = "sha256-W0O70AYE9kI7PBqtA2VPz5oFx0uApuugy70essCf1so=";
+        src = ../../../src/netspeed;
+        vendorHash = null;
         subPackages = [];
     };
 }

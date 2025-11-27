@@ -9,18 +9,9 @@ delib.module {
 
     options = delib.singleEnableOption host.devFeatured;
 
-    home.ifEnabled = let
-        netspeed = pkgs.buildGoModule {
-            pname = "netspeed";
-            version = "0.0.1";
-            src = ../../src/netspeed;
-            vendorHash = null;
-            subPackages = [];
-        };
-    in {
+    home.ifEnabled = {
         home.packages = with pkgs; [
             kdePackages.qtdeclarative
-            netspeed
             quickshell
             waybar-lyric
         ];
