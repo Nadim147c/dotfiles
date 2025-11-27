@@ -9,23 +9,26 @@ delib.script {
     package = pkgs.writers.writeNuBin "wallpaper-list.sh" # nu
 
     ''
-        let generate_colors = {|filename|
-            rong video --dry-run --json $filename
-                | from json
-                | select image material.primary.hex_rgb material.surface.hex_rgb material.on_surface.hex_rgb
-                | rename preview primary bg fg
-                | upsert filename $filename
-                | to json --raw
-                | print $in
-        }
-
+        let thumb_dir = $"(systemd-path user-state-cache)/rong" | path expand
         let wallpaper_dir = $"(systemd-path user-videos)/wallpapers" | path expand
+
+        let format = {|filename|
+            let realpath = $filename | path expand
+            let hash = $realpath | hash md5
+
+             # requires rong --preview-format jpg
+            let thumb = $"($thumb_dir)/($hash).jpg" | path expand
+
+            if ($thumb | path exists)  {
+                return { filename: $realpath, preview: $thumb}
+            }
+        }
 
         ls --all $wallpaper_dir
             | where type == file
             | sort-by modified --reverse
             | get name
-            | each $generate_colors
-            | ignore
+            | each $format
+            | to json --raw
     '';
 }

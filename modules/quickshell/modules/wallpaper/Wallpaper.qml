@@ -15,15 +15,25 @@ Scope {
     property list<QtObject> wallpapers: []
     property int index: 1
 
-    property color bg: Appearance.material.mySurface
+    function down() {
+        index = Math.max(index - 1, 0);
+    }
+    function up() {
+        index = Math.min(index + 1, wallpapers.length - 1);
+    }
+
+    property color bg: Appearance.material.myBackground
+    Behavior on bg {
+        ColorAnimation {
+            duration: Appearance.time.quick
+        }
+    }
 
     Component {
         id: wallpaperData
         QtObject {
             property string preview: ""
             property string filename: ""
-            property string primary: ""
-            property string fg: ""
             property string bg: ""
         }
     }
@@ -34,17 +44,19 @@ Scope {
         command: ["wallpaper-list.sh"]
         stdout: SplitParser {
             onRead: data => {
-                const wallpaperInfo = JSON.parse(data);
+                const wallpapers = JSON.parse(data);
 
-                const obj = wallpaperData.createObject(scope, {
-                    preview: wallpaperInfo.preview,
-                    filename: wallpaperInfo.filename,
-                    primary: wallpaperInfo.primary,
-                    fg: wallpaperInfo.fg,
-                    bg: wallpaperInfo.bg
-                });
+                const qtWallpapers = [];
 
-                scope.wallpapers = scope.wallpapers.concat([obj]);
+                for (const wallpaper of wallpapers) {
+                    const obj = wallpaperData.createObject(scope, {
+                        preview: wallpaper.preview,
+                        filename: wallpaper.filename
+                    });
+                    qtWallpapers.push(obj);
+                }
+
+                scope.wallpapers = qtWallpapers;
             }
         }
     }
@@ -120,6 +132,16 @@ Scope {
                 radius: Appearance.round.medium
                 color: "transparent"
 
+                property bool scrollable: true
+
+                Timer {
+                    id: timer
+                    interval: 200
+                    repeat: false
+                    onRunningChanged: content.scrollable = !running
+                    onTriggered: content.scrollable = true
+                }
+
                 Row {
                     id: row
                     width: 600 + (Appearance.space.big * 2)
@@ -128,74 +150,27 @@ Scope {
                     spacing: Appearance.space.big
 
                     Repeater {
-                        model: 1 + scope.wallpapers.length     // one extra item at the front
+                        model: scope.wallpapers
 
-                        Item {
-                            id: wallpaper
+                        WallpaperImage {
+                            required property var modelData
 
-                            required property int index
+                            preview: modelData.preview
+                            filename: modelData.filename
 
-                            property bool active: index == scope.index
-                            onActiveChanged: {
-                                if (active && scope.wallpapers[realIndex]) {
-                                    scope.bg = scope.wallpapers[realIndex].bg;
-                                }
-                            }
+                            current: index === scope.index
+                            neighbor: Math.abs(scope.index - index) === 1 || index === 2 && scope.index === 0
+                            secondNeighbor: Math.abs(scope.index - index) === 2
+                            onScroll: down => {
+                                if (!content.scrollable)
+                                    return;
 
-                            // Shift real wallpaper indexes by 1
-                            readonly property int realIndex: index - 1
+                                timer.start();
 
-                            property bool isFake: realIndex < 0
-
-                            width: {
-                                if (realIndex === scope.index)
-                                    return 300;
-
-                                if (Math.abs(realIndex - scope.index) === 1)
-                                    return 150;
-
-                                return 0;
-                            }
-
-                            height: parent.height
-
-                            Behavior on width {
-                                NumberAnimation {
-                                    duration: 200
-                                    easing.type: Easing.InOutQuad
-                                }
-                            }
-
-                            // Wheel interaction only if not fake item
-                            MouseArea {
-                                anchors.fill: parent
-                                enabled: !isFake
-                                onWheel: wheel => {
-                                    if (wheel.angleDelta.y > 0)
-                                        scope.index = Math.max(0, scope.index - 1);
-                                    else
-                                        scope.index = Math.min(scope.wallpapers.length - 1, scope.index + 1);
-
-                                    wheel.accepted = true;
-                                }
-                                onClicked: {
-                                    if (scope.wallpapers[wallpaper.realIndex]) {
-                                        console.log(["wallpaper.sh", scope.wallpapers[wallpaper.realIndex].filename]);
-                                        Quickshell.execDetached(["wallpaper.sh", scope.wallpapers[wallpaper.realIndex].filename]);
-                                    }
-                                }
-                            }
-
-                            // Only show an image if NOT fake
-                            ClippingRectangle {
-                                anchors.fill: parent
-                                radius: Appearance.round.medium
-                                visible: !isFake
-
-                                Image {
-                                    anchors.fill: parent
-                                    fillMode: Image.PreserveAspectCrop
-                                    source: !isFake ? scope.wallpapers[realIndex].preview : ""
+                                if (down) {
+                                    scope.down();
+                                } else {
+                                    scope.up();
                                 }
                             }
                         }
