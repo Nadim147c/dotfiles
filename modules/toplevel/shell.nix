@@ -18,7 +18,6 @@ delib.module {
             chafa
             cmatrix
             coreutils-full
-            crop-image
             ffmpeg
             findutils
             fork
