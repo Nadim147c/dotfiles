@@ -25,7 +25,6 @@ delib.module {
             fzf
             gallery-dl
             gum
-            image-detect
             jq
             killall
             less
