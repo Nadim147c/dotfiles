@@ -33,16 +33,11 @@ delib.module {
             };
             links = {
                 "hyprland.conf" = "~/.config/hypr/colors.conf";
-                "colors.lua" = "~/.config/wezterm/colors.lua";
                 "spicetify-sleek.ini" = "~/.config/spicetify/Themes/Sleek/color.ini";
                 "kitty-full.conf" = "~/.config/kitty/colors.conf";
-                "pywalfox.json" = "~/.cache/wal/colors.json";
-                "rofi.rasi" = "~/.config/rofi/config.rasi";
                 "ghostty-full" = "~/.config/ghostty/themes/rong";
                 "dunstrc" = "~/.config/dunst/dunstrc";
-                "cava.ini" = "~/.config/cava/config";
                 "btop.theme" = "~/.config/btop/themes/rong.theme";
-                "colors.tmux" = "~/.config/tmux/colors.conf";
 
                 "colors.scss" = [
                     "~/.config/eww/colors.scss"

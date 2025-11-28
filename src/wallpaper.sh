@@ -1,19 +1,13 @@
 #!/usr/bin/env bash
 
-WALLPAPER_DIR="${XDG_VIDEOS_DIR:-$HOME/media/videos}/wallpapers"
-STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}"
-STATE_FILE="$STATE_DIR/wallpaper.state"
+WALLPAPER_DIR="$(systemd-path user-videos)/wallpapers"
+STATE_FILE="$(systemd-path user-state-private)/wallpaper.state"
 
 # Function to run post-processing hooks
 post_hooks() {
     # allow one or more commands to fails without exit
     set +e pipefail
 
-    # Compile SCSS files for various components
-    compile-scss ~/.config/swaync/style.scss
-    compile-scss ~/.config/swayosd/style.scss
-    compile-scss ~/.config/waybar/style.scss
-    compile-scss ~/.config/wlogout/style.scss
     compile-scss ~/.config/wofi/style.scss
 
     dunst_level=$(dunstctl get-pause-level)
@@ -26,6 +20,8 @@ post_hooks() {
     pkill swayosd-server && fork swayosd-server
 
     pidof kitty | xargs kill -SIGUSR1
+
+    tmux source-file ~/.config/tmux/tmux.conf
 
     hyprctl reload
 

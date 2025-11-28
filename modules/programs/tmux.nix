@@ -65,6 +65,8 @@ in
 
             home.packages = [pkgs.tmux-sessionizer];
 
+            programs.rong.settings.links."colors.tmux" = "${xdg.configHome}/tmux/colors.conf";
+
             programs.tmux = {
                 enable = true;
                 baseIndex = 1;
@@ -93,8 +95,6 @@ in
 
                     set -g status-position top
                     set -g status-justify absolute-centre
-                    set -g status-style "bg=default"
-                    set -g window-status-current-style "fg=blue bold"
                     set -g status-right ""
                     set -g status-left "#S"
                     set -g status-left-length 100
@@ -102,15 +102,17 @@ in
 
                     source ${xdg.configHome}/tmux/colors.conf
 
-                    set -g popup-border-style "fg=black"
+                    set -g popup-border-style "fg=#{@rong_outline}"
                     set -g popup-border-lines "rounded"
+
+                    set -g status-style "bg=default,fg=#{@rong_on_background}"
+                    set -g window-status-current-style "bg=default,fg=#{@rong_color_2}"
 
                     set -as terminal-features ",*:hyperlinks"
                 '';
 
                 plugins = with pkgs; [
                     tmuxPlugins.better-mouse-mode
-                    tmuxPlugins.tmux-fzf
                     tmuxPlugins.yank
                 ];
             };
