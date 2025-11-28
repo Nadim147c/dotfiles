@@ -39,6 +39,8 @@ delib.script {
 
             # If already cached, skip download
             if [[ -f "$CACHE_FILE" ]]; then
+                # NOTE: update cache modified date! will be useful cache cleaning.
+                touch "$CACHE_FILE"
                 echo "$CACHE_FILE"
                 exit 0
             fi
