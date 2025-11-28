@@ -15,7 +15,6 @@ delib.module {
     in {
         home.packages = with pkgs; [
             btop
-            cava
             chafa
             cmatrix
             coreutils-full
