@@ -52,6 +52,7 @@ delib.module {
                 "qtct.colors" = [
                     "~/.config/qt5ct/colors/rong.colors"
                     "~/.config/qt6ct/colors/rong.colors"
+                    "~/.config/kdeglobals"
                 ];
 
                 "qtct.conf" = [
