@@ -165,13 +165,13 @@ PanelWindow {
                 height: 40
                 width: parent.width
                 radius: Appearance.round.small
-                color: Appearance.material.myBackground
+                color: Appearance.material.mySurfaceContainerHigh
 
                 StyledTextInput {
                     width: parent.width - (Appearance.space.medium * 2)
                     x: Appearance.space.medium
                     anchors.verticalCenter: parent.verticalCenter
-                    color: Appearance.material.myOnBackground
+                    color: Appearance.material.myOnSurface
                     focus: hyprland.active
                     onTextChanged: root.query = text
                     onFocusChanged: hyprland.active = focus
@@ -252,15 +252,6 @@ PanelWindow {
 
                             radius: Appearance.round.small
                             color: Appearance.material.myBackground
-                            border {
-                                width: selected ? 2 : 0
-                                color: Appearance.material.myOutline
-
-                                pixelAligned: false
-                                Behavior on width {
-                                    animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
-                                }
-                            }
 
                             MouseArea {
                                 anchors.fill: parent
@@ -285,6 +276,21 @@ PanelWindow {
                                 content: clip.modelData.content
                                 x: Appearance.space.medium
                                 width: parent.width - (Appearance.space.medium * 2)
+                            }
+
+                            Rectangle {
+                                anchors.fill: parent
+                                radius: clip.radius
+                                color: "transparent"
+                                visible: clip.selected
+                                opacity: visible ? 1 : 0
+                                Behavior on opacity {
+                                    animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                                }
+                                border {
+                                    width: 3
+                                    color: Appearance.material.myOutline
+                                }
                             }
                         }
                     }
