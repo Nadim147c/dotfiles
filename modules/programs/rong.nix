@@ -2,6 +2,7 @@
     inputs,
     delib,
     host,
+    xdg,
     ...
 }:
 delib.module {
@@ -49,11 +50,7 @@ delib.module {
                     "~/.config/walker/themes/colors.scss"
                 ];
 
-                "qtct.colors" = [
-                    "~/.config/qt5ct/colors/rong.colors"
-                    "~/.config/qt6ct/colors/rong.colors"
-                    "~/.config/kdeglobals"
-                ];
+                "qtct.colors" = "${xdg.dataHome}/color-schemes/Rong.colors";
 
                 "qtct.conf" = [
                     "~/.config/qt5ct/colors/rong.conf"
