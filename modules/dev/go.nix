@@ -21,6 +21,7 @@ delib.module {
             GOMODCACHE = "${xdg.cacheHome}/go/mod";
             GOBIN = "${xdg.dataHome}/go/bin";
             GOPATH = "${xdg.dataHome}/go";
+            CGO_ENABLED = "0";
         };
         programs.go = {
             enable = true;
