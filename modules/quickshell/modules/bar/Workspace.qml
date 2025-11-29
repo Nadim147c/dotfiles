@@ -1,21 +1,23 @@
 import qs.modules.common
 
 import QtQuick
+import QtQuick.Layouts
 import Quickshell.Hyprland
 import Quickshell.Widgets
 
 ClippingRectangle {
     id: root
-    color: "transparent"
     radius: Appearance.round.large
     clip: true
 
-    implicitWidth: workspaces.width
+    implicitWidth: body.width
     implicitHeight: parent.height
 
-    Row {
-        id: workspaces
-        spacing: Appearance.space.visible
+    color: Appearance.material.mySurfaceContainer
+
+    RowLayout {
+        id: body
+        spacing: 2
 
         Repeater {
             model: Hyprland.workspaces
@@ -26,76 +28,64 @@ ClippingRectangle {
 
                 required property var modelData
 
-                height: root.height
-                width: {
-                    if (workspace.modelData.active) {
-                        return root.height + Appearance.space.small;
-                    } else {
-                        return root.height;
-                    }
-                }
+                implicitHeight: root.height
+                implicitWidth: root.height + Appearance.space.small
 
-                Behavior on width {
-                    SpringAnimation {
-                        duration: Appearance.time.swift
-                        spring: 4     // stiffness
-                        damping: 0.2    // lower = more overshoot
-                        mass: 1
-                    }
-                }
-
-                onClicked: {
-                    onClicked: modelData.activate();
-                }
+                onClicked: modelData.activate()
 
                 hoverEnabled: true
                 enabled: true
 
-                Rectangle {
-                    id: workspaceRect
-                    anchors.fill: parent
-                    color: {
-                        if (workspace.containsMouse || workspace.modelData.urgent) {
-                            return Appearance.material.myTertiary;
-                        } else if (workspace.modelData.active) {
-                            return Appearance.material.myPrimary;
-                        } else {
-                            return Appearance.material.mySurfaceVariant;
-                        }
+                property color bg: {
+                    if (workspace.containsMouse) {
+                        return Appearance.material.myTertiary;
+                    } else if (workspace.modelData.urgent) {
+                        return Appearance.material.mySecondary;
+                    } else if (workspace.modelData.active) {
+                        return Appearance.material.myPrimary;
+                    } else {
+                        return Appearance.material.mySurfaceVariant;
                     }
+                }
+                property color fg: {
+                    if (workspace.containsMouse) {
+                        return Appearance.material.myOnTertiary;
+                    } else if (workspace.modelData.urgent) {
+                        return Appearance.material.myOnSecondary;
+                    } else if (workspace.modelData.active) {
+                        return Appearance.material.myOnPrimary;
+                    } else {
+                        return Appearance.material.myOnSurfaceVariant;
+                    }
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: workspace.bg
                     radius: {
                         if (workspace.modelData.active) {
                             return Appearance.round.large;
                         } else {
-                            return Appearance.round.small;
+                            return Appearance.round.little;
                         }
                     }
                     Behavior on radius {
-                        NumberAnimation {
-                            duration: Appearance.time.swift
-                        }
+                        animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
                     }
                 }
 
                 Item {
-                    id: workspaceName
                     anchors.fill: parent
                     Text {
                         x: (parent.width - width) / 2
                         y: (parent.height - height) / 2
                         text: workspace.modelData.name
+                        color: workspace.fg
                         font {
-                            family: Appearance.font.family.main
+                            family: Appearance.font.family.reading
                             pixelSize: Appearance.font.pixelSize.normal
-                        }
-                        color: {
-                            if (workspace.containsMouse || workspace.modelData.urgent) {
-                                return Appearance.material.myOnTertiary;
-                            } else if (workspace.modelData.active) {
-                                return Appearance.material.myOnPrimary;
-                            } else {
-                                return Appearance.material.myOnSurface;
-                            }
+                            bold: true
+                            variableAxes: Appearance.font?.variableAxes?.numbers
                         }
                     }
                 }
