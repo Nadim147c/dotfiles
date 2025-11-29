@@ -35,6 +35,10 @@ PanelWindow {
         onCleared: Toggle.player = false
     }
 
+    mask: Region {
+        item: body
+    }
+
     ClippingRectangle {
         id: body
         implicitWidth: content.width + (Appearance.space.large * 2)
@@ -179,11 +183,5 @@ PanelWindow {
                 }
             }
         }
-    }
-    MouseArea {
-        anchors.bottom: parent.bottom
-        implicitWidth: parent.width
-        implicitHeight: parent.height - body.height
-        onClicked: Toggle.player = false
     }
 }
