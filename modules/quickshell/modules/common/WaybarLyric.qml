@@ -15,7 +15,10 @@ Singleton {
 
     property string playerName: ""
     onPlayerNameChanged: {
-        player = Mpris.players.values.filter(p => p.dbusName == playerName)[0];
+        const p = Mpris.players.values.filter(p => p.dbusName == playerName)[0];
+        if (p !== undefined) {
+            player = p;
+        }
     }
 
     property MprisPlayer player
@@ -79,7 +82,10 @@ Singleton {
     }
 
     Component.onCompleted: {
-        root.player = Mpris.players.values.filter(p => p.dbusName == playerName)[0];
+        const player = Mpris.players.values.filter(p => p.dbusName == playerName)[0];
+        if (player != undefined) {
+            root.player = player;
+        }
         // full rebuild of lines only when track changes
         for (let i = 0; i < root.lines?.length; i++) {
             if (root.lines[i].time > root.position) {
@@ -92,7 +98,7 @@ Singleton {
     Process {
         id: commandProcess
         running: true
-        command: ["waybar-lyric", "--detailed", "--no-tooltip", "--quiet"]
+        command: ["waybar-lyric", "--detailed", "--no-tooltip", "--quiet", "-fpartial"]
 
         stdout: SplitParser {
             onRead: data => {
