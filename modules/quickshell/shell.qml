@@ -1,3 +1,5 @@
+//@ pragma Env QS_NO_RELOAD_POPUP=1
+
 import qs.modules.common
 import qs.modules.osd
 import qs.modules.bar

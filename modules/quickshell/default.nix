@@ -12,6 +12,9 @@ delib.module {
     home.ifEnabled = {
         home.packages = with pkgs; [
             kdePackages.qtdeclarative
+            kdePackages.qt5compat
+            kdePackages.qtmultimedia
+            kdePackages.qtimageformats
             quickshell
             waybar-lyric
         ];

@@ -1,27 +1,34 @@
 {
-    description = "Modular configuration of NixOS and Home Manager with Denix";
+    description = "Modular configuration of NixOS and Home with unified inputs";
 
     inputs = {
-        chromashift = {
-            url = "github:Nadim147c/ChromaShift";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
         denix = {
             url = "github:yunfachi/denix";
-            inputs.home-manager.follows = "home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
+            inputs.nixpkgs-lib.follows = "nixpkgs-lib";
+            inputs.home-manager.follows = "home-manager";
         };
-        flake-parts.url = "github:hercules-ci/flake-parts";
+        flake-parts = {
+            url = "github:hercules-ci/flake-parts";
+            inputs.nixpkgs-lib.follows = "nixpkgs-lib";
+        };
         home-manager = {
             url = "github:nix-community/home-manager/master";
             inputs.nixpkgs.follows = "nixpkgs";
         };
         nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
         nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+        nixpkgs-lib.url = "github:nix-community/nixpkgs.lib";
         nixpkgs.url = "nixpkgs/nixos-unstable";
         rong = {
             url = "github:Nadim147c/rong";
             inputs.nixpkgs.follows = "nixpkgs";
+            inputs.flake-parts.follows = "flake-parts";
+        };
+        yankd = {
+            url = "github:Nadim147c/yankd";
+            inputs.nixpkgs.follows = "nixpkgs";
+            inputs.flake-parts.follows = "flake-parts";
         };
     };
 

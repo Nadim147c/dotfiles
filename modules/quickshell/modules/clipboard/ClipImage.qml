@@ -9,12 +9,12 @@ Item {
     height: 120
 
     Loader {
-        active: mime == "png" || mime == "jpg" || mime == "jpeg"
+        active: mime.startsWith("image/")
         sourceComponent: StyledImage {
             width: root.width
             height: root.height
             fillMode: Image.PreserveAspectCrop
-            source: `data:image/${root.mime};base64,${root.content}`
+            source: root.content
         }
     }
 }
