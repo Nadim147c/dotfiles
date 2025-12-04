@@ -17,13 +17,6 @@ delib.module {
                     "hyprpicker"
                     "mpvpaper"
                 ];
-                dimaround = [
-                    "quickshell:clipboard"
-                    "quickshell:dock"
-                    "quickshell:netspeed"
-                    "quickshell:player"
-                    "quickshell:wallpaper"
-                ];
             };
         };
     });
