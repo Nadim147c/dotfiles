@@ -16,3 +16,4 @@ home/static/wofi/colors.scss
 home/static/swayosd/colors.scss
 modules/quickshell/.qmlls.ini
 src/netspeed/netspeed
+result
