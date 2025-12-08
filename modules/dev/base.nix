@@ -27,5 +27,6 @@ delib.module {
         vhs
         wget
         xh
+        gcc
     ];
 }
