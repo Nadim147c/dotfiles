@@ -12,7 +12,7 @@ delib.module {
 
     home.ifEnabled = let
         braveFlags = ''
-            --password-store=basic
+            --password-store=gnome
             --ozone-platform=wayland
             --ozone-platform-hint=wayland
             --enable-features=TouchpadOverscrollHistoryNavigation
