@@ -73,6 +73,9 @@ delib.module {
             "...." = "cd ../../..";
             "....." = "cd ../../../..";
 
+            sctl = "systemctl";
+            uctl = "systemctl --user";
+
             # Other aliases
             delta = "${pkgs.delta}/bin/delta --line-numbers --hunk-header-decoration-style none";
             ffmpeg = "${pkgs.ffmpeg}/bin/ffmpeg -hide_banner";
