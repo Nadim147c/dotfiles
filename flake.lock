@@ -259,7 +259,28 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-lib": "nixpkgs-lib",
         "rong": "rong",
+        "waybar-lyric": "waybar-lyric",
         "yankd": "yankd"
+      }
+    },
+    "waybar-lyric": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1765258356,
+        "narHash": "sha256-r77+m+ESDpUTD18SGe79D7QrfuNFokAZXbpdYdM+ut4=",
+        "owner": "Nadim147c",
+        "repo": "waybar-lyric",
+        "rev": "a40089afd3de2c45199bc98c05c49a3b6814ccf1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Nadim147c",
+        "repo": "waybar-lyric",
+        "type": "github"
       }
     },
     "yankd": {

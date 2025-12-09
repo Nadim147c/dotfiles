@@ -25,6 +25,10 @@
             inputs.nixpkgs.follows = "nixpkgs";
             inputs.flake-parts.follows = "flake-parts";
         };
+        waybar-lyric = {
+            url = "github:Nadim147c/waybar-lyric";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
         yankd = {
             url = "github:Nadim147c/yankd";
             inputs.nixpkgs.follows = "nixpkgs";
