@@ -10,18 +10,19 @@ delib.module {
 
     options = delib.singleEnableOption host.guiFeatured;
 
-    home.ifEnabled = let
-        braveFlags = ''
-            --password-store=gnome
-            --ozone-platform=wayland
-            --ozone-platform-hint=wayland
-            --enable-features=TouchpadOverscrollHistoryNavigation
-        '';
-    in {
+    home.ifEnabled = {
         programs.brave = {
             enable = true;
             package = pkgs.brave;
-            dictionaries = [pkgs.hunspellDictsChromium.en_US];
+            dictionaries = with pkgs; [
+                hunspellDictsChromium.en_US
+            ];
+            commandLineArgs = [
+                "--password-store=gnome"
+                "--ozone-platform=wayland"
+                "--ozone-platform-hint=wayland"
+                "--enable-features=TouchpadOverscrollHistoryNavigation"
+            ];
             extensions = [
                 "bkijmpolkanhdehnlnabfooghjdokakc" # Double-click Image Downloader
                 "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
@@ -37,13 +38,8 @@ delib.module {
             ];
         };
 
-        xdg.configFile."brave-flags.conf".text = braveFlags;
-
-        wayland.windowManager.hyprland.settings = let
-            uwsm = "${lib.getExe pkgs.uwsm} app";
-            brave = "${lib.getExe pkgs.brave} ${builtins.replaceStrings ["\n"] [" "] braveFlags}";
-        in {
-            "$browser" = "${uwsm} -- ${brave}";
+        wayland.windowManager.hyprland.settings = with lib; {
+            "$browser" = "${getExe pkgs.uwsm} app -- ${getExe pkgs.brave}";
         };
 
         xdg.mimeApps = let
