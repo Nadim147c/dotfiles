@@ -12,5 +12,6 @@ delib.module {
     home.ifEnabled.home.packages = with pkgs; [
         alejandra
         nixd
+        nix-update
     ];
 }
