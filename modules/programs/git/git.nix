@@ -14,7 +14,6 @@ delib.module {
             git-cliff
             git-extras
             git-open
-            lazygit
             svu
         ];
 
