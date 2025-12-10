@@ -36,6 +36,8 @@ delib.module {
         home.packages = cfg.packages;
         fonts.fontconfig = {
             enable = true;
+            antialiasing = true;
+            hinting = "slight";
             defaultFonts = {
                 sansSerif = lib.lists.unique [
                     cfg.sans
