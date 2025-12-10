@@ -19,6 +19,7 @@ delib.module {
             cmatrix
             coreutils-full
             ffmpeg
+            file
             findutils
             fork
             fzf
