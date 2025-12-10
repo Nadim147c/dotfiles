@@ -13,20 +13,21 @@ delib.module {
         curl
         field
         fzf
-        gnugrep
+        gcc
         gnumake
+        gnugrep
         htop
         httpie
         neovim
         ripgrep
         sd
         skim
+        sqlite
         tmux
         tree
         unzip
         vhs
         wget
         xh
-        gcc
     ];
 }
