@@ -10,7 +10,7 @@ import Quickshell.Widgets
 
 Scope {
     id: scope
-    property real borderRadius: Appearance.round.larger
+    property real borderRadius: Appearance.round.huge
 
     property list<QtObject> wallpapers: []
     property int index: 1

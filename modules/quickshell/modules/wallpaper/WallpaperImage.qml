@@ -35,7 +35,7 @@ Loader {
 
     sourceComponent: ClippingRectangle {
         anchors.fill: parent
-        radius: Appearance.round.medium
+        radius: Appearance.round.larger
 
         // Wheel interaction only if not fake item
         MouseArea {
