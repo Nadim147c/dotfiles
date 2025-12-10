@@ -12,5 +12,8 @@ delib.module {
         enable = true;
         components = ["pkcs11" "secrets" "ssh"];
     };
-    nixos.ifEnabled.services.gnome.gnome-keyring.enable = true;
+    nixos.ifEnabled = {
+        services.gnome.gnome-keyring.enable = true;
+        security.pam.services.login.enableGnomeKeyring = true;
+    };
 }
