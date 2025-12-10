@@ -15,6 +15,7 @@ delib.module {
             gofumpt
             gopls
             gopls
+            golines
             revive
         ];
         home.sessionVariables = {
