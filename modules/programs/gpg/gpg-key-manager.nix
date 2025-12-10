@@ -2,8 +2,11 @@
     delib,
     pkgs,
     ...
-}: let
-    helper = pkgs.writeShellApplication {
+}:
+delib.script {
+    name = "gpg-key-manager";
+    partof = "programs.gpg";
+    package = pkgs.writeShellApplication {
         name = "gpg-key-manager";
         runtimeInputs = with pkgs; [
             gnupg
@@ -97,26 +100,4 @@
             esac
         '';
     };
-in
-    delib.module {
-        name = "programs.gpg";
-
-        options = delib.singleEnableOption true;
-
-        nixos.ifEnabled = {
-            services.pcscd.enable = true;
-            programs.gnupg.agent = {
-                enable = true;
-                pinentryPackage = pkgs.pinentry-gnome3;
-                enableSSHSupport = true;
-            };
-        };
-        home.ifEnabled = {
-            home.packages = [helper];
-            programs.gpg.enable = true;
-            services.gpg-agent = {
-                enable = true;
-                pinentry.package = pkgs.pinentry-gnome3;
-            };
-        };
-    }
+}
