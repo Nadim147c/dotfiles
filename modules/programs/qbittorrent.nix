@@ -1,9 +1,10 @@
 {
-    lib,
     delib,
+    home,
     host,
-    utils,
+    lib,
     pkgs,
+    utils,
     xdg,
     ...
 }:
@@ -16,7 +17,7 @@ delib.module {
         settings = attrsOption {
             LegalNotice.Accepted = true;
             Preferences = {
-                Downloads.SavePath = xdg.userDirs.download;
+                Downloads.SavePath = "${home.home.homeDirectory}/files/torrents";
                 WebUI = {
                     AlternativeUIEnabled = true;
                     RootFolder = "${pkgs.vuetorrent}/share/vuetorrent";
