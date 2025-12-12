@@ -9,9 +9,9 @@ post_hooks() {
     set +e pipefail
 
     compile-scss ~/.config/wofi/style.scss
+    compile-scss ~/.config/swaync/style.scss
 
-    dunst_level=$(dunstctl get-pause-level)
-    dunstctl reload && dunstctl set-pause-level "$dunst_level"
+    swaync-client --reload-css
 
     # Reload applications by sending signals
     pywalfox --verbose update
