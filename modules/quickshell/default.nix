@@ -2,6 +2,7 @@
     delib,
     host,
     pkgs,
+    xdg,
     ...
 }:
 delib.module {
@@ -19,6 +20,9 @@ delib.module {
 
         xdg.configFile."quickshell".source = ./.;
 
+        programs.rong.settings.installs = {
+            "quickshell.json" = "${xdg.stateHome}/quickshell/colors.json";
+        };
         programs.quickshell = {
             enable = true;
             systemd.enable = true;

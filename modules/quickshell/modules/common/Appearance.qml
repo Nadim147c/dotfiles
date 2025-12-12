@@ -274,14 +274,17 @@ Singleton {
         const json = JSON.parse(fileContent);
         for (let i = 0; i < json.colors.length; i++) {
             const color = json.colors[i];
-            root.player["my" + color.name.pascal] = color.value.hex_rgb;
+            const key = "my" + color.name.pascal;
+            if (root.player.hasOwnProperty(key)) {
+                root.player[key] = color.value.hex_rgb;
+            }
         }
     }
 
     function applyColors(fileContent) {
         const json = JSON.parse(fileContent);
         for (const key in json) {
-            if (json.hasOwnProperty(key)) {
+            if (root.material.hasOwnProperty(key)) {
                 root.material[key] = json[key];
             }
         }
@@ -289,7 +292,7 @@ Singleton {
 
     FileView {
         id: themeFileView
-        path: "/home/ephemeral/.local/state/rong/quickshell.json"
+        path: "/home/ephemeral/.local/state/quickshell/colors.json"
         watchChanges: true
 
         onFileChanged: {
