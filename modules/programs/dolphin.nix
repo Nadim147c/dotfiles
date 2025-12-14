@@ -20,7 +20,6 @@ delib.module {
             kdegraphics-thumbnailers
             kio-admin
             kio-extras
-            kio-gdrive
             qtsvg
         ];
 
