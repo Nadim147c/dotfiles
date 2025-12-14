@@ -22,7 +22,6 @@ delib.host {
 
     myconfig = {
         dev.cpp.enable = false;
-        dev.python.enable = false;
     };
 
     nixos = {
