@@ -27,7 +27,9 @@ PanelWindow {
     exclusiveZone: 0
     color: "transparent"
 
-    property list<QtObject> clipboard: Yankd.clipboard
+    property list<QtObject> clipboard: []
+    property list<QtObject> tempClipboard: []
+    property string query: ""
 
     property int index: 0
     function down() {
@@ -38,12 +40,66 @@ PanelWindow {
     }
     function select() {
         const id = clipboard[index].id;
-        Yankd.set(id);
+        Quickshell.execDetached(["yankd", "set", `${id}`]);
         Toggle.clipboard = false;
     }
-    function deleteItem() {
-        const id = clipboard[index].id;
-        Yankd.deleteItem(id);
+
+    onQueryChanged: {
+        tempClipboard = [];
+        cliphist.exec(["yankd", "search", query]);
+    }
+
+    Component {
+        id: clipComponent
+        QtObject {
+            property string id: ""
+            property string mime: ""
+            property string preview: ""
+        }
+    }
+
+    Process {
+        id: cliphist
+        running: true
+        onRunningChanged: {
+            if (running)
+                return;
+            if (root.tempClipboard.length) {
+                root.clipboard = root.tempClipboard;
+                root.index = 0;
+            }
+        }
+        command: ["yankd", "search", root.query]
+        stdout: SplitParser {
+            onRead: data => {
+                const line = data.toString().trim();
+                if (!line)
+                    return;
+
+                const tab = line.indexOf("\t");
+                if (tab === -1)
+                    return;
+
+                // split into left = "8573-text", right = "index"
+                const id = line.slice(0, tab);
+                const next = line.slice(tab + 1);
+
+                const tab2 = next.indexOf("\t");
+                if (tab2 === -1)
+                    return;
+
+                const mime = next.slice(0, tab2);
+                const preview = next.slice(tab2 + 1);
+
+                // create object from Component id: clip
+                const obj = clipComponent.createObject(root);
+                obj.id = id;
+                obj.preview = preview;
+                obj.mime = mime;
+
+                root.tempClipboard.push(obj);
+            }
+        }
     }
 
     mask: Region {
@@ -103,10 +159,7 @@ PanelWindow {
                                 width: parent.width - (x * 2)
                                 color: Appearance.material.myOnSurface
                                 focus: hyprland.active
-                                onTextChanged: {
-                                    root.index = 0;
-                                    Yankd.search(text);
-                                }
+                                onTextChanged: root.query = text
                                 onFocusChanged: hyprland.active = focus
 
                                 Keys.onPressed: event => {
@@ -126,12 +179,6 @@ PanelWindow {
                                     // Ctrl+P or Up Arrow → move backward
                                     if ((event.key === Qt.Key_P && event.modifiers === Qt.ControlModifier) || event.key === Qt.Key_Up || event.key === Qt.Key_K) {
                                         root.up();
-                                        event.accepted = true;
-                                        return;
-                                    }
-
-                                    if (event.key === Qt.Key_Delete) {
-                                        root.deleteItem();
                                         event.accepted = true;
                                         return;
                                     }
