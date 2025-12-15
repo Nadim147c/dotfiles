@@ -44,26 +44,6 @@
         "type": "github"
       }
     },
-    "flake-parts": {
-      "inputs": {
-        "nixpkgs-lib": [
-          "nixpkgs-lib"
-        ]
-      },
-      "locked": {
-        "lastModified": 1763759067,
-        "narHash": "sha256-LlLt2Jo/gMNYAwOgdRQBrsRoOz7BPRkzvNaI/fzXi2Q=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "2cccadc7357c0ba201788ae99c4dfa90728ef5e0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -93,11 +73,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764998300,
-        "narHash": "sha256-fZatn/KLfHLDXnF0wy7JxXqGaZmGDTVufT4o/AOlj44=",
+        "lastModified": 1765682243,
+        "narHash": "sha256-yeCxFV/905Wr91yKt5zrVvK6O2CVXWRMSrxqlAZnLp0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "27a6182347ccae90a88231ae0dc5dfa7d15815bb",
+        "rev": "58bf3ecb2d0bba7bdf363fc8a6c4d49b4d509d03",
         "type": "github"
       },
       "original": {
@@ -178,11 +158,11 @@
     },
     "nixpkgs-lib": {
       "locked": {
-        "lastModified": 1765070080,
-        "narHash": "sha256-5D1Mcm2dQ1aPzQ0sbXluHVUHququ8A7PKJd7M3eI9+E=",
+        "lastModified": 1765674936,
+        "narHash": "sha256-k00uTP4JNfmejrCLJOwdObYC9jHRrr/5M/a/8L2EIdo=",
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
-        "rev": "e0cad9791b0c168931ae562977703b72d9360836",
+        "rev": "2075416fcb47225d9b68ac469a5c4801a9c4dd85",
         "type": "github"
       },
       "original": {
@@ -193,11 +173,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1764950072,
-        "narHash": "sha256-BmPWzogsG2GsXZtlT+MTcAWeDK5hkbGRZTeZNW42fwA=",
+        "lastModified": 1765472234,
+        "narHash": "sha256-9VvC20PJPsleGMewwcWYKGzDIyjckEz8uWmT0vCDYK0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f61125a668a320878494449750330ca58b78c557",
+        "rev": "2fbfb1d73d239d2402a8fe03963e37aab15abe8b",
         "type": "github"
       },
       "original": {
@@ -228,19 +208,16 @@
     },
     "rong": {
       "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1765516551,
-        "narHash": "sha256-baEVPIM1HEuv3zPQsnFTF+ozRcWXOFcH85H0KmnU0mg=",
+        "lastModified": 1765786502,
+        "narHash": "sha256-7AZ1oiUSMl4xwhcYDfJtihNn5Mjkl8zHkOVTfYpY3bQ=",
         "owner": "Nadim147c",
         "repo": "rong",
-        "rev": "e38b13db5a1a9eb45b6c7e221fc03aa242d217ba",
+        "rev": "d1ff9fdfe88ede2b5ee251d523dc79e1373c5c6f",
         "type": "github"
       },
       "original": {
@@ -252,7 +229,6 @@
     "root": {
       "inputs": {
         "denix": "denix",
-        "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "nix-flatpak": "nix-flatpak",
         "nixos-hardware": "nixos-hardware",
@@ -270,11 +246,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1765258356,
-        "narHash": "sha256-r77+m+ESDpUTD18SGe79D7QrfuNFokAZXbpdYdM+ut4=",
+        "lastModified": 1765616709,
+        "narHash": "sha256-AVvKy12p1+m3BqxNsvdBtb9LxFNvVuGd1WrNTs1GbHE=",
         "owner": "Nadim147c",
         "repo": "waybar-lyric",
-        "rev": "a40089afd3de2c45199bc98c05c49a3b6814ccf1",
+        "rev": "c3406f738b0160c4e887775c1c0be9f14f068e77",
         "type": "github"
       },
       "original": {
@@ -285,19 +261,16 @@
     },
     "yankd": {
       "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1765088822,
-        "narHash": "sha256-4WpgEXW9TsgOkejsO/Z/APTbZRr7sDsKBr+jrijIpVg=",
+        "lastModified": 1765787525,
+        "narHash": "sha256-HM8Anrexm24Emhay9PHhvz/G96JVbzf2g+Y361rz4SE=",
         "owner": "Nadim147c",
         "repo": "yankd",
-        "rev": "e7cde8e23bbb18452ed12d3d58153a061aecfae7",
+        "rev": "08a201e3c2b2e2391d824772be420ecf6e5f1904",
         "type": "github"
       },
       "original": {

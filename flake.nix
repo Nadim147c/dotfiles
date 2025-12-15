@@ -8,10 +8,6 @@
             inputs.nixpkgs-lib.follows = "nixpkgs-lib";
             inputs.home-manager.follows = "home-manager";
         };
-        flake-parts = {
-            url = "github:hercules-ci/flake-parts";
-            inputs.nixpkgs-lib.follows = "nixpkgs-lib";
-        };
         home-manager = {
             url = "github:nix-community/home-manager/master";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -23,7 +19,6 @@
         rong = {
             url = "github:Nadim147c/rong";
             inputs.nixpkgs.follows = "nixpkgs";
-            inputs.flake-parts.follows = "flake-parts";
         };
         waybar-lyric = {
             url = "github:Nadim147c/waybar-lyric";
@@ -32,7 +27,6 @@
         yankd = {
             url = "github:Nadim147c/yankd";
             inputs.nixpkgs.follows = "nixpkgs";
-            inputs.flake-parts.follows = "flake-parts";
         };
     };
 
