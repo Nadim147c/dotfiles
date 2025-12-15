@@ -23,6 +23,7 @@ delib.module {
         programs.rong.settings.installs = {
             "quickshell.json" = "${xdg.stateHome}/quickshell/colors.json";
         };
+
         programs.quickshell = {
             enable = true;
             systemd.enable = true;
