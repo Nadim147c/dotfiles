@@ -27,11 +27,9 @@ delib.module {
                 "bkijmpolkanhdehnlnabfooghjdokakc" # Double-click Image Downloader
                 "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
                 "dhdgffkkebhmkfjojejmpbldmpobfkfo" # Tampermonkey
-                "fpnmgdkabkmnadcjpehmlllkndpkmiak" # Wayback Machine
                 "gebbhagfogifgggkldgodflihgfeippi" # Return YouTube Dislike
                 "hkgfoiooedgoejojocmhlaklaeopbecg" # Picture-in-Picture
                 "hlkenndednhfkekhgcdicdfddnkalmdm" # Cookie-Editor
-                "kekjfbackdeiabghhcdklcdoekaanoel" # MAL-Sync
                 "mnjggcdmjocbbbhaepdhchncahnbgone" # SponsorBlock
                 "nffaoalbilbmmfgbnbgppjihopabppdk" # Video Speed Controller
                 "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
