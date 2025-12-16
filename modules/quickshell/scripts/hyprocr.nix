@@ -1,25 +1,25 @@
 {
-    delib,
-    pkgs,
-    ...
+  delib,
+  pkgs,
+  ...
 }:
 delib.script {
-    name = "hyprocr";
-    partof = "programs.quickshell";
-    package = pkgs.writeShellScriptBin "hyprocr.sh" ''
-        pkill slurp || true
+  name = "hyprocr";
+  partof = "programs.quickshell";
+  package = pkgs.writeShellScriptBin "hyprocr.sh" ''
+    pkill slurp || true
 
-        DIR=$(mktemp -d)
+    DIR=$(mktemp -d)
 
-        ${pkgs.hyprshot}/bin/hyprshot -m region -s -o "$DIR" -f image.png
-        ${pkgs.tesseract4}/bin/tesseract "$DIR/image.png" "$DIR/text"
+    ${pkgs.hyprshot}/bin/hyprshot -m region -s -o "$DIR" -f image.png
+    ${pkgs.tesseract4}/bin/tesseract "$DIR/image.png" "$DIR/text"
 
-        TEXT=$(cat "$DIR/text.txt")
-        rm -rf "$DIR"
+    TEXT=$(cat "$DIR/text.txt")
+    rm -rf "$DIR"
 
-        echo "$TEXT"
-        echo "$TEXT" | wl-copy
+    echo "$TEXT"
+    echo "$TEXT" | wl-copy
 
-        notify-send "OCR" "Copied to clipboard: $TEXT"
-    '';
+    notify-send "OCR" "Copied to clipboard: $TEXT"
+  '';
 }

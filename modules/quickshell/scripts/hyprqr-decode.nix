@@ -1,24 +1,24 @@
 {
-    delib,
-    pkgs,
-    ...
+  delib,
+  pkgs,
+  ...
 }:
 delib.script {
-    name = "hyprqr-decode";
-    partof = "programs.quickshell";
-    package = pkgs.writeShellScriptBin "hyprqr-decode.sh" ''
-        pkill slurp || true
+  name = "hyprqr-decode";
+  partof = "programs.quickshell";
+  package = pkgs.writeShellScriptBin "hyprqr-decode.sh" ''
+    pkill slurp || true
 
-        TEXT=$(${pkgs.hyprshot}/bin/hyprshot -m region --raw | ${pkgs.qrtool}/bin/qrtool decode 2>/dev/null)
+    TEXT=$(${pkgs.hyprshot}/bin/hyprshot -m region --raw | ${pkgs.qrtool}/bin/qrtool decode 2>/dev/null)
 
-        if [ -z "$TEXT" ]; then
-          notify-send "QR Decode" "No QR code detected."
-          exit 1
-        fi
+    if [ -z "$TEXT" ]; then
+      notify-send "QR Decode" "No QR code detected."
+      exit 1
+    fi
 
-        echo "$TEXT"
-        echo "$TEXT" | wl-copy
+    echo "$TEXT"
+    echo "$TEXT" | wl-copy
 
-        notify-send "QR Decode" "Copied to clipboard: $TEXT"
-    '';
+    notify-send "QR Decode" "Copied to clipboard: $TEXT"
+  '';
 }

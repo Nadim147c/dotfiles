@@ -1,13 +1,13 @@
 {
-    delib,
-    host,
-    pkgs,
-    ...
+  delib,
+  host,
+  pkgs,
+  ...
 }:
 delib.module {
-    name = "programs.tor-browser";
+  name = "programs.tor-browser";
 
-    options = delib.singleEnableOption host.isPC;
+  options = delib.singleEnableOption host.isPC;
 
-    home.ifEnabled.home.packages = [pkgs.tor-browser];
+  home.ifEnabled.home.packages = [ pkgs.tor-browser ];
 }

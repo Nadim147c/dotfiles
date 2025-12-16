@@ -1,15 +1,15 @@
 {
-    delib,
-    host,
-    ...
+  delib,
+  host,
+  ...
 }:
 delib.module {
-    name = "programs.fd";
+  name = "programs.fd";
 
-    options = delib.singleEnableOption host.cliFeatured;
+  options = delib.singleEnableOption host.cliFeatured;
 
-    home.ifEnabled.programs.fd = {
-        enable = true;
-        hidden = true;
-    };
+  home.ifEnabled.programs.fd = {
+    enable = true;
+    hidden = true;
+  };
 }

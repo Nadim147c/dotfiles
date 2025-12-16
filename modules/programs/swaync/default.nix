@@ -1,22 +1,24 @@
 {
-    delib,
-    inputs,
-    pkgs,
-    host,
-    xdg,
-    ...
+  delib,
+  inputs,
+  pkgs,
+  host,
+  xdg,
+  ...
 }:
 delib.module {
-    name = "programs.swaync";
+  name = "programs.swaync";
 
-    options = delib.singleEnableOption host.guiFeatured;
+  options = delib.singleEnableOption host.guiFeatured;
 
-    home.ifEnabled = {
-        home.activation.compileSwayncSyle = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-            ${pkgs.coreutils}/bin/install -Dm644 ${./style.scss} ${xdg.configHome}/swaync/style.scss
-            ${pkgs.compile-scss}/bin/compile-scss ${xdg.configHome}/swaync/style.scss
+  home.ifEnabled = {
+    home.activation.compileSwayncSyle =
+      inputs.home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ]
+        /* bash */ ''
+          ${pkgs.coreutils}/bin/install -Dm644 ${./style.scss} ${xdg.configHome}/swaync/style.scss
+          ${pkgs.compile-scss}/bin/compile-scss ${xdg.configHome}/swaync/style.scss
         '';
 
-        services.swaync.enable = true;
-    };
+    services.swaync.enable = true;
+  };
 }

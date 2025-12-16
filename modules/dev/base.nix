@@ -1,33 +1,33 @@
 {
-    delib,
-    host,
-    pkgs,
-    ...
+  delib,
+  host,
+  pkgs,
+  ...
 }:
 delib.module {
-    name = "dev.base";
+  name = "dev.base";
 
-    options = delib.singleEnableOption host.devFeatured;
+  options = delib.singleEnableOption host.devFeatured;
 
-    home.ifEnabled.home.packages = with pkgs; [
-        curl
-        field
-        fzf
-        gcc
-        gnumake
-        gnugrep
-        htop
-        httpie
-        neovim
-        ripgrep
-        sd
-        skim
-        sqlite
-        tmux
-        tree
-        unzip
-        vhs
-        wget
-        xh
-    ];
+  home.ifEnabled.home.packages = with pkgs; [
+    curl
+    field
+    fzf
+    gcc
+    gnumake
+    gnugrep
+    htop
+    httpie
+    neovim
+    ripgrep
+    sd
+    skim
+    sqlite
+    tmux
+    tree
+    unzip
+    vhs
+    wget
+    xh
+  ];
 }

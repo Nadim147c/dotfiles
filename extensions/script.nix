@@ -1,53 +1,51 @@
 {
-    lib,
-    delib,
-    ...
-}: let
-    inherit (delib) extension singleEnableOption;
-    inherit (lib) elem mkIf;
+  lib,
+  delib,
+  ...
+}:
+let
+  inherit (delib) extension singleEnableOption;
+  inherit (lib) elem mkIf;
 in
-    extension {
-        name = "script";
-        description = "Simplified script module";
+extension {
+  name = "script";
+  description = "Simplified script module";
 
-        libExtension = config: final: _: {
-            script = {
-                name,
-                partof ? "",
-                targets ? ["home"],
-                enable ? true,
-                package ? null,
-            }:
-                final.module {
-                    name =
-                        if partof != ""
-                        then partof
-                        else "scripts.${name}";
+  libExtension = config: final: _: {
+    script =
+      {
+        name,
+        partof ? "",
+        targets ? [ "home" ],
+        enable ? true,
+        package ? null,
+      }:
+      final.module {
+        name = if partof != "" then partof else "scripts.${name}";
 
-                    options =
-                        if partof != ""
-                        then delib.moduleOptions {scripts.${name} = delib.boolOption enable;}
-                        else singleEnableOption enable;
+        options =
+          if partof != "" then
+            delib.moduleOptions { scripts.${name} = delib.boolOption enable; }
+          else
+            singleEnableOption enable;
 
-                    nixos.ifEnabled = {cfg, ...}: let
-                        enabled =
-                            if partof != ""
-                            then cfg.scripts.${name}
-                            else cfg.enable;
-                    in
-                        mkIf (enabled && elem "nixos" targets) {
-                            environment.systemPackages = [package];
-                        };
+        nixos.ifEnabled =
+          { cfg, ... }:
+          let
+            enabled = if partof != "" then cfg.scripts.${name} else cfg.enable;
+          in
+          mkIf (enabled && elem "nixos" targets) {
+            environment.systemPackages = [ package ];
+          };
 
-                    home.ifEnabled = {cfg, ...}: let
-                        enabled =
-                            if partof != ""
-                            then cfg.scripts.${name}
-                            else cfg.enable;
-                    in
-                        mkIf (enabled && elem "home" targets) {
-                            home.packages = [package];
-                        };
-                };
-        };
-    }
+        home.ifEnabled =
+          { cfg, ... }:
+          let
+            enabled = if partof != "" then cfg.scripts.${name} else cfg.enable;
+          in
+          mkIf (enabled && elem "home" targets) {
+            home.packages = [ package ];
+          };
+      };
+  };
+}

@@ -1,13 +1,13 @@
 {
-    delib,
-    host,
-    pkgs,
-    ...
+  delib,
+  host,
+  pkgs,
+  ...
 }:
 delib.module {
-    name = "programs.kdenlive";
+  name = "programs.kdenlive";
 
-    options = delib.singleEnableOption host.mediaFeatured;
+  options = delib.singleEnableOption host.mediaFeatured;
 
-    home.ifEnabled.home.packages = [pkgs.kdePackages.kdenlive];
+  home.ifEnabled.home.packages = [ pkgs.kdePackages.kdenlive ];
 }

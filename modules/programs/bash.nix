@@ -1,16 +1,16 @@
 {
-    delib,
-    xdg,
-    ...
+  delib,
+  xdg,
+  ...
 }:
 delib.module {
-    name = "programs.bash";
+  name = "programs.bash";
 
-    options = delib.singleEnableOption true;
+  options = delib.singleEnableOption true;
 
-    home.ifEnabled.programs.bash = {
-        enable = true;
-        enableCompletion = true;
-        historyFile = "${xdg.dataHome}/bash/history";
-    };
+  home.ifEnabled.programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    historyFile = "${xdg.dataHome}/bash/history";
+  };
 }

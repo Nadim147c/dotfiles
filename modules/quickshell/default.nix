@@ -1,36 +1,36 @@
 {
-    delib,
-    host,
-    pkgs,
-    xdg,
-    ...
+  delib,
+  host,
+  pkgs,
+  xdg,
+  ...
 }:
 delib.module {
-    name = "programs.quickshell";
+  name = "programs.quickshell";
 
-    options = delib.singleEnableOption host.guiFeatured;
+  options = delib.singleEnableOption host.guiFeatured;
 
-    home.ifEnabled = {
-        home.packages = with pkgs; [
-            kdePackages.qt5compat
-            kdePackages.qtdeclarative
-            kdePackages.qtimageformats
-            kdePackages.qtmultimedia
-        ];
+  home.ifEnabled = {
+    home.packages = with pkgs; [
+      kdePackages.qt5compat
+      kdePackages.qtdeclarative
+      kdePackages.qtimageformats
+      kdePackages.qtmultimedia
+    ];
 
-        xdg.configFile."quickshell".source = ./.;
+    xdg.configFile."quickshell".source = ./.;
 
-        programs.rong.settings.installs = {
-            "quickshell.json" = "${xdg.stateHome}/quickshell/colors.json";
-        };
-
-        programs.quickshell = {
-            enable = true;
-            systemd.enable = true;
-        };
-
-        wayland.windowManager.hyprland.settings.bind = [
-            "$mainMod, V, global, quickshell:toggle-clipboard"
-        ];
+    programs.rong.settings.installs = {
+      "quickshell.json" = "${xdg.stateHome}/quickshell/colors.json";
     };
+
+    programs.quickshell = {
+      enable = true;
+      systemd.enable = true;
+    };
+
+    wayland.windowManager.hyprland.settings.bind = [
+      "$mainMod, V, global, quickshell:toggle-clipboard"
+    ];
+  };
 }

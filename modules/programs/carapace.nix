@@ -1,23 +1,23 @@
 {
-    delib,
-    host,
-    ...
+  delib,
+  host,
+  ...
 }:
 delib.module {
-    name = "programs.carapace";
+  name = "programs.carapace";
 
-    options = delib.singleEnableOption host.cliFeatured;
+  options = delib.singleEnableOption host.cliFeatured;
 
-    home.ifEnabled = {
-        home.sessionVariables = {
-            CARAPACE_BRIDGES = "carapace,zsh,fish,bash";
-        };
-        programs.carapace = {
-            enable = true;
-            enableBashIntegration = true;
-            enableFishIntegration = true;
-            enableNushellIntegration = true;
-            enableZshIntegration = true;
-        };
+  home.ifEnabled = {
+    home.sessionVariables = {
+      CARAPACE_BRIDGES = "carapace,zsh,fish,bash";
     };
+    programs.carapace = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      enableNushellIntegration = true;
+      enableZshIntegration = true;
+    };
+  };
 }

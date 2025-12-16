@@ -1,18 +1,18 @@
 {
-    delib,
-    pkgs,
-    host,
-    ...
+  delib,
+  pkgs,
+  host,
+  ...
 }:
 delib.module {
-    name = "programs.plymouth";
+  name = "programs.plymouth";
 
-    options = delib.singleEnableOption host.isPC;
+  options = delib.singleEnableOption host.isPC;
 
-    nixos.ifEnabled.boot.plymouth = {
-        enable = true;
-        font = "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFont-Regular.ttf";
-        theme = "nixos-bgrt";
-        themePackages = [pkgs.nixos-bgrt-plymouth];
-    };
+  nixos.ifEnabled.boot.plymouth = {
+    enable = true;
+    font = "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFont-Regular.ttf";
+    theme = "nixos-bgrt";
+    themePackages = [ pkgs.nixos-bgrt-plymouth ];
+  };
 }

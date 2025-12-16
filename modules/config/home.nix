@@ -1,15 +1,17 @@
 {
-    delib,
-    constants,
-    ...
+  delib,
+  constants,
+  ...
 }:
 delib.module {
-    name = "home";
+  name = "home";
 
-    home.always.home = let
-        inherit (constants) username;
-    in {
-        inherit username;
-        homeDirectory = "/home/${username}";
+  home.always.home =
+    let
+      inherit (constants) username;
+    in
+    {
+      inherit username;
+      homeDirectory = "/home/${username}";
     };
 }

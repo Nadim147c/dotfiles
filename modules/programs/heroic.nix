@@ -1,17 +1,17 @@
 {
-    delib,
-    pkgs,
-    host,
-    ...
+  delib,
+  pkgs,
+  host,
+  ...
 }:
 delib.module {
-    name = "programs.heroic";
+  name = "programs.heroic";
 
-    options = delib.singleEnableOption host.gamingFeatured;
+  options = delib.singleEnableOption host.gamingFeatured;
 
-    home.ifEnabled.home.packages = with pkgs; [
-        cabextract
-        p7zip
-        heroic
-    ];
+  home.ifEnabled.home.packages = with pkgs; [
+    cabextract
+    p7zip
+    heroic
+  ];
 }

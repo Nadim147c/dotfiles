@@ -1,9 +1,9 @@
-{delib, ...}:
+{ delib, ... }:
 delib.module {
-    name = "programs.nh";
+  name = "programs.nh";
 
-    options = delib.singleEnableOption true;
+  options = delib.singleEnableOption true;
 
-    home.ifEnabled.programs.nh.enable = true;
-    nixos.ifEnabled.programs.nh.enable = true;
+  home.ifEnabled.programs.nh.enable = true;
+  nixos.ifEnabled.programs.nh.enable = true;
 }

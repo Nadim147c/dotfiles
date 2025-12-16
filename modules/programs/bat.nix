@@ -1,25 +1,25 @@
 {
-    delib,
-    host,
-    pkgs,
-    ...
+  delib,
+  host,
+  pkgs,
+  ...
 }:
 delib.module {
-    name = "programs.bat";
+  name = "programs.bat";
 
-    options = delib.singleEnableOption host.cliFeatured;
+  options = delib.singleEnableOption host.cliFeatured;
 
-    home.ifEnabled.home.sessionVariables.MANPAGER = "bat -plman";
+  home.ifEnabled.home.sessionVariables.MANPAGER = "bat -plman";
 
-    home.ifEnabled.programs.bat = {
-        enable = true;
-        config = {
-            pager = "${pkgs.less}/bin/less -rF";
-            theme = "ansi";
-        };
-        extraPackages = with pkgs.bat-extras; [
-            batman
-            batgrep
-        ];
+  home.ifEnabled.programs.bat = {
+    enable = true;
+    config = {
+      pager = "${pkgs.less}/bin/less -rF";
+      theme = "ansi";
     };
+    extraPackages = with pkgs.bat-extras; [
+      batman
+      batgrep
+    ];
+  };
 }

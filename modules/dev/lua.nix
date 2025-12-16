@@ -1,16 +1,16 @@
 {
-    delib,
-    host,
-    pkgs,
-    ...
+  delib,
+  host,
+  pkgs,
+  ...
 }:
 delib.module {
-    name = "dev.lua";
+  name = "dev.lua";
 
-    options = delib.singleEnableOption host.devFeatured;
+  options = delib.singleEnableOption host.devFeatured;
 
-    home.ifEnabled.home.packages = with pkgs; [
-        lua-language-server
-        stylua
-    ];
+  home.ifEnabled.home.packages = with pkgs; [
+    lua-language-server
+    stylua
+  ];
 }
