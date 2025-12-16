@@ -30,6 +30,7 @@ delib.module {
             less
             nitch
             openssl
+            perf
             procps
             xxHash
             xxd
