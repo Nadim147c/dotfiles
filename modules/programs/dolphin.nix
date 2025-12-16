@@ -26,5 +26,17 @@ delib.module {
         wayland.windowManager.hyprland.settings = {
             "$files" = "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.kdePackages.dolphin}/bin/dolphin";
         };
+
+        xdg.configFile."dolphinrc".text = ''
+            [KFileDialog Settings]
+            Places Icons Auto-resize=false
+            Places Icons Static Size=22
+
+            [UiSettings]
+            ColorScheme=Rong
+
+            [PreviewSettings]
+            Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,opendocumentthumbnail,svgthumbnail,windowsexethumbnail,windowsimagethumbnail,blenderthumbnail,ffmpegthumbs,gsthumbnail,mltpreview,mobithumbnail,rawthumbnail
+        '';
     };
 }
