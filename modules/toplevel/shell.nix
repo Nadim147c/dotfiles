@@ -62,8 +62,8 @@ delib.module {
 
         home.shellAliases = {
             # Core utils aliases
-            du = "du -h";
-            grep = "grep --color";
+            du = "env du -h";
+            grep = "env grep --color";
             exe = "chmod +x";
 
             x = "xargs";
