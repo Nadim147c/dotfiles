@@ -10,7 +10,21 @@ delib.module {
 
     options = delib.singleEnableOption true;
 
-    home.ifEnabled.programs.zsh = {
+    home.ifEnabled.programs.zsh = let
+        plugins = with pkgs; [
+            zsh-fzf-tab
+            zsh-fast-syntax-highlighting
+            zsh-autosuggestions
+        ];
+
+        sourced =
+            plugins
+            |> builtins.map lib.filesystem.listFilesRecursive
+            |> lib.flatten
+            |> builtins.filter (p: (builtins.match ".*\\.plugin\\.zsh" p) != null)
+            |> builtins.map (p: "source ${p}")
+            |> lib.strings.join "\n";
+    in {
         enable = true;
         enableCompletion = false;
         history.path = "${xdg.dataHome}/zsh/history";
@@ -19,10 +33,7 @@ delib.module {
         initContent = lib.mkOrder 500 # bash
 
         ''
-            source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
-            source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-            source ${pkgs.zsh-autosuggestions}/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-
+            ${sourced}
             zstyle ':completion:*:git-checkout:*' sort false
             zstyle ':completion:*:descriptions' format '[%d]'
             zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
