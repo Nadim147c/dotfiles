@@ -62,45 +62,47 @@ func main() {
 	}
 	defer conn.Close()
 
-	go WatchWallpaper(ctx)
-
-	events := []string{
-		"activewindowv2",
-		"closewindow",
-		"workspacev2",
-		"changefloatingmode",
-		"fullscreen",
-	}
-
-	workspace := 5 // fallback
-	scanner := bufio.NewScanner(conn)
-	for scanner.Scan() {
-		line := scanner.Text()
-		event, data, found := strings.Cut(line, ">>")
-		if !found {
-			continue
+	go func() {
+		events := []string{
+			"activewindowv2",
+			"closewindow",
+			"workspacev2",
+			"changefloatingmode",
+			"fullscreen",
 		}
 
-		if event == "workspacev2" {
-			id := strings.Split(data, ",")[0]
-			fmt.Sscanf(id, "%d", &workspace)
-		}
-		if !slices.Contains(events, event) {
-			continue
-		}
+		workspace := 0
+		scanner := bufio.NewScanner(conn)
+		for scanner.Scan() {
+			line := scanner.Text()
+			event, data, found := strings.Cut(line, ">>")
+			if !found {
+				continue
+			}
 
-		noClients, err := GetWorkspaceClients(workspace)
-		if err != nil {
-			fmt.Println("Error checking clients:", err)
-			continue
-		}
+			if event == "workspacev2" {
+				id := strings.Split(data, ",")[0]
+				fmt.Sscanf(id, "%d", &workspace)
+			}
+			if !slices.Contains(events, event) {
+				continue
+			}
 
-		if noClients {
-			ToggleMPVPaper(false)
-		} else {
-			ToggleMPVPaper(true)
+			noClients, err := GetWorkspaceClients(workspace)
+			if err != nil {
+				fmt.Println("Error checking clients:", err)
+				continue
+			}
+
+			if noClients {
+				ToggleMPVPaper(false)
+			} else {
+				ToggleMPVPaper(true)
+			}
 		}
-	}
+	}()
+
+	WatchWallpaper(ctx)
 }
 
 func GetWallpaperPath() (string, error) {
