@@ -4,15 +4,21 @@ delib.overlayModule {
   overlay =
     final: prev:
     let
-      pkgsDir = ../pkgs;
-      files = builtins.attrNames (builtins.readDir pkgsDir);
-      nixFiles = builtins.filter (name: builtins.match ".*\\.nix" name != null) files;
-      imported = builtins.listToAttrs (
-        map (name: {
-          name = builtins.replaceStrings [ ".nix" ] [ "" ] name;
-          value = prev.callPackage (pkgsDir + "/${name}") { };
-        }) nixFiles
-      );
+      inherit (prev.lib)
+        filterAttrs
+        mapAttrsToList
+        nameValuePair
+        replaceString
+        ;
+      pkgsDir = builtins.toString ../pkgs;
+      mkPkg = name: prev.callPackage "${pkgsDir}/${name}.nix" { };
     in
-    imported;
+    builtins.readDir pkgsDir
+    |> filterAttrs (k: v: v == "regular")
+    |> mapAttrsToList (k: v: k)
+    |> builtins.filter (name: builtins.match ".*\\.nix" name != null)
+    |> builtins.map (name: replaceString ".nix" "" name)
+    |> builtins.map (name: nameValuePair name (mkPkg name))
+    |> builtins.listToAttrs;
+
 }
