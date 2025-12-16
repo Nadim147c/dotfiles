@@ -12,7 +12,7 @@ delib.module {
   nixos.ifEnabled.boot.plymouth = {
     enable = true;
     font = "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFont-Regular.ttf";
-    theme = "nixos-bgrt";
-    themePackages = [ pkgs.nixos-bgrt-plymouth ];
+    logo = "${pkgs.nixos-icons}/share/icons/hicolor/256x256/apps/nix-snowflake-white.png";
+    theme = "breeze";
   };
 }
