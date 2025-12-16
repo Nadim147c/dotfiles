@@ -17,8 +17,8 @@ delib.host {
         "wireless"
     ];
 
-    home.home.stateVersion = "25.05";
-    nixos.system.stateVersion = "25.05";
+    home.home.stateVersion = "25.11";
+    nixos.system.stateVersion = "25.11";
 
     myconfig = {
         dev.cpp.enable = false;
