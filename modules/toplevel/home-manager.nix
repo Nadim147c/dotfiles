@@ -2,6 +2,7 @@
   config,
   delib,
   homeManagerUser,
+  inputs,
   moduleSystem,
   pkgs,
   ...
@@ -16,6 +17,8 @@ delib.module {
     {
       home = home;
       xdg = home.xdg;
+      homedir = home.home.homeDirectory;
+      hmlib = inputs.home-manager.lib.hm;
     };
 
   nixos.always = {
