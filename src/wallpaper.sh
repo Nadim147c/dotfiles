@@ -1,34 +1,5 @@
-#!/usr/bin/env bash
-
 WALLPAPER_DIR="$(systemd-path user-videos)/wallpapers"
 STATE_FILE="$(systemd-path user-state-private)/wallpaper.state"
-
-# Function to run post-processing hooks
-post_hooks() {
-    # allow one or more commands to fails without exit
-    set +e pipefail
-
-    compile-scss ~/.config/wofi/style.scss
-    compile-scss ~/.config/swaync/style.scss
-
-    swaync-client --reload-css
-
-    # Reload applications by sending signals
-    pywalfox --verbose update
-
-    pkill swaync && fork swaync
-    pkill swayosd-server && fork swayosd-server
-
-    pidof kitty | xargs kill -SIGUSR1
-
-    tmux source-file ~/.config/tmux/tmux.conf
-
-    hyprctl reload
-
-    eww reload
-    timeout 2s spicetify watch -s
-    exit 0
-}
 
 # Function to get a random wallpaper path
 get_wallpaper() {
@@ -49,7 +20,6 @@ generate_colors() {
     image="$1"
     gum format "# Generating color scheme for $image"
     rong video -- "$image"
-    post_hooks # Run post-processing after color generation
 }
 
 # Function to set wallpaper with swww

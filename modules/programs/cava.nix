@@ -1,4 +1,5 @@
 {
+  pkgs,
   delib,
   host,
   xdg,
@@ -9,8 +10,17 @@ delib.module {
 
   options = delib.singleEnableOption host.cliFeatured;
 
-  home.ifEnabled.programs.cava.enable = true;
-  home.ifEnabled.programs.rong.settings.links = {
-    "cava.ini" = "${xdg.configHome}/cava/config";
+  home.ifEnabled = {
+    home.packages = with pkgs; [
+      procps
+      findutils
+    ];
+
+    programs.rong.settings = {
+      links."cava.ini" = "${xdg.configHome}/cava/config";
+      post-cmds."cava.ini" = /* bash */ "pidof cava | xargs -r kill -SIGUSR2";
+    };
+
+    programs.cava.enable = true;
   };
 }

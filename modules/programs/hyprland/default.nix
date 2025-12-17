@@ -2,6 +2,7 @@
   delib,
   pkgs,
   host,
+  xdg,
   ...
 }:
 delib.module {
@@ -18,6 +19,11 @@ delib.module {
       wl-clipboard
     ];
     services.hyprpolkitagent.enable = true;
+
+    programs.rong.settings = {
+      links."hyprland.conf" = "${xdg.configHome}/hypr/colors.conf";
+      post-cmds."hyprland.conf" = /* bash */ "hyprctl reload";
+    };
   };
 
   nixos.ifEnabled = {

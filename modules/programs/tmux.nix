@@ -1,8 +1,8 @@
 {
   constants,
   delib,
+  hmlib,
   host,
-  inputs,
   pkgs,
   xdg,
   ...
@@ -53,6 +53,10 @@ let
         tmux select-window "$fallback" || true
     fi
   '';
+
+  reloadConfig = /* bash */ ''
+    tmux source-file ${xdg.configHome}/tmux/tmux.conf || true
+  '';
 in
 delib.module {
   name = "programs.tmux";
@@ -60,13 +64,14 @@ delib.module {
   options = delib.singleEnableOption host.guiFeatured;
 
   home.ifEnabled = {
-    home.activation.reloadTmux = inputs.home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      tmux source-file ${xdg.configHome}/tmux/tmux.conf || true
-    '';
-
     home.packages = [ pkgs.tmux-sessionizer ];
 
-    programs.rong.settings.links."colors.tmux" = "${xdg.configHome}/tmux/colors.conf";
+    home.activation.reloadTmux = hmlib.dag.entryAfter [ "writeBoundary" ] reloadConfig;
+
+    programs.rong.settings = {
+      links."colors.tmux" = "${xdg.configHome}/tmux/colors.conf";
+      post-cmds."colors.tmux" = reloadConfig;
+    };
 
     programs.tmux = {
       enable = true;
@@ -79,7 +84,7 @@ delib.module {
       shell = constants.shell;
       terminal = "xterm-256color";
 
-      extraConfig = ''
+      extraConfig = /* tmux */ ''
         # Smart Alt+h/l navigation
         bind -n M-h run-shell "${tmux-navigate} h"
         bind -n M-j run-shell "${tmux-navigate} j"

@@ -1,21 +1,32 @@
 {
   delib,
-  inputs,
-  pkgs,
+  hmlib,
   host,
+  lib,
+  pkgs,
   xdg,
   ...
 }:
+let
+  inherit (lib) getExe;
+  compile-scss = getExe pkgs.compile-scss;
+  styleFile = "${xdg.configHome}/wofi/style.scss";
+in
 delib.module {
   name = "programs.wofi";
 
   options = delib.singleEnableOption host.guiFeatured;
 
   home.ifEnabled = {
-    home.activation.compileWofiSyle = inputs.home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ] /* bash */ ''
-      ${pkgs.coreutils}/bin/install -Dm644 ${./style.scss} ${xdg.configHome}/wofi/style.scss
-      ${pkgs.compile-scss}/bin/compile-scss ${xdg.configHome}/wofi/style.scss
+    home.activation.compileWofiStyle = hmlib.dag.entryAfter [ "writeBoundary" ] /* bash */ ''
+      install -Dm644 ${./style.scss} ${styleFile}
+      ${compile-scss} ${styleFile}
     '';
+
+    programs.rong.settings = {
+      links."colors.scss" = [ "${xdg.configHome}/wofi/colors.scss" ];
+      post-cmds."colors.scss" = [ "${compile-scss} ${styleFile}" ];
+    };
 
     programs.wofi = {
       enable = true;
