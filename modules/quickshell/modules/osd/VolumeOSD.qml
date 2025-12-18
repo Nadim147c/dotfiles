@@ -1,4 +1,5 @@
 import qs.modules.common
+import qs.modules.end4
 
 import QtQuick
 import QtQuick.Layouts
@@ -36,75 +37,35 @@ Scope {
         onTriggered: root.shouldShowOsd = false
     }
 
-    // The OSD window will be created and destroyed based on shouldShowOsd.
-    // PanelWindow.visible could be set instead of using a loader, but using
-    // a loader will reduce the memory overhead when the window isn't open.
     LazyLoader {
         active: root.shouldShowOsd
-
         PanelWindow {
-            // Since the panel's screen is unset, it will be picked by the compositor
-            // when the window is created. Most compositors pick the current active monitor.
-
             anchors.bottom: true
             margins.bottom: screen.height / 15
             exclusiveZone: 0
 
-            implicitWidth: 400
-            implicitHeight: 50
+            implicitWidth: 300
+            implicitHeight: 45
             color: "transparent"
 
             // An empty click mask prevents the window from blocking mouse events.
             mask: Region {}
 
             Rectangle {
-                anchors.fill: parent
                 radius: height / 2
                 color: Appearance.material.myBackground
+                anchors.fill: parent
 
-                RowLayout {
-                    anchors {
-                        fill: parent
-                        leftMargin: 10
-                        rightMargin: 15
-                    }
-
-                    Text {
-                        id: icon
-                        text: qsTr("")
-                        font.pixelSize: 20
-                        font.family: "JetBrainsMono Nerd Font Propo"
-                        color: Appearance.material.myPrimary
-                    }
-
-                    Rectangle {
-                        // Stretches to fill all left-over space
-                        Layout.fillWidth: true
-
-                        implicitHeight: 10
-                        radius: 20
-                        color: Appearance.material.mySurfaceContainerHighest
-
-                        Rectangle {
-                            anchors {
-                                left: parent.left
-                                top: parent.top
-                                bottom: parent.bottom
-                            }
-                            color: Appearance.material.myPrimary
-
-                            implicitWidth: parent.width * (Pipewire.defaultAudioSink?.audio.volume ?? 0)
-                            radius: parent.radius
-                        }
-                    }
-
-                    Text {
-                        id: pacent
-                        text: Math.round((Pipewire.defaultAudioSink?.audio.volume ?? 0) * 100).toString() + "%"
-                        font.pixelSize: 16
-                        font.family: Appearance.font.main
-                        color: Appearance.material.myPrimary
-                    }
+                StyledSlider {
+                    x: Appearance.space.large
+                    y: (parent.height - height) / 2
+                    width: parent.width - (Appearance.space.large * 2)
+                    wavy: false
+                    configuration: StyledSlider.Configuration.XS
+                    highlightColor: Appearance.material.myPrimary
+                    handleColor: Appearance.material.myPrimary
+                    trackColor: Appearance.material.myOnPrimaryFixedVariant
+                    value: Pipewire.defaultAudioSink?.audio.volume ?? 0
                 }
             }
         }
