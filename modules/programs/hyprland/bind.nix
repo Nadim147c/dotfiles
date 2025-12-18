@@ -9,49 +9,45 @@ delib.module {
   home.ifEnabled.wayland.windowManager.hyprland.settings = {
     "$mainMod" = "SUPER";
 
-    bind = [
-      "$mainMod, X, killactive"
-      "$mainMod+SHIFT, X, forcekillactive"
-      "$mainMod, F, togglefloating"
-      "$mainMod+SHIFT, F, fullscreen"
-      "$mainMod, G, togglegroup"
-      "$mainMod, N, togglesplit"
-      "$mainMod, H, movefocus, l"
-      "$mainMod, L, movefocus, r"
-      "$mainMod, K, movefocus, u"
-      "$mainMod, J, movefocus, d"
-      "$mainMod+ALT, H, swapwindow, l"
-      "$mainMod+ALT, L, swapwindow, r"
-      "$mainMod+ALT, K, swapwindow, u"
-      "$mainMod+ALT, J, swapwindow, d"
+    bind =
+      let
+        mkShortcut = x: [
+          ",F${x}, workspace, ${x}"
+          "$mainMod, F${x}, movetoworkspace, ${x}"
+          "SHIFT, F${x}, sendshortcut, ,F${x}"
+        ];
 
-      # Workspace switching
-      ",F1, workspace, 1"
-      ",F2, workspace, 2"
-      ",F3, workspace, 3"
-      ",F4, workspace, 4"
-      ",F5, workspace, 5"
-      ",F6, workspace, 6"
-      ",F7, workspace, 7"
-      ",F8, workspace, 8"
+        indexed =
+          builtins.genList (x: builtins.toString (x + 1)) 8
+          |> builtins.map mkShortcut
+          |> builtins.concatLists;
 
-      # Move to workspace
-      "$mainMod, F1, movetoworkspace, 1"
-      "$mainMod, F2, movetoworkspace, 2"
-      "$mainMod, F3, movetoworkspace, 3"
-      "$mainMod, F4, movetoworkspace, 4"
-      "$mainMod, F5, movetoworkspace, 5"
-      "$mainMod, F6, movetoworkspace, 6"
-      "$mainMod, F7, movetoworkspace, 7"
-      "$mainMod, F8, movetoworkspace, 8"
+      in
+      indexed
+      ++ [
 
-      "$mainMod, F9, dpms, toggle"
-      "$mainMod, F10, exec, hyprctl reload"
-      "$mainMod, F11, exec, dunst-mode-cycle.sh"
+        "$mainMod, X, killactive"
+        "$mainMod+SHIFT, X, forcekillactive"
+        "$mainMod, F, togglefloating"
+        "$mainMod+SHIFT, F, fullscreen"
+        "$mainMod, G, togglegroup"
+        "$mainMod, N, togglesplit"
+        "$mainMod, H, movefocus, l"
+        "$mainMod, L, movefocus, r"
+        "$mainMod, K, movefocus, u"
+        "$mainMod, J, movefocus, d"
+        "$mainMod+ALT, H, swapwindow, l"
+        "$mainMod+ALT, L, swapwindow, r"
+        "$mainMod+ALT, K, swapwindow, u"
+        "$mainMod+ALT, J, swapwindow, d"
 
-      "$mainMod, mouse_down, workspace, e-1"
-      "$mainMod, mouse_up, workspace, e+1"
-    ];
+        "$mainMod, F9, dpms, toggle"
+        "$mainMod, F10, exec, hyprctl reload"
+        "$mainMod, F11, exec, dunst-mode-cycle.sh"
+
+        "$mainMod, mouse_down, workspace, e-1"
+        "$mainMod, mouse_up, workspace, e+1"
+      ];
 
     bindm = [
       "$mainMod, mouse:272, movewindow"
