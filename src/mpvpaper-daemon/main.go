@@ -8,12 +8,14 @@ import (
 	"fmt"
 	"io/fs"
 	"log"
+	"log/slog"
 	"net"
 	"os"
 	"os/exec"
 	"os/signal"
 	"slices"
 	"strings"
+	"sync/atomic"
 	"syscall"
 	"time"
 
@@ -60,49 +62,62 @@ func main() {
 		fmt.Println("Failed to connect Hyprland socket:", err)
 		os.Exit(1)
 	}
-	defer conn.Close()
+	// defer conn.Close() // unreachable
 
-	go func() {
-		events := []string{
-			"activewindowv2",
-			"closewindow",
-			"workspacev2",
-			"changefloatingmode",
-			"fullscreen",
+	var closed atomic.Bool
+	context.AfterFunc(ctx, func() {
+		closed.Store(true)
+		conn.Close()
+	})
+
+	go WatchWallpaper(ctx)
+
+	events := []string{
+		"activewindowv2",
+		"closewindow",
+		"workspacev2",
+		"changefloatingmode",
+		"fullscreen",
+	}
+
+	var workspace int
+	scanner := bufio.NewScanner(conn)
+	for scanner.Scan() {
+		line := scanner.Text()
+		event, data, found := strings.Cut(line, ">>")
+		if !found {
+			continue
 		}
 
-		workspace := 0
-		scanner := bufio.NewScanner(conn)
-		for scanner.Scan() {
-			line := scanner.Text()
-			event, data, found := strings.Cut(line, ">>")
-			if !found {
-				continue
-			}
-
-			if event == "workspacev2" {
-				id := strings.Split(data, ",")[0]
-				fmt.Sscanf(id, "%d", &workspace)
-			}
-			if !slices.Contains(events, event) {
-				continue
-			}
-
-			noClients, err := GetWorkspaceClients(workspace)
-			if err != nil {
-				fmt.Println("Error checking clients:", err)
-				continue
-			}
-
-			if noClients {
-				ToggleMPVPaper(false)
-			} else {
-				ToggleMPVPaper(true)
-			}
+		if event == "workspacev2" {
+			id := strings.Split(data, ",")[0]
+			fmt.Sscanf(id, "%d", &workspace)
 		}
-	}()
+		if !slices.Contains(events, event) {
+			continue
+		}
 
-	WatchWallpaper(ctx)
+		noClients, err := GetWorkspaceClients(workspace)
+		if err != nil {
+			fmt.Println("Error checking clients:", err)
+			continue
+		}
+
+		if noClients {
+			ToggleMPVPaper(false)
+		} else {
+			ToggleMPVPaper(true)
+		}
+	}
+
+	if closed.Load() {
+		slog.Error("Closing due to user cancellation")
+		return
+	}
+
+	if err := scanner.Err(); err != nil {
+		slog.Error("Scanner failed", "error", err)
+	}
 }
 
 func GetWallpaperPath() (string, error) {
@@ -128,38 +143,29 @@ func WatchWallpaper(ctx context.Context) error {
 		return fmt.Errorf("add watcher: %w", err)
 	}
 
-	// Goroutine that listens for fsnotify events.
-	done := make(chan struct{})
-	go func() {
-		defer close(done)
-		for {
-			select {
-			case <-ctx.Done():
-				log.Println("watcher: context cancelled, stopping...")
-				return
+	for {
+		select {
+		case <-ctx.Done():
+			log.Println("watcher: context cancelled, stopping...")
+			return ctx.Err()
 
-			case event, ok := <-watcher.Events:
-				if !ok {
-					log.Println("watcher: events channel closed")
-					return
-				}
-				if event.Has(fsnotify.Create) || event.Has(fsnotify.Write) {
-					handleFileChange(event.Name)
-				}
-
-			case err, ok := <-watcher.Errors:
-				if !ok {
-					log.Println("watcher: errors channel closed")
-					return
-				}
-				log.Printf("watcher error: %v\n", err)
+		case event, ok := <-watcher.Events:
+			if !ok {
+				log.Println("watcher: events channel closed")
+				return errors.New("watcher failed unexpectedly")
 			}
-		}
-	}()
+			if event.Has(fsnotify.Create) || event.Has(fsnotify.Write) {
+				handleFileChange(event.Name)
+			}
 
-	<-ctx.Done() // Wait until cancelled
-	<-done       // Wait for watcher goroutine to finish
-	return nil
+		case err, ok := <-watcher.Errors:
+			if !ok {
+				log.Println("watcher: errors channel closed")
+				return errors.New("watcher failed unexpectedly")
+			}
+			log.Printf("watcher error: %v\n", err)
+		}
+	}
 }
 
 // handleFileChange safely reads and applies wallpaper updates.
@@ -167,6 +173,7 @@ func handleFileChange(filename string) {
 	var b []byte
 	var err error
 
+	time.Sleep(100 * time.Millisecond)
 	// Retry a few times to avoid race condition with file writes.
 	for range 3 {
 		b, err = os.ReadFile(filename)
