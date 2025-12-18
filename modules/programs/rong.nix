@@ -1,10 +1,14 @@
 {
-  inputs,
   delib,
   host,
+  inputs,
+  lib,
   xdg,
   ...
 }:
+let
+  inherit (lib) mkForce;
+in
 delib.module {
   name = "programs.rong";
 
@@ -14,7 +18,7 @@ delib.module {
 
   # Redirect
   home.ifEnabled.xdg.configFile = {
-    "gtk-4.0/gtk.css".target = "gtk-4.0/gtk.css.ignored";
+    "gtk-4.0/gtk.css".enable = mkForce false;
   };
 
   home.ifEnabled.programs.rong = {
