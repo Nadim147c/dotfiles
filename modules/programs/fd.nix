@@ -11,5 +11,9 @@ delib.module {
   home.ifEnabled.programs.fd = {
     enable = true;
     hidden = true;
+    ignores = [
+      ".git/"
+      "*.bak"
+    ];
   };
 }
