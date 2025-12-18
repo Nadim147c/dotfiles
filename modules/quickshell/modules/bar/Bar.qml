@@ -1,30 +1,70 @@
 import qs.modules.common
 
 import QtQuick
+import QtQuick.Shapes
 import QtQuick.Layouts
 import Quickshell
 
 PanelWindow {
+    id: root
     anchors {
         left: true
         top: true
         right: true
     }
-    margins {
-        left: Appearance.space.medium
-        top: Appearance.space.medium
-        right: Appearance.space.medium
-        bottom: Appearance.space.medium
-    }
     aboveWindows: false
 
     color: "transparent"
-    implicitHeight: 32
+    property color bg: Appearance.material.myBackground
+
+    property real barSize: body.height
+    property real borderRadius: Appearance.space.large
+    implicitHeight: barSize + borderRadius
+    exclusiveZone: barSize
+
+    Shape {
+        anchors.fill: parent
+        preferredRendererType: Shape.CurveRenderer
+
+        ShapePath {
+            strokeWidth: 0
+            fillColor: root.bg
+            startX: 0
+            startY: root.barSize
+            PathLine {
+                x: 0
+                y: root.height
+            }
+            PathArc {
+                x: root.borderRadius
+                y: root.barSize
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+                direction: PathArc.Clockwise
+            }
+            PathLine {
+                x: root.width - root.borderRadius
+                y: root.barSize
+            }
+            PathArc {
+                x: root.width
+                y: root.height
+                radiusX: root.borderRadius
+                radiusY: root.borderRadius
+                direction: PathArc.Clockwise
+            }
+            PathLine {
+                x: root.width
+                y: root.barSize
+            }
+        }
+    }
 
     Rectangle {
-        anchors.fill: parent
-        radius: Appearance.round.large
-        color: Appearance.material.mySurface
+        id: body
+        implicitHeight: 32
+        implicitWidth: parent.width
+        color: root.bg
 
         RowLayout {
             id: rootRow
@@ -41,8 +81,8 @@ PanelWindow {
                     id: leftModule
                     anchors.fill: parent
                     spacing: Appearance.space.tiny
-                    Workspace {}
-                    Lyrics {}
+                    BarWorkspaces {}
+                    BarLyrics {}
                 }
             }
 
@@ -59,9 +99,9 @@ PanelWindow {
                     id: rightModule
                     spacing: Appearance.space.tiny
                     anchors.fill: parent
-                    Network {}
-                    Volume {}
-                    Clock {}
+                    BarNetwork {}
+                    BarVolume {}
+                    BarClock {}
                 }
             }
         }

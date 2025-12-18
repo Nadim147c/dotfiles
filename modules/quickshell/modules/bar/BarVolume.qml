@@ -16,6 +16,23 @@ Rectangle {
             return "transparent";
         }
     }
+    property color fg: {
+        if (mouseArea.containsMouse) {
+            return Appearance.material.myOnPrimary;
+        } else {
+            return Appearance.material.myPrimary;
+        }
+    }
+    Behavior on color {
+        ColorAnimation {
+            duration: Appearance.time.quick
+        }
+    }
+    Behavior on fg {
+        ColorAnimation {
+            duration: Appearance.time.quick
+        }
+    }
 
     radius: Appearance.round.big
 
@@ -36,13 +53,7 @@ Rectangle {
                     return "volume_up";
                 }
             }
-            color: {
-                if (mouseArea.containsMouse) {
-                    return Appearance.material.myOnPrimary;
-                } else {
-                    return Appearance.material.myPrimary;
-                }
-            }
+            color: root.fg
             font {
                 family: Appearance.font.family.iconMaterial
                 pixelSize: Appearance.font.pixelSize.normal
@@ -50,14 +61,7 @@ Rectangle {
         }
         Text {
             text: Math.round((Pipewire.defaultAudioSink?.audio.volume ?? 0) * 100).toString() + "%"
-            color: {
-                if (mouseArea.containsMouse) {
-                    return Appearance.material.myOnPrimary;
-                } else {
-                    return Appearance.material.myPrimary;
-                }
-            }
-
+            color: root.fg
             font {
                 family: Appearance.font.family.main
                 pixelSize: Appearance.font.pixelSize.small
