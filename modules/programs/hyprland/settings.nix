@@ -9,9 +9,10 @@ delib.module {
     ecosystem.no_update_news = true;
 
     input = {
+      kb_layout = "us,bd";
+      kb_variant = ",probhat";
       numlock_by_default = true;
-      kb_layout = "us";
-      follow_mouse = 2;
+      follow_mouse = 1;
       mouse_refocus = false;
       sensitivity = 0;
       touchpad.natural_scroll = false;

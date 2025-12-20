@@ -25,6 +25,7 @@ delib.module {
       in
       indexed
       ++ [
+        ", F12, exec, hyprctl switchxkblayout all next"
 
         "$mainMod, X, killactive"
         "$mainMod+SHIFT, X, forcekillactive"
@@ -40,10 +41,6 @@ delib.module {
         "$mainMod+ALT, L, swapwindow, r"
         "$mainMod+ALT, K, swapwindow, u"
         "$mainMod+ALT, J, swapwindow, d"
-
-        "$mainMod, F9, dpms, toggle"
-        "$mainMod, F10, exec, hyprctl reload"
-        "$mainMod, F11, exec, dunst-mode-cycle.sh"
 
         "$mainMod, mouse_down, workspace, e-1"
         "$mainMod, mouse_up, workspace, e+1"
