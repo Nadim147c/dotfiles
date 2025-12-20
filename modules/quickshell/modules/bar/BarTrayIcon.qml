@@ -55,12 +55,22 @@ Item {
         const parts = icon.split("/");
         const iconName = parts[parts.length - 1];
         const name = nerds[iconName];
-
-        if (!name && root.modelData.tooltipTitle === "Discord") {
-            return "";
+        if (name) {
+            return name;
         }
 
-        return name || "";
+        const tooltips = {
+            "Discord": "",
+            "OBS Studio": ""
+        };
+
+        const tooltipName = root.modelData.tooltipTitle;
+
+        if (!name && tooltips[tooltipName]) {
+            return tooltips[tooltipName];
+        }
+
+        return "";
     }
 
     property string materialName: materialNameFromIcon(modelData.icon)
