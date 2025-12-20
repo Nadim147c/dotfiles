@@ -10,6 +10,7 @@ Loader {
     id: root
 
     required property int index
+    required property int activeIndex
     required property string preview
     required property string filename
     required property bool current
@@ -24,36 +25,43 @@ Loader {
     width: current ? 300 : neighbor ? inactiveWidth : 0
     height: parent.height
 
+    property real padding: (current && index != 0 || activeIndex == 0 && index == 1) ? Appearance.space.big : 0
     Behavior on width {
-        NumberAnimation {
-            duration: 200
-            easing.type: Easing.InOutQuad
-        }
+        animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
+    }
+    Behavior on padding {
+        animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
     }
 
     active: current || neighbor || secondNeighbor
 
-    sourceComponent: ClippingRectangle {
+    sourceComponent: Rectangle {
         anchors.fill: parent
-        radius: Appearance.round.larger
+        color: "transparent"
+        ClippingRectangle {
+            width: parent.width - (root.padding * 2)
+            x: root.padding
+            height: parent.height
+            radius: Appearance.round.larger
 
-        // Wheel interaction only if not fake item
-        MouseArea {
-            anchors.fill: parent
-            enabled: true
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onWheel: wheel => {
-                root.scroll(wheel.angleDelta.y > 0);
-            }
-            onClicked: {
-                console.log(["wallpaper.sh", root.filename]);
-                Quickshell.execDetached(["wallpaper.sh", root.filename]);
-            }
-            Image {
+            // Wheel interaction only if not fake item
+            MouseArea {
                 anchors.fill: parent
-                fillMode: Image.PreserveAspectCrop
-                source: root.preview
+                enabled: true
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onWheel: wheel => {
+                    root.scroll(wheel.angleDelta.y > 0);
+                }
+                onClicked: {
+                    console.log(["wallpaper.sh", root.filename]);
+                    Quickshell.execDetached(["wallpaper.sh", root.filename]);
+                }
+                Image {
+                    anchors.fill: parent
+                    fillMode: Image.PreserveAspectCrop
+                    source: root.preview
+                }
             }
         }
     }

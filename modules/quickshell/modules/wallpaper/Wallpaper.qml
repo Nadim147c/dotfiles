@@ -129,7 +129,7 @@ Scope {
                 y: Appearance.space.big
                 implicitHeight: row.height
                 implicitWidth: row.width
-                radius: Appearance.round.medium
+                radius: Appearance.round.larger
                 color: "transparent"
 
                 property bool scrollable: true
@@ -144,10 +144,9 @@ Scope {
 
                 Row {
                     id: row
-                    width: 600 + (Appearance.space.big * 2)
+                    width: 600
 
                     height: 200
-                    spacing: Appearance.space.big
 
                     Repeater {
                         model: scope.wallpapers
@@ -159,6 +158,7 @@ Scope {
                             filename: modelData.filename
 
                             current: index === scope.index
+                            activeIndex: scope.index
                             neighbor: Math.abs(scope.index - index) === 1 || index === 2 && scope.index === 0
                             secondNeighbor: Math.abs(scope.index - index) === 2
                             onScroll: down => {
