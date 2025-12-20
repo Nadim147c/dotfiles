@@ -1,15 +1,10 @@
 {
   delib,
-  hmlib,
   host,
-  lib,
-  pkgs,
   xdg,
   ...
 }:
 let
-  inherit (lib) getExe;
-  compile-scss = getExe pkgs.compile-scss;
   styleFile = "${xdg.configHome}/wofi/style.scss";
 in
 delib.module {
@@ -18,16 +13,7 @@ delib.module {
   options = delib.singleEnableOption host.guiFeatured;
 
   home.ifEnabled = {
-    home.activation.compileWofiStyle = hmlib.dag.entryAfter [ "writeBoundary" ] /* bash */ ''
-      install -Dm644 ${./style.scss} ${styleFile}
-      ${compile-scss} ${styleFile}
-    '';
-
-    programs.rong.settings = {
-      links."colors.scss" = [ "${xdg.configHome}/wofi/colors.scss" ];
-      post-cmds."colors.scss" = [ "${compile-scss} ${styleFile}" ];
-    };
-
+    xdg.configFile."wofi/style.scss".source = ./style.scss;
     programs.wofi = {
       enable = true;
       settings = {
@@ -38,6 +24,11 @@ delib.module {
         key_up = "Ctrl-p";
         key_down = "Ctrl-n";
       };
+    };
+
+    programs.rong.settings = {
+      links."colors.scss" = [ "${xdg.configHome}/wofi/colors.scss" ];
+      post-cmds."colors.scss" = [ /* bash */ "compile-scss ${styleFile}" ];
     };
   };
 }

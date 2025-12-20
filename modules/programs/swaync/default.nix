@@ -1,17 +1,13 @@
 {
   delib,
-  hmlib,
   host,
-  lib,
-  pkgs,
   xdg,
   ...
 }:
 
 let
-  inherit (lib) getExe;
-  compile-scss = getExe pkgs.compile-scss;
   styleFile = "${xdg.configHome}/swaync/style.scss";
+  mkList = x: [ x ];
 in
 delib.module {
   name = "programs.swaync";
@@ -19,21 +15,15 @@ delib.module {
   options = delib.singleEnableOption host.guiFeatured;
 
   home.ifEnabled = {
-    home.activation.compileSwayncStyle = hmlib.dag.entryAfter [ "writeBoundary" ] /* bash */ ''
-      install -Dm644 ${./style.scss} ${styleFile}
-      ${compile-scss} ${styleFile}
-    '';
+    xdg.configFile."swaync/style.scss".source = ./style.scss;
+    services.swaync.enable = true;
 
     programs.rong.settings = {
       links."colors.scss" = [ "${xdg.configHome}/swaync/colors.scss" ];
-      post-cmds."colors.scss" = [
-        /* bash */ ''
-          ${compile-scss} ${styleFile}
-          swaync-client --reload-css
-        ''
-      ];
+      post-cmds."colors.scss" = mkList /* bash */ ''
+        compile-scss ${styleFile}
+        systemctl --user restart swaync.service
+      '';
     };
-
-    services.swaync.enable = true;
   };
 }
