@@ -2,7 +2,7 @@
 
 My nix-config.
 
-https://github.com/user-attachments/assets/a7de3569-06f8-4942-8f83-6fa28236a42c
+https://github.com/user-attachments/assets/629d54c4-66f6-4a60-8427-a9ac2474b579
 
 ### Thanks
 
