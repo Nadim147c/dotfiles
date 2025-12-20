@@ -102,6 +102,7 @@ PanelWindow {
                     BarNetwork {}
                     BarVolume {}
                     BarClock {}
+                    BarTray {}
                 }
             }
         }

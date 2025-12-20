@@ -1,4 +1,5 @@
 //@ pragma Env QS_NO_RELOAD_POPUP=1
+//@ pragma UseQApplication
 
 import qs.modules.common
 import qs.modules.osd

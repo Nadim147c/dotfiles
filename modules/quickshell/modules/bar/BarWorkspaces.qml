@@ -20,7 +20,7 @@ RowLayout {
             required property var modelData
 
             implicitHeight: root.height
-            implicitWidth: root.height + Appearance.space.small
+            implicitWidth: root.height + Appearance.space.medium
 
             onClicked: modelData.activate()
 

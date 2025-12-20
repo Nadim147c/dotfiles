@@ -1,31 +1,82 @@
 import qs.modules.common
 
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Controls
+import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
+import QtQuick.Effects
 
 Rectangle {
-    id: root
-    implicitWidth: body.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
-    radius: Appearance.round.medium
-
-    color: Appearance.material.mySurfaceContainerHighest
+    implicitWidth: row.width + (Appearance.space.medium * 2)
+    radius: Appearance.round.big
+    color: Appearance.material.mySurfaceVariant
 
     RowLayout {
-        id: body
-        y: (root.height - height) / 2
+        id: row
         x: Appearance.space.medium
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: 8
+
         Repeater {
             model: SystemTray.items
-            MouseArea {
-                width: 20
-                height: 18
-                IconImage {
+
+            BarTrayIcon {
+                id: icon
+                size: 16
+
+                ToolTip {
+                    id: tooltip
+                    popupType: Popup.Native
+                    y: icon.size * 2
+                    delay: 500
+
+                    contentItem: Text {
+                        text: tooltip.text
+                        color: Appearance.material.myOnBackground
+                    }
+
+                    background: Rectangle {
+                        color: Appearance.material.myBackground
+                        radius: Appearance.round.big
+                    }
+                }
+
+                QsMenuAnchor {
+                    id: menuAnchor
+                    anchor {
+                        item: icon
+                        margins.top: 30
+                        edges: Edges.Top | Edges.Right
+                        gravity: Edges.Bottom
+                    }
+                    menu: icon.modelData.menu
+                }
+
+                MouseArea {
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    hoverEnabled: true
                     anchors.fill: parent
-                    source: modelData.icon
+
+                    onClicked: mouse => {
+                        switch (mouse.button) {
+                        case Qt.LeftButton:
+                            icon.modelData.activate();
+                        case Qt.RightButton:
+                            menuAnchor.open();
+                        }
+                    }
+
+                    onEntered: {
+                        if (icon.modelData.tooltipTitle === "")
+                            return;
+
+                        tooltip.show(icon.modelData.tooltipTitle);
+                    }
+
+                    onExited: tooltip.hide()
                 }
             }
         }
