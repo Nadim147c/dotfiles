@@ -17,7 +17,8 @@ PanelWindow {
     }
 
     margins {
-        left: 120
+        left: 50
+        top: 10
     }
 
     implicitWidth: body.width
@@ -41,127 +42,97 @@ PanelWindow {
 
     ClippingRectangle {
         id: body
-        implicitWidth: content.width + (Appearance.space.large * 2)
+        implicitWidth: 450
         implicitHeight: content.height + (Appearance.space.large * 2)
 
         radius: Appearance.round.larger
-        color: Appearance.player.mySurface
-
-        Item {
-            width: parent.width
-            height: control.height + (Appearance.space.large * 2)
-            StyledImage {
-                id: coverArt
-                anchors.fill: parent
-                source: WaybarLyric.cover
-                fillMode: Image.PreserveAspectCrop
-            }
-
-            Rectangle {
-                anchors.top: parent.top
-                width: parent.width
-                height: 100
-                gradient: Gradient {
-                    GradientStop {
-                        position: 1
-                        color: ColorUtils.transparentize(Appearance.player.mySurface)
-                    }
-                    GradientStop {
-                        position: 0
-                        color: ColorUtils.transparentize(Appearance.player.mySurface, 0.2)
-                    }
-                }
-            }
-
-            Rectangle {
-                anchors.bottom: parent.bottom
-                width: parent.width
-                height: 100
-                gradient: Gradient {
-                    GradientStop {
-                        position: 0
-                        color: ColorUtils.transparentize(Appearance.player.mySurface)
-                    }
-                    GradientStop {
-                        position: 1
-                        color: Appearance.player.mySurface
-                    }
-                }
-            }
-        }
+        color: Appearance.player.myBackground
 
         ColumnLayout {
             id: content
+            width: parent.width - (Appearance.space.large * 2)
             x: Appearance.space.large
             y: Appearance.space.large
-            spacing: 0
+            spacing: Appearance.space.small
 
-            ColumnLayout {
-                id: control
-                implicitWidth: 250
-
-                spacing: Appearance.space.small
-                Item {
-                    implicitHeight: trackTitle.height
-                    implicitWidth: 250
-                    StyledText {
-                        id: trackTitle
-                        width: parent.width
-                        font.pixelSize: Appearance.font.pixelSize.large
-                        color: Appearance.player.myOnSurface
-                        text: WaybarLyric.title || "Untitled"
-                        elide: Text.ElideRight
-                        animateChange: true
-                        animationDistanceX: 6
-                        animationDistanceY: 0
-                    }
-                }
-                StyledText {
-                    id: trackArtist
-                    Layout.fillWidth: true
-                    font.pixelSize: Appearance.font.pixelSize.smaller
-                    color: Appearance.player.myOnSurface
-                    text: WaybarLyric.artist || "Untitled"
-                    elide: Text.ElideRight
-                    animateChange: true
-                    animationDistanceX: 6
-                    animationDistanceY: 0
-                }
-
-                Item {
-                    height: Appearance.space.larger * 2
-                }
-
-                RowLayout {
-                    Item {
-                        Layout.fillWidth: true
-                    }
-                    PlayerButtons {}
-                    Item {
-                        Layout.fillWidth: true
-                    }
-                }
-
-                // Spacer to push the next item to the right
-                Item {
-                    id: progressBarContainer
-                    implicitWidth: 300
-                    implicitHeight: sliderLoader.implicitHeight
-
-                    Loader {
-                        id: sliderLoader
+            RowLayout {
+                ClippingRectangle {
+                    implicitWidth: 150
+                    implicitHeight: 150
+                    radius: Appearance.round.big
+                    StyledImage {
+                        id: coverArt
                         anchors.fill: parent
-                        sourceComponent: StyledSlider {
-                            wavy: WaybarLyric.isPlaying
-                            waveFrequency: 10
-                            waveAmplitudeMultiplier: 0.1
-                            configuration: StyledSlider.Configuration.Wavy
-                            highlightColor: Appearance.player.myPrimary
-                            handleColor: Appearance.player.myPrimary
-                            trackColor: Appearance.player.myOnPrimaryFixedVariant
-                            value: WaybarLyric.player?.position / WaybarLyric.player?.length
-                            onMoved: {
-                                WaybarLyric.player.position = value * WaybarLyric.player.length;
+                        source: WaybarLyric.cover
+                        fillMode: Image.PreserveAspectCrop
+                    }
+                }
+                spacing: Appearance.space.large
+
+                ColumnLayout {
+                    id: control
+                    width: content.width - coverArt.width - Appearance.space.large
+                    Item {
+                        implicitWidth: control.width
+                        implicitHeight: trackTitle.height
+                        StyledText {
+                            id: trackTitle
+                            width: control.width
+                            font.pixelSize: Appearance.font.pixelSize.large
+                            horizontalAlignment: Text.AlignHCenter
+                            color: Appearance.player.myOnBackground
+                            text: WaybarLyric.title || "Untitled"
+                            elide: Text.ElideRight
+                            animateChange: true
+                            animationDistanceX: 6
+                            animationDistanceY: 0
+                        }
+                    }
+                    Item {
+                        implicitWidth: control.width
+                        implicitHeight: trackArtist.height
+                        StyledText {
+                            id: trackArtist
+                            width: control.width
+                            horizontalAlignment: Text.AlignHCenter
+                            font.pixelSize: Appearance.font.pixelSize.smaller
+                            color: Appearance.player.myOnSurfaceVariant
+                            text: `${WaybarLyric.artist || "Untitled"} - ${WaybarLyric.album || "Single"}`
+                            elide: Text.ElideRight
+                            animateChange: true
+                            animationDistanceX: 6
+                            animationDistanceY: 0
+                        }
+                    }
+                    Item {
+                        implicitHeight: buttons.height
+                        implicitWidth: control.width
+                        PlayerButtons {
+                            id: buttons
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                    }
+                    // Spacer to push the next item to the right
+                    Item {
+                        id: progressBarContainer
+                        Layout.fillWidth: true
+                        implicitHeight: sliderLoader.implicitHeight
+
+                        Loader {
+                            id: sliderLoader
+                            anchors.fill: parent
+                            sourceComponent: StyledSlider {
+                                wavy: WaybarLyric.isPlaying
+                                waveFrequency: 10
+                                waveAmplitudeMultiplier: 0.1
+                                configuration: StyledSlider.Configuration.Wavy
+                                highlightColor: Appearance.player.myPrimary
+                                handleColor: Appearance.player.myPrimary
+                                trackColor: Appearance.player.myOnPrimaryFixedVariant
+                                value: WaybarLyric.player?.position / WaybarLyric.player?.length
+                                onMoved: {
+                                    WaybarLyric.player.position = value * WaybarLyric.player.length;
+                                }
                             }
                         }
                     }
@@ -171,7 +142,7 @@ PanelWindow {
             Item {
                 visible: WaybarLyric.lines.length !== 0
                 Layout.fillWidth: true
-                height: Appearance.space.large
+                height: Appearance.space.little
             }
 
             Revealer {

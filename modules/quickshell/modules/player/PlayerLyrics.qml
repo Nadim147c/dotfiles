@@ -95,11 +95,11 @@ MouseArea {
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: Appearance.player.mySurface
+                color: Appearance.player.myBackground
             }
             GradientStop {
                 position: 0.95
-                color: Appearance.player.mySurface + "00"
+                color: Appearance.player.myBackground + "00"
             }
         }
     }
@@ -118,11 +118,11 @@ MouseArea {
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: Appearance.player.mySurface + "00"
+                color: Appearance.player.myBackground + "00"
             }
             GradientStop {
                 position: 0.95
-                color: Appearance.player.mySurface
+                color: Appearance.player.myBackground
             }
         }
     }

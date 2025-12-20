@@ -11,7 +11,7 @@ Rectangle {
     implicitHeight: body.height
     implicitWidth: body.width
     color: "transparent"
-    property real buttonHeight: Appearance.space.large * 4
+    property real buttonHeight: Appearance.space.large * 3
 
     RowLayout {
         id: body
