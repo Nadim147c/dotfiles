@@ -2,67 +2,86 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io/fs"
-	"log"
 	"log/slog"
 	"net"
 	"os"
 	"os/exec"
 	"os/signal"
+	"path/filepath"
 	"slices"
 	"strings"
 	"sync/atomic"
 	"syscall"
 	"time"
 
+	"github.com/adrg/xdg"
 	"github.com/fsnotify/fsnotify"
 )
 
+// Workspace represents a Hyprland workspace
 type Workspace struct {
 	ID int `json:"id"`
 }
 
+// Client represents a Hyprland client/window
 type Client struct {
 	Workspace Workspace `json:"workspace"`
 	Float     bool      `json:"floating"`
 }
 
-var (
-	MpvSocket                 = "/tmp/mpvpaper.sock"
-	XdgRuntime                = os.Getenv("XDG_RUNTIME_DIR")
-	HyprlandInstanceSignature = os.Getenv("HYPRLAND_INSTANCE_SIGNATURE")
-	HyprlandSocket            = fmt.Sprintf(
-		"%s/hypr/%s/.socket2.sock",
-		XdgRuntime,
-		HyprlandInstanceSignature,
-	)
+// Constants for mpvpaper commands
+const (
+	pauseCommand = "set pause yes"
+	playCommand  = "set pause no"
 )
 
+var (
+	// MpvSocket is the Unix socket path for mpvpaper IPC
+	MpvSocket = "/tmp/mpvpaper.sock"
+	// XdgRuntimeDir is the XDG runtime directory
+	XdgRuntimeDir = os.Getenv("XDG_RUNTIME_DIR")
+	// HIS is the Hyprland instance signature
+	HIS = os.Getenv("HYPRLAND_INSTANCE_SIGNATURE")
+	// HyprlandSocket is the path to Hyprland's request socket
+	HyprlandSocket = fmt.Sprintf("%s/hypr/%s/.socket.sock", XdgRuntimeDir, HIS)
+	// HyprlandSocket2 is the path to Hyprland's event socket
+	HyprlandSocket2 = fmt.Sprintf("%s/hypr/%s/.socket2.sock", XdgRuntimeDir, HIS)
+	// StateFile is the path to the wallpaper state file
+	StateFile string
+)
+
+// main is the entry point of the application
 func main() {
-	ctx, cencel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
-	defer cencel()
+	StateFile = filepath.Join(xdg.StateHome, "wallpaper.state")
+
+	// Set up context with signal handling
+	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer cancel()
 
 	// Attempt wallpaper restore
-	wallpaperPath, err := GetWallpaperPath()
+	wallpaperPath, err := getWallpaperPath()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Failed to read wallpaper path:", err)
+		slog.Error("failed to read wallpaper path", "error", err)
 		os.Exit(1)
 	}
 
-	if err := StartMpvPaper(ctx, wallpaperPath); err != nil {
-		fmt.Fprintln(os.Stderr, "Failed to start mpvpaper:", err)
+	// Start mpvpaper
+	if err := startMpvPaper(ctx, wallpaperPath); err != nil {
+		slog.Error("failed to start mpvpaper", "error", err)
 	}
 
-	conn, err := net.Dial("unix", HyprlandSocket)
+	// Connect to Hyprland socket
+	conn, err := net.Dial("unix", HyprlandSocket2)
 	if err != nil {
-		fmt.Println("Failed to connect Hyprland socket:", err)
+		slog.Error("failed to connect to Hyprland socket", "error", err)
 		os.Exit(1)
 	}
-	// defer conn.Close() // unreachable
 
 	var closed atomic.Bool
 	context.AfterFunc(ctx, func() {
@@ -70,8 +89,10 @@ func main() {
 		conn.Close()
 	})
 
-	go WatchWallpaper(ctx)
+	// Start watching wallpaper state file
+	go watchWallpaper(ctx)
 
+	// Subscribe to Hyprland events
 	events := []string{
 		"activewindowv2",
 		"closewindow",
@@ -89,92 +110,88 @@ func main() {
 			continue
 		}
 
+		// Update workspace on workspace change events
 		if event == "workspacev2" {
 			id := strings.Split(data, ",")[0]
 			fmt.Sscanf(id, "%d", &workspace)
-		}
-		if !slices.Contains(events, event) {
+		} else if !slices.Contains(events, event) {
 			continue
 		}
 
-		noClients, err := GetWorkspaceClients(workspace)
+		// Check if workspace has no clients
+		hasNonFloat, err := getWorkspaceClients(workspace)
 		if err != nil {
-			fmt.Println("Error checking clients:", err)
+			slog.Error("error checking clients", "error", err)
 			continue
 		}
 
-		if noClients {
-			ToggleMPVPaper(false)
-		} else {
-			ToggleMPVPaper(true)
+		if err = toggleMPVPaper(hasNonFloat); err != nil {
+			slog.Error("failed to toggle mpv paper", "error", err)
 		}
 	}
 
 	if closed.Load() {
-		slog.Error("Closing due to user cancellation")
+		slog.Info("closing due to user cancellation")
 		return
 	}
 
 	if err := scanner.Err(); err != nil {
-		slog.Error("Scanner failed", "error", err)
+		slog.Error("scanner failed", "error", err)
 	}
 }
 
-func GetWallpaperPath() (string, error) {
-	data, err := os.ReadFile(os.ExpandEnv("$HOME/.local/state/wallpaper.state"))
+// getWallpaperPath reads the wallpaper path from the state file
+func getWallpaperPath() ([]byte, error) {
+	data, err := os.ReadFile(StateFile)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return strings.TrimSpace(string(data)), nil
+	return bytes.TrimSpace(data), nil
 }
 
-// WatchWallpaper monitors a wallpaper state file and updates wallpaper when changed.
-// It supports context cancellation for safe shutdown.
-func WatchWallpaper(ctx context.Context) error {
+// watchWallpaper monitors the wallpaper state file and updates wallpaper when changed
+func watchWallpaper(ctx context.Context) error {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		return fmt.Errorf("creating watcher: %w", err)
 	}
 	defer watcher.Close()
 
-	stateFile := os.ExpandEnv("$HOME/.local/state/wallpaper.state")
-
-	if err := watcher.Add(stateFile); err != nil {
+	if err := watcher.Add(StateFile); err != nil {
 		return fmt.Errorf("add watcher: %w", err)
 	}
 
 	for {
 		select {
 		case <-ctx.Done():
-			log.Println("watcher: context cancelled, stopping...")
+			slog.Info("watcher context cancelled, stopping")
 			return ctx.Err()
-
 		case event, ok := <-watcher.Events:
 			if !ok {
-				log.Println("watcher: events channel closed")
+				slog.Error("watcher events channel closed")
 				return errors.New("watcher failed unexpectedly")
 			}
 			if event.Has(fsnotify.Create) || event.Has(fsnotify.Write) {
 				handleFileChange(event.Name)
 			}
-
 		case err, ok := <-watcher.Errors:
 			if !ok {
-				log.Println("watcher: errors channel closed")
+				slog.Error("watcher errors channel closed")
 				return errors.New("watcher failed unexpectedly")
 			}
-			log.Printf("watcher error: %v\n", err)
+			slog.Error("watcher error", "error", err)
 		}
 	}
 }
 
-// handleFileChange safely reads and applies wallpaper updates.
+// handleFileChange reads and applies wallpaper updates from the state file
 func handleFileChange(filename string) {
 	var b []byte
 	var err error
 
 	time.Sleep(100 * time.Millisecond)
-	// Retry a few times to avoid race condition with file writes.
+
+	// Retry a few times to avoid race condition with file writes
 	for range 3 {
 		b, err = os.ReadFile(filename)
 		if err == nil {
@@ -184,40 +201,37 @@ func handleFileChange(filename string) {
 			time.Sleep(100 * time.Millisecond)
 			continue
 		}
-		log.Printf("error reading file %s: %v", filename, err)
+		slog.Error("error reading file", "file", filename, "error", err)
 		return
 	}
 
 	if err != nil {
-		log.Printf("could not read wallpaper state after retries: %v", err)
+		slog.Error("could not read wallpaper state after retries", "error", err)
 		return
 	}
 
-	path := strings.TrimSpace(string(b))
-	if path == "" {
-		log.Println("wallpaper file is empty; ignoring")
+	path := bytes.TrimSpace(b)
+	if len(path) == 0 {
+		slog.Info("wallpaper file is empty, ignoring")
 		return
 	}
 
-	SendMpvPaperCommand(fmt.Sprintf("loadfile %q", path))
+	sendMpvPaperCommand(fmt.Sprintf("loadfile %q", path))
 }
 
-func StartMpvPaper(ctx context.Context, path string) error {
+// startMpvPaper starts the mpvpaper process with the given wallpaper path
+func startMpvPaper(ctx context.Context, path []byte) error {
 	args := []string{
 		"-o", "loop panscan=1.0 background-color='#222222' mute=yes config=no input-ipc-server=" + MpvSocket,
-		"*", path,
+		"*", string(path),
 	}
 	cmd := exec.CommandContext(ctx, "mpvpaper", args...)
 	return cmd.Start()
 }
 
-func GetWorkspaceClients(workspace int) (bool, error) {
-	socket := fmt.Sprintf(
-		"%s/hypr/%s/.socket.sock",
-		os.Getenv("XDG_RUNTIME_DIR"),
-		os.Getenv("HYPRLAND_INSTANCE_SIGNATURE"),
-	)
-	conn, err := net.Dial("unix", socket) // ignore the err
+// getWorkspaceClients checks if the specified workspace has any non-floating clients
+func getWorkspaceClients(workspace int) (bool, error) {
+	conn, err := net.Dial("unix", HyprlandSocket)
 	if err != nil {
 		return false, err
 	}
@@ -232,29 +246,24 @@ func GetWorkspaceClients(workspace int) (bool, error) {
 		return false, err
 	}
 
-	// Check if there are no non-floating clients in the workspace
-	for client := range slices.Values(clients) {
-		if client.Workspace.ID == workspace && !client.Float {
-			return false, nil
-		}
-	}
-	return true, nil
+	hasNonFloat := slices.ContainsFunc(clients, func(c Client) bool {
+		return c.Workspace.ID == workspace && !c.Float
+	})
+
+	return hasNonFloat, nil
 }
 
-var (
-	Pause = "set pause yes"
-	Play  = "set pause no"
-)
-
-func ToggleMPVPaper(pause bool) error {
-	cmd := Play
+// toggleMPVPaper pauses or plays mpvpaper based on the pause parameter
+func toggleMPVPaper(pause bool) error {
+	cmd := playCommand
 	if pause {
-		cmd = Pause
+		cmd = pauseCommand
 	}
-	return SendMpvPaperCommand(cmd)
+	return sendMpvPaperCommand(cmd)
 }
 
-func SendMpvPaperCommand(cmd string) error {
+// sendMpvPaperCommand sends a command to mpvpaper via Unix socket
+func sendMpvPaperCommand(cmd string) error {
 	conn, err := net.Dial("unix", MpvSocket)
 	if err != nil {
 		return err
