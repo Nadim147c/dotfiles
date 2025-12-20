@@ -1,9 +1,12 @@
-{ delib, ... }:
+{ delib, pkgs, ... }:
 delib.module {
   name = "network";
 
   options = delib.singleEnableOption true;
 
+  home.ifEnabled.home.packages = with pkgs; [
+    dig
+  ];
   nixos.ifEnabled.networking = {
     nameservers = [
       "127.0.0.1"
