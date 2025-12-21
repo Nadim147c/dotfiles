@@ -1,5 +1,6 @@
 {
   delib,
+  func,
   host,
   pkgs,
   ...
@@ -27,7 +28,7 @@ delib.module {
       ];
 
     wayland.windowManager.hyprland.settings = {
-      "$files" = "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.kdePackages.dolphin}/bin/dolphin";
+      "$files" = func.wrapUWSM "${pkgs.kdePackages.dolphin}/bin/dolphin";
     };
 
     xdg.configFile."dolphinrc".text = ''
