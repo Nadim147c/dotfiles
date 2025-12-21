@@ -1,6 +1,6 @@
 {
   delib,
-  lib,
+  func,
   host,
   pkgs,
   ...
@@ -56,71 +56,60 @@ delib.module {
       };
     };
 
-    xdg.mimeApps =
-      let
-        desktop = [ "mpv.desktop" ];
-        mimes = [
-          # Audio
-          "audio/aac"
-          "audio/mp4"
-          "audio/mpeg"
-          "audio/mpegurl"
-          "audio/ogg"
-          "audio/vnd.rn-realaudio"
-          "audio/vorbis"
-          "audio/x-flac"
-          "audio/x-mp3"
-          "audio/x-mpegurl"
-          "audio/x-ms-wma"
-          "audio/x-musepack"
-          "audio/x-oggflac"
-          "audio/x-pn-realaudio"
-          "audio/x-scpls"
-          "audio/x-vorbis"
-          "audio/x-vorbis+ogg"
-          "audio/x-wav"
+    xdg.mimeApps = func.genMimes "mpv.desktop" [
+      # Audio
+      "audio/aac"
+      "audio/mp4"
+      "audio/mpeg"
+      "audio/mpegurl"
+      "audio/ogg"
+      "audio/vnd.rn-realaudio"
+      "audio/vorbis"
+      "audio/x-flac"
+      "audio/x-mp3"
+      "audio/x-mpegurl"
+      "audio/x-ms-wma"
+      "audio/x-musepack"
+      "audio/x-oggflac"
+      "audio/x-pn-realaudio"
+      "audio/x-scpls"
+      "audio/x-vorbis"
+      "audio/x-vorbis+ogg"
+      "audio/x-wav"
 
-          # Video
-          "video/3gp"
-          "video/3gpp"
-          "video/3gpp2"
-          "video/avi"
-          "video/divx"
-          "video/dv"
-          "video/fli"
-          "video/flv"
-          "video/mp2t"
-          "video/mp4"
-          "video/mp4v-es"
-          "video/mpeg"
-          "video/msvideo"
-          "video/ogg"
-          "video/quicktime"
-          "video/vnd.divx"
-          "video/vnd.mpegurl"
-          "video/vnd.rn-realvideo"
-          "video/webm"
-          "video/x-avi"
-          "video/x-flv"
-          "video/x-m4v"
-          "video/x-matroska"
-          "video/x-mpeg2"
-          "video/x-ms-asf"
-          "video/x-ms-wmv"
-          "video/x-ms-wmx"
-          "video/x-msvideo"
-          "video/x-ogm"
-          "video/x-ogm+ogg"
-          "video/x-theora"
-          "video/x-theora+ogg"
-
-        ];
-        mimetype = mimes |> builtins.map (mime: lib.nameValuePair mime desktop) |> builtins.listToAttrs;
-      in
-      {
-        associations.added = mimetype;
-        defaultApplications = mimetype;
-      };
-
+      # Video
+      "video/3gp"
+      "video/3gpp"
+      "video/3gpp2"
+      "video/avi"
+      "video/divx"
+      "video/dv"
+      "video/fli"
+      "video/flv"
+      "video/mp2t"
+      "video/mp4"
+      "video/mp4v-es"
+      "video/mpeg"
+      "video/msvideo"
+      "video/ogg"
+      "video/quicktime"
+      "video/vnd.divx"
+      "video/vnd.mpegurl"
+      "video/vnd.rn-realvideo"
+      "video/webm"
+      "video/x-avi"
+      "video/x-flv"
+      "video/x-m4v"
+      "video/x-matroska"
+      "video/x-mpeg2"
+      "video/x-ms-asf"
+      "video/x-ms-wmv"
+      "video/x-ms-wmx"
+      "video/x-msvideo"
+      "video/x-ogm"
+      "video/x-ogm+ogg"
+      "video/x-theora"
+      "video/x-theora+ogg"
+    ];
   };
 }
