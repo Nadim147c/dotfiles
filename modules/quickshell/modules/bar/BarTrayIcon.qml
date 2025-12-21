@@ -61,6 +61,7 @@ Item {
 
         const tooltips = {
             "Discord": "",
+            "GoofCord": "",
             "OBS Studio": ""
         };
 

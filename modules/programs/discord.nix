@@ -1,11 +1,16 @@
 {
   delib,
+  func,
   host,
   lib,
   pkgs,
   xdg,
   ...
 }:
+let
+  inherit (func) wrapUWSM genMimes;
+  inherit (lib) toSentenceCase;
+in
 delib.module {
   name = "programs.discord";
   options =
@@ -20,13 +25,7 @@ delib.module {
   home.ifEnabled =
     { cfg, ... }:
     let
-      inherit (lib) getExe;
-      modOptions = {
-        vencord = "Vencord";
-        equicord = "Equicord";
-        moonlight = "Moonlight";
-      };
-      modName = modOptions.${cfg.mod};
+      modName = toSentenceCase cfg.mod;
       discord = pkgs.discord.override {
         withOpenASAR = cfg.openASAR;
         withTTS = cfg.tts;
@@ -41,16 +40,9 @@ delib.module {
       ];
 
       wayland.windowManager.hyprland.settings = {
-        "$discord" = "${getExe pkgs.uwsm} app -- ${getExe discord}";
+        "$discord" = wrapUWSM discord;
       };
 
-      xdg.mimeApps =
-        let
-          mime."x-scheme-handler/discord" = [ "discord.desktop" ];
-        in
-        {
-          associations.added = mime;
-          defaultApplications = mime;
-        };
+      xdg.mimeApps = genMimes "discord.desktop" [ "x-scheme-handler/discord" ];
     };
 }
