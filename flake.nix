@@ -16,6 +16,10 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-lib.url = "github:nix-community/nixpkgs.lib";
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    nvim = {
+      url = "github:Nadim147c/nvim";
+      flake = false;
+    };
     rong = {
       url = "github:Nadim147c/rong";
       inputs.nixpkgs.follows = "nixpkgs";

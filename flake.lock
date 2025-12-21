@@ -73,11 +73,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1765682243,
-        "narHash": "sha256-yeCxFV/905Wr91yKt5zrVvK6O2CVXWRMSrxqlAZnLp0=",
+        "lastModified": 1766282146,
+        "narHash": "sha256-0V/nKU93KdYGi+5LB/MVo355obBJw/2z9b2xS3bPJxY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "58bf3ecb2d0bba7bdf363fc8a6c4d49b4d509d03",
+        "rev": "61fcc9de76b88e55578eb5d79fc80f2b236df707",
         "type": "github"
       },
       "original": {
@@ -173,17 +173,33 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1765472234,
-        "narHash": "sha256-9VvC20PJPsleGMewwcWYKGzDIyjckEz8uWmT0vCDYK0=",
+        "lastModified": 1766070988,
+        "narHash": "sha256-G/WVghka6c4bAzMhTwT2vjLccg/awmHkdKSd2JrycLc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2fbfb1d73d239d2402a8fe03963e37aab15abe8b",
+        "rev": "c6245e83d836d0433170a16eb185cefe0572f8b8",
         "type": "github"
       },
       "original": {
         "id": "nixpkgs",
         "ref": "nixos-unstable",
         "type": "indirect"
+      }
+    },
+    "nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1766329658,
+        "narHash": "sha256-RjGP5AGua0S7AbmGj94r0LDWNB31TXGLmYa/0N+TqxQ=",
+        "owner": "Nadim147c",
+        "repo": "nvim",
+        "rev": "0b05cefc608eedc22bc7eefc69ce4caa6e3eca6e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Nadim147c",
+        "repo": "nvim",
+        "type": "github"
       }
     },
     "pre-commit-hooks": {
@@ -234,6 +250,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-lib": "nixpkgs-lib",
+        "nvim": "nvim",
         "rong": "rong",
         "waybar-lyric": "waybar-lyric",
         "yankd": "yankd"
@@ -246,11 +263,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1765616709,
-        "narHash": "sha256-AVvKy12p1+m3BqxNsvdBtb9LxFNvVuGd1WrNTs1GbHE=",
+        "lastModified": 1766035515,
+        "narHash": "sha256-YkUVjxh15GNCJXvawj4QQuGrlwxoW2keKdl5bET4nFs=",
         "owner": "Nadim147c",
         "repo": "waybar-lyric",
-        "rev": "c3406f738b0160c4e887775c1c0be9f14f068e77",
+        "rev": "6d473803c1747b75b0f968acece984abb9dafc79",
         "type": "github"
       },
       "original": {

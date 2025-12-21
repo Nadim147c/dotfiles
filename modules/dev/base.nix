@@ -18,7 +18,6 @@ delib.module {
     gnugrep
     htop
     httpie
-    neovim
     ripgrep
     sd
     skim
