@@ -8,9 +8,7 @@ delib.script {
   package = pkgs.writers.writeNuBin "organize-files" /* nu */ ''
     def main [name?: string] {
         let dir = if $name != null { $name } else { $env.PWD }
-
         let files = ls --mime-type --all $dir
-
         let detect_mime = {|file|
             let src = $file.name | path expand
             let mime = $file.type
@@ -24,7 +22,6 @@ delib.script {
 
             # Specific MIME maps
             let type = match $mime {
-
                 # Archives
                 "application/zip" => "archive"
                 "application/x-rar-compressed" => "archive"
@@ -108,26 +105,22 @@ delib.script {
 
             # Make directory if it doesn't exist
             mkdir $target
-
-            print $"Moving: ($file.src) → ($target)"
             move $file.src $target
         }
 
         # Process and move
-        $files
-        | each $detect_mime
-        | each $organize
-        | ignore
+        $files | each $detect_mime | each $organize | ignore
     }
 
     def move [src: string, dst: string] {
         let hash = xxhsum $src | split words | first
-        let ext = $src | path parse | get extension
-
-        # If no extension, don't add dot
-        let final_ext = if $ext != null and $ext != "" { $".($ext)" } else { "" }
-
-        mv --force --update --progress $src $"($dst)/($hash)($final_ext)"
+        let meta = file --extension $src
+        if $meta =~ "^.+: .+$" {
+            let ext = $meta | split row : | last | split words | first
+            print (^mv --force --update --verbose $src $"($dst)/($hash).($ext)")
+        } else {
+            print (^mv --force --update --verbose $src $"($dst)/($hash)")
+        }
     }
   '';
 }
