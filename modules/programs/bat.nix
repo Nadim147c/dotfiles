@@ -9,17 +9,18 @@ delib.module {
 
   options = delib.singleEnableOption host.cliFeatured;
 
-  home.ifEnabled.home.sessionVariables.MANPAGER = "bat -plman";
-
-  home.ifEnabled.programs.bat = {
-    enable = true;
-    config = {
-      pager = "${pkgs.less}/bin/less -rF";
-      theme = "ansi";
+  home.ifEnabled = {
+    home.shellAliases.man = "batman";
+    programs.bat = {
+      enable = true;
+      config = {
+        pager = "${pkgs.less}/bin/less -rF";
+        theme = "ansi";
+      };
+      extraPackages = with pkgs.bat-extras; [
+        batman
+        batgrep
+      ];
     };
-    extraPackages = with pkgs.bat-extras; [
-      batman
-      batgrep
-    ];
   };
 }
