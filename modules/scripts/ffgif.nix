@@ -45,14 +45,16 @@ delib.script {
 
     	fmt.Println("Output file:", output)
 
-    	// Generate palette
-    	palette, err := exec.CommandContext(
+        paletteCmd := exec.CommandContext(
     		ctx, "ffmpeg", "-hide_banner",
     		"-i", input,
     		"-vf", "palettegen",
-    		"-f", "image2pipe",
-    		"-",
-    	).Output()
+    		"-f", "image2pipe", "-",
+    	)
+    	paletteCmd.Stderr = os.Stderr
+
+    	// Generate palette
+    	palette, err := paletteCmd.Output()
     	if err != nil {
     		log.Fatalf("failed to generate palette: %v", err)
     	}
