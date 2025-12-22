@@ -13,8 +13,9 @@ delib.module {
 
   home.ifEnabled.home.packages = func.mkList (
     pkgs.writeShellScriptBin "freeze" ''
+      mkdir -p ${xdg.userDirs.pictures}/freeze
       exec -a "$0" ${pkgs.charm-freeze}/bin/freeze \
-          --output ${xdg.userDirs.pictures}/"freeze-$(date +'%Y-%m-%d_%H-%M-%S').png" "$@"
+          --output ${xdg.userDirs.pictures}/freeze/"$(date +'%Y-%m-%d_%H-%M-%S').png" "$@"
     ''
   );
 }
