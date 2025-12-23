@@ -32,6 +32,11 @@ delib.module {
           templates = files "templates";
           videos = media "videos";
         };
+
+      autostart = {
+        enable = true;
+        readOnly = true;
+      };
     };
 
     home.sessionVariables = {
