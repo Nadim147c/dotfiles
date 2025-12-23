@@ -71,24 +71,14 @@ delib.module {
       returns an absolute path inside the corresponding XDG directory.
     */
     xdg = {
-
-      /*
-        Path under the user's home directory.
-
-        Note: this does not follow the XDG Base Directory specification
-        and is provided as a convenience for simple `$HOME`-relative paths.
-      */
-      bin = name: "${home.home.homeDirectory}/${name}";
-
+      # Path under the ~/.local/bin/
+      bin = name: "${home.home.homeDirectory}/.local/bin/${name}";
       # Path inside `$XDG_CACHE_HOME`.
       cache = name: "${xdg.cacheHome}/${name}";
-
       # Path inside `$XDG_CONFIG_HOME`.
       config = name: "${xdg.configHome}/${name}";
-
       # Path inside `$XDG_DATA_HOME`.
       data = name: "${xdg.dateHome}/${name}";
-
       # Path inside `$XDG_STATE_HOME`.
       state = name: "${xdg.stateHome}/${name}";
     };
