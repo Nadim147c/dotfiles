@@ -7,13 +7,13 @@
 }:
 buildGoModule rec {
   pname = "field";
-  version = "0.1.0";
+  version = "0.1.2";
 
   src = fetchFromGitHub {
     owner = "Nadim147c";
     repo = "field";
     rev = "v${version}";
-    hash = "sha256-ch6bRC7I3QvsNZ4tBDBBBU+RLO6yl3QtBSKl/yJjdwQ=";
+    hash = "sha256-zp6WNgLoYZya8AVqvJB9Ss0qRRV6cr6RbEPv/atEEIQ=";
   };
 
   vendorHash = "sha256-UWScxgpNuf/duOBIAZUh9YeI6WTb0OfyyHS+1ERDsAY=";
