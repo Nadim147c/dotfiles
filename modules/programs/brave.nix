@@ -1,8 +1,8 @@
 {
   delib,
-  lib,
   host,
   pkgs,
+  func,
   ...
 }:
 delib.module {
@@ -13,10 +13,7 @@ delib.module {
   home.ifEnabled = {
     programs.brave = {
       enable = true;
-      package = pkgs.brave;
-      dictionaries = with pkgs; [
-        hunspellDictsChromium.en_US
-      ];
+      dictionaries = [ pkgs.hunspellDictsChromium.en_US ];
       commandLineArgs = [
         "--password-store=gnome"
         "--ozone-platform=wayland"
@@ -26,8 +23,6 @@ delib.module {
       extensions = [
         "bkijmpolkanhdehnlnabfooghjdokakc" # Double-click Image Downloader
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
-        "dhdgffkkebhmkfjojejmpbldmpobfkfo" # Tampermonkey
-        "gebbhagfogifgggkldgodflihgfeippi" # Return YouTube Dislike
         "hkgfoiooedgoejojocmhlaklaeopbecg" # Picture-in-Picture
         "hlkenndednhfkekhgcdicdfddnkalmdm" # Cookie-Editor
         "mnjggcdmjocbbbhaepdhchncahnbgone" # SponsorBlock
@@ -36,25 +31,17 @@ delib.module {
       ];
     };
 
-    wayland.windowManager.hyprland.settings = with lib; {
-      "$browser" = "${getExe pkgs.uwsm} app -- ${getExe pkgs.brave}";
+    wayland.windowManager.hyprland.settings = {
+      "$browser" = func.wrapUWSM pkgs.brave;
     };
 
-    xdg.mimeApps =
-      let
-        browser = "brave.desktop";
-        mime = {
-          "text/html" = [ browser ];
-          "application/pdf" = [ browser ];
-          "x-scheme-handler/about" = [ browser ];
-          "x-scheme-handler/http" = [ browser ];
-          "x-scheme-handler/https" = [ browser ];
-          "x-scheme-handler/unknown" = [ browser ];
-        };
-      in
-      {
-        associations.added = mime;
-        defaultApplications = mime;
-      };
+    xdg.mimeApps = func.genMimes "brave.desktop" [
+      "application/pdf"
+      "text/html"
+      "x-scheme-handler/about"
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+      "x-scheme-handler/unknown"
+    ];
   };
 }
