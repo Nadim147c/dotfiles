@@ -24,10 +24,6 @@
       url = "github:Nadim147c/rong";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    waybar-lyric = {
-      url = "github:Nadim147c/waybar-lyric";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     yankd = {
       url = "github:Nadim147c/yankd";
       inputs.nixpkgs.follows = "nixpkgs";
