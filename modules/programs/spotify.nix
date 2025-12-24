@@ -19,7 +19,7 @@ delib.module {
     programs.rong.settings = {
       links."spicetify-sleek.ini" = "${xdg.configHome}/spicetify/Themes/Sleek/color.ini";
       post-cmds."spicetify-sleek.ini" = /* bash */ ''
-        timeout 2s spicetify watch -s >/dev/null 2>&1 || true
+        spicetify watch -s 2>&1 | sed '/Reloaded Spotify/q'
       '';
     };
 
