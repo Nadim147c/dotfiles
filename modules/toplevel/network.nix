@@ -6,6 +6,7 @@ delib.module {
 
   home.ifEnabled.home.packages = with pkgs; [
     dig
+    lsof
   ];
   nixos.ifEnabled.networking = {
     nameservers = [
