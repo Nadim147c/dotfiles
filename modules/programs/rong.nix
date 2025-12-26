@@ -1,5 +1,6 @@
 {
   delib,
+  func,
   host,
   inputs,
   lib,
@@ -23,6 +24,7 @@ delib.module {
 
   home.ifEnabled.programs.rong = {
     enable = true;
+    package = func.flakePackage inputs.rong |> func.wrapLocal;
     settings = {
       dark = true;
       preview-format = "jpg";

@@ -7,6 +7,7 @@
 }:
 let
   inherit (lib) getExe genAttrs;
+  system = pkgs.stdenv.hostPlatform.system;
 in
 delib.module {
   name = "functions";
@@ -38,6 +39,44 @@ delib.module {
       The result is a shell command string.
     */
     wrapUWSM = pkg: "${getExe pkgs.uwsm} app -- ${if builtins.isString pkg then pkg else getExe pkg}";
+
+    /*
+      flakePackage :: attrs -> package
+
+      Get the default package from a flake.
+    */
+    flakePackage = flake: flake.packages.${system}.default;
+
+    /*
+      wrapLocal :: package -> package
+
+      !!!!! Highly impure. Only for development !!!!!!
+      Wrap the given package where it try to run the binary with same
+      name from ~/.local/bin/{pname}. If not possible than run the
+      binary of package.
+    */
+    wrapLocal =
+      pkg:
+      let
+        pname = getExe pkg |> builtins.baseNameOf;
+        localRun = lib.escapeShellArg /* bash */ ''
+          local_override="$HOME/.local/bin/${pname}"
+          if [ -x "$local_override" ]; then
+            exec -a "$0" "$local_override" "$@"
+            exit
+          fi
+        '';
+      in
+      pkgs.symlinkJoin {
+        name = "${pname}-wrapped";
+        meta.mainProgram = pname;
+        paths = [ pkg ];
+        buildInputs = [ pkgs.makeWrapper ];
+        postBuild = /* bash */ ''
+          wrapProgram $out/bin/${pname} \
+            --run ${localRun}
+        '';
+      };
 
     /*
       genMimes :: string | [string] -> [string] -> attrset
