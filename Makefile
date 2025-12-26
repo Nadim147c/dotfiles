@@ -3,6 +3,9 @@ all: switch
 switch:
 	nh os switch .
 
+boot:
+	nh os boot .
+
 clean:
 	nh clean all -k3
 
