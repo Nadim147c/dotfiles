@@ -3,9 +3,9 @@
   pkgs,
   ...
 }:
-delib.script {
+delib.script rec {
   name = "ffgif";
-  package = pkgs.writeGoBin "ffgif" { } /* go */ ''
+  package = pkgs.writers.writeGoBin name { } /* go */ ''
     package main
 
     import (
