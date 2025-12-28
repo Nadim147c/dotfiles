@@ -15,8 +15,8 @@ delib.module {
       home = if moduleSystem == "home" then config else config.home-manager.users.${homeManagerUser};
     in
     {
-      home = home;
-      xdg = home.xdg;
+      inherit home;
+      inherit (home) xdg;
       homedir = home.home.homeDirectory;
       hmlib = inputs.home-manager.lib.hm;
     };
