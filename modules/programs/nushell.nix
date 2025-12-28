@@ -8,15 +8,24 @@ delib.module {
 
   options = delib.singleEnableOption host.cliFeatured;
 
+  # nushell is almost useless without carapace
+  myconfig.ifEnabled.programs.carapace.enable = true;
   home.ifEnabled.programs.nushell = {
     enable = true;
     settings = {
       show_banner = false;
       edit_mode = "vi";
-      history.file_format = "sqlite";
-      history.isolation = false;
-      history.max_size = 5000000;
-      history.sync_on_enter = true;
+      cursor_shape = {
+        vi_insert = "line";
+        vi_normal = "block";
+        emacs = "block";
+      };
+      history = {
+        file_format = "sqlite";
+        isolation = false;
+        max_size = 5000000;
+        sync_on_enter = true;
+      };
     };
     extraConfig = /* nu */ ''
       $env.config.completions.external.completer = $carapace_completer
