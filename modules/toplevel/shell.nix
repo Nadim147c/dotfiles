@@ -9,8 +9,8 @@ delib.module {
   name = "shell";
   options = delib.singleEnableOption true;
 
-  home.ifEnabled = {
-    home.packages = with pkgs; [
+  home.ifEnabled.home = {
+    packages = with pkgs; [
       btop
       chafa
       cmatrix
@@ -34,7 +34,7 @@ delib.module {
       yq
     ];
 
-    home.sessionVariables =
+    sessionVariables =
       let
         less = "${pkgs.less}/bin/less -r -F";
       in
@@ -49,7 +49,7 @@ delib.module {
         GREP_COLORS = ":mt=1;36:ms=41;1;30:mc=1;41:sl=:cx=:fn=1;35;40:ln=32:bn=32:se=1;36;40";
       };
 
-    home.sessionPath = [
+    sessionPath = [
       "${home.home.homeDirectory}/.local/bin"
       "${xdg.dataHome}/cargo/bin"
       "${xdg.dataHome}/pnpm"
@@ -57,7 +57,7 @@ delib.module {
       "${xdg.dataHome}/go/bin"
     ];
 
-    home.shellAliases = {
+    shellAliases = {
       # Core utils aliases
       du = "env du -h";
       grep = "env grep --color";
