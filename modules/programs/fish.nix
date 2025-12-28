@@ -20,10 +20,6 @@ delib.module {
       set fish_pager_color_completion blue --bold
       set fish_pager_color_description white --bold
 
-      for mode in default insert visual normal
-          bind -M $mode \ep '${pkgs.tmux-sessionizer}/bin/tmux-sessionizer'
-      end
-
       fish_vi_key_bindings --no-erase
     '';
     generateCompletions = false;

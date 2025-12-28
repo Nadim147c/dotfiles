@@ -1,0 +1,4 @@
+github.com/Nadim147c/material/v2 v2.0.0 h1:i2VCRoVJO4Mgnmb90e/Uv7xDxWjHYdnxBv063AyQ4WU=
+github.com/Nadim147c/material/v2 v2.0.0/go.mod h1:LXAWTexhA91RM4BpL/vmDrAH/xVxSlEXfmTF4HB85wU=
+github.com/spf13/pflag v1.0.10 h1:4EBh2KAYBwaONj6b2Ye1GiHfwjqyROoF4RwYO+vPwFk=
+github.com/spf13/pflag v1.0.10/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An2Bg=
