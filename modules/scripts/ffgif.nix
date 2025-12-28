@@ -11,6 +11,7 @@ delib.script rec {
     import (
     	"bytes"
     	"context"
+    	"flag"
     	"fmt"
     	"log"
     	"os"
@@ -23,21 +24,23 @@ delib.script rec {
     )
 
     func main() {
-    	if len(os.Args) < 2 {
-    		fmt.Fprintln(os.Stderr, "Use: ffgif <path> [out]")
-    		os.Exit(1)
+    	flag.CommandLine.Usage = func() {
+    		fmt.Fprintln(flag.CommandLine.Output(), "Use: ${name} <video-file> [output-file]")
+    		flag.CommandLine.PrintDefaults()
+    	}
+    	flag.Parse()
+
+    	if flag.NArg() < 1 {
+    		flag.CommandLine.Usage()
+    		os.Exit(0)
     	}
 
     	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
     	defer cancel()
 
-    	input := os.Args[1]
-
-    	// Determine output file
-    	var output string
-    	if len(os.Args) >= 3 {
-    		output = os.Args[2]
-    	} else {
+    	input := flag.Arg(0)
+    	output := flag.Arg(1)
+    	if output == "" {
     		ext := filepath.Ext(input)
     		base := filepath.Base(input[:len(input)-len(ext)])
     		output = base + ".gif"
@@ -45,17 +48,19 @@ delib.script rec {
 
     	fmt.Println("Output file:", output)
 
-        paletteCmd := exec.CommandContext(
+    	buf := bytes.NewBuffer(nil)
+
+    	paletteCmd := exec.CommandContext(
     		ctx, "ffmpeg", "-hide_banner",
     		"-i", input,
     		"-vf", "palettegen",
     		"-f", "image2pipe", "-",
     	)
     	paletteCmd.Stderr = os.Stderr
+    	paletteCmd.Stdout = buf
 
     	// Generate palette
-    	palette, err := paletteCmd.Output()
-    	if err != nil {
+    	if err := paletteCmd.Run(); err != nil {
     		log.Fatalf("failed to generate palette: %v", err)
     	}
 
@@ -70,7 +75,7 @@ delib.script rec {
     		output,
     	)
 
-    	cmd.Stdin = bytes.NewReader(palette)
+    	cmd.Stdin = buf
     	cmd.Stdout = os.Stdout
     	cmd.Stderr = os.Stderr
 
