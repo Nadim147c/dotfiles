@@ -35,7 +35,7 @@ delib.script rec {
       fi
 
       # Otherwise, create a new session
-      tmux new-session -d -s "$name" -c "$path" "fish -c 'nvim; exec fish'"
+      tmux new-session -d -s "$name" -c "$path" "$EDITOR"
 
       # Create a second window in the same path
       tmux new-window -t "$name:" -c "$path"
