@@ -15,6 +15,8 @@ delib.module {
     let
       screenshot-bin = pkgs.writeShellScriptBin "screenshot" ''
         MODE="''${1:-region}"
+        TEMP_FILE="/tmp/screenshot_$(date +'%Y-%m-%d_%H-%M-%S').png"
+        FINAL_PATH="${xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png"
 
         case "$MODE" in
             active-window)
@@ -30,15 +32,26 @@ delib.module {
 
         pkill slurp || true
 
-        ${pkgs.hyprshot}/bin/hyprshot -z ''${HYPRSHOT_MODES} --raw |
-            ${pkgs.satty}/bin/satty --filename - \
-            --output-filename "${xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
-            --early-exit \
-            --actions-on-enter save-to-clipboard \
-            --save-after-copy \
-            --copy-command "${pkgs.wl-clipboard}/bin/wl-copy"
+        ${pkgs.hyprshot}/bin/hyprshot -z ''${HYPRSHOT_MODES} --silent --raw > "$TEMP_FILE"
+
+        ${pkgs.wl-clipboard}/bin/wl-copy < "$TEMP_FILE"
+
+        ACTION=$(${pkgs.libnotify}/bin/notify-send "Screenshot Captured" "Saved to clipboard" \
+            --expire-time="5000" \
+            --action="annotate=Annotate")
+
+        if [ "$ACTION" = "annotate" ]; then
+            ${pkgs.satty}/bin/satty --filename "$TEMP_FILE" \
+                --output-filename "$FINAL_PATH" \
+                --early-exit \
+                --copy-command "${pkgs.wl-clipboard}/bin/wl-copy"
+        else
+            cp "$TEMP_FILE" "$FINAL_PATH"
+        fi
       '';
+
       screenshot = "${screenshot-bin}/bin/screenshot";
+
       desc = ''
         Left Click: Capture a region
         Middle Click: Capture a window
