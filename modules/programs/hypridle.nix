@@ -2,8 +2,13 @@
   delib,
   host,
   pkgs,
+  lib,
   ...
 }:
+let
+  inherit (lib) escapeShellArg;
+  hyprland-exec = cmd: "hyprctl dispatch exec ${escapeShellArg cmd}";
+in
 delib.module {
   name = "programs.hypridle";
 
@@ -17,18 +22,18 @@ delib.module {
     enable = true;
     settings = {
       general = {
-        lock_cmd = "pidof hyprlock || hyprlock";
-        before_sleep_cmd = "loginctl lock-session";
+        lock_cmd = hyprland-exec "pidof hyprlock || hyprlock";
+        before_sleep_cmd = hyprland-exec "loginctl lock-session";
         after_sleep_cmd = "hyprctl dispatch dpms on";
       };
       listener = [
         {
           timeout = 295;
-          on-timeout = "notify-send \"Locking the session in 5 seconds\"";
+          on-timeout = hyprland-exec "notify-send 'Locking the session in 5 seconds'";
         }
         {
           timeout = 300;
-          on-timeout = "pidof hyprlock || hyprlock";
+          on-timeout = hyprland-exec "pidof hyprlock || hyprlock";
         }
         {
           timeout = 360;
