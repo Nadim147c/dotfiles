@@ -5,6 +5,7 @@
   inputs,
   pkgs,
   xdg,
+  func,
   ...
 }:
 delib.module {
@@ -16,9 +17,10 @@ delib.module {
   home.ifEnabled = {
     home.packages = [ pkgs.spicetify-cli ];
 
-    programs.rong.settings = {
-      links."spicetify-sleek.ini" = "${xdg.configHome}/spicetify/Themes/Sleek/color.ini";
-      post-cmds."spicetify-sleek.ini" = /* bash */ ''
+    programs.rong.settings.themes = func.mkList {
+      target = "spicetify-sleek.ini";
+      links = "${xdg.configHome}/spicetify/Themes/Sleek/color.ini";
+      cmds = /* bash */ ''
         spicetify watch -s 2>&1 | sed '/Reloaded Spotify/q'
       '';
     };

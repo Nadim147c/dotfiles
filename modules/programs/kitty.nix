@@ -4,6 +4,7 @@
   host,
   pkgs,
   xdg,
+  func,
   ...
 }:
 delib.module {
@@ -15,9 +16,10 @@ delib.module {
       procps
       findutils
     ];
-    programs.rong.settings = {
-      links."kitty-full.conf" = "${xdg.configHome}/kitty/colors.conf";
-      post-cmds."kitty-full.conf" = /* bash */ "pidof kitty | xargs -r kill -SIGUSR1";
+    programs.rong.settings.themes = func.mkList {
+      target = "kitty-full.conf";
+      links = "${xdg.configHome}/kitty/colors.conf";
+      cmds = /* bash */ "pidof kitty | xargs -r kill -SIGUSR1";
     };
 
     programs.kitty = {

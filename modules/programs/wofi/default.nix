@@ -2,6 +2,7 @@
   delib,
   host,
   xdg,
+  func,
   ...
 }:
 let
@@ -26,9 +27,10 @@ delib.module {
       };
     };
 
-    programs.rong.settings = {
-      links."colors.scss" = [ "${xdg.configHome}/wofi/colors.scss" ];
-      post-cmds."colors.scss" = [ /* bash */ "compile-scss ${styleFile}" ];
+    programs.rong.settings.themes = func.mkList {
+      target = "colors.scss";
+      links = "${xdg.configHome}/wofi/colors.scss";
+      cmds = /* bash */ "compile-scss ${styleFile}";
     };
   };
 }

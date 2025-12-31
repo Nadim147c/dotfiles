@@ -3,6 +3,7 @@
   delib,
   host,
   xdg,
+  func,
   ...
 }:
 delib.module {
@@ -16,9 +17,10 @@ delib.module {
       findutils
     ];
 
-    programs.rong.settings = {
-      links."cava.ini" = "${xdg.configHome}/cava/config";
-      post-cmds."cava.ini" = /* bash */ "pidof cava | xargs -r kill -SIGUSR2";
+    programs.rong.settings.themes = func.mkList {
+      target = "cava.ini";
+      links = "${xdg.configHome}/cava/config";
+      cmds = /* bash */ "pidof cava | xargs -r kill -SIGUSR2";
     };
 
     programs.cava.enable = true;

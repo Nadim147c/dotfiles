@@ -1,19 +1,2 @@
-.config/mpv/scripts/sponsorblock_shared/sponsorblock.txt
-.mise.toml
-
-# Colors
-.config/eww/styles/colors.scss
-
-# Nushell history
-.config/nushell/history*
-.config/nushell/plugin.*
-.config/hypr/hyprpaper.conf
-
-home/static/eww/colors.scss
-home/static/waybar/colors.scss
-home/static/swaync/colors.scss
-home/static/wofi/colors.scss
-home/static/swayosd/colors.scss
 modules/quickshell/.qmlls.ini
-src/netspeed/netspeed
-result
+result*

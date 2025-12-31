@@ -5,6 +5,7 @@
   host,
   pkgs,
   xdg,
+  func,
   ...
 }:
 let
@@ -21,9 +22,10 @@ delib.module {
     home.activation.reloadTmux = hmlib.dag.entryAfter [ "writeBoundary" ] reloadConfig;
 
     programs = {
-      rong.settings = {
-        links."colors.tmux" = "${xdg.configHome}/tmux/colors.conf";
-        post-cmds."colors.tmux" = reloadConfig;
+      rong.settings.themes = func.mkList {
+        target = "colors.tmux";
+        links = "${xdg.configHome}/tmux/colors.conf";
+        cmds = reloadConfig;
       };
 
       fish.interactiveShellInit = /* fish */ ''

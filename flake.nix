@@ -4,9 +4,11 @@
   inputs = {
     denix = {
       url = "github:yunfachi/denix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-lib.follows = "nixpkgs-lib";
-      inputs.home-manager.follows = "home-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-lib.follows = "nixpkgs-lib";
+        home-manager.follows = "home-manager";
+      };
     };
     home-manager = {
       url = "github:nix-community/home-manager/master";

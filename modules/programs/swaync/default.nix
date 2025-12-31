@@ -2,12 +2,12 @@
   delib,
   host,
   xdg,
+  func,
   ...
 }:
 
 let
   styleFile = "${xdg.configHome}/swaync/style.scss";
-  mkList = x: [ x ];
 in
 delib.module {
   name = "programs.swaync";
@@ -18,12 +18,10 @@ delib.module {
     xdg.configFile."swaync/style.scss".source = ./style.scss;
     services.swaync.enable = true;
 
-    programs.rong.settings = {
-      links."colors.scss" = [ "${xdg.configHome}/swaync/colors.scss" ];
-      post-cmds."colors.scss" = mkList /* bash */ ''
-        compile-scss ${styleFile}
-        systemctl --user restart swaync.service
-      '';
+    programs.rong.settings.themes = func.mkList {
+      target = "colors.scss";
+      links = "${xdg.configHome}/swaync/colors.scss";
+      cmds = /* bash */ "compile-scss ${styleFile}";
     };
   };
 }

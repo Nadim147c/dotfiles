@@ -3,6 +3,7 @@
   pkgs,
   host,
   xdg,
+  func,
   ...
 }:
 delib.module {
@@ -20,9 +21,10 @@ delib.module {
     ];
     services.hyprpolkitagent.enable = true;
 
-    programs.rong.settings = {
-      links."hyprland.conf" = "${xdg.configHome}/hypr/colors.conf";
-      post-cmds."hyprland.conf" = /* bash */ "hyprctl reload";
+    programs.rong.settings.themes = func.mkList {
+      target = "hyprland.conf";
+      links = "${xdg.configHome}/hypr/colors.conf";
+      cmds = "hyprclt reload";
     };
   };
 
