@@ -17,12 +17,24 @@ delib.host {
     "wireless"
   ];
 
-  home.home.stateVersion = "25.11";
-  nixos.system.stateVersion = "25.11";
+  myconfig.displays = {
+    "eDP-1".enable = false;
+    "DP-1" = {
+      enable = true;
+      refreshRate = 59.79;
+      width = 1366;
+      height = 768;
+      x = 0;
+      y = 0;
+    };
+  };
 
   myconfig = {
     dev.cpp.enable = false;
   };
+
+  home.home.stateVersion = "26.05";
+  nixos.system.stateVersion = "26.05";
 
   nixos = {
     networking.hostName = "chronoshift";
