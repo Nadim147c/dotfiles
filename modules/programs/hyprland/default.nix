@@ -41,7 +41,7 @@ delib.module {
       programs.rong.settings.themes = func.mkList {
         target = "hyprland.conf";
         links = "${xdg.configHome}/hypr/colors.conf";
-        cmds = "hyprclt reload";
+        cmds = "hyprctl reload";
       };
     };
 
