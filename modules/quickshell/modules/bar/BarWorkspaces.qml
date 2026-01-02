@@ -18,6 +18,7 @@ RowLayout {
             cursorShape: Qt.PointingHandCursor
 
             required property var modelData
+            required property real index
 
             implicitHeight: root.height
             implicitWidth: root.height + Appearance.space.medium
@@ -65,11 +66,17 @@ RowLayout {
                 color: workspace.bg
                 radius: {
                     if (workspace.modelData.active) {
-                        return Appearance.round.small;
-                    } else {
                         return Appearance.round.big;
+                    } else {
+                        return Appearance.round.little;
                     }
                 }
+                bottomLeftRadius: workspace.index == 0 ? Appearance.round.big : radius
+                topLeftRadius: workspace.index == 0 ? Appearance.round.big : radius
+
+                bottomRightRadius: (workspace.index + 1) == Hyprland.workspaces.values.length ? Appearance.round.big : radius
+                topRightRadius: (workspace.index + 1) == Hyprland.workspaces.values.length ? Appearance.round.big : radius
+
                 Behavior on radius {
                     animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
                 }

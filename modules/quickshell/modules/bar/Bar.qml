@@ -99,6 +99,7 @@ PanelWindow {
                     id: rightModule
                     spacing: Appearance.space.tiny
                     anchors.fill: parent
+                    BarCPU {}
                     BarNetwork {}
                     BarVolume {}
                     BarClock {}
