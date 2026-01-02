@@ -34,7 +34,7 @@ Rectangle {
         }
     }
 
-    radius: Appearance.round.big
+    radius: Appearance.round.large
 
     RowLayout {
         id: volume

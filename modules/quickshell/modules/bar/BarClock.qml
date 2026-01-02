@@ -10,7 +10,7 @@ Rectangle {
     implicitWidth: clock.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
 
-    radius: Appearance.round.big
+    radius: Appearance.round.large
 
     color: {
         if (mouseArea.containsMouse) {

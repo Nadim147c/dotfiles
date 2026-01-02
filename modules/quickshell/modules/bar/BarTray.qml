@@ -10,13 +10,13 @@ import QtQuick.Effects
 
 Rectangle {
     implicitHeight: parent.height
-    implicitWidth: row.width + (Appearance.space.medium * 2)
-    radius: Appearance.round.big
+    implicitWidth: row.width + (Appearance.space.big * 2)
+    radius: Appearance.round.large
     color: Appearance.material.mySurfaceVariant
 
     RowLayout {
         id: row
-        x: Appearance.space.medium
+        x: Appearance.space.big
         anchors.verticalCenter: parent.verticalCenter
         spacing: 8
 

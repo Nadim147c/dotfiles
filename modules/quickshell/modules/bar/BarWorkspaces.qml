@@ -66,16 +66,16 @@ RowLayout {
                 color: workspace.bg
                 radius: {
                     if (workspace.modelData.active) {
-                        return Appearance.round.big;
+                        return Appearance.round.large;
                     } else {
                         return Appearance.round.little;
                     }
                 }
-                bottomLeftRadius: workspace.index == 0 ? Appearance.round.big : radius
-                topLeftRadius: workspace.index == 0 ? Appearance.round.big : radius
+                bottomLeftRadius: workspace.index == 0 ? Appearance.round.large : radius
+                topLeftRadius: workspace.index == 0 ? Appearance.round.large : radius
 
-                bottomRightRadius: (workspace.index + 1) == Hyprland.workspaces.values.length ? Appearance.round.big : radius
-                topRightRadius: (workspace.index + 1) == Hyprland.workspaces.values.length ? Appearance.round.big : radius
+                bottomRightRadius: (workspace.index + 1) == Hyprland.workspaces.values.length ? Appearance.round.large : radius
+                topRightRadius: (workspace.index + 1) == Hyprland.workspaces.values.length ? Appearance.round.large : radius
 
                 Behavior on radius {
                     animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
