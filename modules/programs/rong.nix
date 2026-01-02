@@ -35,7 +35,7 @@ delib.module {
       material = {
         contrast = 0.0;
         platform = "phone";
-        variant = "expressive";
+        variant = "tonal_spot";
         version = "2025";
         custom = {
           blend = true;
