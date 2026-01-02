@@ -47,8 +47,8 @@ delib.module {
       };
       links =
         let
-          config = path: "${xdg.configHome}/${path}";
-          data = path: "${xdg.dataHome}/${path}";
+          config = p: "${xdg.configHome}/${p}";
+          data = p: "${xdg.dataHome}/${p}";
         in
         {
           "qtct.colors" = data "color-schemes/Rong.colors";
