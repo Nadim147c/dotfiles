@@ -21,7 +21,10 @@ delib.module {
     programs.rong.settings.themes = func.mkList {
       target = "colors.scss";
       links = "${xdg.configHome}/swaync/colors.scss";
-      cmds = /* bash */ "compile-scss ${styleFile}";
+      cmds = /* bash */ ''
+        compile-scss ${styleFile}
+        systemctl --user restart swaync.service
+      '';
     };
   };
 }
