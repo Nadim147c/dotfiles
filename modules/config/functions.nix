@@ -58,7 +58,7 @@ delib.module {
     wrapLocal =
       pkg:
       let
-        pname = getExe pkg |> builtins.baseNameOf;
+        pname = getExe pkg |> baseNameOf;
         localRun = lib.escapeShellArg /* bash */ ''
           local_override="$HOME/.local/bin/${pname}"
           if [ -x "$local_override" ]; then
