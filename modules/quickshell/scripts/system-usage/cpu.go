@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cmp"
 	"os"
 	"path/filepath"
 	"slices"
@@ -14,6 +15,15 @@ func mapSlice[T any, U any](s []T, t func(T) U) []U {
 	res := make([]U, len(s))
 	for i, v := range s {
 		res[i] = t(v)
+	}
+	return res
+}
+
+func reduceSlice[T cmp.Ordered, U cmp.Ordered](s []T, t func(a T, v T) U) U {
+	var last T
+	var res U
+	for _, v := range s {
+		res += t(last, v)
 	}
 	return res
 }
@@ -35,6 +45,11 @@ func ReadAllFiles(paths []string) []string {
 	}
 	return res
 }
+
+var (
+	cpuLastTotal int = 0
+	cpuLastIdle  int = 0
+)
 
 // GetCPUState retrieves basic CPU state, ignoring errors
 func GetCPUState() CPUState {
@@ -64,22 +79,23 @@ func GetCPUState() CPUState {
 	// 3. Get CPU utilization (approximate since boot)
 	if data, err := os.ReadFile("/proc/stat"); err == nil {
 		for line := range strings.SplitSeq(string(data), "\n") {
-			if !strings.HasPrefix(line, "cpu ") {
+			after, found := strings.CutPrefix(line, "cpu ")
+			if !found {
 				continue
 			}
-			fields := strings.Fields(line)
-			if len(fields) < 5 {
-				break
-			}
-			// user, nice, system, idle
-			user := should(strconv.Atoi(fields[1]))
-			nice := should(strconv.Atoi(fields[2]))
-			system := should(strconv.Atoi(fields[3]))
-			idle := should(strconv.Atoi(fields[4]))
-			total := user + nice + system + idle
-			if total > 0 {
-				state.Utilization = float64(user+nice+system) / float64(total) * 100
-			}
+
+			fields := strings.Fields(after)
+			ints := mapSlice(fields, func(s string) int { return should(strconv.Atoi(s)) })
+			total := reduceSlice(ints, func(a, b int) int { return a + b })
+			idle := ints[3] + ints[4]
+
+			idleDelta := float64(idle - cpuLastIdle)
+			totalDelta := float64(total - cpuLastTotal)
+
+			state.Utilization = (100 - (idleDelta/totalDelta)*100)
+
+			cpuLastIdle = idle
+			cpuLastTotal = total
 			break
 		}
 	}

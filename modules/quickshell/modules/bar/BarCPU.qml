@@ -6,12 +6,12 @@ import QtQuick.Layouts
 Rectangle {
     id: root
 
-    implicitWidth: volume.width + (Appearance.space.medium * 2)
+    implicitWidth: 90
     implicitHeight: parent.height
 
     readonly property real high: 80
-    readonly property real medium: 60
-    readonly property real low: 5
+    readonly property real medium: 50
+    readonly property real low: 2
 
     Behavior on color {
         ColorAnimation {
@@ -27,7 +27,7 @@ Rectangle {
         } else if (SystemUsage.cpuUtilization > root.medium) {
             return Appearance.material.mySurfaceContainerHighest;
         } else {
-            return "transparent";
+            return Appearance.material.mySurface;
         }
     }
     property color fg: {
@@ -35,9 +35,9 @@ Rectangle {
             return Appearance.material.myOnPrimary;
         } else if (SystemUsage.cpuUtilization > root.high) {
             return Appearance.material.myOnError;
-        } else if (SystemUsage.cpuUtilization > medium) {
-            return Appearance.material.myPrimaryContainer;
-        } else if (SystemUsage.cpuUtilization > low) {
+        } else if (SystemUsage.cpuUtilization > root.medium) {
+            return Appearance.material.myOnSurface;
+        } else if (SystemUsage.cpuUtilization > root.low) {
             return Appearance.material.myPrimary;
         } else {
             return Appearance.material.myOutline;
@@ -50,6 +50,7 @@ Rectangle {
         id: volume
         y: (parent.height - volume.implicitHeight) / 2
         x: Appearance.space.medium
+        width: parent.width
 
         spacing: Appearance.space.tiny
         Text {
