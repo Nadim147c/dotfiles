@@ -26,7 +26,6 @@ delib.module {
         zen = "zen-beta.desktop";
         tor = "torbrowser.desktop";
       };
-      desktop = (toList desktops.${cfg.default}) ++ builtins.attrValues desktops |> unique;
 
       packages = {
         inherit (pkgs) brave;
@@ -40,7 +39,7 @@ delib.module {
         "$browser" = func.wrapUWSM pkg;
       };
 
-      xdg.mimeApps = func.genMimes desktop [
+      xdg.mimeApps = func.genMimes desktops.${cfg.default} [
         "application/pdf"
         "text/html"
         "x-scheme-handler/about"
