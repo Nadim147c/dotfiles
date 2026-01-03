@@ -3,8 +3,10 @@
   pkgs,
   ...
 }:
-let
-  helper = pkgs.writeShellApplication {
+delib.script {
+  name = "ssh-key-manager";
+  partof = "programs.ssh";
+  package = pkgs.writeShellApplication {
     name = "ssh-key-manager";
     runtimeInputs = with pkgs; [
       coreutils
@@ -272,12 +274,4 @@ let
       esac
     '';
   };
-in
-delib.module {
-  name = "programs.ssh";
-  options = delib.singleEnableOption true;
-  home.ifEnabled.home.packages = [
-    helper
-    pkgs.openssh
-  ];
 }

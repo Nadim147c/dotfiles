@@ -30,6 +30,10 @@
       url = "github:Nadim147c/rong";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     yankd = {
       url = "github:Nadim147c/yankd";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,8 +48,16 @@
   };
 
   outputs =
-    { denix, ... }@inputs:
+    { denix, nixpkgs, ... }@inputs:
     let
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+      perSystem = f: nixpkgs.lib.genAttrs systems (system: f (import nixpkgs { inherit system; }));
+
       mkConfigurations =
         moduleSystem:
         denix.lib.configurations {
@@ -92,5 +104,12 @@
     {
       nixosConfigurations = mkConfigurations "nixos";
       homeConfigurations = mkConfigurations "home";
+
+      devShells = perSystem (pkgs: {
+        default = pkgs.mkShell {
+          name = "dotfiles";
+          buildInputs = with pkgs; [ just ];
+        };
+      });
     };
 }
