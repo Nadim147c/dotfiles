@@ -108,7 +108,11 @@
       devShells = perSystem (pkgs: {
         default = pkgs.mkShell {
           name = "dotfiles";
-          buildInputs = with pkgs; [ just ];
+          buildInputs = with pkgs; [
+            just
+            treefmt
+            nixfmt-rfc-style
+          ];
         };
       });
     };
