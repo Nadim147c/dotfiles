@@ -17,11 +17,13 @@ delib.module {
             "launcher"
             "rofi"
             "wofi"
+            "quickshell:bar"
           ];
           ignorezero = [
             "launcher"
             "gtk-layer-shell"
             "wofi"
+            "quickshell:bar"
           ];
           noanim = [
             "selection"

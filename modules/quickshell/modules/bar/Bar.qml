@@ -1,9 +1,11 @@
 import qs.modules.common
+import qs.modules.end4.functions
 
 import QtQuick
 import QtQuick.Shapes
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Wayland
 
 PanelWindow {
     id: root
@@ -12,59 +14,29 @@ PanelWindow {
         top: true
         right: true
     }
+    margins {
+        left: 5
+        top: 5
+        right: 5
+    }
     aboveWindows: false
 
     color: "transparent"
-    property color bg: Appearance.material.myBackground
+    property color bg: ColorUtils.transparentize(Appearance.material.myBackground, 0.15)
 
-    property real barSize: body.height
+    WlrLayershell.namespace: "quickshell:bar"
+
     property real borderRadius: Appearance.space.large
-    implicitHeight: barSize + borderRadius
-    exclusiveZone: barSize
 
-    Shape {
-        anchors.fill: parent
-        preferredRendererType: Shape.CurveRenderer
-
-        ShapePath {
-            strokeWidth: 0
-            fillColor: root.bg
-            startX: 0
-            startY: root.barSize
-            PathLine {
-                x: 0
-                y: root.height
-            }
-            PathArc {
-                x: root.borderRadius
-                y: root.barSize
-                radiusX: root.borderRadius
-                radiusY: root.borderRadius
-                direction: PathArc.Clockwise
-            }
-            PathLine {
-                x: root.width - root.borderRadius
-                y: root.barSize
-            }
-            PathArc {
-                x: root.width
-                y: root.height
-                radiusX: root.borderRadius
-                radiusY: root.borderRadius
-                direction: PathArc.Clockwise
-            }
-            PathLine {
-                x: root.width
-                y: root.barSize
-            }
-        }
-    }
+    implicitHeight: 32
+    exclusiveZone: implicitHeight
 
     Rectangle {
         id: body
         implicitHeight: 32
         implicitWidth: parent.width
         color: root.bg
+        radius: Appearance.space.large
 
         RowLayout {
             id: rootRow

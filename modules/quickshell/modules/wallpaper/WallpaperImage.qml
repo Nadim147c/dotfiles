@@ -42,7 +42,7 @@ Loader {
             width: parent.width - (root.padding * 2)
             x: root.padding
             height: parent.height
-            radius: Appearance.round.larger
+            radius: Appearance.round.big
 
             // Wheel interaction only if not fake item
             MouseArea {
