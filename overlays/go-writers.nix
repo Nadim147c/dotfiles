@@ -11,6 +11,7 @@ delib.overlayModule {
           ldflags ? [ ],
           strip ? true,
           trimpath ? true,
+          cgo ? false,
         }:
         let
           inherit (prev.lib)
@@ -31,12 +32,13 @@ delib.overlayModule {
           ldflagsString = optionalString (hasElem finalLdflags) "-ldflags=${escapeShellArgs finalLdflags}";
 
           finalArgs = goArgs ++ optional trimpath [ "-trimpath" ];
+          finalShellArgs = unique finalArgs |> escapeShellArgs;
         in
         prev.writers.makeBinWriter {
           compileScript = /* bash */ ''
             cp "$contentPath" tmp.go
             export HOME=$NIX_BUILD_TOP/.home
-            ${go}/bin/go build ${unique finalArgs |> escapeShellArgs} ${ldflagsString} -o "$out" tmp.go
+            CGO_ENABLED=${if cgo then "1" else "0"} ${go}/bin/go build ${finalShellArgs} ${ldflagsString} -o "$out" tmp.go
           '';
         } name;
 

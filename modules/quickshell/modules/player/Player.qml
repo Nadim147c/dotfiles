@@ -11,11 +11,11 @@ import Quickshell.Wayland
 
 PanelWindow {
     id: player
+
     anchors {
         left: true
         top: true
     }
-
     margins {
         left: 50
         top: 10
@@ -46,14 +46,14 @@ PanelWindow {
         implicitHeight: content.height + (Appearance.space.large * 2)
 
         radius: Appearance.round.larger
-        color: Appearance.player.myBackground
+        color: ColorUtils.transparentize(Appearance.player.myBackground, 0.15)
 
         ColumnLayout {
             id: content
             width: parent.width - (Appearance.space.large * 2)
             x: Appearance.space.large
             y: Appearance.space.large
-            spacing: Appearance.space.small
+            spacing: 0
 
             RowLayout {
                 ClippingRectangle {
@@ -148,9 +148,14 @@ PanelWindow {
             Revealer {
                 reveal: WaybarLyric.lines.length !== 0
                 vertical: true
-                PlayerLyrics {
-                    id: lyrics
+                Item {
+                    implicitHeight: lyrics.height + Appearance.space.big
                     implicitWidth: content.width
+                    PlayerLyrics {
+                        id: lyrics
+                        y: Appearance.space.big
+                        implicitWidth: content.width
+                    }
                 }
             }
         }

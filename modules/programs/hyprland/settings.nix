@@ -1,12 +1,24 @@
-{ delib, ... }:
+{ delib, lib, ... }:
+let
+  createEnv = a: lib.mapAttrsToList (k: v: "${k}=${v}") a;
+in
 delib.module {
   name = "programs.hyprland";
 
   home.ifEnabled.wayland.windowManager.hyprland.settings = {
     "$mainMod" = "SUPER";
 
+    env = createEnv {
+      SDL_VIDEODRIVER = "wayland";
+      CLUTTER_BACKEND = "wayland";
+      XDG_MENU_PREFIX = "arch-";
+    };
+
     master.new_status = "master";
-    ecosystem.no_update_news = true;
+    ecosystem = {
+      no_update_news = true;
+      no_donation_nag = true;
+    };
 
     input = {
       kb_layout = "us,bd";
@@ -30,9 +42,10 @@ delib.module {
 
     misc = {
       disable_autoreload = true;
-      force_default_wallpaper = 0;
       disable_hyprland_logo = true;
+      disable_watchdog_warning = true;
       font_family = "JetBrainsMono Nerd font";
+      force_default_wallpaper = false;
     };
   };
 }

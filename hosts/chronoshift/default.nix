@@ -21,6 +21,7 @@ delib.host {
     "eDP-1".enable = false;
     "DP-1" = {
       enable = true;
+      primary = true;
       refreshRate = 59.79;
       width = 1366;
       height = 768;

@@ -109,6 +109,7 @@
         default = pkgs.mkShell {
           name = "dotfiles";
           buildInputs = with pkgs; [
+            nh
             just
             treefmt
             nixfmt-rfc-style
