@@ -20,9 +20,14 @@ delib.module {
       set fish_pager_color_completion blue --bold
       set fish_pager_color_description white --bold
 
+    '';
+
+    generateCompletions = false;
+
+    functions.fish_user_key_bindings.body = /* fish */ ''
       fish_vi_key_bindings --no-erase
     '';
-    generateCompletions = false;
+
     functions.fish_command_not_found.body = /* fish */ ''
       nix run nixpkgs#$argv[1] -- $argv[2..]
     '';
