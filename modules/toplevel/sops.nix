@@ -28,6 +28,7 @@ delib.module {
       sops
     ];
 
+    fileSystems."/home".neededForBoot = true;
     sops = {
       defaultSopsFile = ../../secrets/secrets.yaml;
       defaultSopsFormat = "yaml";
