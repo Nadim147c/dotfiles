@@ -13,7 +13,7 @@ delib.module {
     enable = true;
     dictionaries = [ pkgs.hunspellDictsChromium.en_US ];
     commandLineArgs = [
-      "--password-store=gnome"
+      "--password-store=basic"
       "--ozone-platform=wayland"
       "--ozone-platform-hint=wayland"
       "--enable-features=TouchpadOverscrollHistoryNavigation"
