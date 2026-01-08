@@ -19,6 +19,7 @@ delib.module {
       "--enable-features=TouchpadOverscrollHistoryNavigation"
     ];
     extensions = [
+      "kekjfbackdeiabghhcdklcdoekaanoel" # Mal-Sync
       "bkijmpolkanhdehnlnabfooghjdokakc" # Double-click Image Downloader
       "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
       "hkgfoiooedgoejojocmhlaklaeopbecg" # Picture-in-Picture
