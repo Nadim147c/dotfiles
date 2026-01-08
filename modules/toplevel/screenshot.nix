@@ -3,60 +3,60 @@
   host,
   lib,
   pkgs,
-  xdg,
   ...
 }:
-delib.module {
+let
+  inherit (lib) getExe;
+in
+delib.module rec {
   name = "screenshot";
 
   options = delib.singleEnableOption host.isDesktop;
 
   home.ifEnabled =
     let
-      screenshot-bin = pkgs.writeShellScriptBin "screenshot" ''
-        MODE="''${1:-region}"
-        TEMP_FILE="/tmp/screenshot_$(date +'%Y-%m-%d_%H-%M-%S').png"
-        FINAL_PATH="${xdg.userDirs.pictures}/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png"
+      screenshot-bin = pkgs.writeShellApplication {
+        inherit name;
+        runtimeInputs = with pkgs; [
+          grim
+          libnotify
+          satty
+          slurp
+          systemd
+        ];
+        text = ''
+          NAME=$(date +'%Y-%m-%d_%H-%M-%S')
+          TEMP_FILE="/tmp/screenshot_$NAME.png"
+          FINAL_PATH="$(systemd-path user-pictures)/screenshot/$NAME.png"
 
-        case "$MODE" in
-            active-window)
-                HYPRSHOT_MODES="-m active -m window"
-                ;;
-            active-output)
-                HYPRSHOT_MODES="-m active -m output"
-                ;;
-            *)
-                HYPRSHOT_MODES="-m $MODE"
-                ;;
-        esac
+          COLORS="''${XDG_STATE_HOME:-$HOME/.local/state}/rong/colors.bash"
+          # shellcheck disable=SC1090
+          [[ -f "$COLORS" ]] && source "$COLORS"
 
-        pkill slurp || true
+          REGION=$(slurp -d -b "''${BACKGROUND:-#222222}88" -c "''${OUTLINE:-#111111}")
 
-        ${pkgs.hyprshot}/bin/hyprshot -z ''${HYPRSHOT_MODES} --silent --raw > "$TEMP_FILE"
+          trap 'rm -f "$TEMP_FILE"' EXIT
 
-        ${pkgs.wl-clipboard}/bin/wl-copy < "$TEMP_FILE"
+          grim -g "$REGION" "$TEMP_FILE"
 
-        ACTION=$(${pkgs.libnotify}/bin/notify-send "Screenshot Captured" "Saved to clipboard" \
+          wl-copy <"$TEMP_FILE"
+
+          ACTION=$(notify-send "Screenshot Captured" "Saved to clipboard" \
             --expire-time="5000" \
+            --icon="$TEMP_FILE" \
             --action="annotate=Annotate")
 
-        if [ "$ACTION" = "annotate" ]; then
-            ${pkgs.satty}/bin/satty --filename "$TEMP_FILE" \
-                --output-filename "$FINAL_PATH" \
-                --early-exit \
-                --copy-command "${pkgs.wl-clipboard}/bin/wl-copy"
-        else
-            cp "$TEMP_FILE" "$FINAL_PATH"
-        fi
-      '';
-
-      screenshot = "${screenshot-bin}/bin/screenshot";
-
-      desc = ''
-        Left Click: Capture a region
-        Middle Click: Capture a window
-        Right Click: Capture the screen
-      '';
+          if [ "$ACTION" = "annotate" ]; then
+            satty --filename "$TEMP_FILE" \
+              --output-filename "$FINAL_PATH" \
+              --early-exit \
+              --copy-command wl-copy
+          else
+            mkdir -p "$(dirname "$FINAL_PATH")"
+            cp -p "$TEMP_FILE" "$FINAL_PATH"
+          fi
+        '';
+      };
     in
     {
       home.packages = with pkgs; [
@@ -66,18 +66,6 @@ delib.module {
         slurp
       ];
 
-      wayland.windowManager.hyprland.settings.bind = [
-        ",         PRINT, exec, ${screenshot} region"
-        "$mainMod, PRINT, exec, ${screenshot} window"
-        "SHIFT,    PRINT, exec, ${screenshot} region"
-      ];
-
-      programs.waybar.settings.main."custom/screenshot" = {
-        format = "󰹑";
-        tooltip-format = lib.strings.removeSuffix "\n" desc;
-        on-click = "${screenshot} region";
-        on-click-middle = "${screenshot} window";
-        on-click-right = "${screenshot} output";
-      };
+      wayland.windowManager.hyprland.settings.bind = [ ", PRINT, exec, ${getExe screenshot-bin}" ];
     };
 }
