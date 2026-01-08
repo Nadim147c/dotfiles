@@ -29,7 +29,7 @@ delib.module {
       dark = true;
       preview-format = "jpg";
       base16 = {
-        blend = 0.5;
+        blend = 0.25;
         method = "static";
       };
       material = {
@@ -38,7 +38,7 @@ delib.module {
         variant = "tonal_spot";
         version = "2025";
         custom = {
-          blend = true;
+          blend = 0.35;
           colors = {
             purple = "#800080";
             orange = "#FFA500";
