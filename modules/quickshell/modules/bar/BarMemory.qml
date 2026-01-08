@@ -10,7 +10,11 @@ Rectangle {
     implicitWidth: progress.width + (Appearance.space.small * 2)
     implicitHeight: progress.height
 
-    readonly property real high: 70
+    readonly property real high: 0.7
+    function clamp(n) {
+        return Math.min(Math.max(n, 0), 1);
+    }
+    property real usages: clamp(1 - (SystemUsage.memAvailable / SystemUsage.memTotal)) || 0
 
     Behavior on color {
         ColorAnimation {
@@ -21,7 +25,7 @@ Rectangle {
     color: "transparent"
 
     property color fg: {
-        if (SystemUsage.cpuUtilization > root.high) {
+        if (root.usages > root.high) {
             return Appearance.material.myError;
         } else {
             return Appearance.material.myPrimary;
@@ -36,7 +40,7 @@ Rectangle {
         gapAngle: 10
         colPrimary: root.fg
         colSecondary: Appearance.material.mySurfaceVariant
-        value: SystemUsage.cpuUtilization / 100
+        value: root.usages
         wavy: true
         waveHeight: 1.2
         waveFrequency: 10
@@ -50,14 +54,14 @@ Rectangle {
     }
 
     MaterialSymbol {
-        text: "memory"
+        text: "memory_alt"
         anchors.centerIn: parent
         color: root.fg
         iconSize: 12
     }
 
     StyledToolTip {
-        text: `${SystemUsage.cpuUtilization.toFixed(2).replace(/\.?0+/, "")} % CPU Usages`
+        text: `${SystemUsage.memAvailableString} is available from ${SystemUsage.memTotalString}`
         extraVisibleCondition: mouseArea.containsMouse
     }
 }

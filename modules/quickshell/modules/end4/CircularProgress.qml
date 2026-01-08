@@ -25,6 +25,7 @@ Item {
     property bool animateWave: true
     property real waveFrequency: 13
     property real waveHeight: lineWidth
+    property bool waveAnimation: true
 
     implicitWidth: implicitSize
     implicitHeight: implicitSize
@@ -84,12 +85,12 @@ Item {
             visible: root.wavy
             anchors.fill: parent
             waveHeight: root.waveHeight
+            animate: root.waveAnimation
             lineWidth: root.lineWidth
             frequency: root.waveFrequency
             degree: root.degree
             startDegree: root.startAngle
-            color: Appearance.material.myPrimary
-
+            color: root.colPrimary
             Connections {
                 target: root
                 function onValueChanged() {

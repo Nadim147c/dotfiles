@@ -6,7 +6,7 @@ import QtQuick.Layouts
 Rectangle {
     id: root
 
-    implicitWidth: 120
+    implicitWidth: volume.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
 
     readonly property real high: 1024 * 1024 * 10
@@ -50,7 +50,6 @@ Rectangle {
         id: volume
         y: (parent.height - volume.implicitHeight) / 2
         x: Appearance.space.medium
-        width: parent.width
 
         spacing: Appearance.space.tiny
         Text {
@@ -67,7 +66,7 @@ Rectangle {
             }
         }
         Text {
-            text: SystemUsage.netTotalString
+            text: SystemUsage.netTotalString + " "
             color: root.fg
             font {
                 family: Appearance.font.family.main

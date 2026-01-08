@@ -11,6 +11,7 @@ Canvas {
     property real frequency: 25
     property real startDegree: 0
     property real degree: 360
+    property bool animate: true
     property color color: Appearance.material.myPrimary
 
     // ensure pixel density
@@ -18,6 +19,9 @@ Canvas {
     antialiasing: true
 
     onPaint: {
+        if (!degree) {
+            return;
+        }
         let ctx = getContext("2d");
         ctx.reset();
         ctx.clearRect(0, 0, width, height);
@@ -28,7 +32,7 @@ Canvas {
 
         const radius = size / 2 - root.waveHeight * 1.5;
 
-        const phase = Date.now() / 400;
+        const phase = animate ? Date.now() / 400 : 0;
 
         ctx.strokeStyle = root.color;
         ctx.lineWidth = root.lineWidth;

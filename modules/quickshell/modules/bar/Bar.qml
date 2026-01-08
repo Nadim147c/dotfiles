@@ -14,12 +14,14 @@ PanelWindow {
         top: true
         right: true
     }
-    margins {
-        left: 5
-        top: 5
-        right: 5
-    }
+    // margins {
+    //     left: 5
+    //     top: 5
+    //     right: 5
+    // }
     aboveWindows: false
+
+    property real margin: 5
 
     color: "transparent"
     property color bg: ColorUtils.transparentize(Appearance.material.myBackground, 0.15)
@@ -28,15 +30,40 @@ PanelWindow {
 
     property real borderRadius: Appearance.space.large
 
-    implicitHeight: 32
+    implicitHeight: 32 + root.margin
     exclusiveZone: implicitHeight
 
     Rectangle {
         id: body
         implicitHeight: 32
-        implicitWidth: parent.width
+        implicitWidth: parent.width - (root.margin * 2)
+        y: root.margin
+        x: root.margin
         color: root.bg
-        radius: Appearance.space.large
+        radius: Appearance.round.large
+        property real roundness: radius
+        topLeftRadius: roundness
+        bottomLeftRadius: roundness
+
+        SequentialAnimation {
+            id: radiusAnim
+            running: false
+            NumberAnimation {
+                target: body
+                property: "roundness"
+                to: 5
+                duration: 150
+                easing.type: Easing.InQuad
+            }
+
+            NumberAnimation {
+                target: body
+                property: "roundness"
+                to: Appearance.round.large
+                duration: 200
+                easing.type: Easing.OutQuad
+            }
+        }
 
         RowLayout {
             id: rootRow
@@ -53,7 +80,13 @@ PanelWindow {
                     id: leftModule
                     anchors.fill: parent
                     spacing: Appearance.space.tiny
-                    BarWorkspaces {}
+                    BarWorkspaces {
+                        onFirstActive: active => {
+                            if (active) {
+                                radiusAnim.restart();
+                            }
+                        }
+                    }
                     BarLyrics {}
                 }
             }
@@ -71,8 +104,9 @@ PanelWindow {
                     id: rightModule
                     spacing: Appearance.space.tiny
                     anchors.fill: parent
-                    BarCPU {}
                     BarNetwork {}
+                    BarMemory {}
+                    BarCPU {}
                     BarVolume {}
                     BarClock {}
                     BarTray {}

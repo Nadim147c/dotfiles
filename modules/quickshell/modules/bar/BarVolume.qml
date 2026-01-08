@@ -13,7 +13,7 @@ Rectangle {
         if (mouseArea.containsMouse) {
             return Appearance.material.myPrimary;
         } else {
-            return "transparent";
+            return Appearance.material.mySurface;
         }
     }
     property color fg: {
@@ -60,7 +60,7 @@ Rectangle {
             }
         }
         Text {
-            text: Math.round((Pipewire.defaultAudioSink?.audio.volume ?? 0) * 100).toString() + "%"
+            text: Math.round((Pipewire.defaultAudioSink?.audio.volume ?? 0) * 100).toString() + "% " // extra space is intention
             color: root.fg
             font {
                 family: Appearance.font.family.main

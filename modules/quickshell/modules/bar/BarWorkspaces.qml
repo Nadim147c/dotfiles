@@ -10,6 +10,8 @@ RowLayout {
     spacing: 2
     height: parent.height
 
+    signal firstActive(bool b)
+
     Repeater {
         model: Hyprland.workspaces
 
@@ -62,23 +64,47 @@ RowLayout {
                 }
             }
             Rectangle {
+                id: rect
                 anchors.fill: parent
                 color: workspace.bg
-                radius: {
-                    if (workspace.modelData.active) {
-                        return Appearance.round.large;
-                    } else {
-                        return Appearance.round.little;
+
+                property bool active: workspace.modelData.active
+                property real roundness: Appearance.round.little
+                property real targetRadius: workspace.modelData.active ? Appearance.round.large : Appearance.round.little
+                onActiveChanged: {
+                    radiusAnim.restart();
+                    if (workspace.index == 0) {
+                        root.firstActive(active);
                     }
                 }
-                bottomLeftRadius: workspace.index == 0 ? Appearance.round.large : radius
-                topLeftRadius: workspace.index == 0 ? Appearance.round.large : radius
 
-                bottomRightRadius: (workspace.index + 1) == Hyprland.workspaces.values.length ? Appearance.round.large : radius
-                topRightRadius: (workspace.index + 1) == Hyprland.workspaces.values.length ? Appearance.round.large : radius
+                property bool first: workspace.index == 0 && !active
+                property bool last: (workspace.index + 1) == Hyprland.workspaces.values.length && !active
 
-                Behavior on radius {
-                    animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
+                bottomLeftRadius: first ? Appearance.round.large : roundness
+                topLeftRadius: first ? Appearance.round.large : roundness
+                bottomRightRadius: last ? Appearance.round.large : roundness
+                topRightRadius: last ? Appearance.round.large : roundness
+
+                SequentialAnimation {
+                    id: radiusAnim
+                    running: false
+
+                    NumberAnimation {
+                        target: rect
+                        property: "roundness"
+                        to: 2
+                        duration: 150
+                        easing.type: Easing.InQuad
+                    }
+
+                    NumberAnimation {
+                        target: rect
+                        property: "roundness"
+                        to: rect.targetRadius
+                        duration: 200
+                        easing.type: Easing.OutQuad
+                    }
                 }
             }
 
