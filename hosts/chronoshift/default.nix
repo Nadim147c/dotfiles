@@ -34,10 +34,12 @@ delib.host {
     dev.cpp.enable = false;
   };
 
+  homeManagerSystem = "x86_64-linux";
   home.home.stateVersion = "26.05";
   nixos.system.stateVersion = "26.05";
 
   nixos = {
+    nixpkgs.hostPlatform = "x86_64-linux";
     networking.hostName = "chronoshift";
     boot = {
       loader.systemd-boot = {
