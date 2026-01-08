@@ -14,6 +14,5 @@ delib.module {
   home.ifEnabled.services.yankd = {
     enable = true;
     package = func.flakePackage inputs.yankd |> func.wrapLocal;
-    systemdTargets = [ "wayland-session@Hyprland.target" ];
   };
 }

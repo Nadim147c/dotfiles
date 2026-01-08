@@ -71,6 +71,8 @@ delib.module {
           "match:class org.gnome.Loupe"
           "match:class org.kde.kdeconnect.app"
           "match:class org.pulseaudio.pavucontrol"
+          "match:class qt5ct"
+          "match:class qt6ct"
           "match:class tvp-git-helper"
           "match:class vlc"
           "match:class xdg-desktop-portal-gtk"

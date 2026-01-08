@@ -30,7 +30,6 @@ delib.module {
         enable = true;
         systemd.enable = false;
         settings = {
-
           exec-once = [ "sleep 60 && hyprevent urgent ${urgentHandler}" ];
           monitor =
             let

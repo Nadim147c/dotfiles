@@ -1,6 +1,7 @@
 { delib, lib, ... }:
+
 let
-  createEnv = a: lib.mapAttrsToList (k: v: "${k}=${v}") a;
+  createEnv = a: lib.mapAttrsToList (k: v: "${k},${v}") a;
 in
 delib.module {
   name = "programs.hyprland";
@@ -11,7 +12,9 @@ delib.module {
     env = createEnv {
       SDL_VIDEODRIVER = "wayland";
       CLUTTER_BACKEND = "wayland";
-      XDG_MENU_PREFIX = "arch-";
+      XDG_CURRENT_DESKTOP = "Hyprland";
+      XDG_SESSION_TYPE = "wayland";
+      XDG_SESSION_DESKTOP = "Hyprland";
     };
 
     master.new_status = "master";

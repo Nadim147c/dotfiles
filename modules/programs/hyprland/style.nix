@@ -33,7 +33,8 @@ delib.module {
       };
 
       shadow = {
-        enabled = false;
+        enabled = true;
+        color = "$shadow";
       };
     };
   };

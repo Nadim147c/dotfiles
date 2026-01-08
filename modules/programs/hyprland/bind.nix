@@ -17,15 +17,17 @@ delib.module {
           "SHIFT, F${x}, sendshortcut, ,F${x}"
         ];
 
-        indexed =
-          builtins.genList (x: builtins.toString (x + 1)) 8
-          |> builtins.map mkShortcut
-          |> builtins.concatLists;
+        indexed = builtins.genList (x: toString (x + 1)) 8 |> map mkShortcut |> builtins.concatLists;
 
+        save-clients-status = pkgs.writeShellScript "hyprland-save-clients" ''
+          hyprctl clients -j > /tmp/hyprland-clients.json
+          hyprctl layers -j > /tmp/hyprland-layers.json
+        '';
       in
       indexed
       ++ [
         ", F12, exec, hyprctl switchxkblayout all next"
+        "$mainMod, P, exec, ${save-clients-status}"
 
         "$mainMod, X, killactive"
         "$mainMod+SHIFT, X, forcekillactive"
