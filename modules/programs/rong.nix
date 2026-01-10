@@ -3,24 +3,15 @@
   func,
   host,
   inputs,
-  lib,
   xdg,
   ...
 }:
-let
-  inherit (lib) mkForce;
-in
 delib.module {
   name = "programs.rong";
 
   options = delib.singleEnableOption host.isDesktop;
 
   home.always.imports = [ inputs.rong.homeModules.default ];
-
-  # Redirect
-  home.ifEnabled.xdg.configFile = {
-    "gtk-4.0/gtk.css".enable = mkForce false;
-  };
 
   home.ifEnabled.programs.rong = {
     enable = true;
@@ -29,7 +20,7 @@ delib.module {
       dark = true;
       preview-format = "jpg";
       base16 = {
-        blend = 0.25;
+        blend = 0.5;
         method = "static";
       };
       material = {
@@ -38,7 +29,7 @@ delib.module {
         variant = "tonal_spot";
         version = "2025";
         custom = {
-          blend = 0.35;
+          blend = 0.5;
           colors = {
             purple = "#800080";
             orange = "#FFA500";

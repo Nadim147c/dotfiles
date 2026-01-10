@@ -5,6 +5,9 @@
   host,
   ...
 }:
+let
+  inherit (lib) mkForce mkIf;
+in
 delib.module {
   name = "gtk";
 
@@ -18,6 +21,7 @@ delib.module {
   home.ifEnabled =
     { myconfig, ... }:
     {
+      xdg.configFile."gtk-4.0/gtk.css".enable = mkForce false;
       home.packages = with pkgs; [
         gtk3
         gtk4
@@ -37,7 +41,7 @@ delib.module {
           package = pkgs.adw-gtk3;
         };
 
-        font = lib.mkIf myconfig.font.enable {
+        font = mkIf myconfig.font.enable {
           name = myconfig.font.sans;
           size = myconfig.font.size;
         };
@@ -53,8 +57,8 @@ delib.module {
 
       dconf.settings."org/gnome/desktop/interface" =
         let
-          sizeStr = builtins.toString myconfig.font.size;
-          fonts = lib.mkIf myconfig.font.enable {
+          sizeStr = toString myconfig.font.size;
+          fonts = mkIf myconfig.font.enable {
             font-name = "${myconfig.font.sans} ${sizeStr}";
             document-font-name = "${myconfig.font.sans} ${sizeStr}";
             monospace-font-name = "${myconfig.font.mono} ${sizeStr}";
