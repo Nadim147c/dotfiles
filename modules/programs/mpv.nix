@@ -3,6 +3,7 @@
   func,
   host,
   pkgs,
+  xdg,
   ...
 }:
 delib.module {
@@ -12,13 +13,18 @@ delib.module {
   home.ifEnabled = {
     programs.mpv = {
       enable = true;
-      scripts = with pkgs; [
-        mpvScripts.modernx
-        mpvScripts.mpris
-        mpvScripts.quality-menu
-        mpvScripts.sponsorblock
-        mpvScripts.thumbfast
+      scripts = with pkgs.mpvScripts; [
+        modernx
+        mpris
+        quality-menu
+        sponsorblock
+        thumbfast
+        videoclip
       ];
+      scriptOpts.videoclip = {
+        video_folder_path = xdg.userDirs.videos;
+        audio_folder_path = xdg.userDirs.music;
+      };
       config = {
         osc = false;
         save-position-on-quit = true;
