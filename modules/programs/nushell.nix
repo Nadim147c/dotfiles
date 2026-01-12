@@ -1,6 +1,7 @@
 {
   delib,
   host,
+  pkgs,
   ...
 }:
 delib.module {
@@ -12,6 +13,10 @@ delib.module {
   myconfig.ifEnabled.programs.carapace.enable = true;
   home.ifEnabled.programs.nushell = {
     enable = true;
+    plugins = with pkgs.nushellPlugins; [
+      formats
+      query
+    ];
     settings = {
       show_banner = false;
       edit_mode = "vi";
