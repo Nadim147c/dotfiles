@@ -15,7 +15,7 @@ PanelWindow {
     }
 
     margins {
-        right: 180
+        right: 260
         top: 10
     }
 
