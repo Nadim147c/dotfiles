@@ -5,7 +5,7 @@
 }:
 let
   inherit (delib) extension singleEnableOption;
-  inherit (lib) elem mkIf;
+  inherit (lib) mkIf;
 in
 extension {
   name = "script";
@@ -17,6 +17,7 @@ extension {
         name,
         partof ? "",
         targets ? [ "home" ],
+        completion ? null,
         enable ? true,
         package ? null,
       }:
@@ -34,7 +35,7 @@ extension {
           let
             enabled = if partof != "" then cfg.scripts.${name} else cfg.enable;
           in
-          mkIf (enabled && elem "nixos" targets) {
+          mkIf (enabled && lib.elem "nixos" targets) {
             environment.systemPackages = [ package ];
           };
 
@@ -43,9 +44,13 @@ extension {
           let
             enabled = if partof != "" then cfg.scripts.${name} else cfg.enable;
           in
-          mkIf (enabled && elem "home" targets) {
+          mkIf (enabled && lib.elem "home" targets) {
             home.packages = [ package ];
           };
+
+        myconfig.ifEnabled = mkIf (completion != null && completion != { }) {
+          programs.carapace.custom."${name}" = completion;
+        };
       };
   };
 }
