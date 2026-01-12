@@ -1,17 +1,19 @@
 {
   inputs,
   delib,
+  lib,
   host,
   pkgs,
   ...
 }:
 let
   addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  inherit (lib) attrsToList toList;
 in
 delib.module {
   name = "programs.browsers";
 
-  options.programs.browsers.zen = delib.boolOption host.guiFeature;
+  options.programs.browsers.zen = delib.boolOption host.guiFeatured;
 
   home.always.imports = [ inputs.zen-browser.homeModules.beta ];
 
@@ -24,162 +26,72 @@ delib.module {
         ublock-origin
         sponsorblock
         videospeed
+        mal-sync
       ];
 
       search = {
         force = true;
         default = "brave";
-
-        engines = {
-          brave = {
-            name = "Brave";
-            urls = [
-              {
-                template = "https://search.brave.com/search";
-                params = [
-                  {
-                    name = "q";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            definedAliases = [ "@brave" ];
+        engines =
+          let
+            createEngine = name: alias: url: params: {
+              inherit name;
+              definedAliases = [ alias ];
+              urls = toList {
+                template = url;
+                params = attrsToList params;
+              };
+            };
+          in
+          {
+            anime = createEngine "Anilist Anime" "@anime" "https://anilist.co/search/anime" {
+              search = "{searchTerms}";
+            };
+            manga = createEngine "Anilist Manga" "@manga" "https://anilist.co/search/manga" {
+              search = "{searchTerms}";
+            };
+            archwiki = createEngine "Arch Wiki" "@archwiki" "https://wiki.archlinux.org/index.php" {
+              search = "{searchTerms}";
+            };
+            brave = createEngine "Brave" "@brave" "https://search.brave.com/search" { q = "{searchTerms}"; };
+            flathub = createEngine "Flathub" "@flathub" "https://flathub.org/en/apps/search" {
+              q = "{searchTerms}";
+            };
+            github = createEngine "GitHub" "@gh" "https://github.com/search" {
+              type = "repositories";
+              q = "{searchTerms}";
+            };
+            home = createEngine "Home Manager Options" "@home" "https://home-manager-options.extranix.com/" {
+              query = "{searchTerms}";
+              release = "master";
+            };
+            nix = createEngine "MyNixOS" "@nix" "https://mynixos.com/search" { q = "{searchTerms}"; };
+            nixos = createEngine "NixOS Options" "@nixos" "https://search.nixos.org/packages" {
+              channel = "unstable";
+              query = "{searchTerms}";
+              sort = "relevance";
+              type = "optiosn";
+            };
+            nixpkgs = createEngine "Nix Packages" "@nixpkgs" "https://search.nixos.org/packages" {
+              channel = "unstable";
+              query = "{searchTerms}";
+              sort = "relevance";
+              type = "packages";
+            };
+            wiki = createEngine "Wikipedia" "@wiki" "https://en.wikipedia.org/w/index.php" {
+              search = "{searchTerms}";
+              title = "Special:Search";
+              profile = "advanced";
+              fulltext = "1";
+            };
+            youtube = createEngine "YouTube" "@yt" "https://youtube.com/results" {
+              search_query = "{searchTerms}";
+            };
           };
-
-          youtube = {
-            name = "YouTube";
-            urls = [
-              {
-                template = "https://youtube.com/results";
-                params = [
-                  {
-                    name = "search_query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            definedAliases = [ "@yt" ];
-          };
-
-          github = {
-            name = "GitHub";
-            urls = [
-              {
-                template = "https://github.com/search";
-                params = [
-                  {
-                    name = "type";
-                    value = "repositories";
-                  }
-                  {
-                    name = "q";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            definedAliases = [ "@gh" ];
-          };
-
-          seachix = {
-            name = "Seachix";
-            urls = [
-              {
-                template = "https://searchix.ovh/";
-                params = [
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            definedAliases = [ "@sx" ];
-          };
-
-          nixpkgs = {
-            name = "NixOS Packages";
-            urls = [
-              {
-                template = "https://search.nixos.org/packages";
-                params = [
-                  {
-                    name = "channel";
-                    value = "unstable";
-                  }
-                  {
-                    name = "sort";
-                    value = "relevance";
-                  }
-                  {
-                    name = "type";
-                    value = "packages";
-                  }
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            definedAliases = [ "@nixpkgs" ];
-          };
-
-          nixos = {
-            name = "NixOS Options";
-            urls = [
-              {
-                template = "https://search.nixos.org/options";
-                params = [
-                  {
-                    name = "channel";
-                    value = "unstable";
-                  }
-                  {
-                    name = "sort";
-                    value = "relevance";
-                  }
-                  {
-                    name = "type";
-                    value = "options";
-                  }
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            definedAliases = [ "@nixos" ];
-          };
-
-          home = {
-            name = "Home Manager Options";
-            urls = [
-              {
-                template = "https://home-manager-options.extranix.com/";
-                params = [
-                  {
-                    name = "release";
-                    value = "master";
-                  }
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            definedAliases = [ "@home" ];
-          };
-        };
       };
     };
 
     policies = {
-
       AppAutoUpdate = false;
       AutofillAddressEnabled = false;
       AutofillCreditCardEnabled = false;

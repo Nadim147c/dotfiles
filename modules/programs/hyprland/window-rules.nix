@@ -86,6 +86,7 @@ delib.module {
         ]
         ++ browserWindow [
           "match:class zen"
+          "match:class zen-beta"
           "match:class brave-browser"
         ]
         ++ discordWindow [

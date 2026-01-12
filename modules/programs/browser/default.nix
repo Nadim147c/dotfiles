@@ -3,19 +3,15 @@
   func,
   host,
   inputs,
-  lib,
   pkgs,
   ...
 }:
-let
-  inherit (lib) toList unique;
-in
 delib.module {
   name = "programs.browsers";
 
   options.programs.browsers = with delib; {
     enable = boolOption host.guiFeatured;
-    default = enumOption [ "brave" "tor" "zen" ] "brave";
+    default = enumOption [ "brave" "tor" "zen" ] "zen";
   };
 
   home.ifEnabled =
