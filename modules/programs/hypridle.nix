@@ -7,8 +7,14 @@
 }:
 let
   inherit (lib) escapeShellArg;
-  hyprland-exec = cmd: "hyprctl dispatch exec ${escapeShellArg cmd}";
+  hyprland-exec = cmd: "hyprctl dispatch exec sh -c ${escapeShellArg cmd}";
+  hyprlock-restore = pkgs.writeShellScriptBin "hyprlock-restore" ''
+    hyprctl --instance 0 'keyword misc:allow_session_lock_restore 1'
+    pidof hyprlock | xargs -r kill -9 || true
+    hyprctl --instance 0 'dispatch exec hyprlock'
+  '';
 in
+
 delib.module {
   name = "programs.hypridle";
 
@@ -17,6 +23,7 @@ delib.module {
   home.ifEnabled.home.packages = with pkgs; [
     hyprlock
     libnotify
+    hyprlock-restore
   ];
   home.ifEnabled.services.hypridle = {
     enable = true;
@@ -29,11 +36,15 @@ delib.module {
       listener = [
         {
           timeout = 295;
-          on-timeout = hyprland-exec "notify-send 'Locking the session in 5 seconds'";
+          on-timeout = hyprland-exec /* bash */ ''
+            notify-send 'Locking the session in 5 seconds'
+          '';
         }
         {
           timeout = 300;
-          on-timeout = hyprland-exec "pidof hyprlock || hyprlock";
+          on-timeout = hyprland-exec /* bash */ ''
+            pidof hyprlock || hyprlock
+          '';
         }
         {
           timeout = 360;
