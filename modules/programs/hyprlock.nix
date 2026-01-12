@@ -74,16 +74,11 @@ delib.module {
 
             general = {
               hide_cursor = false;
-              grace = 0;
-              disable_loading_bar = true;
             };
 
             input-field = {
               monitor = "";
-              size = [
-                250
-                60
-              ];
+              size = "250,60";
               outline_thickness = 2;
               dots_size = 0.2;
               dots_spacing = 0.35;
