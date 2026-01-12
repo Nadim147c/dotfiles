@@ -1,9 +1,9 @@
 {
-  pkgs,
   delib,
   host,
+  lib,
+  pkgs,
   xdg,
-  func,
   ...
 }:
 delib.module {
@@ -17,12 +17,17 @@ delib.module {
       findutils
     ];
 
-    programs.rong.settings.themes = func.mkList {
+    programs.rong.settings.themes = lib.toList {
       target = "cava.ini";
-      links = "${xdg.configHome}/cava/config";
+      links = "${xdg.configHome}/cava/themes/rong";
       cmds = /* bash */ "pidof cava | xargs -r kill -SIGUSR2";
     };
 
-    programs.cava.enable = true;
+    programs.cava = {
+      enable = true;
+      settings = {
+        color.theme = "rong";
+      };
+    };
   };
 }
