@@ -4,6 +4,9 @@
   pkgs,
   ...
 }:
+let
+  inherit (lib) unique;
+in
 delib.module {
   name = "font";
 
@@ -51,7 +54,7 @@ delib.module {
         antialiasing = true;
         hinting = "slight";
         defaultFonts = {
-          sansSerif = lib.lists.unique [
+          sansSerif = unique [
             cfg.sans
             "Rubik"
             "Roboto"
@@ -59,14 +62,14 @@ delib.module {
             "Noto Sans Bengali"
           ];
 
-          monospace = lib.lists.unique [
+          monospace = unique [
             cfg.mono
             "JetBrainsMono Nerd Font"
             "Roboto Mono"
             "monospace"
           ];
 
-          serif = lib.lists.unique [
+          serif = unique [
             cfg.serif
             "Roboto Serif"
             "Noto Serif"
