@@ -1,16 +1,6 @@
 { delib, lib, ... }:
 let
-  inherit (lib) mapAttrsToList mkOption;
-  inherit (lib.types) attrsOf submodule;
-  mkDisplayOption =
-    options: default:
-    mkOption {
-      type = attrsOf (submodule {
-        inherit options;
-      });
-      inherit default;
-    };
-
+  inherit (lib) mapAttrsToList;
 in
 delib.module {
   name = "displays";
@@ -18,7 +8,7 @@ delib.module {
   options =
     { myconfig, ... }:
     {
-      displays = mkDisplayOption (with delib; {
+      displays = delib.attrsOfSubmodule (with delib; {
         enable = boolOption true;
         primary = boolOption ((lib.attrValues myconfig.displays |> builtins.length) == 1);
         refreshRate = numberOption 60;

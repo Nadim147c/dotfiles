@@ -96,6 +96,7 @@
               };
             })
             (denix.lib.callExtension ./extensions/script.nix)
+            (denix.lib.callExtension ./extensions/options.nix)
           ];
 
           specialArgs = { inherit inputs moduleSystem; };
