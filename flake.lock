@@ -251,11 +251,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767900239,
-        "narHash": "sha256-ymIIYuILK2m17PtNPtgm2/tgTUfC4OQBUdYu/rTFBYE=",
+        "lastModified": 1768109255,
+        "narHash": "sha256-Mhy6Y3m4OFXIqofAQjU+K/YlxsMo+MxrOQFryfdGqgw=",
         "owner": "Nadim147c",
         "repo": "rong",
-        "rev": "4bb5e74a1d5a04ec4e9c62c094a06d194429a7d4",
+        "rev": "8c30d6bb5750cf7868844aef023d6bae9eac0b2d",
         "type": "github"
       },
       "original": {
@@ -307,11 +307,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1766568710,
-        "narHash": "sha256-YlC0TfN0ED+ts6UaeFyvctPpaP62RMuNjmJ2Til3jL0=",
+        "lastModified": 1767601239,
+        "narHash": "sha256-kRCKPLhfm4MSwRkEYnCTqwwsCYFMu7ryJkqXrWWSdp0=",
         "owner": "Nadim147c",
         "repo": "yankd",
-        "rev": "3d80489e8f045bdad2c70accd521b5aea0eb7443",
+        "rev": "1c92ee1914e0c5d8fbee9b17c03043a6def4caad",
         "type": "github"
       },
       "original": {
