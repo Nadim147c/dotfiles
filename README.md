@@ -1,7 +1,5 @@
 # DOTFILES
 
-My nix-config.
-
 <table>
   <tr>
     <td><img src="https://imgur.com/I1EDsgy.png" alt=""></td>
