@@ -2,7 +2,16 @@
 
 My nix-config.
 
-https://github.com/user-attachments/assets/629d54c4-66f6-4a60-8427-a9ac2474b579
+<table>
+  <tr>
+    <td><img src="https://imgur.com/I1EDsgy.png" alt=""></td>
+    <td><img src="https://imgur.com/CZMpfBp.png" alt=""></td>
+  </tr>
+  <tr>
+    <td><img src="https://imgur.com/vdD3TLl.png" alt=""></td>
+    <td><img src="https://imgur.com/icSGbrX.png" alt=""></td>
+  </tr>
+</table>
 
 ### Thanks
 
