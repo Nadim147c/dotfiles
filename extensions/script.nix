@@ -5,7 +5,7 @@
 }:
 let
   inherit (delib) extension singleEnableOption;
-  inherit (lib) mkIf;
+  inherit (lib) mkIf mkOption types;
 in
 extension {
   name = "script";
@@ -26,7 +26,13 @@ extension {
 
         options =
           if partof != "" then
-            delib.moduleOptions { scripts.${name} = delib.boolOption enable; }
+            delib.moduleOptions {
+              scripts.${name} = delib.boolOption enable;
+              pkgs.${name} = mkOption {
+                type = types.package;
+                default = package;
+              };
+            }
           else
             singleEnableOption enable;
 
