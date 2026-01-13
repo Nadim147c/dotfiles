@@ -114,10 +114,11 @@
         default = pkgs.mkShell {
           name = "dotfiles";
           buildInputs = with pkgs; [
-            nh
+            gofumpt
             just
-            treefmt
+            just-lsp
             nixfmt-rfc-style
+            treefmt
           ];
         };
       });
