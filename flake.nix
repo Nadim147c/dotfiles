@@ -26,6 +26,10 @@
       url = "github:Nadim147c/nvim";
       flake = false;
     };
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     rong = {
       url = "github:Nadim147c/rong";
       inputs.nixpkgs.follows = "nixpkgs";

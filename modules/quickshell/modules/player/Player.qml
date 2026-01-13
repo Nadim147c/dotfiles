@@ -4,10 +4,13 @@ import qs.modules.end4.functions
 
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Effects
+import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Hyprland
 import Quickshell.Wayland
+import M3Shapes
 
 PanelWindow {
     id: player
@@ -56,15 +59,47 @@ PanelWindow {
             spacing: 0
 
             RowLayout {
-                ClippingRectangle {
-                    implicitWidth: 150
-                    implicitHeight: 150
-                    radius: Appearance.round.big
-                    StyledImage {
+
+                Item {
+                    width: 150
+                    height: width
+
+                    Item {
+                        id: mask
+                        anchors.fill: parent
+
+                        MaterialShape {
+                            id: shape
+                            height: parent.height - 10
+                            width: height
+                            anchors.centerIn: parent
+                            shape: getRandomShape()
+                            animationDuration: 500
+                            color: Appearance.player.myBackground
+                            function getRandomShape() {
+                                const index = Math.floor(Math.random() * mask.shapes.length);
+                                return mask.shapes[index];
+                            }
+                        }
+
+                        property var shapes: [MaterialShape.Circle, MaterialShape.Square, MaterialShape.Slanted, MaterialShape.Arch, MaterialShape.Fan, MaterialShape.Arrow, MaterialShape.SemiCircle, MaterialShape.Oval, MaterialShape.Pill, MaterialShape.Triangle, MaterialShape.Diamond, MaterialShape.ClamShell, MaterialShape.Pentagon, MaterialShape.Gem, MaterialShape.Sunny, MaterialShape.VerySunny, MaterialShape.Cookie4Sided, MaterialShape.Cookie6Sided, MaterialShape.Cookie7Sided, MaterialShape.Cookie9Sided, MaterialShape.Cookie12Sided, MaterialShape.Ghostish, MaterialShape.Clover4Leaf, MaterialShape.Clover8Leaf, MaterialShape.Burst, MaterialShape.SoftBurst, MaterialShape.Boom, MaterialShape.SoftBoom, MaterialShape.Flower, MaterialShape.Puffy, MaterialShape.PuffyDiamond, MaterialShape.PixelCircle, MaterialShape.PixelTriangle, MaterialShape.Bun, MaterialShape.Heart,]
+
+                        Timer {
+                            interval: 2000    // change every 1 second
+                            running: WaybarLyric.isPlaying
+                            repeat: true
+                            onTriggered: shape.shape = shape.getRandomShape()
+                        }
+                    }
+                    Image {
                         id: coverArt
                         anchors.fill: parent
                         source: WaybarLyric.cover
                         fillMode: Image.PreserveAspectCrop
+                        layer.enabled: true
+                        layer.effect: OpacityMask {
+                            maskSource: mask
+                        }
                     }
                 }
                 spacing: Appearance.space.large

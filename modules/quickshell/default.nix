@@ -1,6 +1,8 @@
 {
   delib,
+  func,
   host,
+  inputs,
   pkgs,
   xdg,
   ...
@@ -14,8 +16,6 @@ delib.module {
     home.packages = with pkgs; [
       kdePackages.qt5compat
       kdePackages.qtdeclarative
-      kdePackages.qtimageformats
-      kdePackages.qtmultimedia
     ];
 
     xdg.configFile."quickshell".source = ./.;
@@ -26,6 +26,13 @@ delib.module {
 
     programs.quickshell = {
       enable = true;
+      package = (func.flakePackage inputs.quickshell).overrideAttrs (oldAttrs: {
+        buildInputs = with pkgs; [
+          qt6.qtimageformats
+          qt6.qtmultimedia
+          m3shapes
+        ];
+      });
       systemd.enable = true;
     };
 
