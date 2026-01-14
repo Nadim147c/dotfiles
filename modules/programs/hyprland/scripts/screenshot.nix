@@ -10,6 +10,7 @@ let
   runtimeInputs = with pkgs; [
     slurp
     grim
+    wl-clipboard
   ];
   PATH = map (x: "${x}/bin") runtimeInputs |> escapeShellArgs;
 in
@@ -18,19 +19,20 @@ delib.script rec {
   partof = "programs.hyprland";
   package = pkgs.writers.writeNuBin name /* nu */ ''
     $env.PATH = [ ${PATH} ] ++ $env.PATH
+    let name = (date now | format date "%Y-%m-%d_%H:%M:%S")
+    let temp_file = $"/tmp/screenshot_($name).png"
+    let final_path = $"(systemd-path user-pictures)/screenshot/($name).png"
+    mkdir -v ($final_path | path dirname)
 
     def main [] { main region }
 
     def 'main region' [] {
-      let name = (date now | format date "%Y-%m-%d_%H:%M:%S")
-      let temp_file = $"/tmp/screenshot_($name).png"
-      let final_path = $"(systemd-path user-pictures)/screenshot/($name).png"
-      mkdir -v ($final_path | path dirname)
-
       let colors = get_colors
       let region = (slurp -d -b $colors.background -c $colors.outline)
       print $"Captured a region ($region)"
       grim -g $region $temp_file
+
+      open --raw $temp_file | wl-copy
 
       let action = (notify-send "Screenshot Captured" "Saved to clipboard"
         --expire-time="5000"
@@ -52,11 +54,9 @@ delib.script rec {
     }
 
     def 'main screen' [] {
-      let name = (date now | format date "%Y-%m-%d_%H:%M:%S")
-      let temp_file = $"/tmp/screenshot_($name).png"
-      let final_path = $"(systemd-path user-pictures)/screenshot/($name).png"
-      mkdir -v ($final_path | path dirname)
       grim $temp_file
+
+      open --raw $temp_file | wl-copy
 
       let action = (notify-send "Screenshot Captured" "Saved to clipboard"
         --expire-time="5000"
