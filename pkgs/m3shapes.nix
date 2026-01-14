@@ -3,14 +3,13 @@
   fetchFromGitHub,
   lib,
   ninja,
-  pkg-config,
   qt6,
   stdenv,
 }:
 
 stdenv.mkDerivation rec {
   pname = "m3shapes";
-  version = "unstable-2026-01-13";
+  version = "0-unstable-2026-01-13";
 
   src = fetchFromGitHub {
     owner = "soramanew";
@@ -19,12 +18,9 @@ stdenv.mkDerivation rec {
     hash = "sha256-3gB7AYHsKX8/KdtigIny/OlUy6ZC4JIjPx3NBmYZDD4=";
   };
 
-  dontWrapQtApps = true;
-
   nativeBuildInputs = [
     cmake
     ninja
-    pkg-config
   ];
 
   buildInputs = with qt6; [
@@ -32,21 +28,24 @@ stdenv.mkDerivation rec {
     qtdeclarative
   ];
 
+  dontWrapQtApps = true;
+
+  cmakeBuildType = "RelWithDebInfo";
+
   cmakeFlags = [
-    (lib.cmakeFeature "INSTALL_QMLDIR" "${placeholder "out"}/lib/qt-6/qml")
+    (lib.cmakeFeature "INSTALL_QMLDIR" "${placeholder "out"}/${qt6.qtbase.qtQmlPrefix}")
+    (lib.cmakeFeature "INSTALL_QML_PREFIX" "${placeholder "out"}/${qt6.qtbase.qtQmlPrefix}")
   ];
 
   postFixup = ''
     patchelf \
-      --set-rpath "$out/lib/qt-6/qml/M3Shapes:${lib.makeLibraryPath buildInputs}" \
-      $out/lib/qt-6/qml/M3Shapes/libm3shapesplugin.so
+      --set-rpath "$out/${qt6.qtbase.qtQmlPrefix}/M3Shapes:${lib.makeLibraryPath buildInputs}" \
+      $out/${qt6.qtbase.qtQmlPrefix}/M3Shapes/libm3shapesplugin.so
   '';
 
   meta = {
     description = "A QT port of the androidx shape library";
     homepage = "https://github.com/soramanew/m3shapes";
-    # license = lib.licenses.unfree;
-    # maintainers = with lib.maintainers; [ ];
     mainProgram = "m3shapes";
     platforms = lib.platforms.linux;
   };
