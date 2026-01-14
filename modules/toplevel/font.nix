@@ -18,37 +18,35 @@ delib.module {
       serif = strOption "Roboto Serif";
       mono = strOption "JetBrainsMono Nerd Font";
       size = intOption 10;
-      packages = listOfOption package (
-        with pkgs;
-        [
-          electroharmonix
-          fontconfig
-          material-symbols
-          nerd-fonts.jetbrains-mono
-          noto-fonts
-          noto-fonts-cjk-sans
-          noto-fonts-cjk-serif
-          noto-fonts-color-emoji
-          roboto
-          roboto-flex
-          roboto-mono
-          roboto-serif
-          roboto-slab
-          rubik
-          (google-fonts.override {
-            fonts = [
-              "Gabarito"
-              "Space Grotesk"
-            ];
-          })
-        ]
-      );
     };
 
   home.ifEnabled =
     { cfg, ... }:
     {
-      home.packages = cfg.packages;
+      home.packages = with pkgs; [
+        electroharmonix
+        fontconfig
+        material-symbols
+        nerd-fonts.jetbrains-mono
+        noto-fonts
+        noto-fonts-cjk-sans
+        noto-fonts-cjk-serif
+        twemoji-color-font
+        noto-fonts-color-emoji
+        roboto
+        roboto-flex
+        roboto-mono
+        roboto-serif
+        roboto-slab
+        rubik
+        (google-fonts.override {
+          fonts = [
+            "Gabarito"
+            "Space Grotesk"
+          ];
+        })
+      ];
+
       fonts.fontconfig = {
         enable = true;
         antialiasing = true;
@@ -77,6 +75,7 @@ delib.module {
           ];
 
           emoji = [
+            "Twitter Color Emoji"
             "Noto Color Emoji"
             "Twemoji"
           ];
