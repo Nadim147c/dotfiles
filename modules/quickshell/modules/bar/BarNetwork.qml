@@ -24,8 +24,6 @@ Rectangle {
             return Appearance.material.myPrimary;
         } else if (SystemUsage.netTotal > root.high) {
             return Appearance.material.mySecondary;
-        } else if (SystemUsage.netTotal > root.medium) {
-            return Appearance.material.mySurfaceContainerHighest;
         } else {
             return Appearance.material.mySurfaceVariant;
         }
@@ -40,7 +38,7 @@ Rectangle {
         } else if (SystemUsage.netTotal > root.low) {
             return Appearance.material.myPrimary;
         } else {
-            return Appearance.material.myOutline;
+            return Appearance.material.myOnSurfaceVariant;
         }
     }
 

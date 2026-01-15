@@ -3,7 +3,6 @@ import qs.modules.common
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Hyprland
-import Quickshell.Widgets
 
 RowLayout {
     id: root

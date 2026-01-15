@@ -2,11 +2,8 @@ import qs.modules.common
 import qs.modules.end4
 
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
-import Quickshell.Io
 import Quickshell.Services.Pipewire
-import Quickshell.Widgets
 
 Scope {
     id: root

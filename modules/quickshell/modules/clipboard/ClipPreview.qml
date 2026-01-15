@@ -1,9 +1,9 @@
+pragma ComponentBehavior: Bound
+
 import qs.modules.end4
 import qs.modules.common
 
 import QtQuick
-import QtQuick.Layouts
-import Quickshell
 import Quickshell.Widgets
 
 Rectangle {
@@ -14,6 +14,8 @@ Rectangle {
     required property color bg
 
     radius: borderRadius
+    topRightRadius: Appearance.space.big
+    bottomRightRadius: Appearance.space.big
     color: bg
 
     Rectangle {
@@ -22,8 +24,10 @@ Rectangle {
         y: Appearance.space.big
         implicitHeight: parent.height - (Appearance.space.big * 2)
         implicitWidth: parent.width - (Appearance.space.big * 2)
-        radius: Appearance.round.big
         color: Appearance.material.myBackground
+        radius: Appearance.round.big
+        topRightRadius: Appearance.space.small
+        bottomRightRadius: Appearance.space.small
 
         Loader {
             active: !root.active?.mime?.startsWith("image/")

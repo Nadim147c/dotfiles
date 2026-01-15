@@ -41,7 +41,6 @@ Rectangle {
         id: volume
         y: (parent.height - volume.implicitHeight) / 2
         x: Appearance.space.medium
-
         spacing: Appearance.space.little
         MaterialSymbol {
             text: {

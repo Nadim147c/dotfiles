@@ -30,6 +30,7 @@ GroupButton {
             iconSize: Appearance.font.pixelSize.hugeass
             text: root.iconName
             color: root.fg
+            fill: 1
         }
     }
 }

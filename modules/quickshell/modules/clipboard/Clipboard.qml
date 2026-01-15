@@ -1,16 +1,11 @@
 import qs.modules.common
-import qs.modules.widgets
-import qs.modules.end4
 
 import QtQuick
-import QtQuick.Shapes
-import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Hyprland
 import Quickshell.Wayland
-import Quickshell.Widgets
 
 PanelWindow {
     id: root
@@ -116,7 +111,7 @@ PanelWindow {
 
     RowLayout {
         id: body
-        spacing: Appearance.space.medium
+        spacing: Appearance.space.tiny
 
         height: root.size
 
@@ -134,6 +129,8 @@ PanelWindow {
             color: bg
             implicitHeight: root.size
             implicitWidth: root.size
+            topLeftRadius: Appearance.space.big
+            bottomLeftRadius: Appearance.space.big
 
             Item {
                 x: Appearance.space.big

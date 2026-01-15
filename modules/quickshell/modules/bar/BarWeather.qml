@@ -3,7 +3,6 @@ import qs.modules.end4
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
 
 Rectangle {
     id: root

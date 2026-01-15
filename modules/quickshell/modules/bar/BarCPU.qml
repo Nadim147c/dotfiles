@@ -2,7 +2,6 @@ import qs.modules.common
 import qs.modules.end4
 
 import QtQuick
-import QtQuick.Layouts
 
 Rectangle {
     id: root
@@ -58,7 +57,7 @@ Rectangle {
     }
 
     StyledToolTip {
-        text: `${SystemUsage.cpuUtilization.toFixed(2).replace(/\.?0+/, "")} % CPU Usages`
+        text: `${SystemUsage.cpuUtilization.toFixed(2)}% CPU Usages`
         extraVisibleCondition: mouseArea.containsMouse
     }
 }

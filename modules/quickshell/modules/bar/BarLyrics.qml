@@ -1,4 +1,5 @@
 import qs.modules.common
+import qs.modules.end4
 
 import QtQuick
 import QtQuick.Layouts
@@ -60,14 +61,12 @@ Rectangle {
             id: lyrics
 
             spacing: Appearance.space.little
-            Text {
+            MaterialSymbol {
                 text: WaybarLyric.icon
                 visible: WaybarLyric.icon.length != 0
                 color: root.fg
-                font {
-                    family: Appearance.font.family.iconMaterial
-                    pixelSize: Appearance.font.pixelSize.small
-                }
+                iconSize: Appearance.font.pixelSize.large
+                fill: 1
             }
             Text {
                 text: WaybarLyric.text

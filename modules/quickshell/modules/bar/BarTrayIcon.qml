@@ -2,8 +2,6 @@ import qs.modules.end4
 import qs.modules.common
 
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
 import QtQuick.Effects
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray

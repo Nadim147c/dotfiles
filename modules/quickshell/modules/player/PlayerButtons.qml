@@ -1,10 +1,7 @@
 import qs.modules.common
-import qs.modules.end4
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Widgets
 
 Rectangle {
     id: root

@@ -99,9 +99,6 @@ Item {
                 function onDegreeChanged() {
                     wavyCircle.requestPaint();
                 }
-                function onHighlightColorChanged() {
-                    wavyCircle.requestPaint();
-                }
             }
             FrameAnimation {
                 running: root.animateWave

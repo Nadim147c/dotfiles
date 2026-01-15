@@ -4,9 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
-import Quickshell.Widgets
 import Quickshell.Services.SystemTray
-import QtQuick.Effects
 
 Rectangle {
     implicitHeight: parent.height
