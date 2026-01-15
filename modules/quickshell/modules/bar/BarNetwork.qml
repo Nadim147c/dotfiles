@@ -27,7 +27,7 @@ Rectangle {
         } else if (SystemUsage.netTotal > root.medium) {
             return Appearance.material.mySurfaceContainerHighest;
         } else {
-            return Appearance.material.mySurface;
+            return Appearance.material.mySurfaceVariant;
         }
     }
     property color fg: {

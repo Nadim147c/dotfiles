@@ -2,7 +2,6 @@ import qs.modules.common
 import qs.modules.end4.functions
 
 import QtQuick
-import QtQuick.Shapes
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
@@ -14,11 +13,6 @@ PanelWindow {
         top: true
         right: true
     }
-    // margins {
-    //     left: 5
-    //     top: 5
-    //     right: 5
-    // }
     aboveWindows: false
 
     property real margin: 5
@@ -105,6 +99,7 @@ PanelWindow {
                     spacing: Appearance.space.tiny
                     anchors.fill: parent
                     BarNetwork {}
+                    BarWeather {}
                     BarMemory {}
                     BarCPU {}
                     BarVolume {}

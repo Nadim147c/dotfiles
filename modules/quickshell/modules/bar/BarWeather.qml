@@ -3,13 +3,16 @@ import qs.modules.end4
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Services.Pipewire
+import Quickshell
 
 Rectangle {
     id: root
 
-    implicitWidth: volume.width + (Appearance.space.medium * 2)
+    implicitWidth: clock.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
+
+    radius: Appearance.round.large
+
     color: {
         if (mouseArea.containsMouse) {
             return Appearance.material.myPrimary;
@@ -17,6 +20,7 @@ Rectangle {
             return Appearance.material.mySurfaceVariant;
         }
     }
+
     property color fg: {
         if (mouseArea.containsMouse) {
             return Appearance.material.myOnPrimary;
@@ -24,6 +28,7 @@ Rectangle {
             return Appearance.material.myPrimary;
         }
     }
+
     Behavior on color {
         ColorAnimation {
             duration: Appearance.time.quick
@@ -35,31 +40,18 @@ Rectangle {
         }
     }
 
-    radius: Appearance.round.large
-
     RowLayout {
-        id: volume
-        y: (parent.height - volume.implicitHeight) / 2
+        id: clock
+        y: (parent.height - clock.implicitHeight) / 2
         x: Appearance.space.medium
-
         spacing: Appearance.space.little
         MaterialSymbol {
-            text: {
-                const vol = Pipewire.defaultAudioSink?.audio.volume;
-                if (vol === 0) {
-                    return "volume_mute";
-                } else if (vol <= 0.5) {
-                    return "volume_down";
-                } else {
-                    return "volume_up";
-                }
-            }
+            text: "device_thermostat"
             color: root.fg
-            iconSize: Appearance.font.pixelSize.large
             fill: 1
         }
         Text {
-            text: Math.round((Pipewire.defaultAudioSink?.audio.volume ?? 0) * 100).toString() + "% " // extra space is intention
+            text: Weather.data.temp + " "
             color: root.fg
             font {
                 family: Appearance.font.family.main
@@ -74,17 +66,8 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
 
-        onWheel: wheel => {
-            try {
-                if (wheel.angleDelta.y > 0) {
-                    Pipewire.defaultAudioSink.audio.volume += 0.01;
-                } else if (wheel.angleDelta.y < 0) {
-                    Pipewire.defaultAudioSink.audio.volume -= 0.01;
-                }
-                wheel.accepted = true;
-            } catch (e) {
-                console.error(e);
-            }
+        onClicked: {
+            console.log("Calendar toggle signal emitted");
         }
     }
 }

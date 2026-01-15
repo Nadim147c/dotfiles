@@ -54,6 +54,7 @@ Rectangle {
         anchors.centerIn: parent
         color: root.fg
         iconSize: 12
+        fill: 1
     }
 
     StyledToolTip {
