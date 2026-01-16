@@ -117,7 +117,7 @@
             gofumpt
             just
             just-lsp
-            nixfmt-rfc-style
+            nixfmt
             treefmt
           ];
         };
