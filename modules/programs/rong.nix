@@ -21,7 +21,7 @@ delib.module {
       preview-format = "jpg";
       base16 = {
         blend = 0.5;
-        method = "static";
+        method = "dynamic";
       };
       material = {
         contrast = 0.0;
