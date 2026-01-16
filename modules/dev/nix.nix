@@ -27,7 +27,7 @@ delib.module {
   home.ifEnabled.home.packages = with pkgs; [
     nix-update
     nixd
-    nixfmt-rfc-style
+    nixfmt
     statix
   ];
 }
