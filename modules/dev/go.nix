@@ -13,9 +13,10 @@ delib.module {
   home.ifEnabled = {
     home.packages = with pkgs; [
       gofumpt
-      gopls
-      gopls
+      golangci-lint
       golines
+      gopls
+      gopls
       revive
     ];
     home.sessionVariables = {
