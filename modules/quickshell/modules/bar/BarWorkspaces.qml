@@ -92,11 +92,10 @@ RowLayout {
                     NumberAnimation {
                         target: rect
                         property: "roundness"
-                        to: 2
-                        duration: 150
+                        to: 1
+                        duration: 100
                         easing.type: Easing.InQuad
                     }
-
                     NumberAnimation {
                         target: rect
                         property: "roundness"

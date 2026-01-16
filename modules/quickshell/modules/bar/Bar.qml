@@ -45,11 +45,10 @@ PanelWindow {
             NumberAnimation {
                 target: body
                 property: "roundness"
-                to: 5
-                duration: 150
+                to: 3
+                duration: 100
                 easing.type: Easing.InQuad
             }
-
             NumberAnimation {
                 target: body
                 property: "roundness"
