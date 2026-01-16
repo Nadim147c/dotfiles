@@ -23,16 +23,6 @@ delib.module {
       settings.git_protocol = "ssh";
     };
 
-    programs.delta = {
-      enable = true;
-      enableGitIntegration = true; # now required
-      options = {
-        navigate = true;
-        hunk-header-style = "omit";
-        line-numbers = true;
-      };
-    };
-
     programs.git = {
       enable = true;
       settings = {
