@@ -30,7 +30,7 @@ delib.module {
         buildInputs = with pkgs; [
           qt6.qtimageformats
           qt6.qtmultimedia
-          m3shapes
+          qt-m3shapes
         ];
       });
       systemd.enable = true;
