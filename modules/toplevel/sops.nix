@@ -10,11 +10,11 @@
 }:
 let
   inherit (constants) username;
-  mkSSHKey = name: {
+  user = {
     owner = username;
     mode = "0600";
-    path = "${homedir}/.ssh/${name}";
   };
+  mkSSHKey = name: { path = "${homedir}/.ssh/${name}"; } // user;
 in
 delib.module {
   name = "sops";
@@ -35,6 +35,11 @@ delib.module {
       age.keyFile = "${xdg.configHome}/sops/age/keys.txt";
       secrets = {
         password = { };
+        "rclone/gdrive/id" = user;
+        "rclone/gdrive/secret" = user;
+        "rclone/gdrive/token" = user;
+        "rclone/crypt/pass" = user;
+        "rclone/crypt/salt" = user;
         "ssh/aur" = mkSSHKey "aur";
         "ssh/github" = mkSSHKey "github";
         "ssh/gitlab" = mkSSHKey "gitlab";
