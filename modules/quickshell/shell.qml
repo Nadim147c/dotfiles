@@ -1,5 +1,6 @@
 //@ pragma Env QS_NO_RELOAD_POPUP=1
 //@ pragma UseQApplication
+//@ pragma StateDir $BASE/quickshell
 
 import qs.modules.common
 import qs.modules.osd

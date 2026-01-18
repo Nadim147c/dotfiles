@@ -292,7 +292,7 @@ Singleton {
 
     FileView {
         id: themeFileView
-        path: "/home/ephemeral/.local/state/quickshell/colors.json"
+        path: Quickshell.statePath("colors.json")
         watchChanges: true
 
         onFileChanged: {
