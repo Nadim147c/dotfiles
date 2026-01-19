@@ -53,9 +53,8 @@ delib.module {
           bind -n M-l run-shell "tmux-navigate l"
           bind -n M-p run-shell "tmux neww tmux-sessionizer"
 
-          # Vertical pane movement
-          bind -n M-j select-pane -D
-          bind -n M-k select-pane -U
+          bind -n M-, run-shell "tmux swap-window -t -1 && tmux select-window -t -1"
+          bind -n M-. run-shell "tmux swap-window -t +1 && tmux select-window -t +1"
 
           # Alt+n creates a new window
           bind -n M-n new-window
