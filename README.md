@@ -18,8 +18,8 @@
   - **Compositor**: Hyprland
   - **Shell**: Quickshell
   - **Theme**: Material You
-  - **Color Generator**: Rong `(By me)`
-  - **Clipboard Manager**: Yankd `(By me)`
+  - **Color Generator**: [Rong](https://github.com/Nadim147c/rong) `(By me)`
+  - **Clipboard Manager**: [Yankd](https://github.com/Nadim147c/yankd) `(By me)`
 - **Applications**
   - **Terminal**: Kitty
   - **Browser**: Zen-Browser
