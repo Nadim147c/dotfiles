@@ -66,7 +66,7 @@ delib.module {
               release = "master";
             };
             nix = createEngine "MyNixOS" "@nix" "https://mynixos.com/search" { q = "{searchTerms}"; };
-            nixos = createEngine "NixOS Options" "@nixos" "https://search.nixos.org/packages" {
+            nixos = createEngine "NixOS Options" "@nixos" "https://search.nixos.org/options" {
               channel = "unstable";
               query = "{searchTerms}";
               sort = "relevance";
