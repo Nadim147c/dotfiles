@@ -100,6 +100,38 @@ delib.module {
       n - (toFloat f) * d;
 
     /*
+      cut :: string -> string -> attrset
+
+      Cut string int two prefix and content
+    */
+    cut =
+      sep: str:
+      let
+        len = builtins.stringLength str;
+        sepLen = builtins.stringLength sep;
+
+        go =
+          idx: prefix:
+          if idx >= len then
+            {
+              inherit prefix;
+              content = "";
+            }
+          else
+            let
+              rest = builtins.substring idx (len - idx) str;
+            in
+            if (builtins.substring 0 sepLen rest) == sep then
+              {
+                inherit prefix;
+                content = builtins.substring (idx + sepLen) (len - idx - sepLen) str;
+              }
+            else
+              go (idx + 1) (prefix + builtins.substring idx 1 str);
+      in
+      go 0 "";
+
+    /*
       wrapUWSM :: string | package -> string
 
       Wrap a program so it is launched via `uwsm app --`.

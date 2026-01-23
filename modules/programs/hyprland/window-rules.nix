@@ -1,16 +1,29 @@
 {
   delib,
   lib,
+  func,
   ...
 }:
 let
   inherit (lib) toList;
+  inherit (func) cut;
 in
 delib.module {
   name = "programs.hyprland";
 
   home.ifEnabled =
     let
+
+      mergeMatches =
+        matches:
+        matches
+        |> map (x: cut " " x)
+        |> map (x: {
+          "${x.prefix}" = x.content;
+        })
+        |> builtins.zipAttrsWith (_: v: v)
+        |> lib.mapAttrsToList (name: value: "match:${name} ^(${lib.join "|" value})$");
+
       /*
         createWindowRule name rules matches.
 
@@ -21,15 +34,16 @@ delib.module {
       createWindowRule =
         name: rules: matches:
         let
-          tag = "${name}-${builtins.hashString "md5" (builtins.toJSON rules)}";
+          tag = "${builtins.hashString "md5" (builtins.toJSON rules)}-${name}";
           identifier = {
             name = tag;
             "match:tag" = tag;
           };
-          matchRules = map (x: "tag +${tag},${x}") matches;
+          matchRules = mergeMatches matches |> map (x: "tag +${tag},${x}");
         in
         [ (rules // identifier) ] ++ matchRules;
 
+      opaqueWindow = createWindowRule "opaque" { opacity = "1 1 1"; };
       terminalWindow = createWindowRule "terminal" { opacity = "0.95 0.90"; };
       browserWindow = createWindowRule "browser" { workspace = "2 silent"; };
       discordWindow = createWindowRule "discord" {
@@ -49,6 +63,7 @@ delib.module {
       pipWindow = createWindowRule "picture-in-picture" {
         float = true;
         pin = true;
+        opacity = "1 1 ";
         size = "monitor_w/4 monitor_h/4";
         move = "monitor_w-window_w-10 monitor_h-window_h-10";
         rounding = 7.5;
@@ -57,56 +72,60 @@ delib.module {
     {
       wayland.windowManager.hyprland.settings.windowrule =
         floatingWindow [
-          "match:class org.kde.dolphin"
-          "match:class org.gnome.Nautilus"
-          "match:class thunar"
+          "class org.kde.dolphin"
+          "class org.gnome.Nautilus"
+          "class thunar"
         ]
         ++ fixedWindow [
-          "match:class .?blueman-manager(-wrapped)?"
-          "match:class hyprland-dialog"
-          "match:class kvantummanager"
-          "match:class mpv"
-          "match:class nwg-look"
-          "match:class org.freedesktop.impl.portal.desktop.*"
-          "match:class org.gnome.Loupe"
-          "match:class org.kde.kdeconnect.app"
-          "match:class org.pulseaudio.pavucontrol"
-          "match:class qt5ct"
-          "match:class qt6ct"
-          "match:class tvp-git-helper"
-          "match:class vlc"
-          "match:class xdg-desktop-portal-gtk"
-          "match:class xdg-desktop-portal-hyprland"
-          "match:title Choose Files?.*"
-          "match:title Confirm to replace files"
-          "match:title File Operation Progress"
-          "match:title Open( Files?)?.*"
-          "match:title Save As.*"
-          "match:title Send File — Dolphin.*"
+          "class .?blueman-manager(-wrapped)?"
+          "class hyprland-dialog"
+          "class kvantummanager"
+          "class mpv"
+          "class nwg-look"
+          "class org.freedesktop.impl.portal.desktop.*"
+          "class org.gnome.Loupe"
+          "class org.kde.kdeconnect.app"
+          "class org.pulseaudio.pavucontrol"
+          "class qt5ct"
+          "class qt6ct"
+          "class tvp-git-helper"
+          "class vlc"
+          "class xdg-desktop-portal-gtk"
+          "class xdg-desktop-portal-hyprland"
+          "title Choose Files?.*"
+          "title Confirm to replace files"
+          "title File Operation Progress"
+          "title Open( Files?)?.*"
+          "title Save As.*"
+          "title Send File — Dolphin.*"
         ]
         ++ browserWindow [
-          "match:class zen"
-          "match:class zen-beta"
-          "match:class brave-browser"
+          "class zen"
+          "class zen-beta"
+          "class brave-browser"
         ]
         ++ discordWindow [
-          "match:class discord"
-          "match:class vesktop"
-          "match:class equibop"
-          "match:class WebCord"
-          "match:class ArmCord"
-          "match:class goofcord"
+          "class discord"
+          "class vesktop"
+          "class equibop"
+          "class WebCord"
+          "class ArmCord"
+          "class goofcord"
         ]
         ++ musicWindow [
-          "match:class [Ss]potify"
-          "match:initial_title Spotify (Free|Premium)"
-          "match:class com.github.th_ch.youtube_music"
+          "class [Ss]potify"
+          "initial_title Spotify (Free|Premium)"
+          "class com.github.th_ch.youtube_music"
         ]
-        ++ pipWindow [ "match:title [Pp]icture[ -][Ii]n[ -][Pp]icture" ]
+        ++ pipWindow [ "title [Pp]icture[ -][Ii]n[ -][Pp]icture" ]
+        ++ opaqueWindow [
+          "title [Pp]icture[ -][Ii]n[ -][Pp]icture"
+          "class mpv"
+        ]
         ++ terminalWindow [
-          "match:class kitty"
-          "match:class org.wezfurlong.wezterm"
-          "match:class com.mitchellh.ghostty"
+          "class kitty"
+          "class org.wezfurlong.wezterm"
+          "class com.mitchellh.ghostty"
         ]
         ++ toList {
           name = "KDE Connect Daemon";
