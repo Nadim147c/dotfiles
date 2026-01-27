@@ -22,11 +22,11 @@ delib.module {
 
     profiles.default = {
       extensions.packages = with addons; [
-        bitwarden
-        ublock-origin
-        sponsorblock
-        videospeed
         mal-sync
+        proton-pass
+        sponsorblock
+        ublock-origin
+        videospeed
       ];
 
       search = {
