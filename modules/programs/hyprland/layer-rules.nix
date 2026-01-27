@@ -1,25 +1,40 @@
 {
   delib,
+  lib,
   ...
 }:
+let
+  inherit (lib) join toList;
+in
 delib.module {
   name = "programs.hyprland";
 
   home.ifEnabled =
     let
-      createMatch = x: {
-        name = x;
-        "match:namespace" = x;
+      createLayerRule =
+        name: rules: namespaces:
+        let
+          identifier = {
+            name = "${builtins.hashString "md5" (builtins.toJSON rules)}-${name}";
+            "match:namespace" = "^(${join "|" namespaces})$";
+          };
+        in
+        toList (rules // identifier);
+
+      notificationLayer = createLayerRule "notification" {
+        no_screen_share = true;
       };
-      createLayerRule = rules: namespaces: map (x: rules // (createMatch x)) namespaces;
-      blurredLayer = createLayerRule {
+      staticLayer = createLayerRule "static" {
+        no_anim = true;
+      };
+      blurredLayer = createLayerRule "blurred" {
         blur = true;
         ignore_alpha = 0.5;
       };
     in
     {
       wayland.windowManager.hyprland.settings.layerrule =
-        createLayerRule { no_anim = true; } [
+        staticLayer [
           "selection"
           "hyprpicker"
           "mpvpaper"
@@ -29,6 +44,7 @@ delib.module {
           "quickshell:bar"
           "quickshell:player"
           "quickshell:wallpaper"
-        ];
+        ]
+        ++ notificationLayer [ "swaync-notification-window" ];
     };
 }
