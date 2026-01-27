@@ -99,9 +99,9 @@ PanelWindow {
                     anchors.fill: parent
                     BarNetwork {}
                     BarWeather {}
+                    BarVolume {}
                     BarMemory {}
                     BarCPU {}
-                    BarVolume {}
                     BarClock {}
                     BarTray {}
                 }

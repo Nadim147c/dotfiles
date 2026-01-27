@@ -2,10 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"maps"
 	"os"
 	"reflect"
 	"slices"
+	"strings"
 	"time"
 )
 
@@ -58,6 +60,10 @@ func StructValueStringMap(prefix string, v any) map[string]any {
 		stringMethod := fieldVal.MethodByName("String")
 
 		if !stringMethod.IsValid() {
+			if fieldVal.Kind() == reflect.Float64 {
+				key := fieldType.Name
+				out[prefix+key+"String"] = formatFloat(fieldVal.Float())
+			}
 			continue // opt-in only
 		}
 
@@ -72,6 +78,13 @@ func StructValueStringMap(prefix string, v any) map[string]any {
 	}
 
 	return out
+}
+
+func formatFloat(n float64) string {
+	s := fmt.Sprintf("%.2f", n)
+	s = strings.TrimRight(s, "0")
+	s = strings.TrimRight(s, ".")
+	return s
 }
 
 const UpdateTime = time.Second / 4

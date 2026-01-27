@@ -1,10 +1,6 @@
 pragma ComponentBehavior: Bound
 pragma Singleton
 
-// This code has been taken from
-// https://github.com/caelestia-dots/shell/blob/main/services/SystemUsage.qml
-// released under GPL-3.0
-
 import Quickshell
 import Quickshell.Io
 import QtQuick
@@ -16,6 +12,7 @@ Singleton {
     property real cpuTemperature
     property string cpuTemperatureString
     property real cpuUtilization
+    property string cpuUtilizationString
     property real memAvailable
     property string memAvailableString
     property real memFree

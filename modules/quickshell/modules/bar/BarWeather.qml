@@ -10,7 +10,7 @@ Rectangle {
     implicitWidth: clock.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
 
-    radius: Appearance.round.large
+    radius: Appearance.round.medium
 
     color: {
         if (mouseArea.containsMouse) {
@@ -65,8 +65,8 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
 
-        onClicked: {
-            console.log("Calendar toggle signal emitted");
+        onWheel: wheel => {
+            console.log("God please, change the weather");
         }
     }
 }

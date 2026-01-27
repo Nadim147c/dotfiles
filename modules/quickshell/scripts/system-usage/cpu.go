@@ -2,6 +2,7 @@ package main
 
 import (
 	"cmp"
+	"fmt"
 	"os"
 	"path/filepath"
 	"slices"
@@ -47,8 +48,8 @@ func ReadAllFiles(paths []string) []string {
 }
 
 var (
-	cpuLastTotal int = 0
-	cpuLastIdle  int = 0
+	cpuLastTotal uint64
+	cpuLastIdled uint64
 )
 
 // GetCPUState retrieves basic CPU state, ignoring errors
@@ -79,23 +80,26 @@ func GetCPUState() CPUState {
 	// 3. Get CPU utilization (approximate since boot)
 	if data, err := os.ReadFile("/proc/stat"); err == nil {
 		for line := range strings.SplitSeq(string(data), "\n") {
-			after, found := strings.CutPrefix(line, "cpu ")
-			if !found {
+			after := strings.Fields(line)
+			if len(after) == 0 || after[0] != "cpu" {
 				continue
 			}
 
-			fields := strings.Fields(after)
-			ints := mapSlice(fields, func(s string) int { return should(strconv.Atoi(s)) })
-			total := reduceSlice(ints, func(a, b int) int { return a + b })
-			idle := ints[3] + ints[4]
+			var user, nice, system, idle, iowait, irq, softirq, steal, guest, guestNice uint64
 
-			idleDelta := float64(idle - cpuLastIdle)
-			totalDelta := float64(total - cpuLastTotal)
+			fmt.Sscanf(strings.Join(after[1:], " "), "%d %d %d %d %d %d %d %d %d %d",
+				&user, &nice, &system, &idle, &iowait, &irq, &softirq, &steal, &guest, &guestNice)
 
-			state.Utilization = (100 - (idleDelta/totalDelta)*100)
+			total := user + nice + system + idle + iowait + irq + softirq + steal + guest + guestNice
+			idleTotal := idle + iowait
 
-			cpuLastIdle = idle
+			totalDelta := total - cpuLastTotal
+			idleDelta := idleTotal - cpuLastIdled
+
+			state.Utilization = (1 - (float64(idleDelta) / float64(totalDelta))) * 100
+
 			cpuLastTotal = total
+			cpuLastIdled = idleTotal
 			break
 		}
 	}

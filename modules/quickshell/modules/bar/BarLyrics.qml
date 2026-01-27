@@ -8,7 +8,8 @@ Rectangle {
     id: root
     implicitWidth: lyrics.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
-    radius: Appearance.round.large
+
+    radius: Appearance.round.medium
 
     color: lyricArea.containsMouse ? Appearance.material.myPrimary : "transparent"
 

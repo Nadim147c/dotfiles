@@ -42,7 +42,7 @@ Rectangle {
         }
     }
 
-    radius: Appearance.round.large
+    radius: Appearance.round.medium
 
     RowLayout {
         id: volume

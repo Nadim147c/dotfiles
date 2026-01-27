@@ -57,7 +57,7 @@ Rectangle {
     }
 
     StyledToolTip {
-        text: `${SystemUsage.cpuUtilization.toFixed(2)}% CPU Usages`
+        text: `${SystemUsage.cpuUtilizationString}% CPU Usages`
         extraVisibleCondition: mouseArea.containsMouse
     }
 }

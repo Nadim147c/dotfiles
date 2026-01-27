@@ -10,6 +10,9 @@ Rectangle {
 
     implicitWidth: volume.width + (Appearance.space.medium * 2)
     implicitHeight: parent.height
+
+    radius: Appearance.round.medium
+
     color: {
         if (mouseArea.containsMouse) {
             return Appearance.material.myPrimary;
@@ -34,8 +37,6 @@ Rectangle {
             duration: Appearance.time.quick
         }
     }
-
-    radius: Appearance.round.large
 
     RowLayout {
         id: volume
