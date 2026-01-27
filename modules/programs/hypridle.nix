@@ -2,12 +2,10 @@
   delib,
   host,
   pkgs,
-  lib,
   ...
 }:
 let
-  inherit (lib) escapeShellArg;
-  hyprland-exec = cmd: "hyprctl dispatch exec sh -c ${escapeShellArg cmd}";
+  hyprland-exec = cmd: "hyprctl dispatch exec ${pkgs.writeShellScript "" cmd}";
   hyprlock-restore = pkgs.writeShellScriptBin "hyprlock-restore" ''
     hyprctl --instance 0 'keyword misc:allow_session_lock_restore 1'
     pidof hyprlock | xargs -r kill -9 || true
