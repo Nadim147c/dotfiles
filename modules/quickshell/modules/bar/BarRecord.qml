@@ -89,13 +89,17 @@ Rectangle {
                 color: recording.fg
                 fill: 1
             }
-            MaterialLoading {
-                implicitHeight: 17
-                implicitWidth: height
+            Loader {
+                active: !symbol.visible
+                height: 17
+                width: height
                 anchors.centerIn: parent
-                visible: !symbol.visible
-                onVisibleChanged: shapes = getRandomShape()
-                color: Appearance.material.myOnPrimary
+                sourceComponent: MaterialLoading {
+                    anchors.fill: parent
+                    anchors.centerIn: parent
+                    onVisibleChanged: shapes = getRandomShape()
+                    color: Appearance.material.myOnPrimary
+                }
             }
         }
         Text {

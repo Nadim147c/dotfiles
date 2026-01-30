@@ -6,7 +6,7 @@ import QtQuick
 Rectangle {
     id: root
 
-    implicitWidth: progress.width + (Appearance.space.small * 2)
+    implicitWidth: progress.width
     implicitHeight: progress.height
 
     readonly property real high: 0.7

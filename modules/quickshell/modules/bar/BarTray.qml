@@ -11,6 +11,8 @@ Rectangle {
     implicitWidth: row.width + (Appearance.space.big * 2)
     radius: Appearance.round.large
     color: Appearance.material.mySurfaceVariant
+    bottomLeftRadius: Appearance.round.medium
+    topLeftRadius: Appearance.round.medium
 
     RowLayout {
         id: row

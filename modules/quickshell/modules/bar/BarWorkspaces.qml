@@ -82,8 +82,8 @@ RowLayout {
 
                 bottomLeftRadius: first ? Appearance.round.large : roundness
                 topLeftRadius: first ? Appearance.round.large : roundness
-                bottomRightRadius: last ? Appearance.round.large : roundness
-                topRightRadius: last ? Appearance.round.large : roundness
+                bottomRightRadius: last ? Appearance.round.medium : roundness
+                topRightRadius: last ? Appearance.round.medium : roundness
 
                 SequentialAnimation {
                     id: radiusAnim
