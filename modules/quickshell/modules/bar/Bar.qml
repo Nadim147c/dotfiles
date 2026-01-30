@@ -100,6 +100,7 @@ PanelWindow {
                     BarNetwork {}
                     BarWeather {}
                     BarVolume {}
+                    BarRecord {}
                     BarMemory {}
                     BarCPU {}
                     BarClock {}
