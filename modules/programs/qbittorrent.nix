@@ -66,6 +66,21 @@ delib.module {
       configFile = gendeepINI cfg.settings |> pkgs.writeText "qBittorrent.conf";
     in
     {
+
+      xdg.desktopEntries = {
+        qbittorrent-webui = {
+          name = "qBittorrent Web UI";
+          genericName = "Internet Manager";
+          exec = "xdg-open http://localhost:1616";
+          terminal = false;
+          categories = [
+            "Network"
+          ];
+          icon = "qbittorrent";
+          type = "Application";
+        };
+      };
+
       # Create directories + config symlink
       systemd.user.tmpfiles.rules = [
         "d ${profileDir}/qBittorrent 0700 - - -"
