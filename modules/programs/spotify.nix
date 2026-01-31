@@ -13,9 +13,9 @@ delib.module {
 
   options = delib.singleEnableOption host.isDesktop;
 
-  nixos.ifEnabled.services.flatpak.packages = [ "com.spotify.Client" ];
   home.ifEnabled = {
     home.packages = [ pkgs.spicetify-cli ];
+    services.flatpak.packages = [ "com.spotify.Client" ];
 
     programs.rong.settings.themes = func.mkList {
       target = "spicetify-sleek.ini";

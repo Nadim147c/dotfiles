@@ -6,6 +6,31 @@
 }:
 let
   inherit (lib) unique;
+  gfonts = pkgs.google-fonts.override {
+    fonts = [
+      "Gabarito"
+      "Space Grotesk"
+    ];
+  };
+  font-pkgs = with pkgs; [
+    electroharmonix
+    fontconfig
+    gfonts
+    material-symbols
+    nerd-fonts.jetbrains-mono
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    noto-fonts-color-emoji
+    roboto
+    roboto-flex
+    roboto-mono
+    roboto-serif
+    roboto-slab
+    rubik
+    twemoji-color-font
+  ];
+
 in
 delib.module {
   name = "font";
@@ -20,33 +45,16 @@ delib.module {
       size = intOption 10;
     };
 
+  nixos.ifEnabled = {
+    fonts.fontDir.enable = true;
+    fonts.fontconfig.enable = true;
+    environment.systemPackages = font-pkgs;
+    environment.pathsToLink = [ "/share/fonts" ];
+  };
   home.ifEnabled =
     { cfg, ... }:
     {
-      home.packages = with pkgs; [
-        electroharmonix
-        fontconfig
-        material-symbols
-        nerd-fonts.jetbrains-mono
-        noto-fonts
-        noto-fonts-cjk-sans
-        noto-fonts-cjk-serif
-        twemoji-color-font
-        noto-fonts-color-emoji
-        roboto
-        roboto-flex
-        roboto-mono
-        roboto-serif
-        roboto-slab
-        rubik
-        (google-fonts.override {
-          fonts = [
-            "Gabarito"
-            "Space Grotesk"
-          ];
-        })
-      ];
-
+      home.packages = font-pkgs;
       fonts.fontconfig = {
         enable = true;
         antialiasing = true;
