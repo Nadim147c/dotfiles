@@ -48,7 +48,8 @@ Item {
         const nerds = {
             "nm-device-wired": "󰈀",
             "kdeconnectindicatordark": "",
-            "kdeconnectindicatorlight": ""
+            "kdeconnectindicatorlight": "",
+            "com.spotify.Client-symbolic": "󰓇"
         };
         const parts = icon.split("/");
         const iconName = parts[parts.length - 1];

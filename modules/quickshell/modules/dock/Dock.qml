@@ -106,6 +106,11 @@ PanelWindow {
             }
 
             MaterialButton {
+                icon: "calendar_view_month"
+                onClicked: Toggle.year = true
+            }
+
+            MaterialButton {
                 icon: "wallpaper"
                 onClicked: Toggle.wallpaper = true
             }

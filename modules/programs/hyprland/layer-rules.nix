@@ -39,6 +39,7 @@ delib.module {
         ++ blurredLayer [
           "wofi"
           "quickshell:bar"
+          "quickshell:year"
           "quickshell:player"
           "quickshell:wallpaper"
         ];

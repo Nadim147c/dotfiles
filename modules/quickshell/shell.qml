@@ -9,6 +9,7 @@ import qs.modules.player
 import qs.modules.dock
 import qs.modules.netspeed
 import qs.modules.wallpaper
+import qs.modules.year
 import qs.modules.logout
 import qs.modules.clipboard
 
@@ -49,6 +50,10 @@ ShellRoot {
     LazyLoader {
         active: Toggle.wallpaper
         component: Wallpaper {}
+    }
+    LazyLoader {
+        active: Toggle.year
+        component: Year {}
     }
     LazyLoader {
         active: Toggle.logout

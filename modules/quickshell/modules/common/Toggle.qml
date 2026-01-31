@@ -12,6 +12,7 @@ Singleton {
     property bool wallpaper: false
     property bool clipboard: false
     property bool logout: false
+    property bool year: false
 
     GlobalShortcut {
         name: "toggle-clipboard"
