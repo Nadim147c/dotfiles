@@ -31,9 +31,9 @@ RowLayout {
 
             property color bg: {
                 if (workspace.containsMouse) {
-                    return Appearance.material.myTertiary;
-                } else if (workspace.modelData.urgent) {
                     return Appearance.material.mySecondary;
+                } else if (workspace.modelData.urgent) {
+                    return Appearance.material.myTertiary;
                 } else if (workspace.modelData.active) {
                     return Appearance.material.myPrimary;
                 } else {
@@ -42,9 +42,9 @@ RowLayout {
             }
             property color fg: {
                 if (workspace.containsMouse) {
-                    return Appearance.material.myOnTertiary;
-                } else if (workspace.modelData.urgent) {
                     return Appearance.material.myOnSecondary;
+                } else if (workspace.modelData.urgent) {
+                    return Appearance.material.myOnTertiary;
                 } else if (workspace.modelData.active) {
                     return Appearance.material.myOnPrimary;
                 } else {

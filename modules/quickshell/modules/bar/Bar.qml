@@ -18,7 +18,7 @@ PanelWindow {
     property real margin: 5
 
     color: "transparent"
-    property color bg: ColorUtils.transparentize(Appearance.material.myBackground, 0.15)
+    property color bg: Appearance.material.myBackground
 
     WlrLayershell.namespace: "quickshell:bar"
 

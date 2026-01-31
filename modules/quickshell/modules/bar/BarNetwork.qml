@@ -21,22 +21,20 @@ Rectangle {
 
     color: {
         if (mouseArea.containsMouse) {
-            return Appearance.material.myPrimary;
-        } else if (SystemUsage.netTotal > root.high) {
             return Appearance.material.mySecondary;
+        } else if (SystemUsage.netTotal > root.high) {
+            return Appearance.material.myPrimary;
         } else {
             return Appearance.material.mySurfaceVariant;
         }
     }
     property color fg: {
         if (mouseArea.containsMouse) {
-            return Appearance.material.myOnPrimary;
-        } else if (SystemUsage.netTotal > root.high) {
             return Appearance.material.myOnSecondary;
+        } else if (SystemUsage.netTotal > root.high) {
+            return Appearance.material.myOnPrimary;
         } else if (SystemUsage.netTotal > root.medium) {
-            return Appearance.material.myOnSurface;
-        } else if (SystemUsage.netTotal > root.low) {
-            return Appearance.material.myPrimary;
+            return Appearance.material.myPrimaryFixed;
         } else {
             return Appearance.material.myOnSurfaceVariant;
         }

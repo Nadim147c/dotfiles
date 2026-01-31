@@ -14,17 +14,16 @@ Rectangle {
 
     color: {
         if (mouseArea.containsMouse) {
-            return Appearance.material.myPrimary;
+            return Appearance.material.mySecondary;
         } else {
-            return "transparent";
+            return Appearance.material.mySurfaceVariant;
         }
     }
-
     property color fg: {
         if (mouseArea.containsMouse) {
-            return Appearance.material.myOnPrimary;
+            return Appearance.material.myOnSecondary;
         } else {
-            return Appearance.material.myPrimary;
+            return Appearance.material.myPrimaryFixed;
         }
     }
 

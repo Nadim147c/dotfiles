@@ -11,11 +11,11 @@ Rectangle {
 
     radius: Appearance.round.medium
 
-    color: lyricArea.containsMouse ? Appearance.material.myPrimary : "transparent"
+    color: lyricArea.containsMouse ? Appearance.material.mySecondary : "transparent"
 
     property color fg: {
         if (lyricArea.containsMouse) {
-            return Appearance.material.myOnPrimary;
+            return Appearance.material.myOnSecondary;
         } else if (!WaybarLyric.isPlaying) {
             return Appearance.material.myOnSurfaceVariant;
         } else {

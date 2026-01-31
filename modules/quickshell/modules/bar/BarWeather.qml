@@ -14,7 +14,7 @@ Rectangle {
 
     color: {
         if (mouseArea.containsMouse) {
-            return Appearance.material.myPrimary;
+            return Appearance.material.mySecondary;
         } else {
             return Appearance.material.mySurfaceVariant;
         }
@@ -22,9 +22,9 @@ Rectangle {
 
     property color fg: {
         if (mouseArea.containsMouse) {
-            return Appearance.material.myOnPrimary;
+            return Appearance.material.myOnSecondary;
         } else {
-            return Appearance.material.myPrimary;
+            return Appearance.material.myPrimaryFixed;
         }
     }
 

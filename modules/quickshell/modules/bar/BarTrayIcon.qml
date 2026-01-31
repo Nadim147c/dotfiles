@@ -82,7 +82,7 @@ Item {
 
         text: root.materialName
         font.pixelSize: Appearance.font.pixelSize.larger
-        color: Appearance.material.myOnSurfaceVariant
+        color: Appearance.material.myPrimaryFixed
     }
 
     MaterialSymbol {
@@ -92,7 +92,7 @@ Item {
         text: root.nerdSymbol
         font.pixelSize: Appearance.font.pixelSize.large
         font.family: Appearance.font.family.iconNerd
-        color: Appearance.material.myOnSurfaceVariant
+        color: Appearance.material.myPrimaryFixed
     }
 
     Loader {
