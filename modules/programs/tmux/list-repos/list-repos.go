@@ -3,36 +3,23 @@ package main
 import (
 	"fmt"
 	"hash/fnv"
-	"math/rand"
 	"os"
 	"path/filepath"
 	"slices"
 	"strings"
 
-	"github.com/Nadim147c/material/v2/color"
-	"github.com/Nadim147c/material/v2/num"
 	"github.com/spf13/pflag"
 )
 
-var (
-	flagTone   float64 = 75
-	flagChroma float64 = 75
-	flagSeed   float64 = 100
-	flagDepth  int     = 5
-)
-
-func should[T any](v T, err error) T {
-	if err != nil {
-		panic(err)
+func safeAbsolute(v, fallback string) (string, error) {
+	if v == "" {
+		return fallback, nil
 	}
-	return v
+	return filepath.Abs(v)
 }
 
-func absOr(v, fallback string) string {
-	if v == "" {
-		return fallback
-	}
-	return should(filepath.Abs(v))
+func isDotGit(f os.DirEntry) bool {
+	return f.IsDir() && f.Name() == ".git"
 }
 
 func findGitRepos(root, current string, depth int) []string {
@@ -40,50 +27,56 @@ func findGitRepos(root, current string, depth int) []string {
 		return nil
 	}
 
-	root = should(filepath.Abs(root))
-	current = absOr(current, root)
+	root, err := filepath.Abs(root)
+	if err != nil {
+		return nil
+	}
+	current, err = safeAbsolute(current, root)
+	if err != nil {
+		return nil
+	}
 
 	dir, err := os.ReadDir(current)
 	if err != nil {
 		return nil
 	}
 
-	if slices.ContainsFunc(dir, func(e os.DirEntry) bool {
-		return e.IsDir() && e.Name() == ".git"
-	}) {
+	if slices.ContainsFunc(dir, isDotGit) {
 		return []string{current}
 	}
 
 	var res []string
 	for entry := range slices.Values(dir) {
+		if !entry.IsDir() {
+			continue
+		}
 		repos := findGitRepos(root, filepath.Join(current, entry.Name()), depth-1)
-		res = append(res, repos...)
+		if repos != nil {
+			res = append(res, repos...)
+		}
 	}
 
 	if len(res) > 0 {
 		return res
 	}
+
 	if root != current {
 		return nil
 	}
+
 	return []string{root}
 }
 
+const baseAnsiIndex = 31
+
 func colorizePart(part string, bold bool) string {
 	h := fnv.New64()
-	h.Write([]byte(part))
-	r := rand.New(rand.NewSource(int64(h.Sum64())))
+	fmt.Fprint(h, part)
+	idx := h.Sum64() % 6
 
-	hue := num.NormalizeDegree(r.Float64()*360 + flagSeed)
-	hct := color.Hct{
-		Hue:    hue,
-		Chroma: flagChroma,
-		Tone:   flagTone,
-	}
-	colored := hct.ToARGB().AnsiFg(part)
-
+	colored := fmt.Sprintf("\x1b[%dm%s\x1b[0m", baseAnsiIndex+idx, part)
 	if bold {
-		return "\x1b[1m" + colored
+		colored = "\x1b[1m" + colored
 	}
 	return colored
 }
@@ -107,10 +100,11 @@ func find(root string, maxDepth int) []string {
 
 	var repos []string
 	for entry := range slices.Values(dir) {
-		if entry.IsDir() {
-			path := filepath.Join(root, entry.Name())
-			repos = append(repos, findGitRepos(path, path, maxDepth)...)
+		if !entry.IsDir() {
+			continue
 		}
+		path := filepath.Join(root, entry.Name())
+		repos = append(repos, findGitRepos(path, path, maxDepth)...)
 	}
 
 	slices.SortStableFunc(repos, func(a, b string) int {
@@ -123,15 +117,18 @@ func find(root string, maxDepth int) []string {
 	})
 
 	for i, repo := range repos {
-		repos[i] = colorizePath(should(filepath.Rel(root, repo)))
+		rel, err := filepath.Rel(root, repo)
+		if err != nil {
+			continue
+		}
+		repos[i] = colorizePath(rel)
 	}
 	return repos
 }
 
+var flagDepth int = 5
+
 func main() {
-	pflag.Float64VarP(&flagTone, "tone", "t", flagTone, "HCT tone (0–100)")
-	pflag.Float64VarP(&flagChroma, "chroma", "c", flagChroma, "HCT chroma (0–100)")
-	pflag.Float64VarP(&flagSeed, "seed", "s", flagSeed, "Seed for color randomness")
 	pflag.IntVarP(&flagDepth, "max-depth", "d", flagDepth, "Maximum directory recursion depth")
 	pflag.Parse()
 
