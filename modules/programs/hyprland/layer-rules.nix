@@ -21,9 +21,6 @@ delib.module {
         in
         toList (rules // identifier);
 
-      notificationLayer = createLayerRule "notification" {
-        no_screen_share = true;
-      };
       staticLayer = createLayerRule "static" {
         no_anim = true;
       };
@@ -44,7 +41,6 @@ delib.module {
           "quickshell:bar"
           "quickshell:player"
           "quickshell:wallpaper"
-        ]
-        ++ notificationLayer [ "swaync-notification-window" ];
+        ];
     };
 }

@@ -48,7 +48,7 @@ delib.module {
       browserWindow = createWindowRule "browser" { workspace = "2 silent"; };
       discordWindow = createWindowRule "discord" {
         workspace = "3 silent";
-        no_screen_share = true;
+        # no_screen_share = true;
       };
       musicWindow = createWindowRule "music" { workspace = "4 silent"; };
       floatingWindow = createWindowRule "float" {
